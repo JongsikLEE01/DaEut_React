@@ -54,7 +54,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-websocket'
 	// 이메일 인증
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
-
+	// JWT
+	implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
 }
 
 tasks.named('test') {
