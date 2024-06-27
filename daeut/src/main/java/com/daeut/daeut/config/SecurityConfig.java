@@ -82,6 +82,8 @@ public class SecurityConfig {
                                 .authenticationSuccessHandler(authenticationSuccessHandler())
                                 );
 
+        http.csrf(csrf -> csrf.disable()); // CSRF 설정 임시로 해제
+
         http.logout(logout -> logout.invalidateHttpSession(true));
 
         return http.build();

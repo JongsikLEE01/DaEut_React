@@ -130,6 +130,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public int adminUpdateUser(Users user) throws Exception {
         int result = adminMapper.adminUpdateUser(user);
+        log.info("++++++++++++++++++++++" + result);
         return result;
     }
 
@@ -207,6 +208,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public List<Orders> list(Page page) throws Exception {
         List<Orders> orderList = adminMapper.list(page);
+        log.info("orderList : " + orderList);
         return orderList;
     }
 
@@ -236,7 +238,9 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public List<Review> selectReviewsByUser(int userNo) throws Exception {
-        return adminMapper.selectReviewsByUser(userNo);
+        List<Review> reviewList = adminMapper.selectReviewsByUser(userNo);
+        log.info("reviewList : " + reviewList);
+        return reviewList;
     }
 
     @Override
