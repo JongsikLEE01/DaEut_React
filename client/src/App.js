@@ -4,14 +4,14 @@ import { BrowserRouter, Route, Routes } from "react-router-dom"
 // import LoginContextProvider from './contexts/LoginContextProvider';
 import Home from './components/Home';
 
+
 function App() {
   return (
     <BrowserRouter>
-      {/* <LoginContextProvider> */}
-        <Routes>
-          <Route path="/" element={<Home/>}></Route>
-        </Routes>
-      {/* </LoginContextProvider> */}
+      <Routes>
+        <Route path="/" element={<Home/>}></Route>
+        <Route path="/member" element={<Member/>}></Route>
+      </Routes>
     </BrowserRouter>
   );
 }
