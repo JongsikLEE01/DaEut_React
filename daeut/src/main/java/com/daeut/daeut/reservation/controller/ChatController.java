@@ -1,17 +1,20 @@
 package com.daeut.daeut.reservation.controller;
 
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.daeut.daeut.auth.dto.Users;
 import com.daeut.daeut.reservation.dto.ChatRooms;
@@ -22,7 +25,7 @@ import com.daeut.daeut.reservation.service.ChatService;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@Controller
+@RestController
 public class ChatController {
 
     /*
@@ -40,26 +43,53 @@ public class ChatController {
     @Autowired
     private ChatRoomService chatRoomService;
 
-    @GetMapping("/reservation/chat")
-    public String goToChatRoom(@RequestParam("roomNo") String roomNo, Model model, HttpSession session) throws Exception {
-        Users user = (Users) session.getAttribute("user");
-        ChatRooms chatRooms = chatRoomService.select(roomNo);
-        int partnerNo = chatRooms.getPartnerNo();
+    /**
+     * 채팅방 조회
+     * @param roomNo
+     * @param session
+     * @return
+     */
+    @GetMapping("/chat")
+    public ResponseEntity<Object> goToChatRoom(@RequestParam("roomNo") String roomNo) {
+        try {
+            // Retrieve user from session
+            // Users user = (Users) session.getAttribute("user");
+            // if (userNo == 0) {
+            //     return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("세션이 만료되었거나 유효하지 않습니다.");
+            // }
 
-        List<Chats> chatList = chatService.selectByRoomNo(roomNo);
+            // Retrieve chat room and partner information
+            ChatRooms chatRooms = chatRoomService.select(roomNo);
+            if (chatRooms == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("채팅 방을 찾을 수 없습니다.");
+            }
+            int partnerNo = chatRooms.getPartnerNo();
 
-        model.addAttribute("chatRooms", chatRooms);
-        model.addAttribute("partnerNo", partnerNo);
-        model.addAttribute("user", user);
-        model.addAttribute("roomNo", roomNo);
-        model.addAttribute("chatList", chatList);
-        return "reservation/chat";
+            // Retrieve chat list for the room
+            List<Chats> chatList = chatService.selectByRoomNo(roomNo);
+
+            // Prepare JSON response
+            Map<String, Object> response = new HashMap<>();
+            response.put("chatRooms", chatRooms);
+            response.put("partnerNo", partnerNo);
+            // response.put("user", userNo);
+            response.put("roomNo", roomNo);
+            response.put("chatList", chatList);
+
+            return ResponseEntity.ok().body(response);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("채팅 방 조회 중 오류 발생: " + e.getMessage());
+        }
     }
 
+    /**
+     * 메세지 전송
+     * @param chat
+     * @throws Exception
+     */
     @MessageMapping("/chat/sendMessage")
     public void sendMessage(@Payload Chats chat) throws Exception {
         chatService.insert(chat);
-
         log.info("chat? {}", chat);
 
         template.convertAndSend("/sub/chat/" + chat.getRoomNo(), chat);        
