@@ -23,6 +23,7 @@ import java.util.List;
 @Slf4j
 @Controller
 @RequestMapping("/cart")
+@CrossOrigin(origins = "*")
 public class CartController {
 
     @Autowired

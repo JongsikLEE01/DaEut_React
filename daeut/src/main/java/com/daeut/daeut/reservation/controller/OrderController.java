@@ -12,16 +12,15 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.daeut.daeut.auth.dto.Users;
 import com.daeut.daeut.reservation.dto.Cancel;
 import com.daeut.daeut.reservation.dto.OrderItems;
 import com.daeut.daeut.reservation.dto.OrderStatus;
@@ -39,6 +38,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 @RequestMapping("/orders")
+@CrossOrigin(origins = "*")
 public class OrderController {
     @Autowired
     private OrderService orderService;
@@ -82,7 +82,7 @@ public class OrderController {
 
             // Users user = (Users) session.getAttribute("user");
             // orders.setUserNo(user.getUserNo());
-            orders.setOrderStatus(OrderStatus.PENDING);
+            orders.setOrderStatus(OrderStatus.보류중);
             
             // 주문 등록
             int result = orderService.insert(orders);
@@ -123,7 +123,7 @@ public class OrderController {
             Payments payments = new Payments();
             payments.setOrdersNo(ordersNo);
             payments.setPaymentMethod("card");
-            payments.setStatus(PaymentStatus.PAID);
+            payments.setStatus(PaymentStatus.결제완료);
 
             // 예약 날짜 가져오기
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
@@ -143,7 +143,7 @@ public class OrderController {
 
             Orders order = orderService.select(ordersNo);
             log.info(":::::::::::::::::::: orders ::::::::::::::::::::");
-            order.setOrderStatus(OrderStatus.CONFIRMED);
+            order.setOrderStatus(OrderStatus.확정완료);
             orderService.update(order);
             log.info(payments.toString());
 
@@ -188,7 +188,7 @@ public class OrderController {
             Payments payments = new Payments();
             payments.setOrdersNo(ordersNo);
             payments.setPaymentMethod("card");
-            payments.setStatus(PaymentStatus.PAID);
+            payments.setStatus(PaymentStatus.결제완료);
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
             // 날짜 null 처리
@@ -217,7 +217,7 @@ public class OrderController {
 
             // 결제 상태를 PENDING으로 변경 (결제 실패 시)
             payments = paymentService.selectByOrdersNo(ordersNo);
-            payments.setStatus(PaymentStatus.PENDING);
+            payments.setStatus(PaymentStatus.보류);
             paymentService.merge(payments);
 
             Orders order = orderService.select(ordersNo);
@@ -293,7 +293,7 @@ public class OrderController {
             if (orders == null) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("주문을 찾을 수 없습니다.");
             }
-            orders.setOrderStatus(OrderStatus.PENDING);
+            orders.setOrderStatus(OrderStatus.보류중);
             orderService.update(orders);
 
             // 데이터 넣기
