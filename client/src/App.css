@@ -1,11 +1,9 @@
 /* 컨텐츠 */
 .container{
     width: 1280px;
-    height: auto; 
+    height: auto;
     display: flex;
     justify-content: center;
-    /* border-right: 1px solid #000;
-    border-left: 1px solid #000; */
 }
 
 .sessuce{
@@ -77,12 +75,7 @@
 ::-webkit-scrollbar-track {
 	background: lightgray; /* 스크롤바 뒷 배경 색상 */
 }
-.container{
-    width: 1280px;
-    height: auto; 
-    /* display: flex; */
-    /* justify-content: center; */
-}
+
 /* 메인 색상 */
 .size_4rem{ font-size: 4rem; }
 .color_main{ color: #8FA2CA !important; }
