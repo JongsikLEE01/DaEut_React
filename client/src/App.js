@@ -3,7 +3,7 @@ import './App.css';
 import { BrowserRouter, Route, Routes } from "react-router-dom"
 // import LoginContextProvider from './contexts/LoginContextProvider';
 import Home from './components/Home';
-
+import Member from './pages/auth/Member'
 
 function App() {
   return (
