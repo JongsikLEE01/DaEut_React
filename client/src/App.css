@@ -46,3 +46,40 @@
 .bg_color_sub1{ background-color: #E4E8F4 !important; }
 .bg_color_sub2{ background-color: #B5C6B8 !important; }
 .bg_color_point{ background-color: #48523D !important; }
+
+::-webkit-scrollbar {
+    width: 10px;  /* 세로축 스크롤바 폭 너비 */
+    height: 15px;  /* 가로축 스크롤바 폭 너비 */
+}
+
+::-webkit-scrollbar-thumb {
+    background: #8FA2CA; /* 스크롤바 막대 색상 */
+    border: 2px solid #8FA2CA; /* 스크롤바 막대 테두리 설정  */
+    border-radius: 12px 12px 12px 12px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background-color:#B5C6B8;
+    border-color: #B5C6B8;
+}
+
+/* 스크롤이 움직이는 뒷 배경 */
+::-webkit-scrollbar-track {
+	background: lightgray; /* 스크롤바 뒷 배경 색상 */
+}
+.container{
+    width: 1280px;
+    height: auto; 
+    display: flex;
+    justify-content: center;
+}
+/* 메인 색상 */
+.size_4rem{ font-size: 4rem; }
+.color_main{ color: #8FA2CA !important; }
+.color_sub1{ color: #E4E8F4 !important; }
+.color_sub2{ color: #B5C6B8 !important; }
+.color_point{ color: #48523D !important; }
+.bg_color_main{ background-color: #8FA2CA !important; }
+.bg_color_sub1{ background-color: #E4E8F4 !important; }
+.bg_color_sub2{ background-color: #B5C6B8 !important; }
+.bg_color_point{ background-color: #48523D !important; }
