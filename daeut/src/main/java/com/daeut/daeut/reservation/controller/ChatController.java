@@ -4,19 +4,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.daeut.daeut.auth.dto.Users;
 import com.daeut.daeut.reservation.dto.ChatRooms;
 import com.daeut.daeut.reservation.dto.Chats;
 import com.daeut.daeut.reservation.service.ChatRoomService;
@@ -26,6 +25,8 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
+@CrossOrigin(origins = "*")
+@RequestMapping("/chat")
 public class ChatController {
 
     /*
@@ -49,7 +50,7 @@ public class ChatController {
      * @param session
      * @return
      */
-    @GetMapping("/chat")
+    @GetMapping("")
     public ResponseEntity<Object> goToChatRoom(@RequestParam("roomNo") String roomNo) {
         try {
             // Retrieve user from session
@@ -87,7 +88,7 @@ public class ChatController {
      * @param chat
      * @throws Exception
      */
-    @MessageMapping("/chat/sendMessage")
+    @MessageMapping("/sendMessage")
     public void sendMessage(@Payload Chats chat) throws Exception {
         chatService.insert(chat);
         log.info("chat? {}", chat);

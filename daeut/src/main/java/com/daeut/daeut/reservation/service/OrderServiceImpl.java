@@ -109,7 +109,7 @@ public class OrderServiceImpl implements OrderService{
         orders.setTotalPrice(totalPrice);
         orders.setTotalQuantity(totalQuantity);
         orders.setTotalCount(totalCount);
-        orders.setOrderStatus(OrderStatus.PENDING);
+        orders.setOrderStatus(OrderStatus.보류중);
 
         // 주문 등록
         int result = orderMapper.insert(orders);
