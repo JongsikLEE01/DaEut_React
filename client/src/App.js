@@ -1,17 +1,15 @@
-import logo from './logo.svg';
-import './App.css';
-import { BrowserRouter, Route, Routes } from "react-router-dom"
-// import LoginContextProvider from './contexts/LoginContextProvider';
+import React from 'react';
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from './pages/Home';
+import Member from './pages/auth/Member';
 
 function App() {
   return (
     <BrowserRouter>
-      {/* <LoginContextProvider> */}
-        <Routes>
-          <Route path="/" element={<Home/>}></Route>
-        </Routes>
-      {/* </LoginContextProvider> */}
+      <Routes>
+        <Route path="/" element={<Home/>}></Route>
+        <Route path="/member" element={<Member/>}></Route>
+      </Routes>
     </BrowserRouter>
   );
 }

@@ -1,0 +1,197 @@
+.icon-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 200px;
+    height: 200px;
+    margin: auto;
+    border-radius: 8px;
+    color: white;
+    font-size: 80px; /* 아이콘 크기 조정 */
+    position: relative; /* 호버 아이콘을 겹치게 하기 위해 필요 */
+    overflow: hidden;
+  }
+  .icon-text {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 18px;
+  }
+  .login-icon {
+    background-color: #8FA2CA;
+  }
+  .signup-icon {
+    background-color: #B5C6B8;
+  }
+  .normalIcon,
+  .hoverIcon {
+    position: absolute;
+    transition: opacity 0.3s ease;
+  }
+  .normalIcon {
+    opacity: 1;
+  }
+  .hoverIcon {
+    opacity: 0;
+  }
+  .login-icon:hover .normalIcon,
+  .signup-icon:hover .normalIcon {
+    opacity: 0;
+  }
+  .login-icon:hover .hoverIcon,
+  .signup-icon:hover .hoverIcon {
+    opacity: 1;
+  }
+  .normalIcon,
+  .hoverIcon {
+    color: white; /* 아이콘 색상 흰색 */
+  }
+  
+  button {
+    border: none;
+  }
+  .custom-margin {
+    margin: 100px; /* 요소 간 간격 설정 */
+  }
+  .memberRow {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap; /* 반응형 지원을 위한 wrap 설정 */
+    gap: 20px; /* 요소 간의 간격 설정 */
+  }
+  .form-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    margin: 20px auto;
+  }
+  .form-container form {
+    max-width: 500px; /* 줄어든 너비 */
+    width: 100%;
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
+    font-size: 14px;
+  }
+  .form-control {
+    line-height: 1 !important;
+    font-size: 14px !important;
+  }
+  
+  .gender {
+    display: flex;
+    justify-content: center;
+    gap: 20px; /* 라디오 버튼 간격 조정 */
+  }
+  
+  .google {
+    background-color: royalblue !important;
+    color: white !important;
+  }
+  .kakao {
+    background-color: #FEE500 !important;
+    color: black !important;
+  }
+  .naver {
+    background-color: #03C75A !important;
+    color: white !important;
+  }
+  .description {
+    word-break: keep-all;
+    padding-top: 20px;
+    text-align: center;
+  }
+  
+  .custom-auth-btn {
+    background-color: #8FA2CA !important;
+    border: none !important;
+    padding-top: 50px;
+  }
+  
+  .form-container.complete {
+    max-width: 700px; /* 줄어든 너비 */
+    width: 100%;
+    margin: 20px;
+    padding: 70px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
+    font-size: 18px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .container.complete {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 680px; /* 화면 전체 높이 */
+  }
+  
+  .custom-auth-btn.complete {
+    border-color: #8FA2CA;
+    margin-top: 60px;
+    margin-bottom: 30px;
+    width: 130px;
+    height: 40px;
+    font-size: 18px;
+  }
+  
+  .completeHr {
+    width: 100%;
+  }
+  
+  h2 {
+    color: #8FA2CA !important;
+    font-weight: bold !important;
+  }
+  
+  input[type="password"] {
+    font-family: 'Courier New', Courier, monospace;
+  }
+  
+  /* 아이콘 hover 변경 */
+  .loginHover {
+    display: none;
+  }
+  .login-icon:hover .loginHover {
+    display: inline-block;
+  }
+  .login-icon:hover .loginNormal {
+    display: none;
+  }
+  
+  .joinHover {
+    display: none;
+  }
+  .signup-icon:hover .joinHover {
+    display: inline-block;
+  }
+  .signup-icon:hover .joinNormal {
+    display: none;
+  }
+  
+  @media (max-width: 768px) {
+    .icon-box {
+      width: 150px;
+      height: 150px;
+      font-size: 60px;
+    }
+    .icon-text {
+      font-size: 16px;
+    }
+  }
+  @media (max-width: 576px) {
+    .icon-box {
+      width: 120px;
+      height: 120px;
+      font-size: 50px;
+    }
+    .icon-text {
+      font-size: 14px;
+    }
+  }

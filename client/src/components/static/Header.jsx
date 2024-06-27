@@ -40,7 +40,7 @@ const Header = () => {
               <Link className="nav-link" to="/tip/index">팁</Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/auth/member">로그인</Link>
+              <Link className="nav-link" to="/member">로그인</Link> {/* Updated this line */}
             </li>
           </ul>
         </div>
