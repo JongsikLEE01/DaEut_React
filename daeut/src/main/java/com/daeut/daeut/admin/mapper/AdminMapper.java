@@ -26,7 +26,7 @@ public interface AdminMapper {
     public List<Partner> selectAllPartners(@Param("page") Page page) throws Exception;
 
     // 관리자 - 회원 선택 삭제
-    public int deleteList(String deleteNoList) throws Exception;
+    public int deleteList(@Param("deleteNos") String deleteNos);
 
     // 관리자 - 회원 조회
     public Users findUserById(int userNo) throws Exception;

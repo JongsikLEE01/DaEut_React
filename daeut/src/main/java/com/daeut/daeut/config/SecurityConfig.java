@@ -86,8 +86,8 @@ public class SecurityConfig{
                                 .authenticationSuccessHandler(authenticationSuccessHandler())
                                 );
 
-        http.csrf().disable();
 
+        http.csrf().disable();
 
         http.logout(logout -> logout.invalidateHttpSession(true));
 

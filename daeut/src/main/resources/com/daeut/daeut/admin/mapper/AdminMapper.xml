@@ -112,7 +112,7 @@
         )
     </select>
 
-    <!-- 사용자(관리자) 수를 카운트하는 쿼리 -->
+    <!-- 사용자(파트너) 수를 카운트하는 쿼리 -->
     <select id="countPartners" resultType="int">
         SELECT COUNT(*)
         FROM users u
@@ -130,7 +130,7 @@
     <!-- 관리자 - 회원 선택 삭제 -->
     <delete id="deleteList">
         DELETE FROM users
-        WHERE user_no = #{userNo}
+        WHERE user_no IN (${deleteNos})
     </delete>
 
     <!-- 관리자 회원 조회 - user_no -->
