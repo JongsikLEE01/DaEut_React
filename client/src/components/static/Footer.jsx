@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './css/footer.css';
 
 const Footer = () => {
@@ -8,16 +9,16 @@ const Footer = () => {
         <div className="col-md-11 d-flex justify-content-center">
           <ul className="nav">
             <li className="nav-item">
-              <a className="nav-link" href="#">회사 소개</a>
+              <Link className="nav-link" to="#">회사 소개</Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#">이용약관 및 규칙</a>
+              <Link className="nav-link" to="#">이용약관 및 규칙</Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#">개인정보 처리 방침 및 청소년보호정책</a>
+              <Link className="nav-link" to="#">개인정보 처리 방침 및 청소년보호정책</Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#">광고문의</a>
+              <Link className="nav-link" to="#">광고문의</Link>
             </li>
           </ul>
         </div>
@@ -37,7 +38,7 @@ const Footer = () => {
           <p className="letter-spacing">개인정보보호책임자: 홍길동</p>
           <p className="letter-spacing">호스팅제공자: ㈜카페24</p>
           <p className="letter-spacing">고객센터: (무료)080-123-4567 / (유료)02-1234-5678</p>
-          <p className="letter-spacing">이메일 문의: <a href="mailto:daeut@gmail.com">daeut@gmail.com</a></p>
+          <p className="letter-spacing">이메일 문의: <Link to="mailto:daeut@gmail.com">daeut@gmail.com</Link></p>
         </div>
         <div className="col-md-3 text-center text-md-left">
           <p className="letter-spacing">조은은행 채무지급보증안내:</p>
