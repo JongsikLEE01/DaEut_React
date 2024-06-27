@@ -1,9 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
-import Footer from './static/Footer';
-import Header from './static/Header';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBuilding, faCalendarCheck, faBrush, faBug, faJugDetergent } from '@fortawesome/free-solid-svg-icons';
-import Slide from './index/Slide';
+import Slide from './Slide';
 import './css/Home.css';
 
 const Home = () => {
@@ -104,8 +102,6 @@ const Home = () => {
 
   return (
     <>
-      <Header />
-      <body>
         <div className="weather">
           <div className="weatherIcon"></div>
           <div className="weatherText">
@@ -268,7 +264,7 @@ const Home = () => {
 
       <section className="cta scroll_wrap">
         <div className="cta-content scroll_on type_bottom">
-          <div className="container px-5 scroll_on">
+          <div className="cont px-5 scroll_on">
             <h2 className="color_white display-1 lh-1 mb-4 text-center">
               누구나 깨끗한 집을
               <br />
@@ -280,8 +276,6 @@ const Home = () => {
           </div>
         </div>
       </section>
-      </body>
-      <Footer />
     </>
   );
 };

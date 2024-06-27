@@ -1,4 +1,7 @@
 /* header.css */
+header{
+    width: 100%;
+}
 nav {
     border-bottom: 1px solid #8FA2CA;
     background-color: white;
