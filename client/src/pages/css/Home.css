@@ -121,45 +121,45 @@
 }
 
 /* 슬라이드 */
-.swiper {
+.swiper-container {
     width: 100%;
     height: auto;
 }
-.swiper img{
+.swiper-container img{
     /* width: 100%; */
     height: 600px;
 }
-.swiper-wrapper{
+.swiper-container-wrapper{
   text-align: center;
 }
 /* 반응형 */
 @media (max-width: 575.98px) {
-  .swiper img {
+  .swiper-container img {
       height: 200px;
   }
 }
 @media (min-width: 576px) and (max-width: 767.98px) {
-  .swiper img {
+  .swiper-container img {
       height: 300px;
   }
 }
 @media (min-width: 768px) and (max-width: 991.98px) {
-  .swiper img {
+  .swiper-container img {
       height: 400px;
   }
 }
 @media (min-width: 992px) and (max-width: 1199.98px) {
-  .swiper img {
+  .swiper-container img {
       height: 500px;
   }
 }
 @media (min-width: 1200px) and (max-width: 1399.98px) {
-  .swiper img {
+  .swiper-container img {
       height: 600px;
   }
 }
 @media (min-width: 1400px) {
-  .swiper img {
+  .swiper-container img {
       height: 700px;
   }
 }
