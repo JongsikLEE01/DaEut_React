@@ -5,24 +5,6 @@ import './css/header.css'
 // import './js/script'
 
 const Header = () => {
-
-  useEffect(() => {
-    const navbarToggler = document.querySelector('.navbar-toggler');
-    const menuIcon = document.getElementById('menu-icon');
-
-    navbarToggler.addEventListener('click', function() {
-        menuIcon.classList.toggle('fa-bars');
-        menuIcon.classList.toggle('fa-xmark');
-    });
-
-    return () => {
-        navbarToggler.removeEventListener('click', function() {
-            menuIcon.classList.toggle('fa-bars');
-            menuIcon.classList.toggle('fa-xmark');
-        });
-    };
-  }, []);
-
   return (
     <header>
         <nav className="navbar navbar-expand-lg">

@@ -1456,7 +1456,7 @@ section {
 
 .cta {
   position: relative;
-  background: url('/img/order01.jpg') no-repeat center center;
+  /* background: url('/img/order01.jpg') no-repeat center center; */
   background-size: cover;
 }
 

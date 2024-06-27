@@ -41,9 +41,9 @@ const Footer = () => {
             </div>
             <div className="col-md-3 text-center text-md-left">
                 <p className="letter-spacing">조은은행 채무지급보증안내:</p>
-                <p className="text-nowrap custom-break">
+                <p className="custom-break">
                     전자상거래 등에서의 소비자보호에 관한 법률에 따라<br/>
-                    조은은행과 채무지급보증 계약을 체결하여 고객님의 결제 금액에 대한<br/>
+                    조은은행과 채무지급보증 계약을 체결하여 고객님의 결제 금액에 대한
                     안전거래를 보장하고 있습니다.
                 </p>
                 <p className="letter-spacing">서비스 가입 사실 확인</p>
