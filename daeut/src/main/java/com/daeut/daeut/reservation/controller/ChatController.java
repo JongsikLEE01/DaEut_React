@@ -44,19 +44,19 @@ public class ChatController {
     private ChatRoomService chatRoomService;
 
     /**
-     * 채팅방 생성
+     * 채팅방 조회
      * @param roomNo
      * @param session
      * @return
      */
     @GetMapping("/chat")
-    public ResponseEntity<Object> goToChatRoom(@RequestParam("roomNo") String roomNo, HttpSession session) {
+    public ResponseEntity<Object> goToChatRoom(@RequestParam("roomNo") String roomNo) {
         try {
             // Retrieve user from session
-            Users user = (Users) session.getAttribute("user");
-            if (user == null) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("세션이 만료되었거나 유효하지 않습니다.");
-            }
+            // Users user = (Users) session.getAttribute("user");
+            // if (userNo == 0) {
+            //     return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("세션이 만료되었거나 유효하지 않습니다.");
+            // }
 
             // Retrieve chat room and partner information
             ChatRooms chatRooms = chatRoomService.select(roomNo);
@@ -72,7 +72,7 @@ public class ChatController {
             Map<String, Object> response = new HashMap<>();
             response.put("chatRooms", chatRooms);
             response.put("partnerNo", partnerNo);
-            response.put("user", user);
+            // response.put("user", userNo);
             response.put("roomNo", roomNo);
             response.put("chatList", chatList);
 

@@ -20,9 +20,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
-
-
 @Slf4j
 @Controller
 @RequestMapping("/cart")
@@ -70,8 +67,8 @@ public class CartController {
      * @throws Exception 
      */
     @PostMapping("")
-    public ResponseEntity<String> addCart(@RequestBody Cart cart, HttpSession session) throws Exception {
-        Users user = (Users) session.getAttribute("user");
+    public ResponseEntity<String> addCart(@RequestBody Cart cart) throws Exception {
+        // Users user = (Users) session.getAttribute("user");
         int serviceNo = cart.getServiceNo();
         log.info("serviceNo? {}", serviceNo);
         Services service = reservationService.select(serviceNo);
@@ -90,7 +87,7 @@ public class CartController {
         Users pUser = userService.findUserById(partner.getUserNo());
         log.info("pUser? {}", pUser);
         cart.setServiceNo(serviceNo);
-        cart.setUserNo(user.getUserNo());
+        // cart.setUserNo(user.getUserNo());
         cart.setCartAmount(1);
         cart.setPartnerName(pUser.getUserName());
         log.info("cart? {}", cart);

@@ -245,7 +245,7 @@ public class ReservationController {
      * @throws Exception
      */
     @DeleteMapping("/{serviceNo}")
-    public ResponseEntity<String> reservationDelete(@RequestParam("serviceNo") int serviceNo) {
+    public ResponseEntity<String> reservationDelete(@PathVariable("serviceNo") int serviceNo) {
         try {
             int result = reservationService.serviceDelete(serviceNo);
 

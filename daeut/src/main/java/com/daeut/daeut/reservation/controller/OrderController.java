@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -70,16 +71,17 @@ public class OrderController {
      */
     @PostMapping("")
     public ResponseEntity<String> orderPost(@RequestBody Orders orders,
-                                            HttpSession session,
+                                            // HttpSession session,
                                             @RequestParam List<String> serviceNo,
                                             @RequestParam List<Integer> quantity) {
         try {
             log.info("::::::::: 주문 등록 - orderPost() ::::::::::");
             log.info("serviceNo : " + serviceNo);
             log.info("quantity : " + quantity);
+            log.info("orders : " + orders);
 
-            Users user = (Users) session.getAttribute("user");
-            orders.setUserNo(user.getUserNo());
+            // Users user = (Users) session.getAttribute("user");
+            // orders.setUserNo(user.getUserNo());
             orders.setOrderStatus(OrderStatus.PENDING);
             
             // 주문 등록
@@ -113,10 +115,10 @@ public class OrderController {
                                                @RequestParam("date") String date,
                                                @RequestParam("time") String time,
                                                @RequestParam("userAddress") String userAddress,
-                                               @RequestParam("userPost") String userPost,
-                                               HttpSession session) {
+                                               @RequestParam("userPost") String userPost
+                                               ) {
         try {
-            Users user = (Users) session.getAttribute("user");
+            // Users user = (Users) session.getAttribute("user");
 
             Payments payments = new Payments();
             payments.setOrdersNo(ordersNo);
@@ -151,7 +153,7 @@ public class OrderController {
             for (OrderItems orderItem : orderItemList) {
                 serviceNoList.add(orderItem.getServiceNo());
             }
-            int result = cartService.deleteByOrderComplete(serviceNoList, user.getUserNo());
+            int result = cartService.deleteByOrderComplete(serviceNoList, order.getUserNo());
             log.info("주문한 서비스 장바구니 삭제 - result : " + result);
 
             // JSON 응답 데이터 구성
@@ -244,12 +246,8 @@ public class OrderController {
      * @throws Exception
      */
     @GetMapping("/{ordersNo}")
-    public ResponseEntity<Object> checkout(@PathVariable("ordersNo") String ordersNo,
-                                           HttpSession session) {
+    public ResponseEntity<Object> checkout(@PathVariable("ordersNo") String ordersNo) {
         try {
-            // 로그인 사용자 가져오기
-            Users user = (Users) session.getAttribute("user");
-
             // 주문 정보 가져오기
             Orders order = orderService.select(ordersNo);
             if (order == null) {
