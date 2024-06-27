@@ -1,16 +1,24 @@
 package com.daeut.daeut.reservation.controller;
 
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
+
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.daeut.daeut.auth.dto.Review;
 import com.daeut.daeut.auth.dto.Users;
@@ -28,7 +36,7 @@ import com.daeut.daeut.reservation.service.ReservationService;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@Controller
+@RestController
 @RequestMapping("/reservation")
 public class ReservationController {
 
@@ -50,30 +58,26 @@ public class ReservationController {
     /**
      * 전체 조회
      * @write jslee
-     * @param model
-     * @param page
+     * @param servicePage
      * @param option
      * @return
      * @throws Exception
      */
-	@GetMapping("/reservation")
-	public String reservationList(Model model, ServicePage servicePage, Option option) throws Exception{
-        String keyword = option.getKeyword();
-
-        if(keyword == null || option.getKeyword() == ""){
-            keyword = "";
-            option.setKeyword(keyword);
-            
-            model.addAttribute("option", option);
-        }else
-            model.addAttribute("option", option);
-
-        List<Services> serviceList = reservationService.serviceList(servicePage, option);
-        
-        model.addAttribute("serviceList", serviceList);
-        model.addAttribute("servicePage", servicePage);
-        return "reservation/reservation";
-	}
+    @GetMapping("")
+    public ResponseEntity<List<Services>> getAllServices(ServicePage servicePage, Option option) {
+        try {
+            String keyword = option.getKeyword();
+            if (keyword == null || keyword.isEmpty()) {
+                keyword = "";
+                option.setKeyword(keyword);
+            }
+            List<Services> serviceList = reservationService.serviceList(servicePage, option);
+            return ResponseEntity.ok().body(serviceList);
+        } catch (Exception e) {
+            log.error("Error fetching services: {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
     
     /**
      * 단일 조회
@@ -84,79 +88,87 @@ public class ReservationController {
      * @return
      * @throws Exception
      */
-    @GetMapping("/reservationRead")
-    public String reservationRead(@RequestParam("serviceNo") int serviceNo, Model model, Files file, HttpSession session) throws Exception {
-        Services service = reservationService.serviceSelect(serviceNo);
-        Files thumbnail = reservationService.SelectThumbnail(serviceNo);
-        List<Files> files = reservationService.SelectFiles(serviceNo);
-        Users user = (Users) session.getAttribute("user");
-        List<Review> reviews = reviewService.getReviewByServiceNo(serviceNo);
+    @GetMapping("/{serviceNo}")
+    public ResponseEntity<Map<String, Object>> reservationRead(@PathVariable("serviceNo") int serviceNo, HttpSession session) {
+        try {
+            Services service = reservationService.serviceSelect(serviceNo);
+            Files thumbnail = reservationService.SelectThumbnail(serviceNo);
+            List<Files> files = reservationService.SelectFiles(serviceNo);
+            Users user = (Users) session.getAttribute("user");
+            List<Review> reviews = reviewService.getReviewByServiceNo(serviceNo);
 
-        // partner_no를 service 객체에서 가져옵니다.
-        int partnerNo = service.getPartnerNo();
-        Partner partner = partnerService.selectByPartnerNo(partnerNo);
-        Users pUsers = userService.findUserById(partner.getUserNo());
-        Files pthumbnail = reservationService.partnerThumbnail(partnerNo);
-        Files rFiles = reservationService.getFileByServiceNum(serviceNo);
+            // partner_no를 service 객체에서 가져옵니다.
+            int partnerNo = service.getPartnerNo();
+            Partner partner = partnerService.selectByPartnerNo(partnerNo);
+            Users pUsers = userService.findUserById(partner.getUserNo());
+            Files pthumbnail = reservationService.partnerThumbnail(partnerNo);
+            Files rFiles = reservationService.getFileByServiceNum(serviceNo);
 
-        file.setParentTable("service");
-        file.setParentNo(serviceNo);
-        List<Files> fileList = fileService.listByParent(file);
-        
+            Files file = new Files();
+            file.setParentTable("service");
+            file.setParentNo(serviceNo);
+            List<Files> fileList = fileService.listByParent(file);
+            
+            int averageRating = reviewService.getAverageRatingByServiceNo(serviceNo);
 
-        int averageRating = reviewService.getAverageRatingByServiceNo(serviceNo);
-        
-        model.addAttribute("serviceNo", serviceNo);
-        model.addAttribute("service", service);
-        model.addAttribute("fileList", fileList);
-        model.addAttribute("thumbnail", thumbnail);
-        model.addAttribute("files", files);
-        model.addAttribute("user", user);
-        model.addAttribute("reviews", reviews);
-        model.addAttribute("partner", partner);
-        model.addAttribute("pUsers", pUsers);
-        model.addAttribute("averageRating", averageRating);
-        model.addAttribute("pthumbnail", pthumbnail);
-        model.addAttribute("rFiles", rFiles);
-       
-        
-    
-        
-        return "reservation/reservationRead";
+            // Response 맵 구성
+            Map<String, Object> response = new HashMap<>();
+            response.put("serviceNo", serviceNo);
+            response.put("service", service);
+            response.put("fileList", fileList);
+            response.put("thumbnail", thumbnail);
+            response.put("files", files);
+            response.put("user", user);
+            response.put("reviews", reviews);
+            response.put("partner", partner);
+            response.put("pUsers", pUsers);
+            response.put("averageRating", averageRating);
+            response.put("pthumbnail", pthumbnail);
+            response.put("rFiles", rFiles);
+
+            return ResponseEntity.ok().body(response);
+        } catch (Exception e) {
+            // 예외 처리
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
-
 
 	/**
      * 글 등록 
      * @write jslee
      * @return
      */
-	@GetMapping("/reservationInsert")
-	public String moveToReservationInsert(HttpSession session, Model model) {
-        int partnerNo = (int) session.getAttribute("partnerNo");
+	// @GetMapping("/reservationInsert")
+	// public String moveToReservationInsert(HttpSession session, Model model) {
+    //     int partnerNo = (int) session.getAttribute("partnerNo");
 
-        model.addAttribute("partnerNo", partnerNo);
-		return "reservation/reservationInsert";
-	}
+    //     model.addAttribute("partnerNo", partnerNo);
+	// 	return "reservation/reservationInsert";
+	// }
 
     /**
-     * 등록 처리
+     * 서비스 등록
      * @write jslee
      * @param service
+     * @param session
      * @return
-     * @throws Exception
      */
-    @PostMapping("/reservationInsert")
-    public String reservationInsert(Services service, HttpSession session) throws Exception {
-        int result = reservationService.serviceInsert(service);
-        
-        if (result == 0) {
-            log.info("게시글 등록 실패...");
-            return "redirect:/reservation/reservationInsert";
-        }
+    @PostMapping("")
+    public ResponseEntity<String> reservationInsert(@RequestBody Services service, HttpSession session) {
+        try {
+            int result = reservationService.serviceInsert(service);
 
-        log.info("게시글 등록 성공...");
-        return "redirect:/reservation/reservation";
+            if (result == 0) {
+                log.info("게시글 등록 실패...");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("게시글 등록 실패");
+            }
+
+            log.info("게시글 등록 성공...");
+            return ResponseEntity.ok("게시글 등록 성공");
+        } catch (Exception e) {
+            log.error("게시글 등록 중 오류 발생: {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("서버 오류 발생");
+        }
     }
 
     /**
@@ -168,22 +180,28 @@ public class ReservationController {
      * @return
      * @throws Exception
      */
-    @GetMapping("/reservationUpdate")
-    public String reservationUpdate(@RequestParam("serviceNo") int serviceNo, Model model, Files file) throws Exception {
-        Services service = reservationService.serviceSelect(serviceNo);
-        Files thumbnail = reservationService.SelectThumbnail(serviceNo);
-        List<Files> files = reservationService.SelectFiles(serviceNo);
-        
-        file.setParentTable("service");
-        file.setParentNo(serviceNo);
-        List<Files> fileList = fileService.listByParent(file);
-        
-        model.addAttribute("service", service);
-        model.addAttribute("fileList", fileList);
-        model.addAttribute("thumbnail", thumbnail);
-        model.addAttribute("files", files);
-        
-        return "reservation/reservationUpdate";
+    @GetMapping("/update")
+    public ResponseEntity<Map<String, Object>> reservationUpdate(@RequestParam("serviceNo") int serviceNo) {
+        try {
+            Services service = reservationService.serviceSelect(serviceNo);
+            Files thumbnail = reservationService.SelectThumbnail(serviceNo);
+            List<Files> files = reservationService.SelectFiles(serviceNo);
+            
+            Files file = new Files();
+            file.setParentTable("service");
+            file.setParentNo(serviceNo);
+            List<Files> fileList = fileService.listByParent(file);
+            
+            Map<String, Object> response = new HashMap<>();
+            response.put("service", service);
+            response.put("fileList", fileList);
+            response.put("thumbnail", thumbnail);
+            response.put("files", files);
+            
+            return ResponseEntity.ok().body(response);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
     
     /**
@@ -192,28 +210,31 @@ public class ReservationController {
      * @return
      * @throws Exception
      */
-    @PostMapping("/reservationUpdate")
-    public String updatePro(Services service, HttpSession session) throws Exception {
-        int partnerNo = (int) session.getAttribute("partnerNo");
-        service.setPartnerNo(partnerNo);
-        
-        Files file = new Files();
-        file.setParentTable("service");
-        file.setParentNo(service.getServiceNo());
-        fileService.deleteByParent(file);
+    @PutMapping("")
+    public ResponseEntity<String> updatePro(@RequestBody Services service) {
+        try {
+            // int partnerNo = (int) session.getAttribute("partnerNo");
+            // service.setPartnerNo(partnerNo);
 
-        int result = reservationService.serviceUpdate(service);
-        log.info("service? {}",service);
+            Files file = new Files();
+            file.setParentTable("service");
+            file.setParentNo(service.getServiceNo());
+            fileService.deleteByParent(file);
 
-        int serviceNo = service.getServiceNo();
+            int result = reservationService.serviceUpdate(service);
+            int serviceNo = service.getServiceNo();
 
-        if (result == 0) {
-            log.info("게시글 수정 실패...");
-            return "redirect:/reservation/reservationUpdate?serviceNo=" + serviceNo + "&error";
+            if (result == 0) {
+                log.info("게시글 수정 실패...");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("게시글 수정 실패");
+            }
+
+            log.info("게시글 수정 성공...");
+            return ResponseEntity.ok("게시글 수정 성공");
+        } catch (Exception e) {
+            log.error("게시글 수정 중 오류 발생: {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("서버 오류 발생");
         }
-
-        log.info("게시글 수정 성공...");
-        return "redirect:/reservation/reservation";
     }
 
     /**
@@ -223,64 +244,78 @@ public class ReservationController {
      * @return
      * @throws Exception
      */
-    @PostMapping("/reservationDelete")
-    public String reservationDelete(@RequestParam("serviceNo") int serviceNo) throws Exception {
-        int result = reservationService.serviceDelete(serviceNo);
+    @DeleteMapping("/{serviceNo}")
+    public ResponseEntity<String> reservationDelete(@PathVariable("serviceNo") int serviceNo) {
+        try {
+            int result = reservationService.serviceDelete(serviceNo);
 
-        if (result == 0) {
-            log.info("게시글 삭제 실패...");
-            return "redirect:/reservation/reservationUpdate?serviceNo=" + serviceNo + "&error";
+            if (result == 0) {
+                log.info("게시글 삭제 실패...");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("게시글 삭제 실패");
+            }
+
+            Files file = new Files();
+            file.setParentTable("service");
+            file.setParentNo(serviceNo);
+            fileService.deleteByParent(file);
+
+            log.info("게시글 삭제 성공...");
+            return ResponseEntity.ok("게시글 삭제 성공");
+        } catch (Exception e) {
+            log.error("게시글 삭제 중 오류 발생: {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("서버 오류 발생");
         }
-
-        Files file = new Files();
-        file.setParentTable("service");
-        file.setParentNo(serviceNo);
-        fileService.deleteByParent(file);
-
-        log.info("게시글 삭제 성공...");
-        return "redirect:/reservation/reservation";
     }
 
-    @GetMapping("/paymentDone")
-    public String paymentDone() {
-        return "reservation/paymentDone";
-    }
+    // @GetMapping("/paymentDone")
+    // public String paymentDone() {
+    //     return "reservation/paymentDone";
+    // }
     
-    @GetMapping("/paymentFalse")
-    public String paymentFalse() {
-        return "reservation/paymentFalse";
-    }
+    // @GetMapping("/paymentFalse")
+    // public String paymentFalse() {
+    //     return "reservation/paymentFalse";
+    // }
 
  
-    @PostMapping("/reviewDelete")
-    public String reviewDelete(@RequestParam("userNo") int userNo, @RequestParam("reviewNo") int reviewNo) throws Exception {
-        int reviewResult = reviewService.reviewDelete(userNo);
-    
-        log.info(":::::::::::::::::::::::::::::: " + reviewResult);
-    
-        if (reviewResult > 0) {
-            Files file = new Files();
-            file.setParentTable("review");
-            file.setParentNo(reviewNo);
-    
-            try {
-                int fileResult = fileService.deleteByParent(file);
-    
-                if (fileResult > 0) {
-                    log.info("리뷰 및 파일 삭제 성공");
-                } else {
-                    log.warn("리뷰는 삭제되었지만 파일 삭제에 실패했습니다. 파일이 없을 수 있습니다.");
+    /**
+     * 리뷰삭제
+     * @param userNo
+     * @param reviewNo
+     * @return
+     */
+    @DeleteMapping("/reviewDelete")
+    public ResponseEntity<String> reviewDelete(@RequestParam("userNo") int userNo, @RequestParam("reviewNo") int reviewNo) {
+        try {
+            int reviewResult = reviewService.reviewDelete(reviewNo);
+
+            if (reviewResult > 0) {
+                Files file = new Files();
+                file.setParentTable("review");
+                file.setParentNo(reviewNo);
+
+                try {
+                    int fileResult = fileService.deleteByParent(file);
+
+                    if (fileResult > 0) {
+                        log.info("리뷰 및 파일 삭제 성공");
+                    } else {
+                        log.warn("리뷰는 삭제되었지만 파일 삭제에 실패했습니다. 파일이 없을 수 있습니다.");
+                    }
+                } catch (Exception e) {
+                    log.error("파일 삭제 중 예외 발생: ", e);
+                    // 필요하다면 여기서 예외 처리 로직 추가
                 }
-            } catch (Exception e) {
-                log.error("파일 삭제 중 예외 발생: ", e);
-                // 필요하다면 여기서 예외 처리 로직 추가
+
+                return ResponseEntity.ok("리뷰 및 파일 삭제 성공");
             }
-    
-            return "redirect:/reservation/reservation";
-            }
-            
+
             log.info("리뷰 삭제 실패");
-            return "redirect:/index"; 
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("리뷰 삭제 실패");
+        } catch (Exception e) {
+            log.error("리뷰 삭제 중 오류 발생: {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("서버 오류 발생");
+        }
     }
     
 }
