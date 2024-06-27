@@ -13,3 +13,5 @@ npm install sweetalert2-react-content
 - link? https://react-bootstrap.netlify.app/
 npm install react-bootstrap
 npm install bootstrap
+### Font Awesome
+npm install @fortawesome/react-fontawesome @fortawesome/free-solid-svg-icons

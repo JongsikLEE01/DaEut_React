@@ -1,3 +1,4 @@
+/* 푸터 */
 .d-col-md-12 {
     flex: 0 0 85%;
 }
@@ -10,12 +11,12 @@
     padding-top: 20px;
 }
 .footer .nav-link {
-    color: #000 !important;
+    color: #000;
     padding: 0;
     margin: 0 30px;
 }
 .footer .nav-link:hover {
-    color: #8FA2CA !important;
+    color: #8FA2CA;
 }
 .footer .company-info p,
 .footer .customer-info p,
