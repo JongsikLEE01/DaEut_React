@@ -56,16 +56,18 @@ public class AdminController {
     @Autowired
     private ReservationService reservationService;
 
+    // 회원가입 화면
     @GetMapping("/join")
     public ResponseEntity<?> join() {
         try {
-            return new ResponseEntity<>("result", HttpStatus.OK);
+            return new ResponseEntity<>("회원가입 화면", HttpStatus.OK);
         } catch (Exception e) {
             log.info("예외 발생 !!!", e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
+    // 아이디 중복 확인
     @GetMapping("/check-duplicate")
     public ResponseEntity<?> checkDuplicateId(@RequestParam String userId) throws Exception {
         try {
@@ -78,6 +80,7 @@ public class AdminController {
         }
     }
 
+    // 이메일 중복 확인
     @GetMapping("/check-duplicate-email")
     public ResponseEntity<?> checkDuplicateEmail(@RequestParam String userEmail) throws Exception {
         try {
@@ -90,6 +93,7 @@ public class AdminController {
         }
     }
 
+    // 회원가입 처리
     @PostMapping("/join")
     public ResponseEntity<?> adminJoin(@RequestBody Users user, @RequestParam String systemPw) {
         try {
@@ -106,6 +110,13 @@ public class AdminController {
         }
     }
 
+    // 회원가입 완료
+    @GetMapping("/joinDone")
+    public ResponseEntity<String> joinDone() {
+        return new ResponseEntity<>("Join done successfully", HttpStatus.OK);
+    }
+
+    // 관리자 - 회원 목록
     @GetMapping("/adminUser")
     public ResponseEntity<?> adminUser(@RequestParam(value = "page", defaultValue = "1") int pageNumber) throws Exception {
         try {
@@ -119,6 +130,7 @@ public class AdminController {
         }
     }
 
+    // 관리자 - 파트너 목록
     @GetMapping("/adminPartner")
     public ResponseEntity<?> adminPartner(@RequestParam(value = "page", defaultValue = "1") int pageNumber) throws Exception {
         try {
@@ -132,6 +144,7 @@ public class AdminController {
         }
     }
 
+    // 관리자 - 회원, 리뷰 조회
     @GetMapping("/adminUserRead/{userNo}")
     public ResponseEntity<?> adminUserRead(@PathVariable("userNo") int userNo) throws Exception {
         try {
@@ -150,6 +163,7 @@ public class AdminController {
         }
     }
 
+    // 관리자 - 회원, 리뷰 수정 화면
     @GetMapping("/adminUserUpdate/{userNo}")
     public ResponseEntity<?> adminUserUpdate(@PathVariable("userNo") int userNo) throws Exception {
         try {
@@ -169,6 +183,7 @@ public class AdminController {
         }
     }
 
+    // 관리자 - 회원 수정 처리
     @PutMapping("/adminUserUpdate/{userNo}")
     public ResponseEntity<?> adminUserUpdatePro(@PathVariable("userNo") int userNo, @RequestBody Users user) throws Exception {
         try {
@@ -185,6 +200,7 @@ public class AdminController {
         }
     }
 
+    // 관리자 - 회원 삭제 처리
     @DeleteMapping("/adminUserDelete/{userNo}")
     public ResponseEntity<?> adminUserDelete(@PathVariable("userNo") int userNo) throws Exception {
         try {
@@ -200,6 +216,7 @@ public class AdminController {
         }
     }
 
+    // 관리자 - 리뷰 삭제 처리
     @DeleteMapping("/adminReviewDelete/{reviewNo}")
     public ResponseEntity<?> adminReviewDelete(@PathVariable("reviewNo") int reviewNo) throws Exception {
         try {
@@ -215,6 +232,7 @@ public class AdminController {
         }
     }
 
+    // 관리자 - 파트너 조회 화면
     @GetMapping("/adminPartnerRead/{userNo}")
     public ResponseEntity<?> adminPartnerRead(@PathVariable("userNo") int userNo) throws Exception {
         try {
@@ -227,6 +245,7 @@ public class AdminController {
         }
     }
 
+    // 파트너 승인 처리
     @PostMapping("/approvePartner/{userId}")
     public ResponseEntity<?> approvePartner(@PathVariable("userId") String userId) {
         try {
@@ -240,6 +259,7 @@ public class AdminController {
         }
     }
 
+    // 파트너 승인 취소 처리
     @PostMapping("/cancelPartner/{userId}")
     public ResponseEntity<?> cancelPartner(@PathVariable("userId") String userId) {
         try {
@@ -253,6 +273,7 @@ public class AdminController {
         }
     }
 
+    // 관리자 - 파트너 수정 화면 
     @GetMapping("/adminPartnerUpdate/{userNo}")
     public ResponseEntity<?> adminPartnerUpdate(@PathVariable("userNo") int userNo) throws Exception {
         try {
@@ -265,6 +286,7 @@ public class AdminController {
         }
     }
 
+    // 관리자 - 파트너 수정 처리
     @PutMapping("/adminPartnerUpdate/{userNo}")
     public ResponseEntity<?> adminPartnerUpdatePro(@PathVariable("userNo") int userNo, @RequestBody Partner partner) throws Exception {
         try {
@@ -281,6 +303,7 @@ public class AdminController {
         }
     }
 
+    // 관리자 - 파트너 삭제 처리
     @DeleteMapping("/adminPartnerDelete/{userNo}")
     public ResponseEntity<?> adminPartnerDelete(@PathVariable("userNo") int userNo) throws Exception {
         try {
@@ -296,6 +319,7 @@ public class AdminController {
         }
     }
 
+    // 관리자 - 회원 선택 삭제
     @PostMapping("/user/delete")
     public ResponseEntity<?> selectedUserDelete(@RequestBody String[] deleteNoList) throws Exception {
         try {
@@ -312,6 +336,7 @@ public class AdminController {
         }
     }
 
+    // 관리자 - 파트너 선택 삭제
     @PostMapping("/partner/delete")
     public ResponseEntity<?> selectedPartnerDelete(@RequestBody String[] deleteNoList) throws Exception {
         try {
@@ -328,6 +353,7 @@ public class AdminController {
         }
     }
 
+    // 관리자 - 예약 목록 화면
     @GetMapping("/adminReservation")
     public ResponseEntity<?> selectReservations(@RequestParam(value = "page", defaultValue = "1") int pageNumber) throws Exception {
         try {
@@ -342,6 +368,7 @@ public class AdminController {
         }
     }
 
+    // 관리자 - 예약 조회 화면
     @GetMapping("/adminReservationRead")
     public ResponseEntity<?> adminReadReservation(@RequestParam("ordersNo") String ordersNo) {
         try {
@@ -408,6 +435,7 @@ public class AdminController {
         }
     }
 
+    // 관리자 - 예약 수정 화면
     @GetMapping("/adminReservationUpdate")
     public ResponseEntity<?> adminReservationUpdate(@RequestParam("ordersNo") String ordersNo) throws Exception {
         try {
