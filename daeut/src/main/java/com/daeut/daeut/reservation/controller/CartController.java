@@ -20,9 +20,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
-
-
 @Slf4j
 @Controller
 @RequestMapping("/cart")
@@ -69,9 +66,9 @@ public class CartController {
      * @return
      * @throws Exception 
      */
-    @PostMapping("/add")
-    public ResponseEntity<String> addCart(@RequestBody Cart cart, HttpSession session) throws Exception {
-        Users user = (Users) session.getAttribute("user");
+    @PostMapping("")
+    public ResponseEntity<String> addCart(@RequestBody Cart cart) throws Exception {
+        // Users user = (Users) session.getAttribute("user");
         int serviceNo = cart.getServiceNo();
         log.info("serviceNo? {}", serviceNo);
         Services service = reservationService.select(serviceNo);
@@ -90,7 +87,7 @@ public class CartController {
         Users pUser = userService.findUserById(partner.getUserNo());
         log.info("pUser? {}", pUser);
         cart.setServiceNo(serviceNo);
-        cart.setUserNo(user.getUserNo());
+        // cart.setUserNo(user.getUserNo());
         cart.setCartAmount(1);
         cart.setPartnerName(pUser.getUserName());
         log.info("cart? {}", cart);
@@ -124,12 +121,14 @@ public class CartController {
      * @return
      * @throws Exception
      */
-    @PostMapping("/delete")
-    public String deleteCart(@RequestParam("cartNos") List<Integer> cartNos) throws Exception {
-        log.info("cartNos :" + cartNos);
-        
-        int result = cartService.cartDeleteSelected(cartNos);
-        return "redirect:/user/userCart";
+    @DeleteMapping("")
+    public ResponseEntity<Object> deleteCart(@RequestBody List<Integer> cartNos) {
+        try {
+            int result = cartService.cartDeleteSelected(cartNos);
+            return ResponseEntity.ok().body("Deleted " + result + " cart items");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to delete cart items: " + e.getMessage());
+        }
     }
     
 
@@ -139,22 +138,22 @@ public class CartController {
      * @param cartNo
      * @return
      */
-    @DeleteMapping("/delete")
-    public ResponseEntity<String> removeSelectedCarts(@RequestBody List<Integer> cartNos) {
-        int result;
+    // @DeleteMapping("/all")
+    // public ResponseEntity<String> removeSelectedCarts(@RequestBody List<Integer> cartNos) {
+    //     int result;
 
-        try {
-            // 선택한 장바구니 항목들 삭제 요청
-            result = cartService.cartDeleteSelected(cartNos);
-        } catch (Exception e) {
-            // 삭제 실패
-            e.printStackTrace();
-            return new ResponseEntity<>("FAIL", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    //     try {
+    //         // 선택한 장바구니 항목들 삭제 요청
+    //         result = cartService.cartDeleteSelected(cartNos);
+    //     } catch (Exception e) {
+    //         // 삭제 실패
+    //         e.printStackTrace();
+    //         return new ResponseEntity<>("FAIL", HttpStatus.INTERNAL_SERVER_ERROR);
+    //     }
 
-        // 삭제 성공
-        return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
-    }
+    //     // 삭제 성공
+    //     return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
+    // }
 
     /**
      * 장바구니 전체 삭제
@@ -162,7 +161,7 @@ public class CartController {
      * @param userNo
      * @return
      */
-    @DeleteMapping("/delete/{userNo}")
+    @DeleteMapping("/{userNo}")
     public ResponseEntity<String> removeAllCarts(@PathVariable("userNo") int userNo) {
         int result;
         

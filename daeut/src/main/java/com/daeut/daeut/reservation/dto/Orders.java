@@ -31,7 +31,6 @@ public class Orders {
     private Users user;
     private Partner partner;
     private Services service;
-
     private String userName;
     private String userAddress;
     private String userPhone;
