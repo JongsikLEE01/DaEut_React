@@ -8,6 +8,7 @@ import Test from './pages/Test';
 import Service from './pages/Service/Service';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ServiceInsert from './components/Service/ServiceInsert';
+import ServiceRead from './pages/Service/ServiceRead';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/test" element={<Test/>}></Route>
         <Route path="/member" element={<Member/>}></Route>
         <Route path="/service" element={<Service/>}></Route>
+        <Route path="/service/:serviceNo" element={<ServiceRead/>}></Route>
         <Route path="/service/insert" element={<ServiceInsert/>}></Route>
       </Routes>
     </BrowserRouter>

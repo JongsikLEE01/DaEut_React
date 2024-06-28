@@ -92,12 +92,13 @@ const ServiceInsert = ({ onInsert }) => {
       'Content-Type': 'multipart/form-data'
     }
 
+    // 여기서 데이터 안보내짐~
     onInsert(formData, headers)
   }
 
   return (
     <div className="reservationInsertBox">
-      <form onSubmit={onSubmit}>
+      <form>
         <div>
           <label htmlFor="title" style={{ display: 'none' }}>제목:</label><br />
           <input type="text" id="title" name="serviceName" placeholder="제목을 입력해주세요" required onChange={(e) => setServiceName(e.target.value)} /><br />
@@ -151,7 +152,7 @@ const ServiceInsert = ({ onInsert }) => {
         <div id="image-preview-container"></div>
 
         <div className="bottomButton">
-          <input type="submit" className="reservationInsertOk sessuce" value="등록하기" />
+          <input onClick={onSubmit} className="reservationInsertOk sessuce" value="등록하기" />
           <Link className="cancleInsert" to="/service">취소하기</Link>
         </div>
       </form>

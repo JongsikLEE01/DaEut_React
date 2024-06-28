@@ -1,14 +1,12 @@
-import React, { useEffect } from 'react';
+import React from 'react'
+import { Link } from 'react-router-dom'
 
 const ServiceCard = ({ service }) => {
-  const { serviceCategory, serviceName, partnerName, fileNo } = service;
+  const { serviceCategory, serviceName, servicePrice, serviceNo, fileNo } = service
 
   // 썸네일 이미지 URL
-  const thumbnailUrl = fileNo ? `/file/img/${fileNo}` : '/img/no-img.png'; // public 폴더에 있는 no-img.jpg 파일 경로
-
-  useEffect(()=>{
-    console.log(service);
-  }, [])
+  // public 폴더에 있는 no-img.jpg 파일 경로
+  const thumbnailUrl = fileNo ? `/file/img/${fileNo}` : '/img/no-img.png'
 
   return (
     <div className="col">
@@ -20,18 +18,20 @@ const ServiceCard = ({ service }) => {
           </div>
 
           {/* 이미지 */}
-          <img src={thumbnailUrl} alt="썸네일" width="365px" height="245px" />
+          <Link to={`/service/${serviceNo}`}>
+            <img src={thumbnailUrl} alt="썸네일" width="365px" height="245px" />
+          </Link>
         </div>
 
         <div className="card-body">
           {/* 서비스 이름 */}
           <label className="partner-title">{serviceName}</label>
-          {/* 유저(파트너) 이름 */}
-          <p className="partner-name">{partnerName}</p>
+          {/* 가격 */}
+          <p className="partner-name">{servicePrice}원</p>
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default ServiceCard;
+export default ServiceCard

@@ -33,7 +33,7 @@ const Header = () => {
         <div className={`collapse navbar-collapse ${isMenuOpen ? 'show' : ''}`} id="navbarNav">
           <ul className="navbar-nav ms-auto">
             <li className="nav-item">
-              <Link className="nav-link" to="/reservation/reservation">예약</Link>
+              <Link className="nav-link" to="/service">예약</Link>
             </li>
             <li className="nav-item">
               <Link className="nav-link" to="/tip/index">팁</Link>

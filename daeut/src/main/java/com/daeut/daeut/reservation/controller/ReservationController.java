@@ -91,12 +91,12 @@ public class ReservationController {
      * @throws Exception
      */
     @GetMapping("/{serviceNo}")
-    public ResponseEntity<Map<String, Object>> reservationRead(@PathVariable("serviceNo") int serviceNo, HttpSession session) {
+    public ResponseEntity<Map<String, Object>> reservationRead(@PathVariable("serviceNo") int serviceNo) {
         try {
             Services service = reservationService.serviceSelect(serviceNo);
             Files thumbnail = reservationService.SelectThumbnail(serviceNo);
             List<Files> files = reservationService.SelectFiles(serviceNo);
-            Users user = (Users) session.getAttribute("user");
+            // Users user = (Users) session.getAttribute("user");
             List<Review> reviews = reviewService.getReviewByServiceNo(serviceNo);
 
             // partner_no를 service 객체에서 가져옵니다.
@@ -120,7 +120,7 @@ public class ReservationController {
             response.put("fileList", fileList);
             response.put("thumbnail", thumbnail);
             response.put("files", files);
-            response.put("user", user);
+            // response.put("user", user);
             response.put("reviews", reviews);
             response.put("partner", partner);
             response.put("pUsers", pUsers);
