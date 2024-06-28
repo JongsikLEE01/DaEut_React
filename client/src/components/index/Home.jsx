@@ -1,12 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBuilding, faCalendarCheck, faBrush, faBug, faJugDetergent } from '@fortawesome/free-solid-svg-icons';
 import Slide from './Slide';
-import './css/Home.css';
+import '../index/css/Home.css';
+import Section from './Section';
+import Tap from './Tap';
 
 const Home = () => {
-  const swiperRef = useRef(null);
-  // const [swiperInstance, setSwiperInstance] = useState([]);
+  // 날씨 api
   const [weather, setWeather] = useState({
     weatherDescription: '',
     temp: '',
@@ -18,7 +17,7 @@ const Home = () => {
     temp_max: '',
     iconClass: '',
   })
-
+  // 날씨 아이콘
   const weatherIcon = {
     '01': 'bi bi-brightness-high-fill',
     '02': 'fa-solid fa-cloud-sun',
@@ -30,7 +29,6 @@ const Home = () => {
     '13': 'fa-solid fa-snowflake',
     '50': 'fa-solid fa-smog',
   }
-
   // 위치 정보를 가져오는 함수
   const getLocation = () => {
     if (navigator.geolocation) {
@@ -48,7 +46,6 @@ const Home = () => {
       console.error('해당 브라우저는 위치 정보를 가져올 수 없습니다.')
     }
   }
-
   // API를 통해 날씨 데이터를 가져오는 함수
   const weatherData = (latitude, longitude) => {
     const API_KEY = 'ef8952bfbab9356b5066de2f01ab56c1'
@@ -86,17 +83,8 @@ const Home = () => {
       })
   }
 
-  // 서비스 영역 표시 함수
-  const showService = option => {
-    const outputs = document.querySelectorAll('.output');
-    outputs.forEach(el => {
-      el.style.display = 'none'
-    })
-    document.getElementById('output' + option.charAt(option.length - 1)).style.display = 'block'
-  }
-
   useEffect(() => {
-
+    // 위치 가져오기
     getLocation()
   }, [])
 
@@ -121,161 +109,8 @@ const Home = () => {
         </div>
 
         <Slide />
-
-        <div className="content">
-          <section id="features">
-            <div className="px-5 serviceBox">
-              <div className="row gx-5">
-                <div className="col-4 align-items-center justify-content-center">
-                  <button type="button" onClick={() => showService('output1')} className="service">청소</button>
-                </div>
-                <div className="col-4">
-                  <button type="button" onClick={() => showService('output2')} className="service">방역</button>
-                </div>
-                <div className="col-4">
-                  <button type="button" onClick={() => showService('output3')} className="service">빨래</button>
-                </div>
-              </div>
-            </div>
-            
-            <div className="px-5 output" id="output1">
-              <div className="row gx-5 align-items-center">
-                <div className="col-lg-2 order-lg-1">
-                  <div className="text-center">
-                    <FontAwesomeIcon icon={faBuilding} className="icon-feature text-gradient d-block mb-3 color_point" />
-                    <h3 className="font-alt">입주 청소</h3>
-                    <p className="text-muted mb-0">이사하느라 정신없으시죠? 저희가 <br />새 집보다 새 집처럼 청소해둘게요!</p>
-                  </div>
-                </div>
-                <div className="col-lg-2 order-lg-1">
-                  <div className="text-center">
-                    <FontAwesomeIcon icon={faCalendarCheck} className="icon-feature text-gradient d-block mb-3 color_point" />
-                    <h3 className="font-alt">정기 청소</h3>
-                    <p className="text-muted mb-0">정기적인 구독으로 할인과 청소,<br /> 두마리 토끼를 모두 잡아보세요!</p>
-                  </div>
-                </div>
-                <div className="col-lg-2 order-lg-1">
-                  <div className="text-center">
-                    <i className="bi-brush icon-feature text-gradient d-block mb-3 color_point icon"></i>
-                    <FontAwesomeIcon icon={faBrush} className="icon-feature text-gradient d-block mb-3 color_point" />
-                    <h3 className="font-alt">부분 청소</h3>
-                    <p className="text-muted mb-0">더러운 집은 볼 때마다 화가 날거에요 <br />지금 바로 저희에게 부탁하세요!</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="px-5 output" id="output2">
-              <div className="row gx-5 align-items-center">
-                <div className="col-lg-2 order-lg-1">
-                  <div className="text-center">
-                    <FontAwesomeIcon icon={faBuilding} className="icon-feature text-gradient d-block mb-3 color_point" />
-                    <h3 className="font-alt">입주 방역</h3>
-                    <p className="text-muted mb-0">이사하느라 정신없으시죠? 저희가<br />새 집보다 새 집처럼 방역해둘게요!</p>
-                  </div>
-                </div>
-                <div className="col-lg-2 order-lg-1">
-                  <div className="text-center">
-                    <FontAwesomeIcon icon={faCalendarCheck} className="icon-feature text-gradient d-block mb-3 color_point" />
-                    <h3 className="font-alt">정기 방역</h3>
-                    <p className="text-muted mb-0">정기적인 구독으로 할인과 방역, <br /> 두마리 토끼를 모두 잡아보세요!</p>
-                  </div>
-                </div>
-                <div className="col-lg-2 order-lg-1">
-                  <div className="text-center">
-                    <i className="bi-brush icon-feature text-gradient d-block mb-3 color_point icon"></i>
-                    <FontAwesomeIcon icon={faBug} className="icon-feature text-gradient d-block mb-3 color_point" />
-                    <h3 className="font-alt">부분 방역</h3>
-                    <p className="text-muted mb-0">더러운 집은 볼 때마다 화가 날거에요<br />지금 바로 저희에게 부탁하세요!</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="px-5 output" id="output3">
-              <div className="row gx-5 align-items-center">
-                <div className="col-lg-2 order-lg-1">
-                  <div className="text-center">
-                  <FontAwesomeIcon icon={faBuilding} className="icon-feature text-gradient d-block mb-3 color_point" />
-                    <h3 className="font-alt">입주 빨래</h3>
-                    <p className="text-muted mb-0">이사하느라 정신없으시죠? 저희가<br />새 집보다 새 집처럼 빨래해드릴게요!</p>
-                  </div>
-                </div>
-                <div className="col-lg-2 order-lg-1">
-                  <div className="text-center">
-                    <FontAwesomeIcon icon={faCalendarCheck} className="icon-feature text-gradient d-block mb-3 color_point" />
-                    <h3 className="font-alt">정기 빨래</h3>
-                    <p className="text-muted mb-0">정기적인 구독으로 할인과 빨래, <br /> 두마리 토끼를 모두 잡아보세요!</p>
-                  </div>
-                </div>
-                <div className="col-lg-2 order-lg-1">
-                  <div className="text-center">
-                    <FontAwesomeIcon icon={faJugDetergent} className="icon-feature text-gradient d-block mb-3 color_point" />
-                    <h3 className="font-alt">부분 빨래</h3>
-                    <p className="text-muted mb-0">더러운 집은 볼 때마다 화가 날거에요<br />지금 바로 저희에게 부탁하세요!</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-        </div>
-
-        <section className="section02">
-        <div className="px-5">
-          <div className="row gx-5 align-items-center justify-content-center justify-content-lg-between scroll_wrap">
-            <div className="col-sm-8 col-md-6 scroll_on type_bottom">
-              <div className="px-5 px-sm-0">
-                <img
-                  src={`${process.env.PUBLIC_URL}/img/index02.png`}
-                  alt="설명이미지"
-                  className="img-fluid rounded-circle"
-                />
-              </div>
-            </div>
-            <div className="col-12 col-lg-5 scroll_on type_bottom">
-              <h2 className="display-4 lh-1 mb-4 h2">Eco friendly</h2>
-              <p className="lead fw-normal text-muted mb-5 mb-lg-0">
-                저희 다이웃은 고객님의 건강을 최우선으로 생각하여 오직 친환경약품을 사용합니다.<br /> 이를 통해 환경과 건강에 동시에 이로운 선택을 할 수 있습니다.<br /> 우리의 목표는 고객님의 만족과 건강한 생활 환경을 돕는 것입니다</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="section03">
-        <div className="px-5">
-          <div className="row gx-5 align-items-center justify-content-center justify-content-lg-between scroll_wrap">
-            <div className="col-12 col-lg-5 scroll_on type_bottom">
-              <h2 className="display-4 lh-1 mb-4 h2">Management</h2>
-              <p className="lead fw-normal text-muted mb-5 mb-lg-0">
-                다이웃 파트너는 엄격한 심사 과정을 거쳐 승인된 파트너들만 활동하고 있습니다.<br /> 저희는 개별적으로 모든 파트너를 심사하여 그들의 신뢰성과 서비스 품질을 보장합니다.<br /> 이를 통해 안전하고 믿을 수 있는 서비스를 제공하며, 고객들이 걱정 없이 다이웃 파트너를 이용할 수 있도록 최선을 다하고 있습니다.</p>
-            </div>
-            <div className="col-sm-8 col-md-6 scroll_on type_bottom">
-              <div className="px-5 px-sm-0">
-                <img
-                  src={`${process.env.PUBLIC_URL}/img/index03.png`}
-                  alt="설명이미지"
-                  className="img-fluid rounded-circle"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="cta scroll_wrap">
-        <div className="cta-content scroll_on type_bottom">
-          <div className="cont px-5 scroll_on">
-            <h2 className="color_white display-1 lh-1 mb-4 text-center">
-              누구나 깨끗한 집을
-              <br />
-              원하잖아요
-            </h2>
-            <a className="btn btn-outline-light py-3 px-4 w-auto" href="/reservation/reservation">
-              지금 예약하기
-            </a>
-          </div>
-        </div>
-      </section>
+        <Tap />
+        <Section/>
     </>
   );
 };
