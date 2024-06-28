@@ -176,20 +176,22 @@
   }
 }
 
-body {
+.index-body {
   margin: 0;
-  /* font-family: var(--bs-body-font-family);
+  font-family: var(--bs-body-font-family);
   font-size: var(--bs-body-font-size);
   font-weight: var(--bs-body-font-weight);
   line-height: var(--bs-body-line-height);
   color: var(--bs-body-color);
   text-align: var(--bs-body-text-align);
-  background-color: var(--bs-body-bg); */
+  background-color: var(--bs-body-bg);
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  width: 1280px;
+  width: 1280px; /* 가로 1280px 설정 */
   height: auto;
+  margin: 0 auto; /* 페이지를 가운데 정렬 */
 }
+
 
 h2, .h2 {
   margin-top: 0;
@@ -309,7 +311,7 @@ button:not(:disabled),
   height: auto;
 }
 
-.container {
+.cont {
   --bs-gutter-x: 1.5rem;
   --bs-gutter-y: 0;
   width: 100%;
@@ -320,31 +322,31 @@ button:not(:disabled),
 }
 
 @media (min-width: 576px) {
-  .container-sm, .container {
+  .cont-sm, .cont {
     max-width: 100%;
     padding: 0;
   }
 }
 @media (min-width: 768px) {
-  .container {
+  .cont {
     max-width: 100%;
     padding: 0;
   }
 }
 @media (min-width: 992px) {
-  .container {
+  .cont {
     max-width: 100%;
     padding: 0;
   }
 }
 @media (min-width: 1200px) {
-  .container {
+  .cont {
     max-width: 100%;
     padding: 0;
   }
 }
 @media (min-width: 1400px) {
-  .container {
+  .cont {
     max-width: 100%;
     padding: 0;
   }
@@ -1376,8 +1378,6 @@ button:not(:disabled),
   text-align: center !important;
 }
 
-/* rtl:begin:remove */
-
 .text-white {
   color: white !important;
   margin-bottom: 5%;
@@ -1609,13 +1609,10 @@ section {
   }
 }
 
-.color_white {color: white !important;}
-
-/* 스크롤 애니메이션 */
-.scroll_wrap {overflow: hidden;}
-.scroll_on {padding:50px 0;font-size: 24px;font-weight:700;text-align: center;opacity: 0;transition: all 1s;}
-.scroll_on.active {opacity: 1 !important;transform: translate(0, 0) !important;}
-.scroll_on.type_top {transform: translate(0, -50px);}
-.scroll_on.type_bottom {transform: translate(0, 50px);}
-.scroll_on.type_left {transform: translate(-50px, 0);}
-.scroll_on.type_right {transform: translate(50px, 0);}
+/* .index-body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  flex-direction: column;
+} */

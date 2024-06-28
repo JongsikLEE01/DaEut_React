@@ -5,15 +5,20 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
+import com.daeut.daeut.auth.dto.CustomUser;
 import com.daeut.daeut.auth.dto.Review;
 import com.daeut.daeut.auth.dto.Users;
 import com.daeut.daeut.auth.service.ReviewService;
@@ -30,7 +35,7 @@ import com.daeut.daeut.reservation.service.OrderService;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@Controller
+@RestController
 @RequestMapping("/user")
 public class UserController {
 
@@ -51,108 +56,111 @@ public class UserController {
 
     // 사용자 마이페이지 조회
     @GetMapping("/userMypage")
-    public String userMypage(HttpSession session, Model model) throws Exception {
+    public ResponseEntity<Users> userMypage(@AuthenticationPrincipal CustomUser customUser) throws Exception {
         log.info("/user/userMypage");
 
-        Users user = (Users) session.getAttribute("user");
+        Users user = customUser.getUser();
         if (user == null) {
-            // 사용자 정보가 없으면 로그인 페이지로 리다이렉트
-            return "redirect:/login";
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
-
-        model.addAttribute("user", user);
-        return "/user/userMypage";
+        return ResponseEntity.ok(user);
     }
 
-    // 사용자 마이페이지 수정 화면
+    // 사용자 마이페이지 수정 화면 (이 부분은 단순 조회이므로 GET 유지)
     @GetMapping("/userMypageUpdate")
-    public String userMypageUpdate(HttpSession session, Model model) throws Exception {
+    public ResponseEntity<Users> userMypageUpdate(@AuthenticationPrincipal CustomUser customUser) throws Exception {
         log.info("/user/userMypageUpdate");
 
-        Users user = (Users) session.getAttribute("user");
+        Users user = customUser.getUser();
         if (user == null) {
-            // 사용자 정보가 없으면 로그인 페이지로 리다이렉트
-            return "redirect:/login";
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
-
-        model.addAttribute("user", user);
-        return "/user/userMypageUpdate";
+        return ResponseEntity.ok(user);
     }
 
     // 사용자 마이페이지 수정 처리
-    @PostMapping("/userMypageUpdateDone")
+    @PutMapping("/userMypageUpdateDone")
     @PreAuthorize("hasRole('ROLE_USER')")
-    public String userMypageUpdateDone(HttpSession session, @RequestParam("action") String action, @ModelAttribute Users user) throws Exception {
-        Users sessionUser = (Users) session.getAttribute("user");
+    public ResponseEntity<Void> userMypageUpdateDone(@AuthenticationPrincipal CustomUser customUser, @RequestParam("action") String action, @RequestBody Users user) throws Exception {
+        Users sessionUser = customUser.getUser();
         if (sessionUser == null) {
             // 사용자 정보가 없으면 로그인 페이지로 리다이렉트
-            return "redirect:/login";
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-        if ("delete".equals(action)) {
-            int result = userService.delete(sessionUser);
-            log.info("Delete result: " + result);
-            if (result > 0) {
-                session.invalidate(); // 세션 무효화
-                return "redirect:/"; // 탈퇴 처리 후 리다이렉트할 페이지
-            } else {
-                return "redirect:/user/userMypage";
+        try {
+            if ("delete".equals(action)) {
+                int result = userService.delete(sessionUser);
+                log.info("Delete result: " + result);
+                if (result > 0) {
+                    return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+                } else {
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+                }
+            } else if ("update".equals(action)) {
+                int result = userService.update(user);
+                log.info("Update result: " + result);
+                if (result > 0) {
+                    return ResponseEntity.ok().build();
+                } else {
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+                }
             }
-        } else if ("update".equals(action)) {
-            int result = userService.update(user);
-            log.info("Update result: " + result);
-            if (result > 0) {
-                session.setAttribute("user", user); // 세션 업데이트
-                return "redirect:/user/userMypage";
-            } else {
-                return "redirect:/user/userMypageUpdate";
-            }
+        } catch (Exception e) {
+            log.error("Error updating user", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
-        return "redirect:/user/userMypage"; // 기본적으로 리다이렉트할 페이지
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
     // 사용자 예약 화면 조회
     @GetMapping("/userReservation")
-    public String userReservation(HttpSession session, Model model) throws Exception {
+    public ResponseEntity<List<Orders>> userReservation(@AuthenticationPrincipal CustomUser customUser) throws Exception {
         log.info("/user/userReservation");
 
-        Users user = (Users) session.getAttribute("user");
+        Users user = customUser.getUser();
         if (user == null) {
             // 사용자 정보가 없으면 로그인 페이지로 리다이렉트
-            return "redirect:/login";
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
         String userId = user.getUserId();
         if (userId == null) {
-            return "redirect:/index";
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
         log.info(userId);
 
         List<Orders> orders = userService.selectOrdersByUserId(userId);
-        model.addAttribute("orders", orders);
 
-        return "user/userReservation";
+        return ResponseEntity.ok(orders);
     }
 
     // 사용자 예약 삭제 처리
-    @PostMapping("/OrdersDelete")
-    public String OrdersDelete(@RequestParam("ordersNo") String ordersNo) throws Exception {
-        orderService.OrdersDelete(ordersNo);
-        return "redirect:/user/userReservation";
+    @DeleteMapping("/OrdersDelete")
+    public ResponseEntity<Void> OrdersDelete(@RequestParam("ordersNo") String ordersNo) throws Exception {
+        try {
+            orderService.OrdersDelete(ordersNo);
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            log.error("Error deleting order", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     // 사용자 작성 리뷰 폼 조회
     @GetMapping("/userReview")
-    public String showReviewForm(Model model, HttpSession session) {
+    public ResponseEntity<Review> showReviewForm(@AuthenticationPrincipal CustomUser customUser) {
         log.info("/user/userReview");
 
-        Users user = (Users) session.getAttribute("user");
+        Users user = customUser.getUser();
         if (user == null) {
-            return "redirect:/login"; // 사용자 번호가 없으면 로그인 페이지로 리디렉션
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
+
         int userNo = user.getUserNo();
         List<Payments> payments = reviewService.getUserPayments(userNo);
-        model.addAttribute("payments", payments);
+        // model.addAttribute("payments", payments);
 
         // 결제 정보가 있다면 첫 번째 결제를 기본값으로 설정
         if (!payments.isEmpty()) {
@@ -161,21 +169,20 @@ public class UserController {
             review.setPaymentNo(firstPayment.getPaymentNo());
             review.setServiceNo(firstPayment.getServiceNo());
             review.setPartnerNo(firstPayment.getPartnerNo());
-            model.addAttribute("review", review);
+            return ResponseEntity.ok(review);
         } else {
-            model.addAttribute("review", new Review());
+            return ResponseEntity.ok(new Review());
         }
-        return "user/userReview";
     }
 
     // 리뷰 저장 처리
     @PostMapping("/userReviewDone")
-    public String submitReview(HttpSession session, Review review) {
+    public ResponseEntity<Void> submitReview(@AuthenticationPrincipal CustomUser customUser,@RequestBody Review review) {
         log.info("/user/userReviewDone");
 
-        Users user = (Users) session.getAttribute("user");
+        Users user = customUser.getUser();
         if (user == null) {
-            return "redirect:/login"; // 사용자 번호가 없으면 로그인 페이지로 리디렉션
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
         review.setUserNo(user.getUserNo());
@@ -183,7 +190,7 @@ public class UserController {
         Payments payment = reviewService.getPaymentDetails(review.getPaymentNo());
         if (payment == null) {
             // payment 객체가 null인 경우 처리
-            return "redirect:/user/userReview?error=invalidPayment";
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
 
         review.setServiceNo(payment.getServiceNo());
@@ -191,123 +198,135 @@ public class UserController {
 
         try {
             reviewService.saveReview(review);
+            return ResponseEntity.status(HttpStatus.CREATED).build();
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Error saving review", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
-        return "redirect:/user/userReview";
     }
 
     // 유저 채팅방 생성 처리
     @PostMapping("/userChatRoom")
-    public String createChatRoom(@RequestParam("partnerNo") int partnerNo, Model model, HttpSession session) throws Exception {
+    public ResponseEntity<Void> createChatRoom(@RequestParam("partnerNo") int partnerNo, @AuthenticationPrincipal CustomUser customUser) throws Exception {
         ChatRooms chatRoom = new ChatRooms();
         chatRoom.setPartnerNo(partnerNo);
 
-        Users user = (Users) session.getAttribute("user");
-        int userNo = user.getUserNo();
-        chatRoom.setUserNo(userNo);
+        Users user = customUser.getUser();
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        chatRoom.setUserNo(user.getUserNo());
 
-        chatRoomService.merge(chatRoom);
-
-        return "redirect:/user/userChatRoom";
+        try {
+            chatRoomService.merge(chatRoom);
+            return ResponseEntity.status(HttpStatus.CREATED).build();
+        } catch (Exception e) {
+            log.error("Error creating chat room", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     // 유저 채팅 내역 조회
     @GetMapping("/userChatRoom")
-    public String userChatRooms(Model model, HttpSession session) throws Exception {
-        Users user = (Users) session.getAttribute("user");
+    public ResponseEntity<List<ChatRooms>> userChatRooms(@AuthenticationPrincipal CustomUser customUser) throws Exception {
+        Users user = customUser.getUser();
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
         int userNo = user.getUserNo();
 
         List<ChatRooms> chatRoomList = chatRoomService.selectByUserNo(userNo);
 
-        model.addAttribute("user", user);
-        model.addAttribute("chatRoomList", chatRoomList);
-        return "user/userChatRoom";
+        return ResponseEntity.ok(chatRoomList);
     }
 
     // 사용자 장바구니 조회
     @GetMapping("/userCart")
-    public String userCart(Model model, HttpSession session) {
-        Users user = (Users) session.getAttribute("user");
-        int userNo = user.getUserNo();
-        Partner partner;
-
-        // 사용자의 장바구니 목록을 서비스를 통해 가져옴
-        List<Cart> cartList;
-        try {
-            cartList = cartService.cartList(userNo);
-            partner = userService.selectPartner(userNo);
-
-            model.addAttribute("cartList", cartList);
-            model.addAttribute("user", user);
-            model.addAttribute("partner", partner);
-        } catch (Exception e) {
-            log.info("장바구니 조회 중 에러 발생...");
-            e.printStackTrace();
+    public ResponseEntity<List<Cart>> userCart(@AuthenticationPrincipal CustomUser customUser) {
+        Users user = customUser.getUser();
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
+        int userNo = user.getUserNo();
 
-        return "/user/userCart";
+        try {
+            List<Cart> cartList = cartService.cartList(userNo);
+            return ResponseEntity.ok(cartList);
+        } catch (Exception e) {
+            log.error("Error retrieving cart", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     // 사용자, 파트너 신청 화면 조회
     @GetMapping("/userPartner")
-    public String userPartner(HttpSession session, Model model) throws Exception {
+    public ResponseEntity<Partner> userPartner(@AuthenticationPrincipal CustomUser customUser) throws Exception {
         log.info("/user/userPartner");
 
-        Users user = (Users) session.getAttribute("user");
+        Users user = customUser.getUser();
         if (user == null) {
-            // 사용자 정보가 없으면 로그인 페이지로 리다이렉트
-            return "redirect:/login";
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
         Partner partner = userService.selectUserAndPartnerDetails(user.getUserNo());
-        model.addAttribute("partner", partner);
+        // model.addAttribute("partner", partner);
 
-        return "user/userPartner";
+        return ResponseEntity.ok(partner);
     }
 
     // 파트너 신청 처리
     @PostMapping("/request-partner")
-    public String insertPartner(@ModelAttribute Partner partner, HttpSession session) throws Exception {
-        Users user = (Users) session.getAttribute("user");
+    public ResponseEntity<Void> insertPartner(@RequestBody Partner partner, @AuthenticationPrincipal CustomUser customUser) throws Exception {
+        Users user = customUser.getUser();
         if (user == null) {
-            return "redirect:/login"; // 사용자 번호가 없으면 로그인 페이지로 리디렉션
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
         Partner partnerDetails = userService.selectUserAndPartnerDetails(user.getUserNo()); // 사용자 정보를 가져옴
         if (partnerDetails != null) {
             partner.setUserNo(partnerDetails.getUserNo());
-            userService.insertPartner(partner);
-            userService.updateUserStatus(partnerDetails.getUserNo());
+            try {
+                userService.insertPartner(partner);
+                userService.updateUserStatus(partnerDetails.getUserNo());
+                return ResponseEntity.status(HttpStatus.CREATED).build();
+            } catch (Exception e) {
+                log.error("Error inserting partner", e);
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            }
         }
-        return "redirect:/user/userPartnerDone";
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
     // 파트너 신청 승인 처리
     @PostMapping("/approve-partner")
-    public String approvePartner(@RequestParam String userId) {
+    public ResponseEntity<Void> approvePartner(@RequestParam String userId) {
         try {
             // userService.approvePartner(userId);
+            return ResponseEntity.ok().build();
         } catch (Exception e) {
             log.error("Error approving partner status", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
-        return "redirect:/user/partnerApprovalDone";
     }
 
     // 파트너 신청 완료 페이지
     @GetMapping("/userPartnerDone")
-    public String userPartnerDone() {
+    public ResponseEntity<Void> userPartnerDone() {
         log.info("/user/userPartnerDone");
-        return "/user/userPartnerDone";
+        return ResponseEntity.ok().build();
     }
 
     // 예약 취소 페이지 조회
     @GetMapping("/userResevationCancel")
-    public String userResevationCancel(@RequestParam String ordersNo, Model model) throws Exception {
-        Orders orders = orderService.select(ordersNo);
-
-        model.addAttribute("orders", orders);
-        return "user/userResevationCancel";
+    public ResponseEntity<Orders> userResevationCancel(@RequestParam String ordersNo) throws Exception {
+        try {
+            Orders orders = orderService.select(ordersNo);
+            return ResponseEntity.ok(orders);
+        } catch (Exception e) {
+            log.error("Error retrieving order for cancellation", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
 }
