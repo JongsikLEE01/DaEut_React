@@ -4,7 +4,6 @@ import { Autoplay, Pagination } from 'swiper/modules';
 import 'swiper/css';
 
 const Slide = () => {
-  // SwiperCore.use([Autoplay])
   return (
     <Swiper
       spaceBetween={0}
@@ -13,16 +12,19 @@ const Slide = () => {
       autoplay={{ delay: 3000, disableOnInteraction: false }}
       pagination={{ clickable: true }}
       modules={[Autoplay, Pagination]}
+      className='swiper'
     >
-      <SwiperSlide>
-        <img className='img' src={`${process.env.PUBLIC_URL}/img/slide01.png`} alt="" style={{ maxWidth: '100%', maxHeight: '600px' }} />
-      </SwiperSlide>
-      <SwiperSlide>
-        <img className='img' src={`${process.env.PUBLIC_URL}/img/slide02.png`} alt="" style={{ maxWidth: '100%', maxHeight: '600px' }} />
-      </SwiperSlide>
-      <SwiperSlide>
-        <img className='img' src={`${process.env.PUBLIC_URL}/img/slide03.png`} alt="" style={{ maxWidth: '100%', maxHeight: '600px' }} />
-      </SwiperSlide>
+      <div className='swiper-wrapper'>
+        <SwiperSlide className='swiper-slide '>
+          <img className='mx-auto' src={`${process.env.PUBLIC_URL}/img/slide01.png`} alt="" style={{ maxWidth: '100%', maxHeight: '600px' }} />
+        </SwiperSlide>
+        <SwiperSlide>
+          <img className='mx-auto' src={`${process.env.PUBLIC_URL}/img/slide02.png`} alt="" style={{ maxWidth: '100%', maxHeight: '600px' }} />
+        </SwiperSlide>
+        <SwiperSlide>
+          <img className='mx-auto'  src={`${process.env.PUBLIC_URL}/img/slide03.png`} alt="" style={{ maxWidth: '100%', maxHeight: '600px' }} />
+        </SwiperSlide>
+      </div>
     </Swiper>
   )
 }
