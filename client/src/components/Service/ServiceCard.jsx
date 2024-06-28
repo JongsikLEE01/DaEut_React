@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 const ServiceCard = ({ service }) => {
-  const { serviceCategory, serviceName, userName, fileNo } = service;
+  const { serviceCategory, serviceName, partnerName, fileNo } = service;
 
   // 썸네일 이미지 URL
-  const thumbnailUrl = fileNo ? `/file/img/${fileNo}` : '/img/no-img.jpg'; // public 폴더에 있는 no-img.jpg 파일 경로
+  const thumbnailUrl = fileNo ? `/file/img/${fileNo}` : '/img/no-img.png'; // public 폴더에 있는 no-img.jpg 파일 경로
+
+  useEffect(()=>{
+    console.log(service);
+  }, [])
 
   return (
     <div className="col">
@@ -23,7 +27,7 @@ const ServiceCard = ({ service }) => {
           {/* 서비스 이름 */}
           <label className="partner-title">{serviceName}</label>
           {/* 유저(파트너) 이름 */}
-          <p className="partner-name">{userName}</p>
+          <p className="partner-name">{partnerName}</p>
         </div>
       </div>
     </div>

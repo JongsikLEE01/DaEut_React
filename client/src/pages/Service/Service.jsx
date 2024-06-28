@@ -1,6 +1,6 @@
 import React from 'react'
-import MainLayout from '../layouts/MainLayout'
-import ServiceContainer from '../containers/Service/ServiceContainer'
+import MainLayout from '../../layouts/MainLayout'
+import ServiceContainer from '../../containers/Service/ServiceContainer'
 
 const Service = () => {
   return (

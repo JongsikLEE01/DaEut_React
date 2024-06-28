@@ -9,7 +9,7 @@ const ServiceTitle = () => {
       <div className="reservation-container">
         <h2 className="reservation-subtitle">깔끔한 생활 도우미 예약 서비스</h2>
         {/* {isPartner && isUser && !isAdmin && ( */}
-          <Link to="/reservation/reservationInsert" className="reservation-insert-link">
+          <Link to="/service/insert" className="reservation-insert-link">
             <button className="sessuce">글쓰기</button>
           </Link>
         {/* )} */}

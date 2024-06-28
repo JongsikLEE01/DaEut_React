@@ -20,25 +20,21 @@ const ServiceContainer = () => {
   }
 
   useEffect(() => {
-    getServiceList();
-  }, []);
+    getServiceList()
+  }, [])
 
   return (
     <>
-      <section style={{ width: '1250px' }}>
-        <ServiceTitle />
-        
-        <div className="reservation-card-grid">
-          {serviceList.length === 0 ? (
-            <span>조회된 게시글 정보가 없습니다.</span>
-          ) : (
-            serviceList.map((service) => (
-              <ServiceCard key={service.serviceNo} service={service} />
-            ))
-          )}
-        </div>
-      </section>
-
+      <ServiceTitle />
+      <div className="reservation-card-grid">
+        {serviceList.length === 0 ? (
+          <span>조회된 게시글 정보가 없습니다.</span>
+        ) : (
+          serviceList.map((service) => (
+            <ServiceCard key={service.serviceNo} service={service} />
+          ))
+        )}
+      </div>
       <ServicePage />
     </>
   );
