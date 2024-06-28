@@ -2,6 +2,7 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import ServiceInsert from '../../components/Service/ServiceInsert'
 import * as Services from '../../apis/Services/Services'
+import '../../components/Service/css/Service.css';
 
 const ServiceInsertContainer = () => {
   const navigate = useNavigate()
@@ -20,10 +21,12 @@ const ServiceInsertContainer = () => {
     }
   }
 
+  console.log("ServiceInsertContainer - onInsert function: ", onInsert)
+
   return (
-    <div>
-      <ServiceInsert onInsert={ onInsert } />
-    </div>
+    <>
+      <ServiceInsert onInsert={onInsert} />
+    </>
   )
 }
 

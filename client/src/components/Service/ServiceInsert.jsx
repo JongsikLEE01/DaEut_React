@@ -9,6 +9,8 @@ const ServiceInsert = ({ onInsert }) => {
   const [thumbnailFile, setThumbnailFile] = useState(null)
   const [imageFiles, setImageFiles] = useState([])
 
+  console.log("ServiceInsert - onInsert function: ", onInsert)
+
   // 썸네일 이미지 미리보기
   const previewThumbnail = (event) => {
     const file = event.target.files[0]
@@ -67,19 +69,13 @@ const ServiceInsert = ({ onInsert }) => {
       return
     }
 
-    console.log("serviceName?" + serviceName);
-    console.log("serviceCategory?" + serviceCategory);
-    console.log("servicePrice?" + servicePrice);
-    console.log("serviceContent?" + serviceContent);
-    console.log("thumbnailFile?" + thumbnailFile);
-    console.log("imageFiles?" + imageFiles);
-
     const formData = new FormData()
     formData.append('serviceName', serviceName)
     formData.append('serviceCategory', serviceCategory.join(','))
     formData.append('servicePrice', servicePrice)
     formData.append('serviceContent', serviceContent)
     formData.append('partnerNo', 1)
+    
     // 썸네일 이미지
     if (thumbnailFile) {
       formData.append('files', thumbnailFile)
@@ -92,7 +88,6 @@ const ServiceInsert = ({ onInsert }) => {
       }
     }
 
-    // console.log(formData);
     const headers = {
       'Content-Type': 'multipart/form-data'
     }
@@ -109,9 +104,6 @@ const ServiceInsert = ({ onInsert }) => {
         </div>
 
         <div className="servicetag">
-          {/* 파트너 번호 */}
-          {/* TODO : 파트너 번호는 props로 전달 */}
-
           {/* 서비스 가격 */}
           <input type="number" name="servicePrice" placeholder="가격" required onChange={(e) => setServicePrice(e.target.value)} />
 
