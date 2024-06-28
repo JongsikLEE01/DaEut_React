@@ -92,16 +92,16 @@ const Home = () => {
   return (
     <>
       <div className="weather">
-        <FontAwesomeIcon icon={weather.iconClass} className="weatherIcon" />
+        <FontAwesomeIcon icon={weather.iconClass} className="weatherIcon mt-5 " />
         <div className="weatherText">
-          <div className="weatherData">
+          <div className="weatherData mt-4">
             <div className="temp_min">{weather.temp_min}</div>
             <div className="temp_max">{weather.temp_max}</div>
             <div className="humidity">{weather.humidity}</div>
             <div className="wind">{weather.wind}</div>
             <div className="cloud">{weather.cloud}</div>
           </div>
-          <div className="myWeather">
+          <div className="myWeather mt-3">
             <div className="current_temp">{weather.temp}</div>
             <div className="weather_description">{weather.weatherDescription}</div>
             <div className="city">{weather.city}</div>
