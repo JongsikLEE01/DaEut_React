@@ -7,8 +7,8 @@ import Index from './pages/index/Index';
 import Test from './pages/Test';
 import Service from './pages/Service/Service';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import ServiceInsert from './components/Service/ServiceInsert';
 import ServiceRead from './pages/Service/ServiceRead';
+import ServiceInsert from './pages/Service/ServiceInsert';
 
 function App() {
   return (
