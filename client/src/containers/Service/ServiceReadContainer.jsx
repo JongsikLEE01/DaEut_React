@@ -13,8 +13,8 @@ const ServiceReadContainer = ({ serviceNo }) => {
       const response = await Services.select(serviceNo)
       const data = response.data
 
-      const serviceData = data.service // 서버 응답에서 서비스 데이터를 가져옴
-      const files = data.files // 서버 응답에서 파일 목록을 가져옴
+      const serviceData = data.service  // 서버 응답에서 서비스 데이터를 가져옴
+      const files = data.files          // 서버 응답에서 파일 목록을 가져옴
 
       console.log(files);
 
@@ -22,7 +22,6 @@ const ServiceReadContainer = ({ serviceNo }) => {
       setFileList(files)
     } catch (e) {
       console.error('Error fetching service:', e)
-      // 에러 처리 로직 추가
     }
   }
 

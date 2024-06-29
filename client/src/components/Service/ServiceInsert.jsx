@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 
 const ServiceInsert = ({ onInsert }) => {
+  // state 등록
   const [serviceName, setServiceName] = useState('')
   const [serviceCategory, setServiceCategory] = useState([])
   const [servicePrice, setServicePrice] = useState('')
@@ -9,7 +10,16 @@ const ServiceInsert = ({ onInsert }) => {
   const [thumbnailFile, setThumbnailFile] = useState(null)
   const [imageFiles, setImageFiles] = useState([])
 
-  console.log("ServiceInsert - onInsert function: ", onInsert)
+  // handle
+  const handleChangeName = (e) =>{
+    setServiceName(e.target.value)
+  }
+  const handleChangePrice = (e) =>{
+    setServicePrice(e.target.value)
+  }
+  const handleChangeContent = (e) =>{
+    setServiceContent(e.target.value)
+  }
 
   // 썸네일 이미지 미리보기
   const previewThumbnail = (event) => {
@@ -60,11 +70,12 @@ const ServiceInsert = ({ onInsert }) => {
     )
   }
 
-  // 폼 제출
+  // 폼 제출 처리
   const onSubmit = (e) => {
     e.preventDefault()
 
-    if(serviceCategory.length === 0 ){
+    if (serviceCategory.length === 0) {
+      // TODO : 스윗얼럿 적용해야함
       alert('카테고리를 선택해주세요')
       return
     }
@@ -81,8 +92,8 @@ const ServiceInsert = ({ onInsert }) => {
       formData.append('files', thumbnailFile)
     }
     // 설명 이미지
-    if(imageFiles){
-      for(let i=0; i<imageFiles.length; i++){
+    if (imageFiles.length > 0) {
+      for (let i = 0; i < imageFiles.length; i++) {
         const file = imageFiles[i]
         formData.append('files', file)
       }
@@ -92,7 +103,7 @@ const ServiceInsert = ({ onInsert }) => {
       'Content-Type': 'multipart/form-data'
     }
 
-    // 여기서 데이터 안보내짐~
+    // 실제 등록 함수 호출
     onInsert(formData, headers)
   }
 
@@ -101,12 +112,12 @@ const ServiceInsert = ({ onInsert }) => {
       <form>
         <div>
           <label htmlFor="title" style={{ display: 'none' }}>제목:</label><br />
-          <input type="text" id="title" name="serviceName" placeholder="제목을 입력해주세요" required onChange={(e) => setServiceName(e.target.value)} /><br />
+          <input type="text" id="title" name="serviceName" placeholder="제목을 입력해주세요" required onChange={handleChangeName} value={serviceName} /><br />
         </div>
 
         <div className="servicetag">
           {/* 서비스 가격 */}
-          <input type="number" name="servicePrice" placeholder="가격" required onChange={(e) => setServicePrice(e.target.value)} />
+          <input type="number" name="servicePrice" placeholder="가격" required onChange={handleChangePrice} value={servicePrice} />
 
           {/* 카테고리 */}
           <input type="checkbox" name="serviceCategory" id="serviceCategoryClean" className="tag-button" value="청소" onChange={handleCategoryChange} />
@@ -124,7 +135,7 @@ const ServiceInsert = ({ onInsert }) => {
         <div>
           {/* 내용 */}
           <textarea id="content" name="serviceContent" rows="4" cols="50" placeholder="* tip : 사용자들이 부담 없이 볼 수 있도록 한줄로 작성하는 것이 좋아요.
-                             부적절한 글로 판단되어 다른 사용자로부터 일정 수 이상의 신고를 받는 경우 글이 삭제처리 될 수 있습니다." required onChange={(e) => setServiceContent(e.target.value)}></textarea><br />
+                             부적절한 글로 판단되어 다른 사용자로부터 일정 수 이상의 신고를 받는 경우 글이 삭제처리 될 수 있습니다." required onChange={handleChangeContent} value={serviceContent}></textarea><br />
         </div>
 
         {/* 썸네일 */}
@@ -152,8 +163,8 @@ const ServiceInsert = ({ onInsert }) => {
         <div id="image-preview-container"></div>
 
         <div className="bottomButton">
-          <input onClick={onSubmit} className="reservationInsertOk sessuce" value="등록하기" />
-          <Link className="cancleInsert" to="/service">취소하기</Link>
+          <button onClick={onSubmit} className="reservationInsertOk sessuce" >등록하기</button>
+          <Link className="cancleInsert mx-3" to="/service">취소하기</Link>
         </div>
       </form>
     </div>
