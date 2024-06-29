@@ -1,48 +1,39 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import Pagination from 'react-js-pagination'
 
-const ServicePage = ({ servicePage = { page: 1, first: 1, last: 1, prev: 1, next: 1, start: 1, end: 1 }, keyword, onPageChange, handleSearchSubmit }) => {
-  const handleSearch = (event) => {
-    event.preventDefault()
-    console.log('Search submitted')
-    handleSearchSubmit()
+const ServicePage = ({ page, setPage, totalCount, keyword, setKeyword }) => {
+
+  
+  // 페이지 변경 시 호출될 함수
+  const handlePageChange = (page) => {
+    setPage(page)
+  }
+  // 검색어 함수
+  const onSearch = (e) => {
+    setKeyword(e.target.value)
+  }
+  const handleKey = (e) =>{
+    if (e.key === 'Enter')
+      e.preventDefault()
   }
 
   return (
-    <>
-      {/* 검색 폼 */}
-      <div className="search-container">
-        <form onSubmit={handleSearch}>
-          <input type="text" name="keyword" placeholder="검색어를 입력하세요" defaultValue={keyword} />
-          <button type="submit">검색</button>
-        </form>
-      </div>
+    <div className="search-container">
+      <form>
+        <input type="text" name="keyword" placeholder="검색어를 입력하세요" onKeyDown={handleKey} onChange={onSearch}/>
+      </form>
 
-      {/* 페이징 */}
-      <div className="pagination d-flex align-items-center">
-        {/* 처음 */}
-        <Link to={`/service?page=${servicePage.first}&keyword=${keyword}`} onClick={() => onPageChange(servicePage.first)}>&laquo;</Link>
-        {/* 이전 */}
-        <Link to={`/service?page=${servicePage.page > 1 ? servicePage.prev : servicePage.page}&keyword=${keyword}`} onClick={() => onPageChange(servicePage.page > 1 ? servicePage.prev : servicePage.page)}>&lt;</Link>
-
-        {/* 페이지 번호 */}
-        {Array.from({ length: servicePage.end - servicePage.start + 1 }, (_, index) => servicePage.start + index).map((servicePageNo) => (
-          <React.Fragment key={servicePageNo}>
-            {/* 현재 페이지 */}
-            {servicePage.page === servicePageNo ? (
-              <Link to={`/service?page=${servicePageNo}&keyword=${keyword}`} className="active">{servicePageNo}</Link>
-            ) : (
-              <Link to={`/service?page=${servicePageNo}&keyword=${keyword}`} onClick={() => onPageChange(servicePageNo)}>{servicePageNo}</Link>
-            )}
-          </React.Fragment>
-        ))}
-
-        {/* 다음 */}
-        <Link to={`/service?page=${servicePage.page < servicePage.last ? servicePage.next : servicePage.page}&keyword=${keyword}`} onClick={() => onPageChange(servicePage.page < servicePage.last ? servicePage.next : servicePage.page)}>&gt;</Link>
-        {/* 마지막 */}
-        <Link to={`/service?page=${servicePage.last}&keyword=${keyword}`} onClick={() => onPageChange(servicePage.last)}>&raquo;</Link>
-      </div>
-    </>
+      {/* 페이지네이션 */}
+      <Pagination
+        activePage={page}               // 현재 활성화된 페이지
+        itemsCountPerPage={9}          // 한 페이지랑 보여줄 아이템 갯수
+        totalItemsCount={ totalCount }  // 총 아이템 개수
+        pageRangeDisplayed={5}          // 페이징 컴포넌트에서 보여줄 페이지 범위
+        prevPageText={'<'}              // 이전 페이지 버튼 텍스트
+        nextPageText={'>'}              // 다음 페이지 버튼 텍스트
+        onChange={handlePageChange}     // 페이지 변경 시 호출될 함수
+      />
+    </div>
   )
 }
 

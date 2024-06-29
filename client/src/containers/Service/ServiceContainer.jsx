@@ -6,70 +6,57 @@ import * as Services from '../../apis/Services/Services'
 import '../../components/Service/css/Service.css'
 
 const ServiceContainer = () => {
-  const [serviceList, setServiceList] = useState([])
-  const [keyword, setKeyword] = useState('')
-  const [servicePage, setServicePage] = useState({
-    page: 1,
-    first: 1,
-    last: 1,
-    prev: 1,
-    next: 1,
-    start: 1,
-    end: 1,
-  })
+  const [serviceList, setServiceList] = useState([])  // 서비스 목록 상태
+  const [page, setPage] = useState(1)                 // 현재 페이지 상태
+  const [totalCount, setTotalCount] = useState('')    // 마지막 페이지
+  const [keyword, setKeyword] = useState('')          // 검색어
 
-  // 데이터 가져오기
-  const getServiceList = async (page, keyword) => {
-    try {
-      const response = await Services.list(page, keyword);
-      console.log('API 응답:', response.data); // 응답 전체를 로그로 찍어서 구조를 검토합니다.
-      const { data, ...pagination } = response.data;
-      console.log('데이터:', data); // 데이터가 예상대로 포함되어 있는지 확인합니다.
-      console.log('페이지네이션:', pagination); // 페이지네이션 세부 정보를 확인합니다.
-      setServiceList(data);
-      setServicePage(pagination);
-      setKeyword(keyword);
-    } catch (error) {
-      console.error('데이터를 가져오는 중 오류 발생:', error);
-    }
-  };
+  console.log(keyword)
   
+  // 서비스 목록 가져오기
+  const getServiceList = async () => {
+    try {
+      const response = await Services.list(page, keyword) 
+      const data = response.data
+      setServiceList(data.serviceList)
+      setTotalCount(data.page)
 
-  const handlePageChange = (page) => {
-    getServiceList(page, keyword)
+      console.log(totalCount)
+      console.log('serviceList? '+serviceList)
+    } catch (e) {
+      console.error('목록을 가져오는 중 오류 발생...', e)
+    }
   }
-
-  const handleSearchSubmit = (event) => {
-    event.preventDefault()
-    const formData = new FormData(event.target)
-    const keyword = formData.get('keyword') || ''
-    getServiceList(1, keyword)
-  }
+  
 
   useEffect(() => {
     getServiceList()
-  }, [])
+  }, [page, keyword])
 
   return (
     <>
-      <ServiceTitle />
-      <div className="reservation-card-grid">
-      {serviceList && serviceList.length > 0 ? (
-        serviceList.map((service) => (
-          <ServiceCard key={service.serviceNo} service={service} />
-        ))
-      ) : serviceList && serviceList.length === 0 ? (
-        <span>조회된 게시글 정보가 없습니다.</span>
-      ) : (
-        <span>데이터를 조회 중 에러 발생...</span>
-      )}
+      <section>
+        <ServiceTitle />
+        
+        {/* 서비스 카드 목록 */}
+        <div className="reservation-card-grid">
+          {serviceList.length === 0 ? (
+            <img src={`${process.env.PUBLIC_URL}/img/no-search.png`} alt="조회된 결과 없음" className='img-fluid' />
+          ) : (
+            serviceList.map((service) => (
+              <ServiceCard key={service.serviceNo} service={service} />
+            ))
+          )}
+        </div>
+      </section>
 
-      </div>
+      {/* 페이지네이션, 검색 컴포넌트 */}
       <ServicePage
-        servicePage={servicePage}
-        keyword={keyword}
-        onPageChange={handlePageChange}
-        handleSearchSubmit={handleSearchSubmit}
+        page={page}             // 현재 페이지
+        setPage={setPage}       // 페이지 변경 함수
+        totalCount={totalCount} // 총 개수
+        keyword={keyword}       // 검색어
+        setKeyword={setKeyword} // 검색어 변경 함수
       />
     </>
   )

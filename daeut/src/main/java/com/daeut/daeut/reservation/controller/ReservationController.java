@@ -66,15 +66,19 @@ public class ReservationController {
      * @throws Exception
      */
     @GetMapping("")
-    public ResponseEntity<List<Services>> getAllServices(ServicePage servicePage, Option option) {
+    public ResponseEntity<Map<String, Object>> getAllServices(ServicePage page, Option option) {
         try {
             String keyword = option.getKeyword();
             if (keyword == null || keyword.isEmpty()) {
                 keyword = "";
                 option.setKeyword(keyword);
             }
-            List<Services> serviceList = reservationService.serviceList(servicePage, option);
-            return ResponseEntity.ok().body(serviceList);
+            List<Services> serviceList = reservationService.serviceList(page, option);
+            Map<String, Object> responseMap = new HashMap<>();
+            responseMap.put("serviceList", serviceList);
+            responseMap.put("page", page.getTotal()); // 예시로 totalCount 설정
+            
+            return ResponseEntity.ok().body(responseMap);
         } catch (Exception e) {
             log.error("Error fetching services: {}", e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -156,7 +160,7 @@ public class ReservationController {
      * @return
      */
     @PostMapping("")
-    public ResponseEntity<String> reservationInsert(@RequestBody Services service, HttpSession session) {
+    public ResponseEntity<String> reservationInsert(Services service) {
         try {
             int result = reservationService.serviceInsert(service);
 
@@ -172,39 +176,6 @@ public class ReservationController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("서버 오류 발생");
         }
     }
-
-    /**
-     * 글 수정
-     * @write jslee
-     * @param serviceNo
-     * @param model
-     * @param file
-     * @return
-     * @throws Exception
-     */
-    @GetMapping("/update")
-    public ResponseEntity<Map<String, Object>> reservationUpdate(@RequestParam("serviceNo") int serviceNo) {
-        try {
-            Services service = reservationService.serviceSelect(serviceNo);
-            Files thumbnail = reservationService.SelectThumbnail(serviceNo);
-            List<Files> files = reservationService.SelectFiles(serviceNo);
-            
-            Files file = new Files();
-            file.setParentTable("service");
-            file.setParentNo(serviceNo);
-            List<Files> fileList = fileService.listByParent(file);
-            
-            Map<String, Object> response = new HashMap<>();
-            response.put("service", service);
-            response.put("fileList", fileList);
-            response.put("thumbnail", thumbnail);
-            response.put("files", files);
-            
-            return ResponseEntity.ok().body(response);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-        }
-    }
     
     /**
      * 수정처리
@@ -213,7 +184,7 @@ public class ReservationController {
      * @throws Exception
      */
     @PutMapping("")
-    public ResponseEntity<String> updatePro(@RequestBody Services service) {
+    public ResponseEntity<String> updatePro(Services service) {
         try {
             // int partnerNo = (int) session.getAttribute("partnerNo");
             // service.setPartnerNo(partnerNo);
@@ -224,7 +195,6 @@ public class ReservationController {
             fileService.deleteByParent(file);
 
             int result = reservationService.serviceUpdate(service);
-            int serviceNo = service.getServiceNo();
 
             if (result == 0) {
                 log.info("게시글 수정 실패...");
