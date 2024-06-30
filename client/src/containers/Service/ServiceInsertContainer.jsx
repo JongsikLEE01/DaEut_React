@@ -9,8 +9,9 @@ const ServiceInsertContainer = () => {
   // 서비스 등록 함수
   const onInsert = async (formData, headers) => {
     try {
+      console.log(formData);
       const response = await Services.insert(formData, headers)
-      const status = response.status
+      const status = await response.status
       console.log(`게시글 등록 요청 결과? ${status}`)
 
       // 등록 완료 후 목록으로 이동

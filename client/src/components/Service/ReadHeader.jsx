@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 const ReadHeader = ({ service }) => {
 
@@ -33,9 +34,9 @@ const ReadHeader = ({ service }) => {
   
       {/* 수정 버튼 표시 */}
       <div className="reservation-link">
-        <a href={`/reservation/reservationUpdate?serviceNo=${service.serviceNo}`}>
+        <Link to={`/service/update/${service.serviceNo}`}>
           <button className="reservation-update">수정하기</button>
-        </a>
+        </Link>
       </div>
       </div>
       <div className="service-title-tag">
