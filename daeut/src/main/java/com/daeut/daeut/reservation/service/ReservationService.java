@@ -7,6 +7,7 @@ import com.daeut.daeut.main.dto.Option;
 import com.daeut.daeut.main.dto.ServicePage;
 import com.daeut.daeut.reservation.dto.Event;
 import com.daeut.daeut.reservation.dto.Services;
+import com.daeut.daeut.tip.dto.Board;
 
 public interface ReservationService {
     // 목록
@@ -16,7 +17,7 @@ public interface ReservationService {
     // 단일 조회 수정 X
     public Services select(int serviceNo) throws Exception;
     // 삽입
-    public int serviceInsert(Services service) throws Exception;
+    public Services serviceInsert(Services service) throws Exception;
     // 업데이트
     public int serviceUpdate(Services service) throws Exception;
     // 삭제
@@ -33,4 +34,7 @@ public interface ReservationService {
     List<Event> calendarListByServiceNo(int serviceNo) throws Exception;
      // 리뷰 이미지
     public Files getFileByServiceNum (int serviceNo) throws Exception;
+
+    // upload 함수
+    public int upload(Services service)throws Exception;
 }

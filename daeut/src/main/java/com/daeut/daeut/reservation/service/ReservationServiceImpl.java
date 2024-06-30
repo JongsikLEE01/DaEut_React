@@ -13,7 +13,11 @@ import com.daeut.daeut.main.service.FileService;
 import com.daeut.daeut.reservation.dto.Event;
 import com.daeut.daeut.reservation.dto.Services;
 import com.daeut.daeut.reservation.mapper.ReservationMapper;
+import com.daeut.daeut.tip.dto.Board;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class ReservationServiceImpl implements ReservationService{
 
@@ -49,82 +53,28 @@ public class ReservationServiceImpl implements ReservationService{
     }
 
     @Override
-    public int serviceInsert(Services service) throws Exception {
+    public Services serviceInsert(Services service) throws Exception {
         // 쓰기
         int result = reservationMapper.serviceInsert(service);
-
-        String parentTable = "service";
-        int parentNo = reservationMapper.maxPk();
-
-        // 썸네일 업로드
-        // - 부모 테이블, 부모 번호, 멀티파트파일, 파일 코드(1)-> 썸네일
-        MultipartFile thumbnailFile = service.getThumbnail();
-
-        // 썸네일 파일 업로드한 경우만 추가
-        if(thumbnailFile != null && !thumbnailFile.isEmpty()){
-            Files thumbnail = new Files();
-            thumbnail.setParentTable(parentTable);
-            thumbnail.setParentNo(parentNo);
-            thumbnail.setFile(thumbnailFile);
-            thumbnail.setFileCode(THUMBNAIL_FILE_CODE);   // 썸네일 파일 코드(1)
-            fileService.upload(thumbnail);                // 썸네일 파일 업로드
-        }
+        log.info("service {}", service);
+        log.info("result {}", result);
+        int newServiceNo = service.getServiceNo();
+        Services newService = reservationMapper.select(newServiceNo);
         
-        // 파일 업로드
-        List<MultipartFile> fileList = service.getFile();
-        if( !fileList.isEmpty() ){
-            for (MultipartFile file : fileList) {
-                if (file.isEmpty()) continue;
+        int uploadresult = upload(service);
+        log.info("파일 업로드 개수 {}", uploadresult);
 
-                // 파일 정보 등록
-                Files  uploadFile = new Files();
-                uploadFile.setParentTable(parentTable);
-                uploadFile.setParentNo(parentNo);
-                uploadFile.setFile(file);
-                uploadFile.setFileCode(0);
-                fileService.upload(uploadFile);
-            }
-        }
-
-        return result;
+        return newService;
     }
 
     @Override
     public int serviceUpdate(Services service) throws Exception {
-        // 수정
-        int result = reservationMapper.serviceUpdate(service);
-
-        String parentTable = "service";
-        int parentNo = reservationMapper.maxPk();
-
-        // 썸네일 업로드
-        MultipartFile thumbnailFile = service.getThumbnail();
-        if (thumbnailFile != null && !thumbnailFile.isEmpty()) {
-            Files thumbnail = new Files();
-            thumbnail.setFile(thumbnailFile);
-            thumbnail.setParentTable(parentTable);
-            thumbnail.setParentNo(parentNo);
-            thumbnail.setFileCode(THUMBNAIL_FILE_CODE);
-            fileService.upload(thumbnail);
-        }
-        
         // 파일 업로드
-        List<MultipartFile> fileList = service.getFile();
-        if (fileList != null && !fileList.isEmpty()) {
-            for (MultipartFile file : fileList) {
-                if (file.isEmpty()) continue;
+        int uploadresult = upload(service);
+        log.info("파일 업로드 개수 {}", uploadresult);
 
-                Files uploadFile = new Files();
-                uploadFile.setParentTable(parentTable);
-                uploadFile.setParentNo(parentNo);
-                uploadFile.setFile(file);
-                uploadFile.setFileCode(0);
 
-                fileService.upload(uploadFile);
-            }
-        }
-
-        return result;
+        return reservationMapper.serviceUpdate(service);
     }
 
     @Override
@@ -178,4 +128,29 @@ public class ReservationServiceImpl implements ReservationService{
     public Services select(int serviceNo) throws Exception {
         return reservationMapper.select(serviceNo);
     }
+
+     @Override
+    public int upload(Services service) throws Exception {
+        // 파일 업로드
+        Files fileInfo = new Files();
+        String parentTable = "service";
+        fileInfo.setParentTable(parentTable);
+        fileInfo.setParentNo(service.getServiceNo());
+        List<MultipartFile> fileList = service.getFile();
+
+        if(fileList == null || fileList.isEmpty()){
+            log.info("첨부 파일 없음...");
+            return 0;
+        }
+
+        List<Files> uploadedFileList = fileService.uploadFiles(fileInfo, fileList);
+        if (uploadedFileList == null || uploadedFileList.isEmpty()) {
+            log.info("파일 업로드 실패...");
+            return 0;
+        }else{
+            log.info("파일 업로드 성공...");
+            log.info(uploadedFileList.toString());
+            return uploadedFileList.size();
+        }
+    }   
 }
