@@ -79,8 +79,18 @@ public class ReservationServiceImpl implements ReservationService{
 
     @Override
     public int serviceDelete(int serviceNo) throws Exception {
-        // 삭제
-        return reservationMapper.serviceDelete(serviceNo);
+        int result = reservationMapper.serviceDelete(serviceNo);
+        
+        Files file = new Files();
+        file.setParentTable("service");
+        file.setParentNo(serviceNo);;
+        List<Files> deleteFileList = fileService.listByParent(file);
+
+        for (Files deleteFile : deleteFileList) {
+            fileService.delete(deleteFile.getFileNo());
+        }
+
+        return result;
     }
     
     @Override

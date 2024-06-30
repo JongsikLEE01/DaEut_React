@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 
-const ServiceInsert = ({ onInsert }) => {
+const ServiceUpdateForm = ({ onUpdate, service, fileList, onRemove }) => {
   // state 등록
-  const [serviceName, setServiceName] = useState('')
-  const [serviceCategory, setServiceCategory] = useState([])
-  const [servicePrice, setServicePrice] = useState('')
-  const [serviceContent, setServiceContent] = useState('')
+  const [serviceName, setServiceName] = useState(service.serviceName)
+  const [serviceCategory, setServiceCategory] = useState(service.serviceCategory)
+  const [servicePrice, setServicePrice] = useState(service.servicePrice)
+  const [serviceContent, setServiceContent] = useState(service.serviceContent)
   const [thumbnailFile, setThumbnailFile] = useState(null)
   const [imageFiles, setImageFiles] = useState([])
 
@@ -117,7 +117,17 @@ const ServiceInsert = ({ onInsert }) => {
     }
 
     // 등록 함수 호출
-    onInsert(formData, headers)
+    onUpdate(formData, headers)
+  }
+
+  // 삭제 전송
+  const onSubmitRemove =() =>{
+    // TODO : 스윗얼럿 처리 필요
+    let check = window.confirm('정말 삭제하시겠습니까?') 
+    if(!check){
+      return
+    }
+    else onRemove(service.serviceNo)  
   }
 
   return (
@@ -270,7 +280,10 @@ const ServiceInsert = ({ onInsert }) => {
           <button type="submit" className="reservationInsertOk sessuce mx-2">
             등록하기
           </button>
-          <Link className="cancleInsert mx-2 cancel" to="/service">
+          <button type='button' className="cancleInsert mx-2 cancel" onClick={onSubmitRemove}>
+            삭제하기
+          </button>
+          <Link className="cancleInsert mx-2 cancel p-1" to="/service">
             취소하기
           </Link>
         </div>
@@ -279,4 +292,4 @@ const ServiceInsert = ({ onInsert }) => {
   )
 }
 
-export default ServiceInsert
+export default ServiceUpdateForm

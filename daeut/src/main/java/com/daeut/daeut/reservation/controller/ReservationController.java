@@ -221,17 +221,6 @@ public class ReservationController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("서버 오류 발생");
         }
     }
-
-    // @GetMapping("/paymentDone")
-    // public String paymentDone() {
-    //     return "reservation/paymentDone";
-    // }
-    
-    // @GetMapping("/paymentFalse")
-    // public String paymentFalse() {
-    //     return "reservation/paymentFalse";
-    // }
-
  
     /**
      * 리뷰삭제
