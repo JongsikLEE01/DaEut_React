@@ -10,6 +10,10 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import ServiceRead from './pages/Service/ServiceRead'
 import ServiceInsert from './pages/Service/ServiceInsert'
 import ServiceUpdate from './pages/Service/ServiceUpdate'
+import UserMyPage from './pages/user/UserMyPage';
+import UserMyPageUpdate from './pages/user/UserMyPageUpdate';
+import Login from './pages/auth/Login';
+import ProtectedRoute from './components/protected/ProtectedRoute';
 
 function App() {
   return (
@@ -22,6 +26,9 @@ function App() {
         <Route path="/service/:serviceNo" element={<ServiceRead/>}></Route>
         <Route path="/service/insert" element={<ServiceInsert/>}></Route>
         <Route path="/service/update/:serviceNo" element={<ServiceUpdate/>}></Route>
+        <Route path="/auth/login" element={<Login />} />
+        <Route path="/user/userMypage" element={<ProtectedRoute component={UserMyPage} />} />
+        <Route path="/user/userMypageUpdate" element={<ProtectedRoute component={UserMyPageUpdate} />} />
       </Routes>
     </BrowserRouter>
   )
