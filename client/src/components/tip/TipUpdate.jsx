@@ -155,8 +155,8 @@ const PostEdit = () => {
         </div>
         <div className="d-flex justify-content-end">
           <button type="submit" className="btn btn-primary me-2">수정하기</button>
-          <button type="button" onClick={handleShowModal} className="btn btn-primary me-2">삭제하기</button>
-          <a href={`/tip/boards/${boardNo}`} className="btn btn-outline-secondary">목록</a>
+          <button type="button" onClick={handleShowModal} className="btn btn-custom me-2">삭제하기</button>
+          <a href={`/tip/boards/${boardNo}`} className="btn btn-custom-outline">목록</a>
         </div>
       </form>
       

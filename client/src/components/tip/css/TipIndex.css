@@ -78,6 +78,8 @@ button[type="submit"]:hover {
 background-color: #6C82A6; /* 호버 시 배경색 변경 */
 }
 
+
+
 .categories {
 display: grid;
 grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -161,6 +163,18 @@ font-size: 18px;
 font-weight: 600;
 margin: 5px 0;
 color: #8FA2CA;
+text-align: center;
+}
+
+.card-content {
+    text-align: center; /* 내용물 중앙 정렬 */
+}
+  
+.card-stats {
+    display: flex;
+    justify-content: center;
+    gap: 10px; /* 아이템 간의 간격 */
+    font-size: 12px !important;
 }
   
   

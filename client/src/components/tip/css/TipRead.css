@@ -288,3 +288,34 @@ textarea {
     width: 100%;
     box-sizing: border-box;
 }
+
+.btn-custom {
+    background-color: #8FA2CA;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, font-weight 0.3s ease;
+}
+
+.btn-custom:hover {
+    background-color: #6C82A6; /* 호버 시 배경색 변경 */
+    color: #fff;
+}
+
+.btn-custom-outline {
+    background-color: transparent;
+    color: #8FA2CA !important;
+    border: 1px solid #8FA2CA;
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-custom-outline:hover {
+    /* background-color: #8FA2CA; */
+    color: #fff; /* 호버 시 텍스트 색상 변경 */
+    border: 1px solid #8FA2CA; /* 호버 시에도 테두리 유지 */
+}
