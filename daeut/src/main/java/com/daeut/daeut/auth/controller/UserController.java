@@ -2,8 +2,6 @@ package com.daeut.daeut.auth.controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -56,6 +54,7 @@ public class UserController {
 
     // 사용자 마이페이지 조회
     @GetMapping("/userMypage")
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN') or hasRole('ROLE_PARTNER')")
     public ResponseEntity<Users> userMypage(@AuthenticationPrincipal CustomUser customUser) throws Exception {
         log.info("/user/userMypage");
 
@@ -68,6 +67,7 @@ public class UserController {
 
     // 사용자 마이페이지 수정 화면 (이 부분은 단순 조회이므로 GET 유지)
     @GetMapping("/userMypageUpdate")
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN') or hasRole('ROLE_PARTNER')")
     public ResponseEntity<Users> userMypageUpdate(@AuthenticationPrincipal CustomUser customUser) throws Exception {
         log.info("/user/userMypageUpdate");
 
@@ -80,7 +80,7 @@ public class UserController {
 
     // 사용자 마이페이지 수정 처리
     @PutMapping("/userMypageUpdateDone")
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN') or hasRole('ROLE_PARTNER')")
     public ResponseEntity<Void> userMypageUpdateDone(@AuthenticationPrincipal CustomUser customUser, @RequestParam("action") String action, @RequestBody Users user) throws Exception {
         Users sessionUser = customUser.getUser();
         if (sessionUser == null) {
@@ -116,6 +116,7 @@ public class UserController {
 
     // 사용자 예약 화면 조회
     @GetMapping("/userReservation")
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN') or hasRole('ROLE_PARTNER')")
     public ResponseEntity<List<Orders>> userReservation(@AuthenticationPrincipal CustomUser customUser) throws Exception {
         log.info("/user/userReservation");
 
@@ -138,6 +139,7 @@ public class UserController {
 
     // 사용자 예약 삭제 처리
     @DeleteMapping("/OrdersDelete")
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN') or hasRole('ROLE_PARTNER')")
     public ResponseEntity<Void> OrdersDelete(@RequestParam("ordersNo") String ordersNo) throws Exception {
         try {
             orderService.OrdersDelete(ordersNo);
@@ -150,6 +152,7 @@ public class UserController {
 
     // 사용자 작성 리뷰 폼 조회
     @GetMapping("/userReview")
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN') or hasRole('ROLE_PARTNER')")
     public ResponseEntity<Review> showReviewForm(@AuthenticationPrincipal CustomUser customUser) {
         log.info("/user/userReview");
 
@@ -177,6 +180,7 @@ public class UserController {
 
     // 리뷰 저장 처리
     @PostMapping("/userReviewDone")
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN') or hasRole('ROLE_PARTNER')")
     public ResponseEntity<Void> submitReview(@AuthenticationPrincipal CustomUser customUser,@RequestBody Review review) {
         log.info("/user/userReviewDone");
 
@@ -207,6 +211,7 @@ public class UserController {
 
     // 유저 채팅방 생성 처리
     @PostMapping("/userChatRoom")
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN') or hasRole('ROLE_PARTNER')")
     public ResponseEntity<Void> createChatRoom(@RequestParam("partnerNo") int partnerNo, @AuthenticationPrincipal CustomUser customUser) throws Exception {
         ChatRooms chatRoom = new ChatRooms();
         chatRoom.setPartnerNo(partnerNo);
@@ -228,6 +233,7 @@ public class UserController {
 
     // 유저 채팅 내역 조회
     @GetMapping("/userChatRoom")
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN') or hasRole('ROLE_PARTNER')")
     public ResponseEntity<List<ChatRooms>> userChatRooms(@AuthenticationPrincipal CustomUser customUser) throws Exception {
         Users user = customUser.getUser();
         if (user == null) {
@@ -242,6 +248,7 @@ public class UserController {
 
     // 사용자 장바구니 조회
     @GetMapping("/userCart")
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN') or hasRole('ROLE_PARTNER')")
     public ResponseEntity<List<Cart>> userCart(@AuthenticationPrincipal CustomUser customUser) {
         Users user = customUser.getUser();
         if (user == null) {
@@ -260,6 +267,7 @@ public class UserController {
 
     // 사용자, 파트너 신청 화면 조회
     @GetMapping("/userPartner")
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN') or hasRole('ROLE_PARTNER')")
     public ResponseEntity<Partner> userPartner(@AuthenticationPrincipal CustomUser customUser) throws Exception {
         log.info("/user/userPartner");
 
@@ -276,6 +284,7 @@ public class UserController {
 
     // 파트너 신청 처리
     @PostMapping("/request-partner")
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN') or hasRole('ROLE_PARTNER')")
     public ResponseEntity<Void> insertPartner(@RequestBody Partner partner, @AuthenticationPrincipal CustomUser customUser) throws Exception {
         Users user = customUser.getUser();
         if (user == null) {
@@ -300,6 +309,7 @@ public class UserController {
 
     // 파트너 신청 승인 처리
     @PostMapping("/approve-partner")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> approvePartner(@RequestParam String userId) {
         try {
             // userService.approvePartner(userId);
@@ -312,6 +322,7 @@ public class UserController {
 
     // 파트너 신청 완료 페이지
     @GetMapping("/userPartnerDone")
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN') or hasRole('ROLE_PARTNER')")
     public ResponseEntity<Void> userPartnerDone() {
         log.info("/user/userPartnerDone");
         return ResponseEntity.ok().build();
@@ -319,6 +330,7 @@ public class UserController {
 
     // 예약 취소 페이지 조회
     @GetMapping("/userResevationCancel")
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN') or hasRole('ROLE_PARTNER')")
     public ResponseEntity<Orders> userResevationCancel(@RequestParam String ordersNo) throws Exception {
         try {
             Orders orders = orderService.select(ordersNo);
