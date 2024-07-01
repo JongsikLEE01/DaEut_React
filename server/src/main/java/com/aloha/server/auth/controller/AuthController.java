@@ -30,6 +30,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 @RequestMapping("")
+@CrossOrigin(origins = "*")
 public class AuthController {
 
     @Autowired
@@ -140,21 +141,28 @@ public class AuthController {
 
     // 아이디 찾기 처리
     @PostMapping("/findId")
-    public ResponseEntity<String> findId(@RequestParam String userName,
-                                         @RequestParam String userEmail,
-                                         @RequestParam String userPhone) {
+    public ResponseEntity<Map<String, String>> findId(@RequestBody Map<String, String> userDetails) {
+        String userName = userDetails.get("userName");
+        String userEmail = userDetails.get("userEmail");
+        String userPhone = userDetails.get("userPhone");
+
+        Map<String, String> response = new HashMap<>();
         try {
             String userId = userService.findUserByDetails(userName, userEmail, userPhone);
             if (userId != null) {
-                return new ResponseEntity<>("redirect:/auth/findIdComplete?userId=" + userId, HttpStatus.OK);
+                response.put("userId", userId);
+                return new ResponseEntity<>(response, HttpStatus.OK);
             } else {
-                return new ResponseEntity<>("일치하는 사용자 정보를 찾을 수 없습니다.", HttpStatus.BAD_REQUEST);
+                response.put("error", "일치하는 사용자 정보를 찾을 수 없습니다.");
+                return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
             }
         } catch (Exception e) {
             log.error("아이디 찾기 중 오류가 발생했습니다.", e);
-            return new ResponseEntity<>("아이디 찾기 중 오류가 발생했습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
+            response.put("error", "아이디 찾기 중 오류가 발생했습니다.");
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 
     // 아이디 찾기 완료
     @GetMapping("/findIdComplete")
@@ -163,6 +171,7 @@ public class AuthController {
         response.put("userId", userId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
 
     // 비밀번호 찾기 화면
     @GetMapping("/findPw")
