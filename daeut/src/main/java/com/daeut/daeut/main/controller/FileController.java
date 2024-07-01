@@ -1,10 +1,7 @@
 package com.daeut.daeut.main.controller;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.net.URLEncoder;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,15 +12,22 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.daeut.daeut.main.dto.Files;
 import com.daeut.daeut.main.service.FileService;
 
-@Controller
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/file")
 public class FileController {
     @Autowired
@@ -33,39 +37,31 @@ public class FileController {
     private String path;
 
     /**
+     * 파일 업로드
+     * @param file
+     * @return
+     */
+    @PostMapping("")
+    public ResponseEntity<?> create(Files file) {
+        log.info("file? "+file);
+        try {
+            Files uploadedFile = fileService.upload(file);
+
+            return new ResponseEntity<>(uploadedFile, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
      * 파일 다운로드
-     * @param fileNo
+     * @param no
      * @param response
      * @throws Exception
      */
-    @GetMapping("/{fileNo}")
-    public void fileDownload(@PathVariable("fileNo") int fileNo
-                            , HttpServletResponse response) throws Exception {
-        Files downloadFile = fileService.download(fileNo);
-
-        // 파일이 없는 경우 메소드 종료
-        if(downloadFile == null) return;
-        
-        // 필요정보? -> 파일 경로, 파일 명
-        String path = downloadFile.getFilePath(); 
-        String fileName = downloadFile.getFileName();
-        // 한국어 인코딩 설정
-        fileName = URLEncoder.encode(fileName, "UTF-8");
-
-        // 다운로드를 위한 응답 헤더 세팅
-        // - ContentType            : application/octect-stream
-        // - Content-Disposition    : attachment, name="파일명.확장자"
-        response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);
-        response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
-
-        // 파일 다운로드
-        File file = new File(path);
-        FileInputStream fis =  new FileInputStream(file);       // 파일 입력
-        ServletOutputStream sos = response.getOutputStream();   // 파일 출력
-        FileCopyUtils.copy(fis,sos);
-
-        fis.close();
-        sos.close();
+    @GetMapping("/{no}")
+    public void fileDownload(@PathVariable("no") int no, HttpServletResponse response) throws Exception{
+        fileService.download(no, response);
     }
 
     @DeleteMapping("/{fileNo}")
@@ -82,7 +78,6 @@ public class FileController {
         return new ResponseEntity<>("SUCCESS",HttpStatus.OK);
     }
     
-    // /file/img/{fileNo}
     /**
      * 이미지 썸네일
      * @param param
@@ -120,6 +115,26 @@ public class FileController {
 
         // new ResponseEntity<>(데이터, 헤더, 상태코드)
         return new ResponseEntity<>(fileData, headers, HttpStatus.OK);
+    }    
+
+    /**
+     * 파일 삭제
+     * @param no
+     * @return
+     */
+    @DeleteMapping("/{no}")
+    public ResponseEntity<?> delete(@PathVariable("no") Integer no) {
+        try {
+            if(no == null)
+                return new ResponseEntity<>("잘못된 요청입니다...",HttpStatus.BAD_REQUEST);
+
+            int result = fileService.delete(no);
+            if(result > 0)
+                return new ResponseEntity<>("파일 삭제 성공...", HttpStatus.OK);
+            else
+                return new ResponseEntity<>("파일 삭제 실패...",HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (Exception e) {
+            return new ResponseEntity<>("파일 삭제 실패...", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
-    
 }

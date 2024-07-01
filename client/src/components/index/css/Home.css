@@ -2,174 +2,127 @@
 /* 날씨 */
 .weather {
   background-color: #fff;
-  padding: 40px;
+  padding: 2.5em; /* 40px -> 2.5em */
   color: #48523D;
   display: flex;
   justify-content: space-around;
   text-align: right;
 }
 
-.weather .weatherIcon {
-  font-size: 3em;
+.weatherIcon {
+  font-size: 5em;
   color: #8FA2CA;
 }
 
-.weatherText{
+.weatherText {
   display: flex;
   flex-direction: row-reverse;
 }
 
 .weather .weatherData {
-  margin: -5px 0px 0px 60px;
-  font-size: 1.5em;
+  margin: -0.3125em 0 0 3.75em; /* -5px 0 0 60px -> -0.3125em 0 0 3.75em */
+  font-size: 1em;
 }
 
 .weather .myWeather .current_temp {
-  font-size: 50pt;
+  font-size: 3em;
   color: #8FA2CA;
 }
 
 .weather .myWeather .weather_description {
-  font-size: 20pt;
+  font-size: 1.5em;
 }
 
 .weather .myWeather .city {
-  font-size: 13pt;
+  font-size: 1em;
 }
 
 /* 미디어 쿼리를 사용하여 반응형 스타일 적용 */
 @media (max-width: 1400px) {
   .weather {
-      padding: 30px;
+    padding: 1.875em; /* 30px -> 1.875em */
   }
 }
 
 @media (max-width: 1200px) {
   .weather {
-      padding: 20px;
+    padding: 1.25em; /* 20px -> 1.25em */
   }
 }
 
 @media (max-width: 992px) {
   .weather {
-      flex-direction: column;
-      align-items: center;
-      height: auto;
-      padding: 20px;
+    flex-direction: column;
+    align-items: center;
+    height: auto;
+    padding: 1.25em; /* 20px -> 1.25em */
+    text-align: center;
   }
 
   .weather .weatherIcon,
   .weather .weatherData {
-      margin: 10px 0;
+    margin: 0.625em 0; /* 10px 0 -> 0.625em 0 */
   }
 
   .weather .weatherText {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 }
 
 @media (max-width: 768px) {
   .weather .myWeather {
-      margin-top: 0;
+    margin-top: 0;
   }
 }
 
 @media (max-width: 576px) {
   .weather .weatherIcon {
-      font-size: 2em;
+    font-size: 2em;
   }
 
   .weather .weatherData {
-      font-size: 10pt;
+    font-size: 0.625em; /* 10pt -> 0.625em */
   }
 
   .weather .myWeather .current_temp {
-      font-size: 40pt;
+    font-size: 2.5em; /* 40pt -> 2.5em */
   }
 
   .weather .myWeather .weather_description {
-      font-size: 18pt;
+    font-size: 1.125em; /* 18pt -> 1.125em */
   }
 
   .weather .myWeather .city {
-      font-size: 12pt;
+    font-size: 0.75em; /* 12pt -> 0.75em */
   }
 }
 
 @media (max-width: 575.98px) {
   .weather .weatherIcon {
-      font-size: 1.5em;
+    font-size: 1.5em;
   }
 
   .weather .weatherData {
-      font-size: 9pt;
+    font-size: 0.5625em; /* 9pt -> 0.5625em */
   }
 
   .weather .myWeather .current_temp {
-      font-size: 30pt;
+    font-size: 1.875em; /* 30pt -> 1.875em */
   }
 
   .weather .myWeather .weather_description {
-      font-size: 16pt;
+    font-size: 1em; /* 16pt -> 1em */
   }
 
   .weather .myWeather .city {
-      font-size: 11pt;
+    font-size: 0.6875em; /* 11pt -> 0.6875em */
   }
 }
 
-/* 슬라이드 */
-.swiper-container {
-    width: 100%;
-    height: auto;
-}
-.swiper-container .img{
-    /* width: 100%; */
-    height: 600px;
-}
-.swiper-container-wrapper{
-  text-align: center;
-}
-/* 반응형 */
-@media (max-width: 575.98px) {
-  .swiper-container .img {
-      height: 200px;
-  }
-}
-@media (min-width: 576px) and (max-width: 767.98px) {
-  .swiper-container .img {
-      height: 300px;
-  }
-}
-@media (min-width: 768px) and (max-width: 991.98px) {
-  .swiper-container .img {
-      height: 400px;
-  }
-}
-@media (min-width: 992px) and (max-width: 1199.98px) {
-  .swiper-container .img {
-      height: 500px;
-  }
-}
-@media (min-width: 1200px) and (max-width: 1399.98px) {
-  .swiper-container .img {
-      height: 600px;
-  }
-}
-@media (min-width: 1400px) {
-  .swiper-container .img {
-      height: 700px;
-  }
-}
+
 /* 컨텐츠 */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
 @media (prefers-reduced-motion: no-preference) {
   :root {
     scroll-behavior: smooth;
@@ -177,17 +130,8 @@
 }
 
 .index-body {
-  margin: 0;
-  font-family: var(--bs-body-font-family);
-  font-size: var(--bs-body-font-size);
-  font-weight: var(--bs-body-font-weight);
-  line-height: var(--bs-body-line-height);
-  color: var(--bs-body-color);
-  text-align: var(--bs-body-text-align);
-  background-color: var(--bs-body-bg);
-  -webkit-text-size-adjust: 100%;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  width: 1280px; /* 가로 1280px 설정 */
+  max-width: 1280px; /* 최대 너비를 1280px로 설정 */
+  width: 100%;
   height: auto;
   margin: 0 auto; /* 페이지를 가운데 정렬 */
 }

@@ -1,5 +1,6 @@
-import logo from './logo.svg';
-import './App.css';
+// import LoginContextProvider from './contexts/LoginContextProvider'
+import logo from './logo.svg'
+import './App.css'
 import { BrowserRouter, Route, Routes } from "react-router-dom"
 // import LoginContextProvider from './contexts/LoginContextProvider';
 import Home from './components/Home';
@@ -8,6 +9,14 @@ import TipIndex from './components/tip/TipIndex'
 import TipInsert from './components/tip/TipInsert';
 import TipRead from './components/tip/TipRead';
 import TipUpdate from './components/tip/TipUpdate';
+import Member from './pages/auth/Member'
+import Index from './pages/index/Index'
+import Test from './pages/Test'
+import Service from './pages/Service/Service'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import ServiceRead from './pages/Service/ServiceRead'
+import ServiceInsert from './pages/Service/ServiceInsert'
+import ServiceUpdate from './pages/Service/ServiceUpdate'
 
 function App() {
   return (
@@ -20,9 +29,13 @@ function App() {
         <Route path='/tip/tipInsert' element={<TipInsert/>}></Route>
         <Route path='/tip/tipRead' element={<TipRead/>}></Route>
         <Route path='/tip/tipUpdate' element={<TipUpdate/>}></Route>
+        <Route path="/service" element={<Service/>}></Route>
+        <Route path="/service/:serviceNo" element={<ServiceRead/>}></Route>
+        <Route path="/service/insert" element={<ServiceInsert/>}></Route>
+        <Route path="/service/update/:serviceNo" element={<ServiceUpdate/>}></Route>
       </Routes>
     </BrowserRouter>
-  );
+  )
 }
 
-export default App;
+export default App

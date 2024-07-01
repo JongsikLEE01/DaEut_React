@@ -2,6 +2,10 @@ package com.daeut.daeut.main.service;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.web.multipart.MultipartFile;
+
 import com.daeut.daeut.main.dto.Files;
 
 public interface FileService {
@@ -21,9 +25,11 @@ public interface FileService {
     // 파일 삭제 - 부모 기준
     public int deleteByParent(Files file) throws Exception;
     
-    // 파일 업로드
-    public boolean upload(Files file) throws Exception;
-
     // 파일 다운로드
-    public Files download(int fileNo) throws Exception;   
+    public int download(int no, HttpServletResponse response) throws Exception;
+
+    // 파일 업로드
+    public Files upload(Files file) throws Exception;
+    // 여러 파일 업로드
+    public List<Files> uploadFiles(Files file, List<MultipartFile> fileList) throws Exception;
 }
