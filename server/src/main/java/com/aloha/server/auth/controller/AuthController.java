@@ -92,29 +92,29 @@ public class AuthController {
     }
 
     // 로그인 화면
-    @GetMapping("/login")
-    public ResponseEntity<Map<String, Object>> login(@RequestParam(value = "error", required = false) String error,
-                                                     @CookieValue(value = "remember-id", required = false) Cookie cookie) {
-        Map<String, Object> response = new HashMap<>();
-        if (error != null) {
-            response.put("errorMessage", "아이디 또는 비밀번호가 올바르지 않습니다.");
-        }
+    // @GetMapping("/login")
+    // public ResponseEntity<Map<String, Object>> login(@RequestParam(value = "error", required = false) String error,
+    //                                                  @CookieValue(value = "remember-id", required = false) Cookie cookie) {
+    //     Map<String, Object> response = new HashMap<>();
+    //     if (error != null) {
+    //         response.put("errorMessage", "아이디 또는 비밀번호가 올바르지 않습니다.");
+    //     }
 
-        String userId = "";
-        boolean rememberId = false;
+    //     String userId = "";
+    //     boolean rememberId = false;
 
-        if (cookie != null) {
-            log.info("CookieName : " + cookie.getName());
-            log.info("CookieValue : " + cookie.getValue());
-            userId = cookie.getValue();
-            rememberId = true;
-        }
+    //     if (cookie != null) {
+    //         log.info("CookieName : " + cookie.getName());
+    //         log.info("CookieValue : " + cookie.getValue());
+    //         userId = cookie.getValue();
+    //         rememberId = true;
+    //     }
 
-        response.put("userId", userId);
-        response.put("rememberId", rememberId);
+    //     response.put("userId", userId);
+    //     response.put("rememberId", rememberId);
 
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
+    //     return new ResponseEntity<>(response, HttpStatus.OK);
+    // }
 
     // 로그인 처리
     // @PostMapping("/login")
