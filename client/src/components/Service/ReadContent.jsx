@@ -1,14 +1,28 @@
-import React from 'react'
+import React, { useState } from 'react'
 
-const ReadContent = ({ service }) => {
-  const handleDirectReservation = () => {
-    alert('바로 예약하기')
-    // 예약하기에 대한 로직 추가
+const ReadContent = ({ service, onInsert, onPayment }) => {
+  // 장바구니 추가
+  const onSubmit=()=>{
+    // 유저번호 가져오기 수정 필요
+    const userNo = 1
+    const serviceNo = service.serviceNo
+    let check = window.confirm(`장바구니에 추가하시겠습니까? `)
+    if(!check) return
+
+    onInsert(userNo, serviceNo)
   }
 
-//   const handleAddToCart = () => {
-//     addToCart()
-//   }
+  // 바로 주문
+  const onPay=()=>{
+    // 유저 번호 수정 필요
+    const userNo = 1
+    const serviceNo = [service.serviceNo]
+    const quantity = [1]
+    let check = window.confirm(`바로 주문하시겠습니까?`)
+    if(!check) return
+
+    onPayment(userNo, serviceNo, quantity)
+  }
 
   return (
     <div className="box-form-right">
@@ -40,18 +54,17 @@ const ReadContent = ({ service }) => {
               <td>
                 <form>
                   <input type="hidden" id="quantity" name="quantity" value="1" />
-                  <button className="reservation-calender" id="couponBtn">
+                  <button className="reservation-calender" id="couponBtn" onClick={onPay}>
                     바로 예약하기
                   </button>
                 </form>
               </td>
 
               <td>
-                <button className="reservation-paybutton">
+                <button className="reservation-calender" onClick={onSubmit}>
                   장바구니 담기
                 </button>
               </td>
-
             </tr>
           </tfoot>
         </table>

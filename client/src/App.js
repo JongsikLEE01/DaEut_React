@@ -10,6 +10,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import ServiceRead from './pages/Service/ServiceRead'
 import ServiceInsert from './pages/Service/ServiceInsert'
 import ServiceUpdate from './pages/Service/ServiceUpdate'
+import Order from './pages/Order/Payment'
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/service/:serviceNo" element={<ServiceRead/>}></Route>
         <Route path="/service/insert" element={<ServiceInsert/>}></Route>
         <Route path="/service/update/:serviceNo" element={<ServiceUpdate/>}></Route>
+        <Route path="/order/:ordersNo" element={<Order />} />
       </Routes>
     </BrowserRouter>
   )
