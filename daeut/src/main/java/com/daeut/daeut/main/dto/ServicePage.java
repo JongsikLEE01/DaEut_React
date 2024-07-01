@@ -20,8 +20,8 @@ import lombok.Data;
 public class ServicePage {
     // 페이징 기본값
     private static final int PAGE_NUM = 1;  // 현재 페이지 번호 기본값
-    private static final int ROWS = 12;     // 페이지 당 글 수 기본값
-    private static final int COUNT = 12;    // 노출 페이지 개수 기본값
+    private static final int ROWS = 9;     // 페이지 당 글 수 기본값
+    private static final int COUNT = 9;    // 노출 페이지 개수 기본값
 
     // ❗ 필수 정보
     private int page;   // 페이지 번호

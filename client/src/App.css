@@ -4,6 +4,7 @@
     height: auto;
     display: flex;
     justify-content: center;
+    flex-direction: column;
 }
 
 .sessuce{
@@ -25,11 +26,13 @@
     border: 1px solid red !important;
     border-radius: 8px !important;
     transition: 0.5s !important;
+    text-decoration: none;
 }
 .cancel:hover{
     background-color: red !important;
     border: 1px solid red !important;
     color: white !important;
+    text-decoration: none;
 }
 
 .myBtn{
