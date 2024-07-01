@@ -1,10 +1,22 @@
 import React from 'react';
-import { Navigate, Outlet } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
-const ProtectedRoute = ({ component: Component }) => {
-    const isAuthenticated = !!localStorage.getItem('token'); // 토큰이 존재하면 인증된 상태로 간주
+// 로그인 여부를 확인하는 함수 (예시)
+const isAuthenticated = () => {
+  // 실제 인증 로직을 구현하세요
+  return localStorage.getItem('token') !== null;
+};
 
-    return isAuthenticated ? <Component /> : <Navigate to="/auth/login" />;
+const ProtectedRoute = ({ children, component: Component }) => {
+  if (!isAuthenticated()) {
+    return <Navigate to="/login" />;
+  }
+
+  if (Component) {
+    return <Component />;
+  }
+
+  return children;
 };
 
 export default ProtectedRoute;

@@ -214,7 +214,7 @@ main {
   border-radius: 8px;
 }
 
-.userCoupon {
+.userChatRoom {
   background-color: #e9ecef;
   color: #8FA2CA !important;
   border-radius: 8px;
@@ -343,4 +343,21 @@ th {
 
 .reservation-table th, .reservation-table td {
   text-align: center;
+}
+
+.profile-img {
+  width: 100%;
+  max-width: 200px; /* 최대 너비 설정 */
+  max-height: 300px; /* 최대 높이 설정 */
+  object-fit: cover; /* 이미지를 요소의 크기에 맞게 조절하면서 비율 유지 */
+  margin: auto;
+}
+
+
+@media (max-width: 767px) {
+  .profile-img {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+  }
 }

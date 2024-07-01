@@ -1,52 +1,54 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import Sidebar from '../../components/static/Sidebar';
+import React, { useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import UserLayout from '../../layouts/UserLayout';
 import UserForm from '../../components/user/UserForm';
-// import './UserMyPageUpdate.css';
+import axios from 'axios';
+import '../../components/user/user.css';
 
 const UserMyPageUpdate = () => {
-    const [sidebarOpen, setSidebarOpen] = useState(false);
-    const [user, setUser] = useState(null);
+    const location = useLocation();
+    const { user } = location.state;
+    const [updatedUser, setUpdatedUser] = useState(user);
+    const navigate = useNavigate();
 
-    useEffect(() => {
-        axios.get('http://localhost:8080/api/user/exampleUserId')
-            .then(response => setUser(response.data))
-            .catch(error => console.error('Error fetching user data:', error));
-    }, []);
-
-    const toggleSidebar = () => {
-        setSidebarOpen(!sidebarOpen);
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setUpdatedUser({ ...updatedUser, [name]: value });
     };
 
-    const handleChange = (event) => {
-        const { name, value } = event.target;
-        setUser((prevUser) => ({
-            ...prevUser,
-            [name]: value
-        }));
-    };
-
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        const action = event.nativeEvent.submitter.value;
-        if (action === 'update') {
-            axios.post('http://localhost:8080/api/user/update', user)
-                .then(response => console.log('User updated successfully'))
-                .catch(error => console.error('Error updating user:', error));
-        } else if (action === 'delete') {
-            // 탈퇴 로직을 추가하세요
-            console.log('탈퇴하기');
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const action = e.nativeEvent.submitter.value;
+        try {
+            if (action === 'update') {
+                await axios.put('http://localhost:8080/user/userMypageUpdateDone', updatedUser, {
+                    params: { action: 'update' },
+                });
+                alert('정보가 성공적으로 업데이트되었습니다.');
+            } else if (action === 'delete') {
+                await axios.delete('http://localhost:8080/user/userMypageUpdateDone', {
+                    data: updatedUser,
+                    params: { action: 'delete' },
+                });
+                alert('계정이 성공적으로 삭제되었습니다.');
+            }
+            navigate('/user/userMypage');
+        } catch (error) {
+            console.error('Error updating user data:', error);
+            alert('정보 업데이트에 실패했습니다.');
         }
     };
 
     return (
-        <div className="container-fluid container">
-            <button className="btn btn-primary toggle-btn menu mt-2 ml-2 myBtn" id="toggle-btn" onClick={toggleSidebar}>메뉴</button>
-            <div className="row">
-                <Sidebar toggleSidebar={toggleSidebar} />
-                {user && <UserForm user={user} handleChange={handleChange} handleSubmit={handleSubmit} isUpdatePage={true} />}
+        <UserLayout>
+            <div>
+                <UserForm user={updatedUser} isUpdatePage={true} handleChange={handleChange} />
+                <div className="form-buttons">
+                    <button className="btn btn-primary" onClick={handleSubmit} value="update">정보 수정</button>
+                    <button className="btn btn-danger" onClick={handleSubmit} value="delete">탈퇴하기</button>
+                </div>
             </div>
-        </div>
+        </UserLayout>
     );
 };
 

@@ -34,15 +34,6 @@ const UserForm = ({ user, handleChange, handleSubmit, isUpdatePage }) => {
                     <label htmlFor="userBirth">생년월일</label>
                     <input type="date" className="form-control" id="userBirth" name="userBirth" value={user.userBirth} onChange={handleChange} disabled={!isUpdatePage} />
                 </div>
-                <div className="form-buttons">
-                    <button type="button" className="btn btn-secondary cancel" onClick={() => window.history.back()}>뒤로가기</button>
-                    {isUpdatePage && (
-                        <>
-                            <button type="submit" className="btn btn-danger cancel" name="action" value="delete">탈퇴하기</button>
-                            <button type="submit" className="btn btn-primary sessuce color_main" name="action" value="update">정보 수정</button>
-                        </>
-                    )}
-                </div>
             </form>
         </div>
     );

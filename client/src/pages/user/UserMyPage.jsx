@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import UserLayout from '../../layouts/UserLayout';
 import UserForm from '../../components/user/UserForm';
 import '../../components/user/user.css';
@@ -24,6 +25,9 @@ const UserMyPage = () => {
         <UserLayout>
             <div>
                 {user && <UserForm user={user} isUpdatePage={false} />}
+                <Link to="/user/userMypageUpdate" state={{ user }}>
+                    <button className="btn btn-primary">정보 수정</button>
+                </Link>
             </div>
         </UserLayout>
     );

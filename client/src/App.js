@@ -10,10 +10,15 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import ServiceRead from './pages/Service/ServiceRead'
 import ServiceInsert from './pages/Service/ServiceInsert'
 import ServiceUpdate from './pages/Service/ServiceUpdate'
-import UserMyPage from './pages/user/UserMyPage';
-import UserMyPageUpdate from './pages/user/UserMyPageUpdate';
-import Login from './pages/auth/Login';
-import ProtectedRoute from './components/protected/ProtectedRoute';
+import UserMyPage from './pages/user/UserMyPage'
+import UserMyPageUpdate from './pages/user/UserMyPageUpdate'
+import Login from './pages/auth/Login'
+import ProtectedRoute from './components/protected/ProtectedRoute'
+import UserReservation from './pages/user/UserReservation'
+import UserReview from './pages/user/UserReview'
+import UserChatRoom from './pages/user/UserChatRoom'
+import UserPartner from './pages/user/UserPartner'
+import UserCart from './pages/user/UserCart'
 
 function App() {
   return (
@@ -27,8 +32,13 @@ function App() {
         <Route path="/service/insert" element={<ServiceInsert/>}></Route>
         <Route path="/service/update/:serviceNo" element={<ServiceUpdate/>}></Route>
         <Route path="/auth/login" element={<Login />} />
-        <Route path="/user/userMypage" element={<ProtectedRoute component={UserMyPage} />} />
-        <Route path="/user/userMypageUpdate" element={<ProtectedRoute component={UserMyPageUpdate} />} />
+        <Route path="/user/UserMypage" element={<ProtectedRoute><UserMyPage /></ProtectedRoute>} />
+        <Route path="/user/UserMypageUpdate" element={<ProtectedRoute><UserMyPageUpdate /></ProtectedRoute>} />
+        <Route path="/user/UserPartner" element={<ProtectedRoute><UserPartner /></ProtectedRoute>} />
+        <Route path="/user/UserChatRoom" element={<ProtectedRoute><UserChatRoom /></ProtectedRoute>} />
+        <Route path="/user/UserReservation" element={<ProtectedRoute><UserReservation /></ProtectedRoute>} />
+        <Route path="/user/UserReview" element={<ProtectedRoute><UserReview /></ProtectedRoute>} />      
+        <Route path="/user/UserCart" element={<ProtectedRoute><UserCart /></ProtectedRoute>} />      
       </Routes>
     </BrowserRouter>
   )
