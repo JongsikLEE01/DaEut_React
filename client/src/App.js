@@ -10,10 +10,10 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import ServiceRead from './pages/Service/ServiceRead'
 import ServiceInsert from './pages/Service/ServiceInsert'
 import ServiceUpdate from './pages/Service/ServiceUpdate'
-import TipIndex from './components/tip/TipIndex';
-import TipInsert from './components/tip/TipInsert';
-import TipRead from './components/tip/TipRead';
-import TipUpdate from './components/tip/TipUpdate';
+import TipIndex from './pages/Tip/TipIndex';
+import TipRead from './pages/Tip/TipRead';
+import TipInsert from './pages/Tip/TipInsert';
+import TipUpdate from './pages/Tip/TipUpdate';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
 
@@ -29,8 +29,8 @@ function App() {
         <Route path="/service/insert" element={<ServiceInsert/>}></Route>
         <Route path="/service/update/:serviceNo" element={<ServiceUpdate/>}></Route>
         <Route path='/tip/boards' element={<TipIndex/>}></Route>
-        <Route path='/tip/tipInsert' element={<TipInsert/>}></Route>
         <Route path='/tip/boards/:boardNo' element={<TipRead/>}></Route>
+        <Route path='/tip/tipInsert' element={<TipInsert/>}></Route>
         <Route path='/tip/tipUpdate' element={<TipUpdate/>}></Route>
       </Routes>
     </BrowserRouter>

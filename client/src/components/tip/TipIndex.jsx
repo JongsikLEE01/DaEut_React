@@ -1,75 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { list } from '../../apis/tips/board';
+import React from 'react';
 import Pagination from './Pagination';
 import SearchBar from './SearchBar';
 import TipCard from './TipCard';
 import '../tip/css/TipIndex.css';  // CSS 파일 임포트
 
-const TipIndex = () => {
-  const [boardList, setBoardList] = useState([]);
-  const [filteredBoardList, setFilteredBoardList] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [page, setPage] = useState({
-    first: 1,
-    prev: 1,
-    next: 2,
-    last: 5,
-    start: 1,
-    end: 5,
-    page: 1,
-  });
-  const [sort, setSort] = useState('latest');
-  const [optionList, setOptionList] = useState([]);
-  const [selectedOption, setSelectedOption] = useState('0');
-  const [keyword, setKeyword] = useState('');
-
-  useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true);
-      try {
-        const params = {
-          sort,
-          page: page.page,
-          code: selectedOption,
-          keyword: keyword,
-        };
-        const response = await list(params);
-        const { boardList, optionList, page: newPage, sort: newSort } = response.data;
-        console.log(response.data); // 데이터 확인용 로그
-        setBoardList(Array.isArray(boardList) ? boardList : []); // boardList가 배열인지 확인
-        setFilteredBoardList(Array.isArray(boardList) ? boardList : []); // 초기 필터링 목록 설정
-        setOptionList(optionList || []);
-        setPage(newPage || page);
-        setSort(newSort || sort);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-        setBoardList([]);
-        setFilteredBoardList([]);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchData();
-  }, [page.page, sort, selectedOption, keyword]);
-
-  const handlePageChange = (newPage) => {
-    setPage(prevState => ({
-      ...prevState,
-      page: newPage
-    }));
-  };
-
-  const handleSearch = (e) => {
-    e.preventDefault();
-    const formData = new FormData(e.target);
-    const keyword = formData.get('keyword').toLowerCase();
-    const selectedOption = formData.get('code');
-    setKeyword(keyword); // 검색어 상태 업데이트
-    setSelectedOption(selectedOption); // 검색 옵션 상태 업데이트
-  };
-
+const TipIndex = ({
+  boardList,
+  filteredBoardList,
+  isLoading,
+  page,
+  sort,
+  optionList,
+  selectedOption,
+  keyword,
+  handlePageChange,
+  handleSearch,
+  setSort
+}) => {
   return (
     <div className="container">
       <div className="main">
