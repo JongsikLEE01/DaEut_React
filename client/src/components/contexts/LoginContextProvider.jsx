@@ -19,6 +19,9 @@ const LoginContextProvider = ({ children }) => {
   // 권한 정보
   const [roles, setRoles] = useState({ isUser: false, isAdmin: false, isPartner: false });
 
+  // 아이디 저장
+  const [rememberId, setRememberId] = useState(false);
+
   /* -------------------------------------------------------- */
 
   // 페이지 이동
@@ -99,6 +102,13 @@ const LoginContextProvider = ({ children }) => {
       if (status === 200) {
         Cookies.set('accessToken', accessToken);
 
+        if (rememberId) {
+          Cookies.set('rememberId', 'true');
+          Cookies.set('username', username);
+        } else {
+          Cookies.remove('rememberId');
+          Cookies.remove('username');
+        }
         // 로그인 체크
         loginCheck();
 
@@ -154,6 +164,7 @@ const LoginContextProvider = ({ children }) => {
 
     // 🍪❌ 쿠키 초기화
     Cookies.remove('accessToken');
+    Cookies.remove('rememberId');
 
     // 🔐❌ 로그인 여부 : false
     setLogin(false);
@@ -162,7 +173,7 @@ const LoginContextProvider = ({ children }) => {
     setUserInfo(null);
 
     // 👮‍♀️❌ 권한 정보 초기화
-    setRoles({ isUser: false, isAdmin: false });
+    setRoles({ isUser: false, isAdmin: false, isPartner: false });
   };
 
   // 🔓 로그아웃
@@ -179,6 +190,15 @@ const LoginContextProvider = ({ children }) => {
 
   // Mount / Update
   useEffect(() => {
+    const rememberedId = Cookies.get('rememberId');
+
+    if (rememberedId === 'true') {
+      setRememberId(true);
+      const rememberedUsername = Cookies.get('username');
+      if (rememberedUsername) {
+      }
+    }
+
     // 로그인 체크
     loginCheck();
     // 1️⃣ 🍪 쿠키에서 jwt💍 을 꺼낸다
@@ -188,7 +208,7 @@ const LoginContextProvider = ({ children }) => {
 
   return (
     // 컨텍스트 값 지정 ➡ value{ ? ? }
-    <LoginContext.Provider value={{ isLogin, userInfo, roles, login, logout }}>
+    <LoginContext.Provider value={{ isLogin, userInfo, roles, login, logout, rememberId, setRememberId }}>
       {children}
     </LoginContext.Provider>
 
