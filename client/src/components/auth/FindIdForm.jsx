@@ -1,10 +1,9 @@
-// FindIdForm.jsx
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // useHistory 대신 useNavigate 사용
-import { findId } from '../../apis/auth/auth'; // API 호출 함수 임포트
+import { useNavigate } from 'react-router-dom';
+import { findId } from '../../apis/auth/auth';
 
 const FindIdForm = () => {
-    const navigate = useNavigate(); // useHistory 대신 useNavigate 사용
+    const navigate = useNavigate();
     const [userName, setUserName] = useState('');
     const [userEmail, setUserEmail] = useState('');
     const [userPhone, setUserPhone] = useState('');
@@ -14,19 +13,22 @@ const FindIdForm = () => {
         event.preventDefault();
 
         try {
-            const response = await findId(userName, userEmail, userPhone);
-            const data = response.data;
+            const userDetails = {
+                userName: userName,
+                userEmail: userEmail,
+                userPhone: userPhone
+            };
 
-            if (data.startsWith('redirect:/auth/findIdComplete')) {
-                // 아이디 찾기 성공 시 리다이렉트 처리
-                const userId = data.substring(26); // '/auth/findIdComplete?userId=' 길이만큼 제거
-                navigate(`/auth/findIdComplete/${userId}`); // useNavigate 사용하여 리다이렉트
+            const response = await findId(userDetails);
+
+            if (response.status === 200 && response.data.userId) {
+                navigate(`/findIdComplete/${response.data.userId}`);
             } else {
-                setErrorMessage(data); // 에러 메시지 설정
+                setErrorMessage(response.data.error || '아이디 찾기 중 오류가 발생했습니다.');
             }
         } catch (error) {
             console.error('아이디 찾기 중 오류 발생:', error);
-            setErrorMessage('아이디 찾기 중 오류가 발생했습니다.');
+            setErrorMessage(error.response?.data?.error || '아이디 찾기 중 오류가 발생했습니다.');
         }
     };
 

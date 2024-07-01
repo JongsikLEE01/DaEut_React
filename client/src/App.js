@@ -26,8 +26,8 @@ const App = () => {
           <Route path="/service/insert" element={<ServiceInsert />} />
           <Route path="/service/update/:serviceNo" element={<ServiceUpdate />} />
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/auth/findId" element={<FindIdPage />} />
-          <Route path="/auth/findIdComplete/:userId" element={<CompleteFindIdPage />} />
+          <Route path="/findId" element={<FindIdPage />} />
+          <Route path="/findIdComplete/:userId" element={<CompleteFindIdPage />} />
         </Routes>
       </LoginContextProvider>
     </BrowserRouter>

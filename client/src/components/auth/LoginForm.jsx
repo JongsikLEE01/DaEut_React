@@ -84,7 +84,7 @@ const LoginForm = () => {
           계정이 기억나지 않으신가요?
         </div>
         <div className="d-grid gap-2">
-          <Link to="/auth/findId" className="btn btn-light border">아이디 찾기</Link>
+          <Link to="/findId" className="btn btn-light border">아이디 찾기</Link>
           <Link to="/auth/findPw" className="btn btn-light border">비밀번호 찾기</Link>
         </div>
       </form>
