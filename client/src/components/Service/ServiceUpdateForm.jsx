@@ -1,158 +1,157 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 
-const ServiceUpdateForm = ({ onUpdate, service, fileList, onRemove, onDeleteFile }) => {
+const ServiceUpdateForm = ({ onUpdate, service, fileList, onRemove }) => {
   // state 등록
-  const [serviceName, setServiceName] = useState('');
-  const [serviceCategory, setServiceCategory] = useState([]);
-  const [servicePrice, setServicePrice] = useState('');
-  const [serviceContent, setServiceContent] = useState('');
-  const [thumbnailFile, setThumbnailFile] = useState(null);
-  const [imageFiles, setImageFiles] = useState([]);
+  const [serviceName, setServiceName] = useState('')
+  const [serviceCategory, setServiceCategory] = useState([])
+  const [servicePrice, setServicePrice] = useState('')
+  const [serviceContent, setServiceContent] = useState('')
+  const [thumbnailFile, setThumbnailFile] = useState(null)
+  const [imageFiles, setImageFiles] = useState([])
+  const [newThumbnailFile, setNewThumbnailFile] = useState(null)
+  const [newImageFiles, setNewImageFiles] = useState([])
 
   // handle
   const handleChangeName = (e) => {
-    setServiceName(e.target.value);
-  };
+    setServiceName(e.target.value)
+  }
   const handleChangePrice = (e) => {
-    setServicePrice(e.target.value);
-  };
+    setServicePrice(e.target.value)
+  }
   const handleChangeContent = (e) => {
-    setServiceContent(e.target.value);
-  };
+    setServiceContent(e.target.value)
+  }
 
   // 카테고리 선택 처리
   const handleCategoryChange = (event) => {
-    const { value } = event.target;
+    const { value } = event.target
     setServiceCategory((prev) =>
       prev.includes(value)
         ? prev.filter((category) => category !== value)
         : [...prev, value]
-    );
-  };
+    )
+  }
 
   // 썸네일 이미지 미리보기
   const previewThumbnail = (event) => {
-    const file = event.target.files[0];
+    const file = event.target.files[0]
     if (file) {
-      setThumbnailFile(file);
+      setNewThumbnailFile(file)
 
-      const reader = new FileReader();
+      const reader = new FileReader()
       reader.onloadend = () => {
         // 이미지 미리보기 처리
         const previewContainer = document.getElementById(
           'image-thumbnail-container'
-        );
+        )
         if (previewContainer) {
-          previewContainer.innerHTML = `<img src="${reader.result}" alt="썸네일 미리보기" style="width: 150px; height: 150px;" />`;
+          previewContainer.innerHTML = `<img src="${reader.result}" alt="썸네일 미리보기" style="width: 150px; height: 150px;" />`
         }
-      };
-      reader.readAsDataURL(file);
+      }
+      reader.readAsDataURL(file)
     }
-  };
+  }
 
   // 설명 이미지 미리보기
   const previewImages = (e) => {
-    const files = Array.from(e.target.files);
+    const files = Array.from(e.target.files)
     if (files.length > 0) {
-      setImageFiles(files);
+      setNewImageFiles(files)
 
       const readerPromises = files.map((file) => {
         return new Promise((resolve, reject) => {
-          const reader = new FileReader();
+          const reader = new FileReader()
           reader.onloadend = () => {
-            resolve(reader.result);
-          };
-          reader.readAsDataURL(file);
-        });
-      });
+            resolve(reader.result)
+          }
+          reader.readAsDataURL(file)
+        })
+      })
 
       Promise.all(readerPromises).then((images) => {
         // 이미지 미리보기 처리
         const previewContainer = document.getElementById(
           'image-preview-container'
-        );
+        )
         if (previewContainer) {
           previewContainer.innerHTML = images
             .map(
               (image) =>
                 `<img src="${image}" alt="설명 이미지 미리보기" style="width: 150px; height: 150px;" />`
             )
-            .join('');
+            .join('')
         }
-      });
+      })
     }
-  };
+  }
 
   // 폼 제출 처리
   const onSubmit = (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
     if (serviceCategory.length === 0) {
-      alert('카테고리를 선택해주세요');
-      return;
+      alert('카테고리를 선택해주세요')
+      return
     }
 
-    const formData = new FormData();
-    formData.append('serviceName', serviceName);
-    formData.append('serviceCategory', serviceCategory.join(','));
-    formData.append('servicePrice', servicePrice);
-    formData.append('serviceContent', serviceContent);
-    formData.append('partnerNo', 1);
+    const formData = new FormData()
+    formData.append('serviceNo', service.serviceNo)
+    formData.append('serviceName', serviceName)
+    formData.append('serviceCategory', serviceCategory.join(','))
+    formData.append('servicePrice', servicePrice)
+    formData.append('serviceContent', serviceContent)
+    formData.append('partnerNo', 1)
 
     // 썸네일 이미지
-    if (thumbnailFile) {
-      formData.append('file', thumbnailFile);
+    if (newThumbnailFile) {
+      formData.append('file', newThumbnailFile)
+    }else if(thumbnailFile){
+      formData.append('file', thumbnailFile)
     }
     // 설명 이미지
-    if (imageFiles.length > 0) {
-      imageFiles.forEach((file) => {
-        formData.append('file', file);
-      });
+    if (newImageFiles.length > 0) {
+      newImageFiles.map((file) => {
+        formData.append('file', file)
+      })
+    }else if (imageFiles.length > 0) {
+      imageFiles.map((file) => {
+        formData.append('file', file)
+      })
     }
 
     const headers = {
       'Content-Type': 'multipart/form-data',
-    };
+    }
 
     // 등록 함수 호출
-    onUpdate(formData, headers);
-  };
+    onUpdate(formData, headers)
+  }
 
-  // 삭제 전송
+  // 삭제 처리
   const onSubmitRemove = () => {
-    let check = window.confirm('정말 삭제하시겠습니까?');
-    if (!check) {
-      return;
-    } else {
-      // 이미지 파일들 삭제 처리
-      fileList.forEach((file) => {
-        onDeleteFile(file.fileNo); // 각 파일의 고유 번호를 사용하여 삭제 메소드 호출
-      });
-      onRemove(service.serviceNo); // 서비스 자체 삭제 처리
-    }
-  };
+    onRemove(service.serviceNo) // 서비스 삭제 처리
+  }
 
   useEffect(() => {
     // 서비스 설정
     if (service) {
-      setServiceName(service.serviceName);
-      setServicePrice(service.servicePrice);
-      setServiceContent(service.serviceContent);
+      setServiceName(service.serviceName)
+      setServicePrice(service.servicePrice)
+      setServiceContent(service.serviceContent)
     }
 
-    // 썸네일 파일 및 설명 이미지 파일 설정
-    setThumbnailFile(null);
-    setImageFiles([]);
-
     fileList.forEach((file) => {
+      // 썸네일 파일 설정
       if (file.fileCode === 1) {
-        setThumbnailFile(file); // 썸네일 파일 설정
-      } else if (file.fileCode === 0) {
-        setImageFiles((prevFiles) => [...prevFiles, file]); // 설명 이미지 파일 설정
+        setThumbnailFile(file)
+      } 
+      // 설명 이미지 파일 설정
+      else if (file.fileCode === 0) {
+        setImageFiles((prevFiles) => [...prevFiles, file])
       }
-    });
-  }, [service, fileList]);
+    })
+  }, [service, fileList])
 
   return (
     <div className="reservationInsertBox">
@@ -336,7 +335,7 @@ const ServiceUpdateForm = ({ onUpdate, service, fileList, onRemove, onDeleteFile
         </div>
       </form>
     </div>
-  );
-};
+  )
+}
 
-export default ServiceUpdateForm;
+export default ServiceUpdateForm

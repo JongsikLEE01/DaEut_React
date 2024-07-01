@@ -39,8 +39,6 @@ const ReadContent = ({ service }) => {
 
               <td>
                 <form>
-                  <input type="hidden" name={csrfToken.parameterName} value={csrfToken.token} />
-                  <input type="hidden" id="serviceNo" name="serviceNo" value={service.serviceNo} />
                   <input type="hidden" id="quantity" name="quantity" value="1" />
                   <button className="reservation-calender" id="couponBtn">
                     바로 예약하기

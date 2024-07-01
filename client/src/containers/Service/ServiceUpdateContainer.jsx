@@ -55,17 +55,6 @@ const ServiceUpdateContainer = ({ serviceNo }) => {
     }
   }
 
-  // 파일 삭제
-  const onDeleteFile = async (fileNo) => {
-    try {
-      // 파일 삭제 요청
-      const fileResponse = await files.remove(fileNo)
-      console.log(fileResponse.data);
-    } catch (e) {
-      console.log(e);
-    }
-  }
-
   useEffect(() => {
     getService()
   }, [])
@@ -77,7 +66,6 @@ const ServiceUpdateContainer = ({ serviceNo }) => {
           service={service}
           fileList={fileList}
           onRemove={onRemove}
-          onDeleteFile={onDeleteFile}
         />
     </>
   )

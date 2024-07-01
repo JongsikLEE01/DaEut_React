@@ -758,6 +758,10 @@
     justify-content: space-between;
 }
 
+.detail-content{
+    width: 100%;
+}
+
 .detail-content,
 .box-form-right {
     flex: 1;

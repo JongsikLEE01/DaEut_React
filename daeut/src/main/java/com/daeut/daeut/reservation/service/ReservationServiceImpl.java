@@ -57,6 +57,7 @@ public class ReservationServiceImpl implements ReservationService{
         log.info("service {}", service);
         log.info("result {}", result);
         int newServiceNo = service.getServiceNo();
+        log.info("newServiceNo {}", newServiceNo);
         Services newService = reservationMapper.select(newServiceNo);
         
         int uploadresult = upload(service);
@@ -67,11 +68,21 @@ public class ReservationServiceImpl implements ReservationService{
 
     @Override
     public int serviceUpdate(Services service) throws Exception {
-        // 파일 업로드
-        int uploadresult = upload(service);
-        log.info("파일 업로드 개수 {}", uploadresult);
+        // 기존 파일 삭제
+        log.info("implService {}", service);
+        int oldServiceNo = service.getServiceNo();
+        log.info("implServiceNo 개수 {}", oldServiceNo);
+        Files selectFile = new Files();
+        selectFile.setParentNo(oldServiceNo);
+        selectFile.setParentTable("service");
+        int deleteResult = fileService.deleteByParent(selectFile);
+        log.info("삭제된 파일 개수 {}", deleteResult);
 
-        return reservationMapper.serviceUpdate(service);
+        // 파일 업로드
+        int uploadResult = upload(service);
+        log.info("파일 업로드 개수 {}", uploadResult);
+        int result = reservationMapper.serviceUpdate(service);
+        return result;
     }
 
     @Override

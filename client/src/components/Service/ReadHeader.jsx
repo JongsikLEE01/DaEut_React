@@ -40,8 +40,8 @@ const ReadHeader = ({ service }) => {
       </div>
       </div>
       <div className="service-title-tag">
-	  	<span className="service-tag-name" style={{width: 'auto'}}>{service.serviceCategory}</span>
-	  </div>
+	  	  <span className="service-tag-name" style={{width: 'auto'}}>{service.serviceCategory}</span>
+	    </div>
     </>
   )
 }
