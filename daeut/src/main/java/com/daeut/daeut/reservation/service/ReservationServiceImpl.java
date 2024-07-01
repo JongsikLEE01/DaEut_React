@@ -13,7 +13,6 @@ import com.daeut.daeut.main.service.FileService;
 import com.daeut.daeut.reservation.dto.Event;
 import com.daeut.daeut.reservation.dto.Services;
 import com.daeut.daeut.reservation.mapper.ReservationMapper;
-import com.daeut.daeut.tip.dto.Board;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -48,7 +47,6 @@ public class ReservationServiceImpl implements ReservationService{
         // 조회
         Services service = reservationMapper.serviceSelect(serviceNo);
         
-
         return service;
     }
 
@@ -72,7 +70,6 @@ public class ReservationServiceImpl implements ReservationService{
         // 파일 업로드
         int uploadresult = upload(service);
         log.info("파일 업로드 개수 {}", uploadresult);
-
 
         return reservationMapper.serviceUpdate(service);
     }

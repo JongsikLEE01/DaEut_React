@@ -7,7 +7,6 @@ import com.daeut.daeut.main.dto.Option;
 import com.daeut.daeut.main.dto.ServicePage;
 import com.daeut.daeut.reservation.dto.Event;
 import com.daeut.daeut.reservation.dto.Services;
-import com.daeut.daeut.tip.dto.Board;
 
 public interface ReservationService {
     // 목록

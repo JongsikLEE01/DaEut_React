@@ -1,134 +1,158 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
-const ServiceUpdateForm = ({ onUpdate, service, fileList, onRemove }) => {
+const ServiceUpdateForm = ({ onUpdate, service, fileList, onRemove, onDeleteFile }) => {
   // state 등록
-  const [serviceName, setServiceName] = useState(service.serviceName)
-  const [serviceCategory, setServiceCategory] = useState(service.serviceCategory)
-  const [servicePrice, setServicePrice] = useState(service.servicePrice)
-  const [serviceContent, setServiceContent] = useState(service.serviceContent)
-  const [thumbnailFile, setThumbnailFile] = useState(null)
-  const [imageFiles, setImageFiles] = useState([])
+  const [serviceName, setServiceName] = useState('');
+  const [serviceCategory, setServiceCategory] = useState([]);
+  const [servicePrice, setServicePrice] = useState('');
+  const [serviceContent, setServiceContent] = useState('');
+  const [thumbnailFile, setThumbnailFile] = useState(null);
+  const [imageFiles, setImageFiles] = useState([]);
 
   // handle
   const handleChangeName = (e) => {
-    setServiceName(e.target.value)
-  }
+    setServiceName(e.target.value);
+  };
   const handleChangePrice = (e) => {
-    setServicePrice(e.target.value)
-  }
+    setServicePrice(e.target.value);
+  };
   const handleChangeContent = (e) => {
-    setServiceContent(e.target.value)
-  }
+    setServiceContent(e.target.value);
+  };
 
   // 카테고리 선택 처리
   const handleCategoryChange = (event) => {
-    const { value } = event.target
+    const { value } = event.target;
     setServiceCategory((prev) =>
       prev.includes(value)
         ? prev.filter((category) => category !== value)
         : [...prev, value]
-    )
-  }
+    );
+  };
 
   // 썸네일 이미지 미리보기
   const previewThumbnail = (event) => {
-    const file = event.target.files[0]
+    const file = event.target.files[0];
     if (file) {
-      setThumbnailFile(file)
+      setThumbnailFile(file);
 
-      const reader = new FileReader()
+      const reader = new FileReader();
       reader.onloadend = () => {
         // 이미지 미리보기 처리
         const previewContainer = document.getElementById(
           'image-thumbnail-container'
-        )
+        );
         if (previewContainer) {
-          previewContainer.innerHTML = `<img src="${reader.result}" alt="썸네일 미리보기" style="width: 150px; height: 150px;" />`
+          previewContainer.innerHTML = `<img src="${reader.result}" alt="썸네일 미리보기" style="width: 150px; height: 150px;" />`;
         }
-      }
-      reader.readAsDataURL(file)
+      };
+      reader.readAsDataURL(file);
     }
-  }
+  };
 
   // 설명 이미지 미리보기
   const previewImages = (e) => {
-    const files = Array.from(e.target.files)
+    const files = Array.from(e.target.files);
     if (files.length > 0) {
-      setImageFiles(files)
+      setImageFiles(files);
 
       const readerPromises = files.map((file) => {
         return new Promise((resolve, reject) => {
-          const reader = new FileReader()
+          const reader = new FileReader();
           reader.onloadend = () => {
-            resolve(reader.result)
-          }
-          reader.readAsDataURL(file)
-        })
-      })
+            resolve(reader.result);
+          };
+          reader.readAsDataURL(file);
+        });
+      });
 
       Promise.all(readerPromises).then((images) => {
         // 이미지 미리보기 처리
         const previewContainer = document.getElementById(
           'image-preview-container'
-        )
+        );
         if (previewContainer) {
           previewContainer.innerHTML = images
             .map(
               (image) =>
                 `<img src="${image}" alt="설명 이미지 미리보기" style="width: 150px; height: 150px;" />`
             )
-            .join('')
+            .join('');
         }
-      })
+      });
     }
-  }
+  };
 
   // 폼 제출 처리
   const onSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
     if (serviceCategory.length === 0) {
-      alert('카테고리를 선택해주세요')
-      return
+      alert('카테고리를 선택해주세요');
+      return;
     }
 
-    const formData = new FormData()
-    formData.append('serviceName', serviceName)
-    formData.append('serviceCategory', serviceCategory.join(','))
-    formData.append('servicePrice', servicePrice)
-    formData.append('serviceContent', serviceContent)
-    formData.append('partnerNo', 1)
+    const formData = new FormData();
+    formData.append('serviceName', serviceName);
+    formData.append('serviceCategory', serviceCategory.join(','));
+    formData.append('servicePrice', servicePrice);
+    formData.append('serviceContent', serviceContent);
+    formData.append('partnerNo', 1);
 
     // 썸네일 이미지
     if (thumbnailFile) {
-      formData.append('file', thumbnailFile)
+      formData.append('file', thumbnailFile);
     }
-    
     // 설명 이미지
     if (imageFiles.length > 0) {
       imageFiles.forEach((file) => {
-        formData.append('file', file)
-      })
+        formData.append('file', file);
+      });
     }
 
     const headers = {
       'Content-Type': 'multipart/form-data',
-    }
+    };
 
     // 등록 함수 호출
-    onUpdate(formData, headers)
-  }
+    onUpdate(formData, headers);
+  };
 
   // 삭제 전송
-  const onSubmitRemove =() =>{
-    // TODO : 스윗얼럿 처리 필요
-    let check = window.confirm('정말 삭제하시겠습니까?') 
-    if(!check){
-      return
+  const onSubmitRemove = () => {
+    let check = window.confirm('정말 삭제하시겠습니까?');
+    if (!check) {
+      return;
+    } else {
+      // 이미지 파일들 삭제 처리
+      fileList.forEach((file) => {
+        onDeleteFile(file.fileNo); // 각 파일의 고유 번호를 사용하여 삭제 메소드 호출
+      });
+      onRemove(service.serviceNo); // 서비스 자체 삭제 처리
     }
-    else onRemove(service.serviceNo)  
-  }
+  };
+
+  useEffect(() => {
+    // 서비스 설정
+    if (service) {
+      setServiceName(service.serviceName);
+      setServicePrice(service.servicePrice);
+      setServiceContent(service.serviceContent);
+    }
+
+    // 썸네일 파일 및 설명 이미지 파일 설정
+    setThumbnailFile(null);
+    setImageFiles([]);
+
+    fileList.forEach((file) => {
+      if (file.fileCode === 1) {
+        setThumbnailFile(file); // 썸네일 파일 설정
+      } else if (file.fileCode === 0) {
+        setImageFiles((prevFiles) => [...prevFiles, file]); // 설명 이미지 파일 설정
+      }
+    });
+  }, [service, fileList]);
 
   return (
     <div className="reservationInsertBox">
@@ -169,6 +193,7 @@ const ServiceUpdateForm = ({ onUpdate, service, fileList, onRemove }) => {
             className="tag-button"
             value="청소"
             onChange={handleCategoryChange}
+            checked={serviceCategory.includes('청소')}
           />
           <label htmlFor="serviceCategoryClean">청소</label>
           <input
@@ -178,6 +203,7 @@ const ServiceUpdateForm = ({ onUpdate, service, fileList, onRemove }) => {
             className="tag-button"
             value="빨래"
             onChange={handleCategoryChange}
+            checked={serviceCategory.includes('빨래')}
           />
           <label htmlFor="serviceCategoryWash">빨래</label>
           <input
@@ -187,6 +213,7 @@ const ServiceUpdateForm = ({ onUpdate, service, fileList, onRemove }) => {
             className="tag-button"
             value="방역"
             onChange={handleCategoryChange}
+            checked={serviceCategory.includes('방역')}
           />
           <label htmlFor="serviceCategoryQuarantine">방역</label>
           <input
@@ -196,6 +223,7 @@ const ServiceUpdateForm = ({ onUpdate, service, fileList, onRemove }) => {
             className="tag-button"
             value="보안"
             onChange={handleCategoryChange}
+            checked={serviceCategory.includes('보안')}
           />
           <label htmlFor="serviceCategorySecurity">보안</label>
           <input
@@ -205,6 +233,7 @@ const ServiceUpdateForm = ({ onUpdate, service, fileList, onRemove }) => {
             className="tag-button"
             value="기타"
             onChange={handleCategoryChange}
+            checked={serviceCategory.includes('기타')}
           />
           <label htmlFor="serviceCategoryEtc">기타</label>
         </div>
@@ -216,8 +245,7 @@ const ServiceUpdateForm = ({ onUpdate, service, fileList, onRemove }) => {
             name="serviceContent"
             rows="4"
             cols="50"
-            placeholder="* tip : 사용자들이 부담 없이 볼 수 있도록 한줄로 작성하는 것이 좋아요.
-                             부적절한 글로 판단되어 다른 사용자로부터 일정 수 이상의 신고를 받는 경우 글이 삭제처리 될 수 있습니다."
+            placeholder="서비스 설명"
             required
             onChange={handleChangeContent}
             value={serviceContent}
@@ -241,13 +269,20 @@ const ServiceUpdateForm = ({ onUpdate, service, fileList, onRemove }) => {
             name="thumbnail"
             accept="image/*"
             onChange={previewThumbnail}
-            required
           />
           <p className="file-upload-note">
             사진은 최대 20MB 이하의 JPG, PNG, GIF 파일 10장까지 첨부 가능합니다.
           </p>
         </div>
-        <div id="image-thumbnail-container"></div>
+        <div id="image-thumbnail-container">
+          {thumbnailFile && (
+            <img
+              src={`/file/${thumbnailFile.fileNo}`}
+              alt={thumbnailFile.fileName}
+              style={{ width: '150px', height: '150px' }}
+            />
+          )}
+        </div>
 
         <br />
 
@@ -268,19 +303,31 @@ const ServiceUpdateForm = ({ onUpdate, service, fileList, onRemove }) => {
             accept="image/*"
             multiple
             onChange={previewImages}
-            required
           />
           <p className="file-upload-note">
             사진은 최대 20MB 이하의 JPG, PNG, GIF 파일 10장까지 첨부 가능합니다.
           </p>
         </div>
-        <div id="image-preview-container"></div>
+        <div id="image-preview-container">
+          {imageFiles.map((file) => (
+            <img
+              key={file.fileNo}
+              src={`/file/${file.fileNo}`}
+              alt={file.fileName}
+              style={{ width: '150px', height: '150px' }}
+            />
+          ))}
+        </div>
 
         <div className="bottomButton">
           <button type="submit" className="reservationInsertOk sessuce mx-2">
-            등록하기
+            수정하기
           </button>
-          <button type='button' className="cancleInsert mx-2 cancel" onClick={onSubmitRemove}>
+          <button
+            type="button"
+            className="cancleInsert mx-2 cancel"
+            onClick={onSubmitRemove}
+          >
             삭제하기
           </button>
           <Link className="cancleInsert mx-2 cancel p-1" to="/service">
@@ -289,7 +336,7 @@ const ServiceUpdateForm = ({ onUpdate, service, fileList, onRemove }) => {
         </div>
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default ServiceUpdateForm
+export default ServiceUpdateForm;
