@@ -1,5 +1,5 @@
 import React from 'react'
-import PartnerUpdateContainer from '../containers/PartnerUpdateContainer'
+import PartnerUpdateContainer from '../containers/partner/PartnerUpdateContainer'
 import { useParams } from 'react-router-dom'
 
 const PartnerUpdate = () => {

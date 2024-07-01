@@ -1,12 +1,12 @@
 import React from 'react'
-import PartnerReview from '../components/PartnerReview'
+import PartnerReviewContainer from '../containers/partner/PartnerReviewContainer'
 import { useParams  } from 'react-router-dom'
 
 const PartnerReview = () => {
   const {partnerNo} = useParams()
   return (
     <>
-    <PartnerReview partnerNo ={partnerNo}/>
+    <PartnerReviewContainer partnerNo ={partnerNo}/>
     </>
   )
 }

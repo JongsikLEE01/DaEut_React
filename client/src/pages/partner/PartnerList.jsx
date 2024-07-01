@@ -1,12 +1,12 @@
 import React from 'react'
-import PartnerList from '../components/PartnerList'
+import PartnerList from '../containers/partner/PartnerContainer'
 import { useParams } from 'react-router-dom'
 
 const PartnerList = () => {
   const {userNo} = useParams()
   return (
     <>
-    <PartnerList userNo = {userNo}/>
+    <PartnerContainer userNo = {userNo}/>
     </>
   )
 }
