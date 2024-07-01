@@ -1,26 +1,26 @@
 import axios from 'axios';
 
 // 목록 조회
-export const listBoards = () => {
-  return axios.get("/boards");
+export const list = (params) => {
+  return axios.get('/tip/boards', { params });
 };
 
 // 상세 조회
-export const getBoard = (boardNo) => {
+export const select = (boardNo) => {
   return axios.get(`/boards/${boardNo}`);
 };
 
 // 등록
-export const insertBoard = (formData, headers) => {
+export const insert = (formData, headers) => {
   return axios.post("/boards", formData, { headers });
 };
 
 // 수정
-export const updateBoard = (boardNo, formData, headers) => {
+export const update = (boardNo, formData, headers) => {
   return axios.put(`/boards/${boardNo}`, formData, { headers });
 };
 
 // 삭제
-export const deleteBoard = (boardNo) => {
+export const remove = (boardNo) => {
   return axios.delete(`/boards/${boardNo}`);
 };

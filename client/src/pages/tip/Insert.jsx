@@ -1,14 +1,13 @@
 import React from 'react';
-import Header from '../../components/static/Header';
-import Footer from '../../components/static/Footer';
+import MainLayout from '../../layouts/MainLayout'
 import InsertContainer from '../../containers/tip/InsertContainer';
 
 const List = () => {
     return (
       <>
-        <Header></Header>
+        <MainLayout>
         <InsertContainer />
-        <Footer></Footer>
+        </MainLayout>
       </>
     );
   };

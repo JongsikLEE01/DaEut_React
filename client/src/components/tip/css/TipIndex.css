@@ -1,0 +1,166 @@
+.container {
+padding: 20px;
+}
+
+.main {
+width: 90%;
+margin: 0 auto;
+padding: 20px;
+background-color: #fff;
+}
+
+.main p {
+    font-size: 18px;
+    color: #555;
+    line-height: 1.5;
+    /* text-align: justify; */
+}
+  
+.tipH3 {
+display: flex;
+justify-content: space-between;
+align-items: center;
+font-weight: bold !important;
+}
+
+.more-button2 {
+font-size: 16px; /* 글자 크기를 줄임 */
+padding: 5px 10px;
+text-decoration: none;
+color: #fff;
+border-radius: 5px;
+}
+
+.main-title {
+font-size: 18px !important;
+}
+
+.sorting-dropdown {
+margin-bottom: 20px;
+}
+
+#sort-options {
+border-radius: 8px; /* 테두리 둥글게 */
+border: 1px solid #8FA2CA; /* 테두리 색상 */
+padding: 5px 5px;
+outline: none;
+transition: border-color 0.3s ease;
+}
+
+.code {
+border-radius: 8px; /* 테두리 둥글게 */
+border: 1px solid #8FA2CA; /* 테두리 색상과 두께 조절 */
+padding: 5px 5px;
+outline: none;
+transition: border-color 0.3s ease;
+}
+
+.keyword-input {
+border-radius: 8px !important;
+border: 1px solid #8FA2CA !important;
+padding: 5px 10px; /* 패딩 조절 */
+margin: 5px 5px;
+outline: none;
+transition: border-color 0.3s ease;
+}
+
+button[type="submit"] {
+background-color: #8FA2CA; /* 기본 배경색 */
+color: #fff; /* 기본 글자색 */
+border: none; /* 기본 테두리 제거 */
+padding: 10px 15px; /* 패딩 조절 */
+border-radius: 8px; /* 테두리 둥글게 */
+cursor: pointer;
+transition: background-color 0.3s ease, font-weight 0.3s ease;
+}
+
+button[type="submit"]:hover {
+background-color: #6C82A6; /* 호버 시 배경색 변경 */
+}
+
+.categories {
+display: grid;
+grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+gap: 40px;
+}
+
+.tip-card {
+background-color: #fff;
+border-radius: 8px;
+overflow: hidden;
+transition: transform 0.3s ease;
+border: none; /* 테두리 제거 */
+box-shadow: none; /* 박스 그림자 제거 */
+}
+
+.tip-card:hover {
+transform: translateY(-5px);
+}
+
+.tip-card img {
+width: 100%;
+height: 150px;
+object-fit: cover;
+}
+
+.tip-card .tip-info {
+padding: 15px;
+}
+
+.tip-card h3 {
+margin: 0 0 10px;
+font-size: 18px;
+font-weight: 600;
+}
+
+.tip-card p {
+margin: 0;
+font-size: 14px;
+color: #666;
+}
+
+.search-container {
+margin-top: 20px;
+}
+
+.card {
+background-color: #fff;
+border-radius: 8px;
+overflow: hidden;
+transition: transform 0.3s ease;
+border: none; /* 테두리 제거 */
+box-shadow: none; /* 박스 그림자 제거 */
+text-align: center;
+}
+
+.card img {
+width: 100%;
+height: 150px;
+object-fit: cover;
+border-radius: 8px;
+}
+
+.card .tip-info {
+padding: 15px;
+}
+
+.card h3 {
+margin: 0 0 10px;
+font-size: 18px;
+font-weight: 600;
+}
+
+.card p {
+margin: 0;
+font-size: 14px;
+color: #666;
+}
+
+.card .highlight-text {
+font-size: 18px;
+font-weight: 600;
+margin: 5px 0;
+color: #8FA2CA;
+}
+  
+  
