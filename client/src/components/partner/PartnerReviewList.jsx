@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const PartnerReview = () => {
+const PartnerReviewList = () => {
   const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
@@ -71,4 +71,4 @@ const toggleSidebar = () => {
   sidebar.classList.toggle('d-none');
 };
 
-export default PartnerReview;
+export default PartnerReviewList;
