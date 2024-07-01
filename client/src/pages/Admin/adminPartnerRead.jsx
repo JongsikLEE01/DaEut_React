@@ -1,8 +1,11 @@
 import React from 'react'
+import adminPartnerReadContainer from '../../containers/Admin/adminPartnerReadContainer'
 
 const adminPartnerRead = () => {
   return (
-    <div>adminPartnerRead</div>
+    <>
+    <adminPartnerReadContainer/>
+    </>
   )
 }
 
