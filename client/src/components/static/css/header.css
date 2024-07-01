@@ -103,9 +103,13 @@ button:focus {
 }
 
 .dropdown-menu[data-bs-popper] {
-    left: -50px !important; 
+    left: -60px !important; 
 }
 
 .admin-header[data-bs-popper] {
-    left: -100px !important; 
+    left: -110px !important; 
+}
+
+.btn-dark {
+    color: white !important;
 }
