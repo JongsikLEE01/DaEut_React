@@ -9,4 +9,4 @@ const adminReservationUpdate = () => {
   )
 }
 
-export default adminReservationUpdate
+export default adminReservationUpdat
