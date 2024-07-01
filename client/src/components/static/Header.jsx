@@ -22,40 +22,13 @@ const Header = () => {
         <Link to="/" className="navbar-brand">
           <img src={`${process.env.PUBLIC_URL}/img/logo_w.png`} alt="DA E UT 로고" />
         </Link>
-<<<<<<< HEAD
-        <button
-          className="navbar-toggler"
-          id="navbar-toggler"
-          type="button"
-          aria-controls="navbarNav"
-          aria-expanded={isMenuOpen}
-          aria-label="Toggle navigation"
-          onClick={handleToggle}
-        >
-          <FontAwesomeIcon icon={isMenuOpen ? faXmark : faBars} id="menu-icon" />
-        </button>
-        <div className={`collapse navbar-collapse ${isMenuOpen ? 'show' : ''}`} id="navbarNav">
-          <ul className="navbar-nav ms-auto">
-            <li className="nav-item">
-              <Link className="nav-link" to="/service">예약</Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/tip/boards">팁</Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/member">로그인</Link> {/* Updated this line */}
-            </li>
-          </ul>
-        </div>
-      </nav>
-=======
         <Navbar.Toggle aria-controls="navbarNav">
           <FontAwesomeIcon icon={faBars} />
         </Navbar.Toggle>
         <Navbar.Collapse id="navbarNav" className={`justify-content-end ${isMenuOpen ? 'show' : ''}`}>
           <Nav className="ms-auto">
             <Nav.Link as={Link} to="/reservation/reservation">예약</Nav.Link>
-            <Nav.Link as={Link} to="/tip/index">팁</Nav.Link>
+            <Nav.Link as={Link} to="/tip/boards">팁</Nav.Link>
             {!isLogin ? (
               <Nav.Link as={Link} to="/auth/member">로그인</Nav.Link>
             ) : (
@@ -96,7 +69,6 @@ const Header = () => {
           </Nav>
         </Navbar.Collapse>
       </Navbar>
->>>>>>> 86ab60b061dedb79b5bce1b8cada097268cef3cc
     </header>
   );
 };
