@@ -116,7 +116,7 @@
     <!-- 삽입 -->
     <insert id="serviceInsert">
         <selectKey keyProperty="serviceNo" resultType="int" order="AFTER">
-            select LAST_INSERT_ID() FROM dual
+            select LAST_INSERT_ID() serviceNo FROM dual
         </selectKey>
         INSERT INTO service(service_category, service_name, service_price, service_content, partner_no, reg_date, upd_date)
         VALUES (#{serviceCategory}, #{serviceName}, #{servicePrice}, #{serviceContent}, #{partnerNo}, now(), now())

@@ -5,7 +5,7 @@ import ServiceUpdateContainer from '../../containers/Service/ServiceUpdateContai
 
 const ServiceRead = () => {
   const { serviceNo } = useParams()
-  console.log(`serviceNo? ${serviceNo}`)
+  // console.log(`serviceNo? ${serviceNo}`)
 
   return (
     <MainLayout>

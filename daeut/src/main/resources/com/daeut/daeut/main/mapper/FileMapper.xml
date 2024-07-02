@@ -26,8 +26,6 @@
         WHERE parent_table = #{parentTable}
           AND parent_no = #{parentNo}
         ORDER BY file_reg_date DESC
-        
-          <!-- AND file_code = 0 -->
     </select>
 
     <!-- 파일 조회 -->
