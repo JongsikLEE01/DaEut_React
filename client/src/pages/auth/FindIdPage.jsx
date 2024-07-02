@@ -1,6 +1,6 @@
 import React from 'react'
-import FindIdForm from '../../components/auth/FindIdForm';
-import MainLayout from '../../layouts/MainLayout';
+import FindIdForm from '../../components/auth/FindIdForm'
+import MainLayout from '../../layouts/MainLayout'
 
 const FindIdPage = () => {
     return (
@@ -9,7 +9,7 @@ const FindIdPage = () => {
         </MainLayout>
             
     
-      );
+      )
 }
 
 export default FindIdPage
