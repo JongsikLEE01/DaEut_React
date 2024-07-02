@@ -1,9 +1,17 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import Sidebar from '../components/user/Sidebar';
+import { LoginContext } from '../components/contexts/LoginContextProvider';
 import Header from '../components/static/Header';
 import Footer from '../components/static/Footer';
-import Sidebar from '../components/user/Sidebar';
 
-const UserLayout = ({ children, toggleSidebar }) => {
+const UserLayout = ({ children }) => {
+  const { userInfo } = useContext(LoginContext);
+
+  const toggleSidebar = () => {
+    const sidebar = document.getElementById('sidebar');
+    sidebar.classList.toggle('active');
+  };
+
   return (
     <div className="container-fluid">
       <Header />
@@ -13,7 +21,7 @@ const UserLayout = ({ children, toggleSidebar }) => {
       <div className="row">
         <Sidebar toggleSidebar={toggleSidebar} />
         <div className="col-md-9 col-lg-10 form-section">
-          {children}
+          {userInfo ? children(userInfo) : <p>Loading...</p>}
         </div>
       </div>
       <Footer />

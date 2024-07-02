@@ -4,8 +4,8 @@ const UserForm = ({ userDetails, handleInputChange, disabled }) => {
   return (
     <form>
       <div className="form-group mb-3">
-        <label htmlFor="userid">아이디</label>
-        <input type="text" className="form-control" id="userid" value={userDetails.userId} disabled />
+        <label htmlFor="userId">아이디</label>
+        <input type="text" className="form-control" id="userId" value={userDetails.userId} disabled />
       </div>
       <div className="form-group mb-3">
         <label htmlFor="userName">이름</label>

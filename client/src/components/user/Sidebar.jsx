@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react'
+import { Link } from 'react-router-dom'
 
 const Sidebar = ({ toggleSidebar }) => {
   return (
@@ -14,7 +14,7 @@ const Sidebar = ({ toggleSidebar }) => {
       <Link to="/user/userPartner">파트너 신청</Link>
       <Link to="/user/userCart">장바구니</Link>
     </nav>
-  );
-};
+  )
+}
 
 export default Sidebar;
