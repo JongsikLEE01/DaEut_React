@@ -56,28 +56,16 @@ public class OrderController {
     private CancelService cancelService;
 
     /**
-     * 주문하기
-     * @return
-     */
-    @GetMapping("")
-    public String orders() {
-        return "/orders/index";
-    }
-
-    /**
      * 주문 등록
      * @param param
      * @return
      */
     @PostMapping("")
-    public ResponseEntity<String> orderPost(@RequestBody Orders orders,
-                                            // HttpSession session,
-                                            @RequestParam List<String> serviceNo,
-                                            @RequestParam List<Integer> quantity) {
+    public ResponseEntity<?> orderPost(@RequestBody Orders orders) {
         try {
             log.info("::::::::: 주문 등록 - orderPost() ::::::::::");
-            log.info("serviceNo : " + serviceNo);
-            log.info("quantity : " + quantity);
+            log.info("serviceNo : " + orders.getServiceNo());
+            log.info("quantity : " + orders.getQuantity());
             log.info("orders : " + orders);
 
             // Users user = (Users) session.getAttribute("user");
@@ -88,14 +76,13 @@ public class OrderController {
             int result = orderService.insert(orders);
             
             log.info("신규 등록된 주문ID : " + orders.getOrdersNo());
+            String ordersNo = orders.getOrdersNo();
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("orders", orders);
+            response.put("ordersNo", ordersNo);
             
-            if (result > 0) {
-                // 주문 등록 성공
-                return ResponseEntity.ok("주문 등록 성공. 주문 ID: " + orders.getOrdersNo());
-            } else {
-                // 주문 실패시
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("주문 등록 실패");
-            }
+            return ResponseEntity.ok().body(response);
         } catch (Exception e) {
             log.error("주문 등록 중 오류 발생: {}", e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("서버 오류 발생");
