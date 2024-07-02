@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { findIdComplete } from '../../apis/auth/auth'
-import './Auth.css'
+import './auth.css'
 
 const DoneFindId = () => {
     const { userId } = useParams()

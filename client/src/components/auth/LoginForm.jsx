@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import './Auth.css'
+import './auth.css'
 import { LoginContext } from '../contexts/LoginContextProvider'
 import Cookies from 'js-cookie'
 import { Link } from 'react-router-dom'

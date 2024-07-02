@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import './Auth.css'
+import './auth.css'
 
 const SignUpComplete = () => {
     return (
