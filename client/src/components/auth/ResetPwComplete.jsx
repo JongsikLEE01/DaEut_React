@@ -1,10 +1,10 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import './auth.css'
 
 
 const ResetPwComplete = () => {
-    const navigate = useNavigate();
+    const navigate = useNavigate()
 
     return (
         <div className="container complete">
@@ -20,7 +20,7 @@ const ResetPwComplete = () => {
                 </button>
             </div>
         </div>
-    );
-};
+    )
+}
 
-export default ResetPwComplete;
+export default ResetPwComplete

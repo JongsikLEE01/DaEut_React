@@ -1,20 +1,20 @@
-import React, { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { resetPw } from '../../apis/auth/auth';
-import Swal from 'sweetalert2'; // SweetAlert 불러오기
+import React, { useState } from 'react'
+import { useNavigate, useLocation } from 'react-router-dom'
+import { resetPw } from '../../apis/auth/auth'
+import Swal from 'sweetalert2' // SweetAlert 불러오기
 
 const ResetPassword = () => {
-    const [userPassword, setUserPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
-    const location = useLocation();
-    const navigate = useNavigate();
-    const queryParams = new URLSearchParams(location.search);
-    const userId = queryParams.get('userId');
+    const [userPassword, setUserPassword] = useState('')
+    const [confirmPassword, setConfirmPassword] = useState('')
+    const location = useLocation()
+    const navigate = useNavigate()
+    const queryParams = new URLSearchParams(location.search)
+    const userId = queryParams.get('userId')
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
+        e.preventDefault()
         try {
-            const response = await resetPw(userId, userPassword, confirmPassword);
+            const response = await resetPw(userId, userPassword, confirmPassword)
             
             // SweetAlert로 메시지 표시
             if (response === 'SUCCESS') {
@@ -22,20 +22,20 @@ const ResetPassword = () => {
                     icon: 'success',
                     title: '비밀번호가 성공적으로 변경되었습니다.',
                      showConfirmButton: true // 확인 버튼 표시
-                });
-                navigate('/resetPwComplete');
+                })
+                navigate('/resetPwComplete')
             } else if (response === 'SAME') {
                 Swal.fire({
                     icon: 'error',
                     title: '기존 비밀번호와 일치합니다.',
                      showConfirmButton: true // 확인 버튼 표시
-                });
+                })
             } else if (response === 'CHECKAGAIN') {
                 Swal.fire({
                     icon: 'error',
                     title: '비밀번호가 일치하지 않습니다.',
                      showConfirmButton: true // 확인 버튼 표시
-                });
+                })
             }
         } catch (error) {
             Swal.fire({
@@ -43,9 +43,9 @@ const ResetPassword = () => {
                 title: '오류가 발생했습니다.',
                 text: error.message || '서버 오류',
                 confirmButtonText: '확인'
-            });
+            })
         }
-    };
+    }
 
     return (
         <div className="container form-container">
@@ -84,7 +84,7 @@ const ResetPassword = () => {
                 <hr />
             </form>
         </div>
-    );
-};
+    )
+}
 
-export default ResetPassword;
+export default ResetPassword

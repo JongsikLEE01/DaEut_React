@@ -1,19 +1,19 @@
-import React, { useState } from 'react';
-import { sendAuthCode, verifyAuthCode } from '../../apis/auth/auth';
-import Swal from 'sweetalert2';
+import React, { useState } from 'react'
+import { sendAuthCode, verifyAuthCode } from '../../apis/auth/auth'
+import Swal from 'sweetalert2'
 
 const FindPassword = () => {
-    const [userName, setUserName] = useState('');
-    const [userId, setUserId] = useState('');
-    const [userEmail, setUserEmail] = useState('');
-    const [authCode, setAuthCode] = useState('');
-    const [inputAuthCode, setInputAuthCode] = useState('');
-    const [message, setMessage] = useState('');
+    const [userName, setUserName] = useState('')
+    const [userId, setUserId] = useState('')
+    const [userEmail, setUserEmail] = useState('')
+    const [authCode, setAuthCode] = useState('')
+    const [inputAuthCode, setInputAuthCode] = useState('')
+    const [message, setMessage] = useState('')
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
+        e.preventDefault()
         try {
-            const response = await verifyAuthCode({ userName, userId, userEmail, inputAuthCode, authCode });
+            const response = await verifyAuthCode({ userName, userId, userEmail, inputAuthCode, authCode })
             if (response.message === '인증 성공') {
                 Swal.fire({
                     icon: 'success',
@@ -22,50 +22,50 @@ const FindPassword = () => {
                     showConfirmButton: true // 확인 버튼 표시
                 }).then(() => {
                     // 인증 성공 시, 비밀번호 재설정 페이지로 이동
-                    window.location.href = `/resetPw?userId=${userId}`;
-                });
+                    window.location.href = `/resetPw?userId=${userId}`
+                })
             } else {
                 Swal.fire({
                     icon: 'error',
                     title: '인증 실패',
                     text: response.message,
-                });
+                })
             }
         } catch (error) {
             Swal.fire({
                 icon: 'error',
                 title: '오류',
                 text: error.response?.data?.message || '오류가 발생했습니다.',
-            });
+            })
         }
-    };
+    }
 
     const handleSendAuthCode = async () => {
         try {
-            const response = await sendAuthCode(userEmail);
+            const response = await sendAuthCode(userEmail)
             if (response && response.message) {
-                setAuthCode(response.authCode); // 서버에서 받은 인증 코드를 상태로 저장
+                setAuthCode(response.authCode) // 서버에서 받은 인증 코드를 상태로 저장
                 Swal.fire({
                     icon: 'success',
                     title: '인증 코드 전송 성공',
                     text: response.message,
                     showConfirmButton: true
-                });
+                })
             } else {
                 Swal.fire({
                     icon: 'error',
                     title: '오류',
                     text: '인증 코드 전송 중 오류가 발생했습니다.',
-                });
+                })
             }
         } catch (error) {
             Swal.fire({
                 icon: 'error',
                 title: '오류',
                 text: '인증 코드 전송 중 오류가 발생했습니다.',
-            });
+            })
         }
-    };
+    }
 
     return (
         <div className="container form-container">
@@ -125,7 +125,7 @@ const FindPassword = () => {
                 <hr />
             </form>
         </div>
-    );
-};
+    )
+}
 
-export default FindPassword;
+export default FindPassword
