@@ -10,18 +10,17 @@ const OrderForm = ({ orders, orderItem }) => {
   const [userPost, setUserPost] = useState('')
   const [userAddress, setUserAddress] = useState('')
   const [userAddressDetail, setUserAddressDetail] = useState('')
+  const [address, setAdderss] = useState('')
   const [isOpen, setIsOpen] = useState(false)
 
   // 다음 주소 api
   const handlePostCode = (data) => {
-    console.log(data)
     setUserPost(data.zonecode)
     setUserAddress(data.roadAddress)
+    console.log(userPost);
+    console.log(userAddress);
+
     setIsOpen(false)
-  }
-  // 상세 주소검색 event
-  const changeHandler = (e) =>{
-    setUserAddressDetail(e.target.value)
   }
 
   // Modal 스타일
@@ -46,6 +45,24 @@ const OrderForm = ({ orders, orderItem }) => {
   
   // 결제
   const onClickPayment = () => {
+    if(!serviceDate){
+      alert('서비스 일정을 입력해주세요')
+      return
+    }
+    if(!serviceTime){
+      alert('예약 시간을 입력해주세요')
+      return
+    }
+    if(!userPost){
+      alert('우편 번호를 입력해주세요')
+      return
+    }
+    if(!userAddressDetail){
+      alert('상세 주소를 입력해주세요')
+      return
+    }
+
+    console.log(address);
     const { IMP } = window
     IMP.init(['imp48458232'])                                   // 결제 데이터 정의
 
@@ -58,24 +75,28 @@ const OrderForm = ({ orders, orderItem }) => {
       buyer_name: '이름',                                       // 구매자 이름
       buyer_tel: '전화번호',                                    // 구매자 전화번호 (필수항목)
       buyer_email: '이메일',                                    // 구매자 이메일
-      buyer_addr: `${userAddress} ${userAddressDetail}`,
+      buyer_addr: address,
       buyer_postalcode: userPost
     }
     IMP.request_pay(data, callback)
   }
 
+  // 결제 성공 여부 체크
   const callback = (response) => {
     const {success, error_msg} = response;
     const errorMsg = error_msg
     if (success) {
-      navigate(`/order/done/${orders.ordersNo}`)
+
+      navigate(`/order/done/${orders.ordersNo}/${serviceDate}/${serviceTime}/${address}/${userPost}`)
     } else {
-      navigate(`/order/false/${errorMsg}`)
+      navigate(`/order/false/${orders.ordersNo}/${serviceDate}/${serviceTime}/${address}/${userPost}/${errorMsg}`)
     }
   }
 
   // 결제 설정
   useEffect(()=>{
+    setAdderss(`${userAddress} ${userAddressDetail}`)
+
     const jquery = document.createElement("script")
     jquery.src = "https://code.jquery.com/jquery-1.12.4.min.js"
     const iamport = document.createElement("script")
@@ -86,7 +107,7 @@ const OrderForm = ({ orders, orderItem }) => {
       document.head.removeChild(jquery)
       document.head.removeChild(iamport)
     }
-  }, [])
+  }, [userAddress, userAddressDetail])
 
   return (
     <>
@@ -123,7 +144,7 @@ const OrderForm = ({ orders, orderItem }) => {
               <div className="col-12">
                 <label htmlFor="userName" className="form-label">이름</label>
                 {/* <input type="text" className="form-control" id="userName" placeholder="이름" value={userName} onChange={(e) => setUserName(e.target.value)} required /> */}
-                <input type="text" className="form-control" id="userName" placeholder="이름" value={'김조은'} required />
+                <input type="text" className="form-control" id="userName" placeholder="이름" value={'김조은'} readOnly />
               </div>
 
               <div className="col-12">
@@ -139,13 +160,13 @@ const OrderForm = ({ orders, orderItem }) => {
               <div className="col-12">
                 <label htmlFor="userEmail" className="form-label">이메일</label>
                 {/* <input type="email" className="form-control" id="userEmail" placeholder="daeut@example.com" value={userEmail} onChange={(e) => setUserEmail(e.target.value)} /> */}
-                <input type="email" className="form-control" id="userEmail" placeholder="daeut@example.com" value={'ddd@dd.dd'}  />
+                <input type="email" className="form-control" id="userEmail" placeholder="daeut@example.com" value={'ddd@dd.dd'} readOnly />
               </div>
 
               <div className="col-md-12">
                 <label htmlFor="userPhone" className="form-label">전화번호</label>
                 {/* <input type="text" className="form-control" id="userPhone" placeholder="전화번호를 입력해주세요" value={userPhone} onChange={(e) => setUserPhone(e.target.value)} required /> */}
-                <input type="text" className="form-control" id="userPhone" placeholder="전화번호를 입력해주세요" value={123}  required />
+                <input type="text" className="form-control" id="userPhone" placeholder="전화번호를 입력해주세요" value={123}  readOnly />
               </div>
 
               <div className="col-12">
@@ -169,7 +190,7 @@ const OrderForm = ({ orders, orderItem }) => {
               <div className="col-12">
                 <label htmlFor="userAddressDetail" className="form-label">상세주소</label>
                 {/* <input type="text" className="form-control" id="userAddressDetail" placeholder="상세주소를 입력해주세요" value={userAddressDetail} onChange={(e) => setUserAddressDetail(e.target.value)} required /> */}
-                <input type="text" className="form-control" id="userAddressDetail" placeholder="상세주소를 입력해주세요" value={userAddressDetail} onChange={changeHandler} required />
+                <input type="text" className="form-control" id="userAddressDetail" placeholder="상세주소를 입력해주세요" value={userAddressDetail} onChange={(e) => setUserAddressDetail(e.target.value)} required />
               </div>
 
               <div className="d-flex justify-content-end gap-5 mb-3 mt-4 btn-container">

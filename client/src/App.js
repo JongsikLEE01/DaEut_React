@@ -23,15 +23,17 @@ const App = () => {
     <BrowserRouter>
       <LoginContextProvider>
         <Routes>
-          {/* JSLEE */}
+          {/* Service */}
           <Route path="/" element={<Index />} />
           <Route path="/service" element={<Service />} />
           <Route path="/service/:serviceNo" element={<ServiceRead />} />
           <Route path="/service/insert" element={<ServiceInsert />} />
           <Route path="/service/update/:serviceNo" element={<ServiceUpdate />} />
+          
+          {/* Order */}
           <Route path="/order/:ordersNo" element={<Order />} />
-          <Route path="/order/done/:ordersNo" element={<Done />} />
-          <Route path="/order/false/:errorMsg" element={<False />} />
+          <Route path="/order/done/:ordersNo/:date/:time/:userAddress/:userPost" element={<Done />} />
+          <Route path="/order/false/:ordersNo/:date/:time/:userAddress/:userPost/:errorMsg" element={<False />} />
           
           {/*  */}
           <Route path="/test" element={<Test />} />

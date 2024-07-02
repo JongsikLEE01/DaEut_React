@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import {formatDate} from '../../apis/format'
 
-const DoneForm = ({ ordersNo, payments, onPayDone }) => {
-  console.log(payments);
+const DoneForm = ({ ordersNo, payments }) => {
+  useEffect(()=>{
+    console.log(payments);
+  },[payments])
     
   return (
     <div className="container complete mt-5 mb-5">
@@ -12,8 +14,7 @@ const DoneForm = ({ ordersNo, payments, onPayDone }) => {
         <p className="text-center">예약 번호</p>
         <p className="text-center">{ordersNo}</p>
         <p className="text-center">예약 시간</p>
-        {/* <p className="text-center">{formatDate(order.ordersDate)}</p> */}
-        <p className="text-center">{payments.serviceDate}</p>
+        <p className="text-center">{formatDate(payments.serviceDate)}</p>
         <p className="text-center"></p>
         <hr className="completeHr" />
         <p className="text-center">회원님의 예약이 성공적으로 끝났습니다</p>

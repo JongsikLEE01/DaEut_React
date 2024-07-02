@@ -5,11 +5,19 @@ import { useParams } from 'react-router-dom'
 
 const Done = () => {
   const { ordersNo } = useParams()
+  const { date } = useParams()
+  const { time } = useParams()
+  const { userAddress } = useParams()
+  const { userPost } = useParams()
   
 return (
     <MainLayout>
       <DoneContainer
         ordersNo={ordersNo}
+        date={date}
+        time={time}
+        userAddress={userAddress}
+        userPost={userPost}
       />
     </MainLayout>
   )

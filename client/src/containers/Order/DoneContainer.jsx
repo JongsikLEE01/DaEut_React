@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import DoneForm from '../../components/Order/DoneForm'
 import * as Orders from '../../apis/Services/Orders'
 
-const DoneContainer = ({ ordersNo }) => {
-  const [payments, setPayments] = useState({})
+const DoneContainer = ({ ordersNo, date, time, userAddress, userPost }) => {
+  const [payments, setPayments] = useState(null)
 
-  const onPayDone = async (ordersNo, date, time, userAddress, userPost) => {
+  const getPayment = async (ordersNo, date, time, userAddress, userPost) => {
     try {
       const response = await Orders.payDone(ordersNo, date, time, userAddress, userPost)
       const data = response.data
@@ -19,10 +19,13 @@ const DoneContainer = ({ ordersNo }) => {
     }
   }
 
+  useEffect(()=>{
+    getPayment(ordersNo, date, time, userAddress, userPost)
+  },[])
+
   return (
     <DoneForm
       ordersNo={ordersNo}
-      onPayDone={onPayDone}
       payments={payments}
     />
   )

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-const FalseForm = ({errorMsg}) => {
+const FalseForm = ({ errorMsg }) => {
   return (
     <div className="container complete mt-5 mb-5">
       <div className="form-container complete">
