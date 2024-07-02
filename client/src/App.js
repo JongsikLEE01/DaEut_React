@@ -14,6 +14,7 @@ import FindIdPage from './pages/auth/FindIdPage';
 import DoneFindIdPage from './pages/auth/DoneFindIdPage';
 // import LoginContextProvider from './contexts/LoginContextProvider'
 import Order from './pages/Order/Payment'
+import UserMypage from './pages/user/UserMypage';
 
 const App = () => {
   return (
@@ -31,6 +32,7 @@ const App = () => {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/findId" element={<FindIdPage />} />
           <Route path="/findIdComplete/:userId" element={<DoneFindIdPage />} />
+          <Route path="/user/UserMypage" element={<UserMypage />} />
         </Routes>
       </LoginContextProvider>
     </BrowserRouter>
