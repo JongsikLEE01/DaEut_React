@@ -187,7 +187,7 @@ public class UserServiceImpl implements UserService {
     // 회원 탈퇴
     @Transactional
     @Override
-    public int delete(String userId) throws Exception {
+    public int delete(Users userId) throws Exception {
         int result = userMapper.delete(userId);
         return result;
     }
