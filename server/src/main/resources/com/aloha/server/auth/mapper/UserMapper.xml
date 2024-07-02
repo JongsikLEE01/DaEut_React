@@ -5,10 +5,9 @@
 
 <mapper namespace="com.aloha.server.auth.mapper.UserMapper">
 
-
+    <!-- Users 객체의 resultMap 정의 -->
     <resultMap type="Users" id="userMap">
         <id property="userNo" column="user_no" />
-        
         <result property="userName" column="user_name" />
         <result property="userPhone" column="user_phone" />
         <result property="userBirth" column="user_birth" />
@@ -22,50 +21,34 @@
         <result property="userUpdDate" column="user_upd_date" />
         <result property="enabled" column="enabled" />
         
-        <collection property="authList" resultMap="authMap"></collection>
+        <!-- user_auth 테이블과의 관계 매핑 -->
+        <collection property="authList" ofType="UserAuth" resultMap="authMap"></collection>
     </resultMap>
         
+    <!-- UserAuth 객체의 resultMap 정의 -->
     <resultMap type="UserAuth" id="authMap">
         <result property="authNo" column="auth_no" />
         <result property="userNo" column="user_no" />
         <result property="auth" column="auth" />
     </resultMap>
 
-     <!-- Partner 객체의 매핑 설정 -->
+    <!-- Partner 객체의 resultMap 정의 -->
     <resultMap type="Partner" id="partnerMap">
         <id property="userNo" column="user_no" />
         <result property="partnerGrade" column="partner_grade" />
         <result property="partnerReserve" column="partner_reserve" />
         <result property="partnerCareer" column="partner_career" />
         <result property="introduce" column="introduce" />
-        <association property="user" column="user_no" javaType="Users" select="selectUserById" />
+        <!-- Users 객체와의 관계 매핑 -->
+        <association property="user" javaType="Users" resultMap="userMap">
+            <id property="userNo" column="user_no"/>
+        </association>
     </resultMap>
 
-     <!-- 관리자 회원 조회 - user_no -->
+    <!-- 관리자 회원 조회 - user_no로 조회 -->
     <select id="findUserById" resultMap="userMap">
-        SELECT u.user_no
-            ,u.user_name
-            ,u.user_phone
-            ,u.user_birth
-            ,u.user_address
-            ,u.user_email
-            ,u.user_gender
-            ,u.user_id
-            ,u.user_password
-            ,u.user_reg_date
-            ,u.user_coupon
-            ,u.user_upd_date
-            ,u.enabled
-            ,auth.auth
-        FROM users u 
-        LEFT OUTER JOIN user_auth auth ON u.user_no = auth.user_no
-        WHERE u.user_no = #{userNo}
-    </select>
-
-    <!-- 다우니다우니다우니다우니다우니다우니다우니다우니다우니다우니 -->
-    <!-- 로그인 - username -->
-    <select id="login" resultMap="userMap">
-        SELECT u.user_no,
+        SELECT 
+            u.user_no,
             u.user_name,
             u.user_phone,
             u.user_birth,
@@ -77,41 +60,62 @@
             u.user_reg_date,
             u.user_coupon,
             u.user_upd_date,
-            enabled,
+            u.enabled,
+            auth.auth
+        FROM users u 
+        LEFT OUTER JOIN user_auth auth ON u.user_no = auth.user_no
+        WHERE u.user_no = #{userNo}
+    </select>
+
+    <!-- 로그인 - userId로 조회 -->
+    <select id="login" resultMap="userMap">
+        SELECT 
+            u.user_no,
+            u.user_name,
+            u.user_phone,
+            u.user_birth,
+            u.user_address,
+            u.user_email,
+            u.user_gender,
+            u.user_id,
+            u.user_password,
+            u.user_reg_date,
+            u.user_coupon,
+            u.user_upd_date,
+            u.enabled,
             auth.auth
         FROM users u 
         LEFT JOIN user_auth auth ON u.user_no = auth.user_no
         WHERE u.user_id = #{userId}
     </select>
 
-
-    
     <!-- 이메일로 회원 조회 -->
     <select id="findUserByEmail" resultMap="userMap">
-        SELECT u.user_no
-              ,u.user_name
-              ,u.user_phone
-              ,u.user_birth
-              ,u.user_address
-              ,u.user_email
-              ,u.user_gender
-              ,u.user_id
-              ,u.user_password
-              ,u.user_reg_date
-              ,u.user_coupon
-              ,u.user_upd_date
-              ,enabled
-              ,auth.auth
+        SELECT 
+            u.user_no,
+            u.user_name,
+            u.user_phone,
+            u.user_birth,
+            u.user_address,
+            u.user_email,
+            u.user_gender,
+            u.user_id,
+            u.user_password,
+            u.user_reg_date,
+            u.user_coupon,
+            u.user_upd_date,
+            u.enabled,
+            auth.auth
         FROM users u 
         LEFT OUTER JOIN user_auth auth ON u.user_no = auth.user_no
         WHERE u.user_email = #{userEmail}
     </select>
 
-    <!-- 회원 조회 -->
+    <!-- 회원 조회 - userNo로 조회 -->
     <select id="selectUserNo" resultType="Users">
         SELECT *
         FROM users
-        WHERE no = #{no}
+        WHERE user_no = #{userNo}
     </select>
 
     <!-- 회원 권한 등록 -->
@@ -134,7 +138,7 @@
         WHERE u.user_name = #{userName} AND u.user_email = #{userEmail} AND u.user_phone = #{userPhone}
     </select>
 
-    <!-- 파트너 신청 대기 -->
+    <!-- 파트너 신청 대기 - userNo로 업데이트 -->
     <update id="updateUserStatus">
         UPDATE users
         SET status = 1
@@ -150,16 +154,14 @@
     <!-- 비밀번호 찾기 - 비밀번호 재설정 -->
     <update id="updatePw">
         UPDATE users
-           SET 
-               user_password = #{userPassword}
-              ,user_upd_date = now()
+        SET 
+            user_password = #{userPassword},
+            user_upd_date = now()
         WHERE user_id = #{userId}
     </update>
-    <!-- 다우니다우니다우니다우니다우니다우니다우니다우니다우니다우니 -->
 
-    <!-- 준호준호준호준호준호준호준호준호준호준호준호준호준호준호준호 -->
     <!-- user 및 partner 테이블에서 정보를 조회 -->
-    <select id="selectUserAndPartnerDetails" resultType="com.aloha.server.partner.dto.Partner">
+    <select id="selectUserAndPartnerDetails" resultMap="partnerMap">
         SELECT 
             u.user_no AS userNo,
             u.user_name AS userName,
@@ -185,17 +187,16 @@
         WHERE u.user_no = #{userNo}
     </select>
 
-     <!-- 회원 정보 수정 -->
+    <!-- 회원 정보 수정 -->
     <update id="update">
         UPDATE users
-           SET 
-               <!-- user_password = #{userPassword} -->
-              user_name = #{userName}
-              ,user_email = #{userEmail}
-              ,user_phone = #{userPhone}
-              ,user_address = #{userAddress}
-              ,user_birth = #{userBirth}
-              ,user_upd_date = now()
+        SET 
+            user_name = #{userName},
+            user_email = #{userEmail},
+            user_phone = #{userPhone},
+            user_address = #{userAddress},
+            user_birth = #{userBirth},
+            user_upd_date = now()
         WHERE user_id = #{userId}
     </update>
 
@@ -207,7 +208,7 @@
     </delete>
 
     <!-- 예약 가져오기 -->
-    <select id="selectOrdersByUserId" resultType="com.aloha.server.reservation.dto.Orders">
+    <select id="selectOrdersByUserId" resultMap="com.aloha.server.reservation.dto.Orders">
         SELECT 
             o.orders_no AS ordersNo, 
             o.user_no AS userNo, 
@@ -229,44 +230,42 @@
             JOIN users p2 ON pt.user_no = p2.user_no
             JOIN payment p ON o.orders_no = p.orders_no
         WHERE 
-            u.user_id = #{userId};
+            u.user_id = #{userId}
     </select>
 
-    <!-- 예약 삭제 하기 -->
+    <!-- 예약 삭제 -->
     <delete id="OrdersDelete">
         DELETE FROM orders 
-        WHERE orders_no = #{orders_no};
+        WHERE orders_no = #{orders_no}
     </delete>
 
-    <!-- 파트너정보 가져오기 -->
+    <!-- 파트너 정보 가져오기 -->
     <select id="selectPartner">
         SELECT partner.*
         FROM users
         INNER JOIN partner ON users.user_no = partner.user_no
         WHERE users.user_no = #{userId}
     </select>
-         
-    <!-- userNo 유저 찾기 -->
-    <select id="selectByUserNo">
+
+    <!-- userNo로 유저 찾기 -->
+    <select id="selectByUserNo" resultType="Users">
         select *
         from users
         WHERE user_no = #{userNo}
     </select>
 
-    <!--유저 이름-->
-    <select id="findByUsername">
+    <!-- username으로 유저 찾기 -->
+    <select id="findByUsername" resultType="Users">
         SELECT * 
         FROM users 
-        WHERE username = #{username}
+        WHERE user_name = #{username}
     </select>
-    <!-- 준호준호준호준호준호준호준호준호준호준호준호준호준호준호준호 -->
 
     <!-- 소셜 회원 가입 -->
     <insert id="insertSocial">
         INSERT INTO user_social ( id, username, provider, social_id, name, email, picture )
         VALUES ( UUID(), #{username}, #{provider}, #{socialId}, #{name}, #{email}, #{picture} )
     </insert>
-
 
     <!-- 소셜 회원 조회 -->
     <select id="selectSocial" resultType="UserSocial">
@@ -276,40 +275,41 @@
         AND social_id = #{socialId}
     </select>
 
-
     <!-- 소셜 회원 수정 -->
     <update id="updateSocial">
         UPDATE user_social
-           SET username = #{username}
-              ,provider = #{provider}
-              ,social_id = #{socialId}
-              ,name = #{name}
-              ,email = #{email}
-              ,picture = #{picture}
-              ,updated_at = #{updatedAt}
+        SET 
+            username = #{username},
+            provider = #{provider},
+            social_id = #{socialId},
+            name = #{name},
+            email = #{email},
+            picture = #{picture},
+            updated_at = #{updatedAt}
         WHERE provider = #{provider} 
         AND social_id = #{socialId}
     </update>
 
-    <!-- 소셜정보로 회원 조회 -->
+    <!-- 소셜 정보로 회원 조회 -->
     <select id="selectBySocial" resultMap="userMap">
-        SELECT u.user_name
-              ,u.user_id
-              ,u.user_password
-              ,u.user_name
-              ,u.user_email
-              ,u.enabled
-              ,u.user_reg_date
-              ,u.user_upd_date
-              ,auth.auth
+        SELECT 
+            u.user_name,
+            u.user_id,
+            u.user_password,
+            u.user_name,
+            u.user_email,
+            u.enabled,
+            u.user_reg_date,
+            u.user_upd_date,
+            auth.auth
         FROM users u 
-             LEFT OUTER JOIN user_auth auth ON u.user_no = auth.user_no
+        LEFT OUTER JOIN user_auth auth ON u.user_no = auth.user_no
         WHERE u.user_id = (
-                        SELECT username
-                          FROM user_social
-                        WHERE provider = #{provider} 
-                          AND social_id = #{socialId}
-                    )
+            SELECT username
+            FROM user_social
+            WHERE provider = #{provider} 
+            AND social_id = #{socialId}
+        )
     </select>
 
 </mapper>
