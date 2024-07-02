@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom'
 
 const ServiceRead = () => {
   const { serviceNo } = useParams()
-  console.log(`serviceNo? ${serviceNo}`)
+  // console.log(`serviceNo? ${serviceNo}`)
 
   return (
     <MainLayout>

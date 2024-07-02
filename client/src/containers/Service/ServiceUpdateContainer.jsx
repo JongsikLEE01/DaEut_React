@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import * as Services from '../../apis/Services/Services'
+import * as files from '../../apis/file'
 import { useNavigate } from 'react-router-dom'
 import ServiceUpdateForm from '../../components/Service/ServiceUpdateForm'
 
@@ -15,9 +16,8 @@ const ServiceUpdateContainer = ({ serviceNo }) => {
       const data = response.data
 
       const serviceData = data.service  // 서버 응답에서 서비스 데이터를 가져옴
-      const files = data.files          // 서버 응답에서 파일 목록을 가져옴
+      const files = data.fileList          // 서버 응답에서 파일 목록을 가져옴
 
-      console.log(files);
       setService(serviceData)
       setFileList(files)
     } catch (e) {

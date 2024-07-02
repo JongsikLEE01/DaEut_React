@@ -1,6 +1,6 @@
-import React from 'react';
-import MemberContainer from '../../containers/auth/MemberContainer';
-import MainLayout from '../../layouts/MainLayout';
+import React from 'react'
+import MemberContainer from '../../containers/auth/MemberContainer'
+import MainLayout from '../../layouts/MainLayout'
 
 const Member = () => {
   return (
@@ -9,7 +9,7 @@ const Member = () => {
         <MemberContainer />
       </MainLayout>
     </>
-  );
-};
+  )
+}
 
-export default Member;
+export default Member

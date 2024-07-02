@@ -1,6 +1,6 @@
-import React from 'react';
-import MainLayout from '../../layouts/MainLayout';
-import LoginForm from '../../components/auth/LoginForm';
+import React from 'react'
+import MainLayout from '../../layouts/MainLayout'
+import LoginForm from '../../components/auth/LoginForm'
 
 const LoginPage = () => {
   return (
@@ -9,7 +9,7 @@ const LoginPage = () => {
     </MainLayout>
         
 
-  );
-};
+  )
+}
 
-export default LoginPage;
+export default LoginPage
