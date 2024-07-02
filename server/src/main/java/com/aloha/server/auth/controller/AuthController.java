@@ -23,8 +23,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.aloha.server.auth.dto.CustomUser;
 import com.aloha.server.auth.dto.Users;
+import com.aloha.server.auth.service.EmailService;
 import com.aloha.server.auth.service.UserService;
-import com.aloha.server.reservation.service.EmailService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -91,6 +91,13 @@ public class AuthController {
             log.info("회원가입 실패! - FAIL");
             return new ResponseEntity<>("FAIL", HttpStatus.BAD_REQUEST);
         } 
+    }
+
+    // 회원가입 완료
+    @GetMapping("/joinDone")
+    public ResponseEntity<?> joinDone() {
+        Map<String, String> response = new HashMap<>();
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     // 로그인 화면

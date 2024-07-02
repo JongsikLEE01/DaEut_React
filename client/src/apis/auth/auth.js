@@ -88,3 +88,33 @@ export const  resetPw = (userId, userPassword, confirmPassword) => {
             throw error
         })
 }
+
+// 아이디 중복 확인
+export const checkDuplicateId = (userId) => {
+    return api.get(`/check-duplicate?userId=${userId}`)
+        .then(response => response.data)
+        .catch(error => {
+            console.error('아이디 중복 확인 오류:', error);
+            throw error;
+        });
+};
+
+// 이메일 중복 확인
+export const checkDuplicateEmail = (userEmail) => {
+    return api.get(`/check-duplicate-email?userEmail=${userEmail}`)
+        .then(response => response.data)
+        .catch(error => {
+            console.error('이메일 중복 확인 오류:', error);
+            throw error;
+        });
+};
+
+// 회원가입
+export const signup = (userData) => {
+    return api.post('/', userData)
+        .then(response => response.data)
+        .catch(error => {
+            console.error('회원가입 오류:', error);
+            throw error;
+        });
+};

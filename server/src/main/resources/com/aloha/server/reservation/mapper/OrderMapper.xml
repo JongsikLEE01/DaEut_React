@@ -3,9 +3,9 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.daeut.daeut.reservation.mapper.OrderMapper">
+<mapper namespace="com.aloha.server.reservation.mapper.OrderMapper">
 
-<resultMap id="OrderWithUserResultMap" type="com.daeut.daeut.reservation.dto.Orders">
+<resultMap id="OrderWithUserResultMap" type="com.aloha.server.reservation.dto.Orders">
     <id property="ordersNo" column="orders_no"/>
     <result property="userNo" column="user_no"/>
     <result property="orderStatus" column="order_status"/>
@@ -16,7 +16,7 @@
     <result property="totalCount" column="total_count"/>
     <result property="title" column="title"/>
     
-    <association property="user" javaType="com.daeut.daeut.auth.dto.Users">
+    <association property="user" javaType="com.aloha.server.auth.dto.Users">
         <id property="userNo" column="user_no"/>
         <result property="userName" column="user_name"/>
         <result property="userPhone" column="user_phone"/>
@@ -33,7 +33,7 @@
         <result property="status" column="status"/>
     </association>
     
-    <association property="partner" javaType="com.daeut.daeut.partner.dto.Partner">
+    <association property="partner" javaType="com.aloha.server.partner.dto.Partner">
         <id property="partnerNo" column="partner_no"/>
         <result property="partnerGrade" column="partner_grade"/>
         <result property="partnerReserve" column="partner_reserve"/>
@@ -42,11 +42,11 @@
         <result property="userNo" column="user_no"/>
     </association>
 
-    <association property="payment" javaType="com.daeut.daeut.reservation.dto.Payments">
+    <association property="payment" javaType="com.aloha.server.reservation.dto.Payments">
     <result property="serviceDate" column="service_date"/>
     </association>
 
-        <association property="service" column="service_no" javaType="com.daeut.daeut.reservation.dto.Services">
+        <association property="service" column="service_no" javaType="com.aloha.server.reservation.dto.Services">
         <id property="serviceNo" column="service_no"/>
         <result property="serviceName" column="service_name"/>
         <result property="serviceCategory" column="service_category"/>

@@ -3,7 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.daeut.daeut.reservation.mapper.CancelMapper">
+<mapper namespace="com.aloha.server.reservation.mapper.CancelMapper">
 
     <resultMap id="CancelMap" type="Cancel">
         <id property="cancelNo" column="cancel_no"/>

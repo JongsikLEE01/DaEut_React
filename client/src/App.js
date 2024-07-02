@@ -22,6 +22,9 @@ import TipIndex from './pages/Tip/TipIndex'
 import TipRead from './pages/Tip/TipRead'
 import TipInsert from './pages/Tip/TipInsert'
 import TipUpdate from './pages/Tip/TipUpdate'
+import SingUpPage from './pages/auth/SingUpPage'
+import AdminSignUpPage from './pages/auth/AdminSignUpPage'
+import SignUpCompletePage from './pages/auth/SignUpCompletePage'
 
 
 
@@ -32,7 +35,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/test" element={<Test />} />
-          <Route path="/auth/member" element={<Member />} />
+          <Route path="/member" element={<Member />} />
           <Route path="/service" element={<Service />} />
           <Route path="/service/:serviceNo" element={<ServiceRead />} />
           <Route path="/service/insert" element={<ServiceInsert />} />
@@ -48,6 +51,9 @@ const App = () => {
           <Route path="/findPw" element={<FindPasswordPage />} />
           <Route path="/resetPw" element={<ResetPasswordPage />} />
           <Route path="/resetPwComplete" element={<ResetPwCompletePage />} />
+          <Route path="/join" element={<SingUpPage />} />
+          <Route path="/admin/join" element={<AdminSignUpPage />} />
+          <Route path="/joinDone" element={<SignUpCompletePage />} />
         </Routes>
       </LoginContextProvider>
     </BrowserRouter>
