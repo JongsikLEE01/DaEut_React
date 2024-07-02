@@ -1,18 +1,18 @@
 import React from 'react'
 import MainLayout from '../../layouts/MainLayout'
-import OrderContainer from '../../containers/Order/OrderContainer'
+import DoneContainer from '../../containers/Order/DoneContainer'
 import { useParams } from 'react-router-dom'
 
-const Order = () => {
+const Done = () => {
   const { ordersNo } = useParams()
   
-  return (
+return (
     <MainLayout>
-      <OrderContainer
+      <DoneContainer
         ordersNo={ordersNo}
       />
     </MainLayout>
   )
 }
 
-export default Order
+export default Done

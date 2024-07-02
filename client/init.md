@@ -15,3 +15,7 @@ npm install react-bootstrap
 npm install bootstrap
 ### Font Awesome
 npm install @fortawesome/react-fontawesome @fortawesome/free-solid-svg-icons
+### Modal
+npm install react-modal
+## Daum PostCode
+npm install react-daum-postcode

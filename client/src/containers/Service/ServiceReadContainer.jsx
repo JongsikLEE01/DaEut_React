@@ -37,7 +37,7 @@ const ServiceReadContainer = ({ serviceNo }) => {
       setPartnerInfo(partnerInfo)
       setPthumbnail(pthumbnail)
     } catch (e) {
-      console.error('Error fetching service:', e)
+      console.error('서비스 조회 중 에러 발생... ', e)
     }
   }
 

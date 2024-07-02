@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 
 const ReadContent = ({ service, onInsert, onPayment }) => {
+  
   // 장바구니 추가
   const onSubmit=()=>{
     // 유저번호 가져오기 수정 필요
@@ -52,12 +53,9 @@ const ReadContent = ({ service, onInsert, onPayment }) => {
               </td> */}
 
               <td>
-                <form>
-                  <input type="hidden" id="quantity" name="quantity" value="1" />
-                  <button className="reservation-calender" id="couponBtn" onClick={onPay}>
-                    바로 예약하기
-                  </button>
-                </form>
+                <button className="reservation-calender" id="couponBtn" onClick={onPay}>
+                  바로 예약하기
+                </button>
               </td>
 
               <td>

@@ -233,7 +233,8 @@ public class OrderController {
      * @throws Exception
      */
     @GetMapping("/{ordersNo}")
-    public ResponseEntity<Object> checkout(@PathVariable("ordersNo") String ordersNo) {
+    public ResponseEntity<?> checkout(@PathVariable("ordersNo") String ordersNo) {
+        log.info(ordersNo);
         try {
             // 주문 정보 가져오기
             Orders order = orderService.select(ordersNo);
