@@ -15,10 +15,14 @@ import FindIdPage from './pages/auth/FindIdPage'
 import DoneFindIdPage from './pages/auth/DoneFindIdPage'
 // import LoginContextProvider from './contexts/LoginContextProvider'
 import Order from './pages/Order/Payment'
-import TipIndex from './pages/Tip/TipIndex';
-import TipRead from './pages/Tip/TipRead';
-import TipInsert from './pages/Tip/TipInsert';
-import TipUpdate from './pages/Tip/TipUpdate';
+import FindPasswordPage from './pages/auth/FindPasswordPage'
+import ResetPasswordPage from './pages/auth/ResetPasswordPage'
+import ResetPwCompletePage from './pages/auth/ResetPwCompletePage'
+import TipIndex from './pages/Tip/TipIndex'
+import TipRead from './pages/Tip/TipRead'
+import TipInsert from './pages/Tip/TipInsert'
+import TipUpdate from './pages/Tip/TipUpdate'
+
 
 
 const App = () => {
@@ -41,6 +45,9 @@ const App = () => {
           <Route path='/tip/tipUpdate' element={<TipUpdate/>}></Route>
           <Route path="/findId" element={<FindIdPage />} />
           <Route path="/findIdComplete/:userId" element={<DoneFindIdPage />} />
+          <Route path="/findPw" element={<FindPasswordPage />} />
+          <Route path="/resetPw" element={<ResetPasswordPage />} />
+          <Route path="/resetPwComplete" element={<ResetPwCompletePage />} />
         </Routes>
       </LoginContextProvider>
     </BrowserRouter>
