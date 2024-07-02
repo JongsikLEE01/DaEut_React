@@ -63,7 +63,7 @@ const TipReadContainer = () => {
     Swal.fire({
       title: '게시글을 삭제하시겠습니까?',
       text: '삭제하면 되돌릴 수 없습니다.',
-      icon: 'error',
+      icon: 'warning',
       showCancelButton: true,
       confirmButtonText: '삭제',
       cancelButtonText: '취소'
