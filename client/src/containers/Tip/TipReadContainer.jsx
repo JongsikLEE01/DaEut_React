@@ -75,19 +75,33 @@ const TipReadContainer = () => {
     }
   };
 
-  const handleLike = async () => {
+  const handleLike = async (event) => {
+    const boardNo = event.currentTarget.getAttribute('data-board-no');
+    const userNo = 0; // 로그인하지 않은 상태를 나타내는 기본값
+  
     try {
-      const response = await axios.put(`/tip/boards/${boardNo}/like`);
-      if (response.data.success) {
-        setBoard((prevBoard) => ({
-          ...prevBoard,
-          boardLike: prevBoard.boardLike + 1,
-        }));
+      const response = await fetch(`/boards/${boardNo}/like?userNo=${userNo}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+  
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(`Error: ${response.status} - ${errorData.message}`);
       }
+  
+      const result = await response.json();
+      console.log(result);
+      // 성공적으로 처리되었을 때의 로직 추가
     } catch (error) {
-      console.error('Error liking the post:', error);
+      console.error('Error:', error);
+      alert(`추천 중 오류가 발생했습니다: ${error.message}`);
     }
   };
+  
+  
 
   const renderReplies = (replyList) => {
     const sortedReplies = replyList.sort((a, b) => a.parentNo - b.parentNo);

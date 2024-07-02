@@ -1,6 +1,8 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../tip/css/TipRead.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faThumbsUp } from '@fortawesome/free-solid-svg-icons';
 
 const TipRead = ({
   board,
@@ -41,8 +43,8 @@ const TipRead = ({
           </div>
           <div className="d-flex justify-content-center align-items-center" style={{ marginTop: '6rem' }}>
             <div className="like-button-wrapper like-button" id="like-button" data-board-no={board.boardNo} onClick={handleLike}>
-              <i className="fas fa-thumbs-up" aria-hidden="true"></i>
-              <span>추천</span>
+            <FontAwesomeIcon icon={faThumbsUp} aria-hidden="true" />
+            <span>추천</span>
             </div>
           </div>
           <hr className="separator" />
