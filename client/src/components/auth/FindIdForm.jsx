@@ -1,36 +1,37 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { findId } from '../../apis/auth/auth';
+import React, { useState } from 'react'
+import './auth.css'
+import { useNavigate } from 'react-router-dom'
+import { findId } from '../../apis/auth/auth'
 
 const FindIdForm = () => {
-    const navigate = useNavigate();
-    const [userName, setUserName] = useState('');
-    const [userEmail, setUserEmail] = useState('');
-    const [userPhone, setUserPhone] = useState('');
-    const [errorMessage, setErrorMessage] = useState('');
+    const navigate = useNavigate()
+    const [userName, setUserName] = useState('')
+    const [userEmail, setUserEmail] = useState('')
+    const [userPhone, setUserPhone] = useState('')
+    const [errorMessage, setErrorMessage] = useState('')
 
     const handleSubmit = async (event) => {
-        event.preventDefault();
+        event.preventDefault()
 
         try {
             const userDetails = {
                 userName: userName,
                 userEmail: userEmail,
                 userPhone: userPhone
-            };
+            }
 
-            const response = await findId(userDetails);
+            const response = await findId(userDetails)
 
-            if (response.status === 200 && response.data.userId) {
-                navigate(`/findIdComplete/${response.data.userId}`);
+            if (response.userId) {
+                navigate(`/findIdComplete/${response.userId}`)
             } else {
-                setErrorMessage(response.data.error || '아이디 찾기 중 오류가 발생했습니다.');
+                setErrorMessage(response.error || 'ID를 찾을 수 없습니다.')
             }
         } catch (error) {
-            console.error('아이디 찾기 중 오류 발생:', error);
-            setErrorMessage(error.response?.data?.error || '아이디 찾기 중 오류가 발생했습니다.');
+            console.error('아이디 찾기 중 오류 발생 (FindIdForm) :', error)
+            setErrorMessage(error.response?.data?.error || 'ID를 찾는 도중 오류가 발생했습니다.')
         }
-    };
+    }
 
     return (
         <div className="container form-container">
@@ -75,14 +76,14 @@ const FindIdForm = () => {
                     <button type="submit" className="btn btn-dark">
                         아이디 찾기
                     </button>
-                    <button type="button" className="btn btn-light border" onClick={() => window.history.back()}>
+                    <button type="button" className="btn btn-light border" onClick={() => navigate(-1)}>
                         돌아가기
                     </button>
                 </div>
                 <hr />
             </form>
         </div>
-    );
-};
+    )
+}
 
-export default FindIdForm;
+export default FindIdForm

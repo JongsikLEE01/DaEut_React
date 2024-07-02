@@ -1,23 +1,25 @@
-import React from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Index from './pages/index/Index';
-import Test from './pages/Test';
-import Member from './pages/auth/Member';
-import Service from './pages/Service/Service';
-import ServiceRead from './pages/Service/ServiceRead';
-import ServiceInsert from './pages/Service/ServiceInsert';
-import ServiceUpdate from './pages/Service/ServiceUpdate';
-import LoginPage from './pages/auth/LoginPage';
+
+import React from 'react'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import Index from './pages/index/Index'
+import Test from './pages/Test'
+import Member from './pages/auth/Member'
+import Service from './pages/Service/Service'
+import ServiceRead from './pages/Service/ServiceRead'
+import ServiceInsert from './pages/Service/ServiceInsert'
+import ServiceUpdate from './pages/Service/ServiceUpdate'
+import LoginPage from './pages/auth/LoginPage'
+import LoginContextProvider from './components/contexts/LoginContextProvider'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import FindIdPage from './pages/auth/FindIdPage'
+import DoneFindIdPage from './pages/auth/DoneFindIdPage'
+// import LoginContextProvider from './contexts/LoginContextProvider'
+import Order from './pages/Order/Payment'
 import TipIndex from './pages/Tip/TipIndex';
 import TipRead from './pages/Tip/TipRead';
 import TipInsert from './pages/Tip/TipInsert';
 import TipUpdate from './pages/Tip/TipUpdate';
-import LoginContextProvider from './components/contexts/LoginContextProvider';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import FindIdPage from './pages/auth/FindIdPage';
-import DoneFindIdPage from './pages/auth/DoneFindIdPage';
-// import LoginContextProvider from './contexts/LoginContextProvider'
-import Order from './pages/Order/Payment'
+
 
 const App = () => {
   return (
@@ -42,7 +44,9 @@ const App = () => {
         </Routes>
       </LoginContextProvider>
     </BrowserRouter>
-  );
-};
+  )
+}
 
-export default App;
+
+export default App
+
