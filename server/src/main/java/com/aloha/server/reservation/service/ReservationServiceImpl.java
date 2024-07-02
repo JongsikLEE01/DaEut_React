@@ -13,7 +13,6 @@ import com.aloha.server.main.service.FileService;
 import com.aloha.server.reservation.dto.Event;
 import com.aloha.server.reservation.dto.Services;
 import com.aloha.server.reservation.mapper.ReservationMapper;
-import com.aloha.server.tip.dto.Board;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -48,7 +47,6 @@ public class ReservationServiceImpl implements ReservationService{
         // 조회
         Services service = reservationMapper.serviceSelect(serviceNo);
         
-
         return service;
     }
 
@@ -59,6 +57,7 @@ public class ReservationServiceImpl implements ReservationService{
         log.info("service {}", service);
         log.info("result {}", result);
         int newServiceNo = service.getServiceNo();
+        log.info("newServiceNo {}", newServiceNo);
         Services newService = reservationMapper.select(newServiceNo);
         
         int uploadresult = upload(service);
@@ -69,12 +68,21 @@ public class ReservationServiceImpl implements ReservationService{
 
     @Override
     public int serviceUpdate(Services service) throws Exception {
+        // 기존 파일 삭제
+        log.info("implService {}", service);
+        int oldServiceNo = service.getServiceNo();
+        log.info("implServiceNo 개수 {}", oldServiceNo);
+        Files selectFile = new Files();
+        selectFile.setParentNo(oldServiceNo);
+        selectFile.setParentTable("service");
+        int deleteResult = fileService.deleteByParent(selectFile);
+        log.info("삭제된 파일 개수 {}", deleteResult);
+
         // 파일 업로드
-        int uploadresult = upload(service);
-        log.info("파일 업로드 개수 {}", uploadresult);
-
-
-        return reservationMapper.serviceUpdate(service);
+        int uploadResult = upload(service);
+        log.info("파일 업로드 개수 {}", uploadResult);
+        int result = reservationMapper.serviceUpdate(service);
+        return result;
     }
 
     @Override

@@ -3,7 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.daeut.daeut.reservation.mapper.ChatMapper">
+<mapper namespace="com.aloha.server.reservation.mapper.ChatMapper">
 
     <resultMap id="ChatsMap" type="Chats">
         <id property="chatNo" column="chat_no"/>

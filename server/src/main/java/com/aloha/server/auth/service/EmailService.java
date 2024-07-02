@@ -1,4 +1,4 @@
-package com.aloha.server.reservation.service;
+package com.aloha.server.auth.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailSendException;

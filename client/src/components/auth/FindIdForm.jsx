@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import './auth.css'
+import './Auth.css'
 import { useNavigate } from 'react-router-dom'
 import { findId } from '../../apis/auth/auth'
 

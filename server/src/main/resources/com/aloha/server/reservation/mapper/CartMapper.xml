@@ -3,7 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.daeut.daeut.reservation.mapper.CartMapper">
+<mapper namespace="com.aloha.server.reservation.mapper.CartMapper">
 
     <resultMap type="cart" id="cartMap">
         <id property="cartNo" column="cart_no"/>
