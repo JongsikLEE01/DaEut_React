@@ -30,14 +30,15 @@
     </insert>
 
     <update id="update">
-        UPDATE reply
-            SET user_no = (SELECT user_no FROM users WHERE user_id = #{userId})
-            ,reply_content = #{replyContent}
-            <if test="parentNo != 0">
-                ,parent_no = #{parentNo}
+        UPDATE reply r
+        JOIN users u ON r.user_no = u.user_no
+        SET r.user_no = #{userNo},
+            r.reply_content = #{replyContent},
+            <if test="parentNo != null">
+                r.parent_no = #{parentNo},
             </if>
-            ,reply_upd_date = now()
-        WHERE reply_no = #{replyNo}
+            r.reply_upd_date = now()
+        WHERE r.reply_no = #{replyNo}
     </update>
 
     <delete id="delete">

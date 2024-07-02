@@ -18,6 +18,11 @@ import Order from './pages/Order/Payment'
 import FindPasswordPage from './pages/auth/FindPasswordPage'
 import ResetPasswordPage from './pages/auth/ResetPasswordPage'
 import ResetPwCompletePage from './pages/auth/ResetPwCompletePage'
+import TipIndex from './pages/Tip/TipIndex'
+import TipRead from './pages/Tip/TipRead'
+import TipInsert from './pages/Tip/TipInsert'
+import TipUpdate from './pages/Tip/TipUpdate'
+
 
 
 const App = () => {
@@ -34,6 +39,10 @@ const App = () => {
           <Route path="/service/update/:serviceNo" element={<ServiceUpdate />} />
           <Route path="/order/:ordersNo" element={<Order />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path='/tip/boards' element={<TipIndex/>}></Route>
+          <Route path='/tip/boards/:boardNo' element={<TipRead/>}></Route>
+          <Route path='/tip/tipInsert' element={<TipInsert/>}></Route>
+          <Route path='/tip/tipUpdate' element={<TipUpdate/>}></Route>
           <Route path="/findId" element={<FindIdPage />} />
           <Route path="/findIdComplete/:userId" element={<DoneFindIdPage />} />
           <Route path="/findPw" element={<FindPasswordPage />} />
