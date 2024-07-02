@@ -1,9 +1,8 @@
-// FindIdForm.js
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { findIdComplete  } from '../../apis/auth/auth'; // API 호출 함수 임포트
 
-const CompleteFindId = () => {
+const DoneFindId = () => {
     const { userId } = useParams(); // URL 파라미터에서 userId 가져오기
     const [userName, setUserName] = useState('');
 
@@ -33,4 +32,4 @@ const CompleteFindId = () => {
         </div>
     );
 };
-export default CompleteFindId;
+export default DoneFindId;
