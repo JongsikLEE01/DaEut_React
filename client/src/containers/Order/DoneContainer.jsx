@@ -19,9 +19,9 @@ const DoneContainer = ({ ordersNo, date, time, userAddress, userPost }) => {
     }
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     getPayment(ordersNo, date, time, userAddress, userPost)
-  },[])
+  }, [ordersNo, date, time, userAddress, userPost])
 
   return (
     <DoneForm

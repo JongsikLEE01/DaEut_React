@@ -19,3 +19,6 @@ npm install @fortawesome/react-fontawesome @fortawesome/free-solid-svg-icons
 npm install react-modal
 ## Daum PostCode
 npm install react-daum-postcode
+## chat
+npm install sockjs-client
+npm install @stomp/stompjs

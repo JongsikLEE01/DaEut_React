@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import DaumPostcode from "react-daum-postcode"
 import Modal from "react-modal"
 import { useNavigate } from 'react-router-dom'
+import * as alert from '../../apis/alert'
 
 const OrderForm = ({ orders, orderItem }) => {
   const navigate = useNavigate()
@@ -12,6 +13,15 @@ const OrderForm = ({ orders, orderItem }) => {
   const [userAddressDetail, setUserAddressDetail] = useState('')
   const [address, setAdderss] = useState('')
   const [isOpen, setIsOpen] = useState(false)
+
+  const onCancel = () =>{
+    alert.confirm('정말 취소하시겠습니까?', '지금 결제를 취소 할 경우 현재 저장된 입력한 값이 모두 사라집니다.', 'warning',(result) => {
+      // isConfirmed : 확인 버튼 클릭 여부
+      if(result.isConfirmed){
+        navigate("/service")
+      }
+    })
+  }
 
   // 다음 주소 api
   const handlePostCode = (data) => {
@@ -46,19 +56,19 @@ const OrderForm = ({ orders, orderItem }) => {
   // 결제
   const onClickPayment = () => {
     if(!serviceDate){
-      alert('서비스 일정을 입력해주세요')
+      alert.alert('서비스 일정을 입력해주세요', '서비스 일정이 선택되지 않았아요, 서비스 일정을 선택해주세요.', 'warning')
       return
     }
     if(!serviceTime){
-      alert('예약 시간을 입력해주세요')
+      alert.alert('서비스 시간을 입력해주세요', '서비스 시간이 선택되지 않았아요, 서비스 일정을 선택해주세요.', 'warning')
       return
     }
     if(!userPost){
-      alert('우편 번호를 입력해주세요')
+      alert.alert('주소가 입력해주세요', '주소가 선택되지 않았아요, 서비스 일정을 선택해주세요.', 'warning')
       return
     }
     if(!userAddressDetail){
-      alert('상세 주소를 입력해주세요')
+      alert.alert('상세 주소가 입력해주세요', '상세 주소가 선택되지 않았아요, 서비스 일정을 선택해주세요.', 'warning')
       return
     }
 
@@ -198,7 +208,7 @@ const OrderForm = ({ orders, orderItem }) => {
                 <input type="hidden" name="totalPrice" id="totalPrice" value={orders.totalPrice} />
                 <input type="hidden" name="title" id="title" value={orders.title} />
                 <button className="btn btn-primary btn-lg sessuce color_main" type="button" onClick={onClickPayment}>결제하기</button>
-                <button className="btn btn-danger btn-lg cancel" type="button" data-bs-toggle="modal" data-bs-target="#cancelPaymentModel">취소하기</button>
+                <button className="btn btn-danger btn-lg cancel" type="button" data-bs-toggle="modal" data-bs-target="#cancelPaymentModel" onClick={onCancel}>취소하기</button>
               </div>
 
             </div>

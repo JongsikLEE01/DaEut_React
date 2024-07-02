@@ -1,14 +1,18 @@
 import React, { useState } from 'react'
+import * as alert from '../../apis/alert'
 
 const ReadContent = ({ service, onInsert, onPayment }) => {
-  
+  // 로그인 확인
+  const onCheckLogin =  () => {
+    alert.confirm('로그인이 필요한 서비스', '로그인이 필요한 서비스입니다. 로그인 후 다시 시도해주세요.', 'warning', )
+  }
+
+
   // 장바구니 추가
   const onSubmit=()=>{
     // 유저번호 가져오기 수정 필요
     const userNo = 1
     const serviceNo = service.serviceNo
-    let check = window.confirm(`장바구니에 추가하시겠습니까? `)
-    if(!check) return
 
     onInsert(userNo, serviceNo)
   }

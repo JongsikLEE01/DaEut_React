@@ -3,9 +3,15 @@ import { Link } from 'react-router-dom'
 import {formatDate} from '../../apis/format'
 
 const DoneForm = ({ ordersNo, payments }) => {
-  useEffect(()=>{
-    console.log(payments);
-  },[payments])
+  useEffect(() => {
+    if (payments) {
+      console.log(payments)
+    }
+  }, [payments])
+
+  if (!payments) {
+    return <div>Loading...</div>
+  }
     
   return (
     <div className="container complete mt-5 mb-5">

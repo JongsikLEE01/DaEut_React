@@ -89,10 +89,13 @@ public class ChatController {
      * @throws Exception
      */
     @MessageMapping("/sendMessage")
-    public void sendMessage(@Payload Chats chat) throws Exception {
-        chatService.insert(chat);
-        log.info("chat? {}", chat);
-
-        template.convertAndSend("/sub/chat/" + chat.getRoomNo(), chat);        
+    public void sendMessage(@Payload Chats chat){
+        try {
+            chatService.insert(chat);
+            log.info("chat? {}", chat);
+            template.convertAndSend("/sub/chat/" + chat.getRoomNo(), chat);
+        } catch (Exception e) {
+            log.error("Error sending message: {}", e.getMessage());
+        }       
     }
 }

@@ -16,6 +16,7 @@ import DoneFindIdPage from './pages/auth/DoneFindIdPage';
 import './App.css';
 import Done from './pages/Order/Done';
 import False from './pages/Order/False';
+import Chat from './pages/Service/Chat';
 // import LoginContextProvider from './contexts/LoginContextProvider'
 
 const App = () => {
@@ -29,6 +30,7 @@ const App = () => {
           <Route path="/service/:serviceNo" element={<ServiceRead />} />
           <Route path="/service/insert" element={<ServiceInsert />} />
           <Route path="/service/update/:serviceNo" element={<ServiceUpdate />} />
+          <Route path="/chat" element={<Chat />} />
           
           {/* Order */}
           <Route path="/order/:ordersNo" element={<Order />} />

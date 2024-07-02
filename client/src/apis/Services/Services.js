@@ -9,3 +9,6 @@ export const remove =  (serviceNo) => axios.delete(`/reservation/${serviceNo}`)
 
 // Cart Axios
 export const addCart = (userNo, serviceNo) => axios.post(`/cart`, {userNo, serviceNo})
+
+// Chat Axios
+export const addChatRoom = (partnerNo) => axios.post(`/user/userChatRoom`, {params : {partnerNo}})
