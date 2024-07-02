@@ -1,9 +1,12 @@
 import React from 'react';
+import Header from '../components/static/Header';
+import Footer from '../components/static/Footer';
 import Sidebar from '../components/user/Sidebar';
 
 const UserLayout = ({ children, toggleSidebar }) => {
   return (
     <div className="container-fluid">
+      <Header />
       <button className="btn btn-primary toggle-btn menu mt-2 ml-2 myBtn" id="toggle-btn" onClick={toggleSidebar}>
         메뉴
       </button>
@@ -13,6 +16,7 @@ const UserLayout = ({ children, toggleSidebar }) => {
           {children}
         </div>
       </div>
+      <Footer />
     </div>
   );
 };
