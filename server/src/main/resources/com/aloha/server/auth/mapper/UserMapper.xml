@@ -208,7 +208,7 @@
     </delete>
 
     <!-- 예약 가져오기 -->
-    <select id="selectOrdersByUserId" resultMap="com.aloha.server.reservation.dto.Orders">
+    <select id="selectOrdersByUserId">
         SELECT 
             o.orders_no AS ordersNo, 
             o.user_no AS userNo, 
