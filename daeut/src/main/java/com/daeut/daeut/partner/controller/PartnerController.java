@@ -75,7 +75,7 @@ public class PartnerController {
     
     
     // 마이페이지 정보 조회
-    @GetMapping("/{userNo}")
+    @GetMapping("/partnerList/{userNo}")
     public ResponseEntity<?> partnerMypage(@PathVariable("userNo") int userNo) throws Exception {
         try {
             Partner partner = partnerService.getPartners(userNo);
@@ -87,7 +87,7 @@ public class PartnerController {
 
     // 수정 처리
     @PreAuthorize("hasRole('ROLE_ADMIN') or #user.userId == authentication.name")
-    @PutMapping()
+    @PutMapping("/update/{userNo}")
     public ResponseEntity<?> partnerMypageUpdatePro(@RequestBody Users user, @RequestBody Partner partner) {
         try {
             int result = partnerService.partnerUpdate(partner, user);
@@ -104,7 +104,7 @@ public class PartnerController {
 
 
     // 탈퇴 처리
-    @DeleteMapping("/{userNo}")
+    @DeleteMapping("/delete/{userNo}")
     public ResponseEntity<?> deleteUser(@RequestParam("userNo") int userNo, @RequestParam("userId") String userId) {
         try {
             // 사용자 삭제 처리
@@ -127,7 +127,7 @@ public class PartnerController {
     }
 
     // 파트너 리뷰란
-    @GetMapping("/{partnerNo}")
+    @GetMapping("/reviews/{partnerNo}")
     @Transactional
     public ResponseEntity<?> getReviewsByPartnerNo(@RequestParam("partnerNo") Integer partnerNo) {
         try {
@@ -149,7 +149,7 @@ public class PartnerController {
     }
 
     // 파트너 예약란
-    @GetMapping("/{partnerNo}/reservation")
+    @GetMapping("/reservations/{partnerNo}")
     public String partnerReservation(Model model, HttpSession session) throws Exception {
         int partnerNo = (int) session.getAttribute("partnerNo"); // 세션에서 partnerNo 가져오기
         List<Orders> orderList = orderService.listByPartnerNo(partnerNo); // 주문 목록 가져오기
