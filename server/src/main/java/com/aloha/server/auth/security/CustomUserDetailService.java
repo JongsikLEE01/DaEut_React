@@ -11,6 +11,7 @@ import com.aloha.server.auth.dto.Users;
 import com.aloha.server.auth.mapper.UserMapper;
 
 import lombok.extern.slf4j.Slf4j;
+
 @Slf4j
 @Service
 public class CustomUserDetailService implements UserDetailsService {
@@ -19,17 +20,10 @@ public class CustomUserDetailService implements UserDetailsService {
     private UserMapper userMapper;
 
     @Override
-    public UserDetails loadUserByUsername(String username) {
+    public UserDetails loadUserByUsername(String username)  {
         log.info("login - loadUserByUsername : " + username);
-        Users user = null;
-        try {
-            log.info("유저이름이야야야야야양" + username);
-            user = userMapper.login(username);
-            log.info("user ::::::::::::::: " + user);
-        } catch (Exception e) {
-            log.error("Error while fetching user details: ", e);
-            throw new UsernameNotFoundException("Error while fetching user details", e);
-        }
+        // MyBatis를 사용하여 데이터베이스에서 사용자 세부 정보를 가져옵니다.
+        Users user = userMapper.login(username);
 
         if (user == null) {
             log.info("사용자 없음...");
@@ -37,10 +31,12 @@ public class CustomUserDetailService implements UserDetailsService {
         }
         log.info("user :::::");
         log.info(user.toString());
+        // 🟢🟡🔴 CustomUser (➡User) 사용
         CustomUser customUser = new CustomUser(user);
 
         log.info("customuser :::::");
         log.info(customUser.toString());
         return customUser;
+
     }
 }

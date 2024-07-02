@@ -1,15 +1,15 @@
 import React from 'react'
-import MainLayout from '../../layouts/MainLayout';
-import DoneFindId from '../../components/auth/DoneFindId';
+import DoneFindId from '../../components/auth/DoneFindId'
+import MainLayout from '../../layouts/MainLayout'
 
 const DoneFindIdPage = () => {
     return (
         <MainLayout>
-            <DoneFindId />
+            <DoneFindId/>
         </MainLayout>
             
     
-      );
+      )
 }
 
 export default DoneFindIdPage

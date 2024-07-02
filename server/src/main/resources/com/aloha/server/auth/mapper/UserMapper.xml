@@ -134,7 +134,6 @@
     <select id="findUserByDetails" resultType="String">
         SELECT u.user_id
         FROM users u
-        LEFT OUTER JOIN user_auth auth ON u.user_no = auth.user_no
         WHERE u.user_name = #{userName} AND u.user_email = #{userEmail} AND u.user_phone = #{userPhone}
     </select>
 

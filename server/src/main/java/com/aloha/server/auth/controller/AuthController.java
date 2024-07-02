@@ -4,15 +4,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -142,27 +141,45 @@ public class AuthController {
 
     // 아이디 찾기 처리
     @PostMapping("/findId")
-    public ResponseEntity<Map<String, String>> findId(@RequestBody Map<String, String> userDetails) {
-        String userName = userDetails.get("userName");
-        String userEmail = userDetails.get("userEmail");
-        String userPhone = userDetails.get("userPhone");
+    public ResponseEntity<Map<String, Object>> findId(@RequestBody Users users) {
 
-        Map<String, String> response = new HashMap<>();
+        Map<String, Object> response = new HashMap<>();
+        
+        if (users == null ) {
+            response.put("error", "사용자 정보를 찾을 수 없습니다.");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+        }
+        
+        log.info("users : " + users);
+        String userName = users.getUserName();
+        String userEmail = users.getUserEmail();
+        String userPhone = users.getUserPhone();
+
+        log.info("::::::::::::::::::::");
+        log.info("userName : " + userName);
+        log.info("userEmail : " + userEmail);
+        log.info("userPhone : " + userPhone);
+        log.info("::::::::::::::::::::");
+        
         try {
             String userId = userService.findUserByDetails(userName, userEmail, userPhone);
             if (userId != null) {
                 response.put("userId", userId);
-                return new ResponseEntity<>(response, HttpStatus.OK);
+                return ResponseEntity.ok(response);
             } else {
                 response.put("error", "일치하는 사용자 정보를 찾을 수 없습니다.");
-                return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
             }
+        } catch (UsernameNotFoundException e) {
+            response.put("error", e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         } catch (Exception e) {
             log.error("아이디 찾기 중 오류가 발생했습니다.", e);
             response.put("error", "아이디 찾기 중 오류가 발생했습니다.");
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
+    
 
 
     // 아이디 찾기 완료

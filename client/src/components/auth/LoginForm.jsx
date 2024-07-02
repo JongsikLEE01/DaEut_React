@@ -1,33 +1,33 @@
-import React, { useContext, useEffect, useState } from 'react';
-import './auth.css';
-import { LoginContext } from '../contexts/LoginContextProvider';
-import Cookies from 'js-cookie';
-import { Link } from 'react-router-dom';
+import React, { useContext, useEffect, useState } from 'react'
+import './auth.css'
+import { LoginContext } from '../contexts/LoginContextProvider'
+import Cookies from 'js-cookie'
+import { Link } from 'react-router-dom'
 
 const LoginForm = () => {
-  const { login, rememberId, setRememberId } = useContext(LoginContext);
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const { login, rememberId, setRememberId } = useContext(LoginContext)
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
 
   useEffect(() => {
-    const rememberedUsername = Cookies.get('username');
+    const rememberedUsername = Cookies.get('username')
     if (rememberedUsername) {
-      setUsername(rememberedUsername);
+      setUsername(rememberedUsername)
     }
-  }, []);
+  }, [])
 
   const onLogin = async (e) => {
-    e.preventDefault();
-    await login(username, password);
-  };
+    e.preventDefault()
+    await login(username, password)
+  }
 
   const handleRememberId = (e) => {
-    setRememberId(e.target.checked);
+    setRememberId(e.target.checked)
     if (!e.target.checked) {
-      Cookies.remove('username');
-      setUsername('');
+      Cookies.remove('username')
+      setUsername('')
     }
-  };
+  }
 
   return (
     <div className="container form-container">
@@ -89,7 +89,7 @@ const LoginForm = () => {
         </div>
       </form>
     </div>
-  );
-};
+  )
+}
 
-export default LoginForm;
+export default LoginForm
