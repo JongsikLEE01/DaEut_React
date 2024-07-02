@@ -1,10 +1,10 @@
 import React from 'react'
 import { checkDuplicateId, checkDuplicateEmail, signup } from '../../apis/auth/auth'
 import { Link, useNavigate } from 'react-router-dom'
-import './Auth.css'
 import useForm from './hook/useForm'
 import useValidation from './hook/useValidation'
 import useDuplicateCheck from './hook/useDuplicateCheck'
+import './auth.css'
 
 const AdminSignUpForm = () => {
     const navigate = useNavigate()

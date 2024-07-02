@@ -1,7 +1,7 @@
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Link } from 'react-router-dom' // react-router-dom의 Link 컴포넌트를 사용
-import "./Auth.css"
+import "./auth.css"
 
 const MemberComponent = ({ to, normalIcon, hoverIcon, text, className }) => {
   return (
