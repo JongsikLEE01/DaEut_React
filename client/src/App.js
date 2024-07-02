@@ -11,7 +11,7 @@ import LoginPage from './pages/auth/LoginPage';
 import LoginContextProvider from './components/contexts/LoginContextProvider';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import FindIdPage from './pages/auth/FindIdPage';
-import CompleteFindIdPage from './pages/auth/CompleteFindIdPage';
+import DoneFindIdPage from './pages/auth/DoneFindIdPage';
 
 const App = () => {
   return (
@@ -27,7 +27,7 @@ const App = () => {
           <Route path="/service/update/:serviceNo" element={<ServiceUpdate />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/findId" element={<FindIdPage />} />
-          <Route path="/findIdComplete/:userId" element={<CompleteFindIdPage />} />
+          <Route path="/findIdComplete/:userId" element={<DoneFindIdPage />} />
         </Routes>
       </LoginContextProvider>
     </BrowserRouter>
