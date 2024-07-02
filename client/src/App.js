@@ -15,6 +15,9 @@ import FindIdPage from './pages/auth/FindIdPage'
 import DoneFindIdPage from './pages/auth/DoneFindIdPage'
 // import LoginContextProvider from './contexts/LoginContextProvider'
 import Order from './pages/Order/Payment'
+import FindPasswordPage from './pages/auth/FindPasswordPage'
+import ResetPasswordPage from './pages/auth/ResetPasswordPage'
+import ResetPwCompletePage from './pages/auth/ResetPwCompletePage'
 
 
 const App = () => {
@@ -33,6 +36,9 @@ const App = () => {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/findId" element={<FindIdPage />} />
           <Route path="/findIdComplete/:userId" element={<DoneFindIdPage />} />
+          <Route path="/findPw" element={<FindPasswordPage />} />
+          <Route path="/resetPw" element={<ResetPasswordPage />} />
+          <Route path="/resetPwComplete" element={<ResetPwCompletePage />} />
         </Routes>
       </LoginContextProvider>
     </BrowserRouter>

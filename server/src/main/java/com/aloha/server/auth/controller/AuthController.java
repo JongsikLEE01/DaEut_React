@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.aloha.server.auth.dto.CustomUser;
 import com.aloha.server.auth.dto.Users;
 import com.aloha.server.auth.service.UserService;
+import com.aloha.server.reservation.service.EmailService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -36,8 +37,8 @@ public class AuthController {
     @Autowired
     private UserService userService;
 
-    // @Autowired
-    // private EmailService emailService;
+    @Autowired
+    private EmailService emailService;
 
     // 로그인 선택
     @GetMapping("/member")
@@ -199,93 +200,99 @@ public class AuthController {
 
     // 비밀번호 찾기 처리
     @PostMapping("/sendAuthCode")
-    @ResponseBody
-    public ResponseEntity<String> sendAuthCode(@RequestBody Map<String, String> payload, HttpSession session) {
+    public ResponseEntity<Map<String, String>> sendAuthCode(@RequestBody Map<String, String> payload) {
+        Map<String, String> response = new HashMap<>();
         try {
             String userEmail = payload.get("userEmail");
             String authCode = generateAuthCode();
-            session.setAttribute("authCode", authCode);
-            session.setAttribute("userEmail", userEmail);
-
-            // emailService.sendSimpleMessage(userEmail, "비밀번호 찾기 인증 코드", "인증 코드: " + authCode);
-            return new ResponseEntity<>("인증 코드가 이메일로 전송되었습니다.", HttpStatus.OK);
+            emailService.sendSimpleMessage(userEmail, "비밀번호 찾기 인증 코드", "인증 코드: " + authCode);
+            response.put("message", "인증 코드가 이메일로 전송되었습니다.");
+            response.put("authCode", authCode); // 인증 코드를 클라이언트에 반환 (실제 서비스에서는 보안상 제거 필요)
+            return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             log.error("인증 코드 전송 중 오류가 발생했습니다.", e);
-            return new ResponseEntity<>("인증 코드 전송에 실패했습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
+            response.put("message", "인증 코드 전송에 실패했습니다.");
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @PostMapping("/findPw")
-    public ResponseEntity<String> findPw(@RequestParam String userName,
-                                         @RequestParam String userId,
-                                         @RequestParam String userEmail,
-                                         @RequestParam String authCode,
-                                         HttpSession session) {
+    @PostMapping("/verifyAuthCode")
+    public ResponseEntity<Map<String, String>> verifyAuthCode(@RequestBody Map<String, String> payload) {
+        Map<String, String> response = new HashMap<>();
         try {
-            String sessionAuthCode = (String) session.getAttribute("authCode");
-            String sessionUserEmail = (String) session.getAttribute("userEmail");
+            String userEmail = payload.get("userEmail");
+            String authCode = payload.get("authCode");
+            String inputAuthCode = payload.get("inputAuthCode");
 
-            if (sessionAuthCode != null && sessionAuthCode.equals(authCode) && userEmail.equals(sessionUserEmail)) {
-                return new ResponseEntity<>("redirect:/auth/resetPw?userId=" + userId, HttpStatus.OK);
+            if (authCode != null && authCode.equals(inputAuthCode)) {
+                response.put("message", "인증 성공");
+                response.put("userEmail", userEmail);
+                return new ResponseEntity<>(response, HttpStatus.OK);
             } else {
-                return new ResponseEntity<>("인증 코드가 잘못되었거나 유효하지 않습니다.", HttpStatus.BAD_REQUEST);
+                response.put("message", "인증 코드가 잘못되었거나 유효하지 않습니다.");
+                return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
             }
         } catch (Exception e) {
-            log.error("비밀번호 찾기 중 오류가 발생했습니다.", e);
-            return new ResponseEntity<>("비밀번호 찾기 중 오류가 발생했습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
+            log.error("인증 코드 검증 중 오류가 발생했습니다.", e);
+            response.put("message", "인증 코드 검증 중 오류가 발생했습니다.");
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    // 비밀번호 재설정 화면
-    @GetMapping("/resetPw")
-    public ResponseEntity<Map<String, String>> resetPw(@RequestParam String userId) {
-        Map<String, String> response = new HashMap<>();
-        response.put("userId", userId);
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-
-    // 비밀번호 재설정 처리
+    // 비밀번호 재설정
     @PostMapping("/resetPw")
-    public ResponseEntity<String> resetPw(@RequestParam String userId,
-                                          @RequestParam String userPassword,
-                                          @RequestParam String confirmPassword) {
+    public ResponseEntity<?> resetPw(@RequestBody Users users) {
+        String userId = users.getUserId();
+        String userPassword = users.getUserPassword();
+        String confirmPassword = users.getConfirmPassword();
+
+        log.info(":::::::::::::::::::::::::");
+        log.info("userId : " + userId);
+        log.info("userPassword : " + userPassword);
+        log.info("confirmPassword : " + confirmPassword);
+        log.info(":::::::::::::::::::::::::");
+
         try {
             Users user = userService.select(userId);
+            log.info(user.toString());
             if (user != null) {
                 BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
                 if (passwordEncoder.matches(userPassword, user.getUserPassword())) {
-                    return new ResponseEntity<>("기존의 비밀번호와 일치합니다.", HttpStatus.BAD_REQUEST);
+                    return new ResponseEntity<>("SAME", HttpStatus.OK);
                 }
 
                 if (!userPassword.equals(confirmPassword)) {
-                    return new ResponseEntity<>("비밀번호가 일치하지 않습니다.", HttpStatus.BAD_REQUEST);
+                    return new ResponseEntity<>("CHECKAGAIN", HttpStatus.OK);
                 }
 
-                user.setUserPassword(passwordEncoder.encode(userPassword));
-                userService.updatePw(user);
-                return new ResponseEntity<>("비밀번호 재설정 성공", HttpStatus.OK);
+                user.setUserPassword(userPassword); // 사용자 객체에 새로운 비밀번호 설정
+                userService.updatePw(user); // 서비스 메서드 변경
+
+                return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
             } else {
-                return new ResponseEntity<>("사용자를 찾을 수 없습니다.", HttpStatus.BAD_REQUEST);
+                return ResponseEntity.notFound().build();
             }
         } catch (Exception e) {
-            log.error("비밀번호 재설정 중 오류가 발생했습니다.", e);
-            return new ResponseEntity<>("비밀번호 재설정 중 오류가 발생했습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("비밀번호 재설정 중 오류가 발생했습니다.");
         }
     }
 
     // 비밀번호 재설정 성공
     @GetMapping("/resetPwComplete")
-    public ResponseEntity<String> resetPwComplete() {
-        return new ResponseEntity<>("Password reset complete page", HttpStatus.OK);
+    public ResponseEntity<Map<String, String>> resetPwComplete() {
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "비밀번호 재설정이 완료되었습니다.");
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
 
     private String generateAuthCode() {
         Random random = new Random();
         int authCode = 100000 + random.nextInt(900000);
         return String.valueOf(authCode);
     }
-
+    
     /**
      * 사용자 정보 조회
      * @param customUser

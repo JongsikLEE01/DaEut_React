@@ -85,7 +85,7 @@ const LoginForm = () => {
         </div>
         <div className="d-grid gap-2">
           <Link to="/findId" className="btn btn-light border">아이디 찾기</Link>
-          <Link to="/auth/findPw" className="btn btn-light border">비밀번호 찾기</Link>
+          <Link to="/findPw" className="btn btn-light border">비밀번호 찾기</Link>
         </div>
       </form>
     </div>

@@ -36,3 +36,55 @@ export const findIdComplete = (userId) => {
             throw error
         })
 }
+
+// 인증 코드 전송
+export const sendAuthCode = (userEmail) => {
+    return axios.post('/sendAuthCode', { userEmail })
+        .then(response => response.data)
+        .catch(error => {
+            console.error('인증 코드 전송 중 오류 발생!!', error)
+            throw error
+        })
+}
+
+// 인증 코드 검증
+export const verifyAuthCode = (data) => {
+    return axios.post('/verifyAuthCode', data)
+        .then(response => response.data)
+        .catch(error => {
+            console.error('인증 코드 검증 중 오류 발생!!', error)
+            throw error
+        })
+}
+
+// 비밀번호 재설정
+export const resetPassword = (userId, userPassword, confirmPassword) => {
+    const data = {
+        userId: userId,
+        userPassword: userPassword,
+        confirmPassword: confirmPassword
+    }
+
+    return axios.post('/resetPw', data)
+        .then(response => response.data)
+        .catch(error => {
+            console.error('비밀번호 재설정 중 오류 발생!!', error)
+            throw error
+        })
+}
+
+// 비밀번호 재설정
+export const  resetPw = (userId, userPassword, confirmPassword) => {
+    const data = {
+        userId: userId,
+        userPassword: userPassword,
+        confirmPassword: confirmPassword
+    }
+
+    return axios.post('/resetPw', data)
+        .then(response => response.data)
+        .catch(error => {
+            console.error('비밀번호 재설정 중 오류 발생!!', error)
+            throw error
+        })
+}
