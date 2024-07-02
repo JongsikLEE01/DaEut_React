@@ -9,6 +9,16 @@
             "projectName": "daeut",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-ServerApplication<server>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.aloha.server.ServerApplication",
+            "projectName": "server",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
         }
     ]
 }

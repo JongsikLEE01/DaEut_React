@@ -7,7 +7,7 @@ const MemberContainer = () => {
     <div className="container">
       <div className="memberRow">
         <MemberComponent
-          to="/auth/login"
+          to="/login"
           normalIcon={faLock}
           hoverIcon={faLockOpen}
           text="로그인 하기"
