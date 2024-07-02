@@ -48,7 +48,7 @@ public interface UserService {
     public int update(Users user) throws Exception;
 
     // 회원 탈퇴
-    public int delete(String userId) throws Exception;
+    public int delete(Users user) throws Exception;
 
     // 예약
     public List<Orders> selectOrdersByUserId(String userId) throws Exception;

@@ -1,3 +1,4 @@
+
 import React from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Index from './pages/index/Index'
@@ -12,6 +13,9 @@ import LoginContextProvider from './components/contexts/LoginContextProvider'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import FindIdPage from './pages/auth/FindIdPage'
 import DoneFindIdPage from './pages/auth/DoneFindIdPage'
+// import LoginContextProvider from './contexts/LoginContextProvider'
+import Order from './pages/Order/Payment'
+
 
 const App = () => {
   return (
@@ -25,6 +29,7 @@ const App = () => {
           <Route path="/service/:serviceNo" element={<ServiceRead />} />
           <Route path="/service/insert" element={<ServiceInsert />} />
           <Route path="/service/update/:serviceNo" element={<ServiceUpdate />} />
+          <Route path="/order/:ordersNo" element={<Order />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/findId" element={<FindIdPage />} />
           <Route path="/findIdComplete/:userId" element={<DoneFindIdPage />} />
@@ -34,4 +39,6 @@ const App = () => {
   )
 }
 
+
 export default App
+

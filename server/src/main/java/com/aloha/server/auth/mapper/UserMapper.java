@@ -54,7 +54,7 @@ public interface UserMapper {
     public int update(Users user) throws Exception;
 
     // 회원 탈퇴
-    public int delete(String userId) throws Exception;
+    public int delete(Users userId) throws Exception;
 
     // 예약 가져오기
     public List<Orders> selectOrdersByUserId(String userId) throws Exception;
