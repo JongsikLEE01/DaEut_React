@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,6 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 @RequestMapping("")
+@CrossOrigin(origins = "*")
 public class AuthController {
 
     @Autowired
@@ -92,29 +94,29 @@ public class AuthController {
     }
 
     // 로그인 화면
-    @GetMapping("/login")
-    public ResponseEntity<Map<String, Object>> login(@RequestParam(value = "error", required = false) String error,
-                                                     @CookieValue(value = "remember-id", required = false) Cookie cookie) {
-        Map<String, Object> response = new HashMap<>();
-        if (error != null) {
-            response.put("errorMessage", "아이디 또는 비밀번호가 올바르지 않습니다.");
-        }
+    // @GetMapping("/login")
+    // public ResponseEntity<Map<String, Object>> login(@RequestParam(value = "error", required = false) String error,
+    //                                                  @CookieValue(value = "remember-id", required = false) Cookie cookie) {
+    //     Map<String, Object> response = new HashMap<>();
+    //     if (error != null) {
+    //         response.put("errorMessage", "아이디 또는 비밀번호가 올바르지 않습니다.");
+    //     }
 
-        String userId = "";
-        boolean rememberId = false;
+    //     String userId = "";
+    //     boolean rememberId = false;
 
-        if (cookie != null) {
-            log.info("CookieName : " + cookie.getName());
-            log.info("CookieValue : " + cookie.getValue());
-            userId = cookie.getValue();
-            rememberId = true;
-        }
+    //     if (cookie != null) {
+    //         log.info("CookieName : " + cookie.getName());
+    //         log.info("CookieValue : " + cookie.getValue());
+    //         userId = cookie.getValue();
+    //         rememberId = true;
+    //     }
 
-        response.put("userId", userId);
-        response.put("rememberId", rememberId);
+    //     response.put("userId", userId);
+    //     response.put("rememberId", rememberId);
 
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
+    //     return new ResponseEntity<>(response, HttpStatus.OK);
+    // }
 
     // 로그인 처리
     // @PostMapping("/login")
@@ -140,21 +142,28 @@ public class AuthController {
 
     // 아이디 찾기 처리
     @PostMapping("/findId")
-    public ResponseEntity<String> findId(@RequestParam String userName,
-                                         @RequestParam String userEmail,
-                                         @RequestParam String userPhone) {
+    public ResponseEntity<Map<String, String>> findId(@RequestBody Map<String, String> userDetails) {
+        String userName = userDetails.get("userName");
+        String userEmail = userDetails.get("userEmail");
+        String userPhone = userDetails.get("userPhone");
+
+        Map<String, String> response = new HashMap<>();
         try {
             String userId = userService.findUserByDetails(userName, userEmail, userPhone);
             if (userId != null) {
-                return new ResponseEntity<>("redirect:/auth/findIdComplete?userId=" + userId, HttpStatus.OK);
+                response.put("userId", userId);
+                return new ResponseEntity<>(response, HttpStatus.OK);
             } else {
-                return new ResponseEntity<>("일치하는 사용자 정보를 찾을 수 없습니다.", HttpStatus.BAD_REQUEST);
+                response.put("error", "일치하는 사용자 정보를 찾을 수 없습니다.");
+                return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
             }
         } catch (Exception e) {
             log.error("아이디 찾기 중 오류가 발생했습니다.", e);
-            return new ResponseEntity<>("아이디 찾기 중 오류가 발생했습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
+            response.put("error", "아이디 찾기 중 오류가 발생했습니다.");
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 
     // 아이디 찾기 완료
     @GetMapping("/findIdComplete")
@@ -163,6 +172,7 @@ public class AuthController {
         response.put("userId", userId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
 
     // 비밀번호 찾기 화면
     @GetMapping("/findPw")

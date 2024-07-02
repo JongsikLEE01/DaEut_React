@@ -1,14 +1,16 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 const ServiceUpdateForm = ({ onUpdate, service, fileList, onRemove }) => {
   // state 등록
-  const [serviceName, setServiceName] = useState(service.serviceName)
-  const [serviceCategory, setServiceCategory] = useState(service.serviceCategory)
-  const [servicePrice, setServicePrice] = useState(service.servicePrice)
-  const [serviceContent, setServiceContent] = useState(service.serviceContent)
+  const [serviceName, setServiceName] = useState('')
+  const [serviceCategory, setServiceCategory] = useState([])
+  const [servicePrice, setServicePrice] = useState('')
+  const [serviceContent, setServiceContent] = useState('')
   const [thumbnailFile, setThumbnailFile] = useState(null)
   const [imageFiles, setImageFiles] = useState([])
+  const [newThumbnailFile, setNewThumbnailFile] = useState(null)
+  const [newImageFiles, setNewImageFiles] = useState([])
 
   // handle
   const handleChangeName = (e) => {
@@ -35,7 +37,7 @@ const ServiceUpdateForm = ({ onUpdate, service, fileList, onRemove }) => {
   const previewThumbnail = (event) => {
     const file = event.target.files[0]
     if (file) {
-      setThumbnailFile(file)
+      setNewThumbnailFile(file)
 
       const reader = new FileReader()
       reader.onloadend = () => {
@@ -55,7 +57,7 @@ const ServiceUpdateForm = ({ onUpdate, service, fileList, onRemove }) => {
   const previewImages = (e) => {
     const files = Array.from(e.target.files)
     if (files.length > 0) {
-      setImageFiles(files)
+      setNewImageFiles(files)
 
       const readerPromises = files.map((file) => {
         return new Promise((resolve, reject) => {
@@ -94,6 +96,7 @@ const ServiceUpdateForm = ({ onUpdate, service, fileList, onRemove }) => {
     }
 
     const formData = new FormData()
+    formData.append('serviceNo', service.serviceNo)
     formData.append('serviceName', serviceName)
     formData.append('serviceCategory', serviceCategory.join(','))
     formData.append('servicePrice', servicePrice)
@@ -101,13 +104,18 @@ const ServiceUpdateForm = ({ onUpdate, service, fileList, onRemove }) => {
     formData.append('partnerNo', 1)
 
     // 썸네일 이미지
-    if (thumbnailFile) {
+    if (newThumbnailFile) {
+      formData.append('file', newThumbnailFile)
+    }else if(thumbnailFile){
       formData.append('file', thumbnailFile)
     }
-    
     // 설명 이미지
-    if (imageFiles.length > 0) {
-      imageFiles.forEach((file) => {
+    if (newImageFiles.length > 0) {
+      newImageFiles.map((file) => {
+        formData.append('file', file)
+      })
+    }else if (imageFiles.length > 0) {
+      imageFiles.map((file) => {
         formData.append('file', file)
       })
     }
@@ -120,15 +128,30 @@ const ServiceUpdateForm = ({ onUpdate, service, fileList, onRemove }) => {
     onUpdate(formData, headers)
   }
 
-  // 삭제 전송
-  const onSubmitRemove =() =>{
-    // TODO : 스윗얼럿 처리 필요
-    let check = window.confirm('정말 삭제하시겠습니까?') 
-    if(!check){
-      return
-    }
-    else onRemove(service.serviceNo)  
+  // 삭제 처리
+  const onSubmitRemove = () => {
+    onRemove(service.serviceNo) // 서비스 삭제 처리
   }
+
+  useEffect(() => {
+    // 서비스 설정
+    if (service) {
+      setServiceName(service.serviceName)
+      setServicePrice(service.servicePrice)
+      setServiceContent(service.serviceContent)
+    }
+
+    fileList.forEach((file) => {
+      // 썸네일 파일 설정
+      if (file.fileCode === 1) {
+        setThumbnailFile(file)
+      } 
+      // 설명 이미지 파일 설정
+      else if (file.fileCode === 0) {
+        setImageFiles((prevFiles) => [...prevFiles, file])
+      }
+    })
+  }, [service, fileList])
 
   return (
     <div className="reservationInsertBox">
@@ -169,6 +192,7 @@ const ServiceUpdateForm = ({ onUpdate, service, fileList, onRemove }) => {
             className="tag-button"
             value="청소"
             onChange={handleCategoryChange}
+            checked={serviceCategory.includes('청소')}
           />
           <label htmlFor="serviceCategoryClean">청소</label>
           <input
@@ -178,6 +202,7 @@ const ServiceUpdateForm = ({ onUpdate, service, fileList, onRemove }) => {
             className="tag-button"
             value="빨래"
             onChange={handleCategoryChange}
+            checked={serviceCategory.includes('빨래')}
           />
           <label htmlFor="serviceCategoryWash">빨래</label>
           <input
@@ -187,6 +212,7 @@ const ServiceUpdateForm = ({ onUpdate, service, fileList, onRemove }) => {
             className="tag-button"
             value="방역"
             onChange={handleCategoryChange}
+            checked={serviceCategory.includes('방역')}
           />
           <label htmlFor="serviceCategoryQuarantine">방역</label>
           <input
@@ -196,6 +222,7 @@ const ServiceUpdateForm = ({ onUpdate, service, fileList, onRemove }) => {
             className="tag-button"
             value="보안"
             onChange={handleCategoryChange}
+            checked={serviceCategory.includes('보안')}
           />
           <label htmlFor="serviceCategorySecurity">보안</label>
           <input
@@ -205,6 +232,7 @@ const ServiceUpdateForm = ({ onUpdate, service, fileList, onRemove }) => {
             className="tag-button"
             value="기타"
             onChange={handleCategoryChange}
+            checked={serviceCategory.includes('기타')}
           />
           <label htmlFor="serviceCategoryEtc">기타</label>
         </div>
@@ -216,8 +244,7 @@ const ServiceUpdateForm = ({ onUpdate, service, fileList, onRemove }) => {
             name="serviceContent"
             rows="4"
             cols="50"
-            placeholder="* tip : 사용자들이 부담 없이 볼 수 있도록 한줄로 작성하는 것이 좋아요.
-                             부적절한 글로 판단되어 다른 사용자로부터 일정 수 이상의 신고를 받는 경우 글이 삭제처리 될 수 있습니다."
+            placeholder="서비스 설명"
             required
             onChange={handleChangeContent}
             value={serviceContent}
@@ -241,13 +268,20 @@ const ServiceUpdateForm = ({ onUpdate, service, fileList, onRemove }) => {
             name="thumbnail"
             accept="image/*"
             onChange={previewThumbnail}
-            required
           />
           <p className="file-upload-note">
             사진은 최대 20MB 이하의 JPG, PNG, GIF 파일 10장까지 첨부 가능합니다.
           </p>
         </div>
-        <div id="image-thumbnail-container"></div>
+        <div id="image-thumbnail-container">
+          {thumbnailFile && (
+            <img
+              src={`/file/${thumbnailFile.fileNo}`}
+              alt={thumbnailFile.fileName}
+              style={{ width: '150px', height: '150px' }}
+            />
+          )}
+        </div>
 
         <br />
 
@@ -268,19 +302,31 @@ const ServiceUpdateForm = ({ onUpdate, service, fileList, onRemove }) => {
             accept="image/*"
             multiple
             onChange={previewImages}
-            required
           />
           <p className="file-upload-note">
             사진은 최대 20MB 이하의 JPG, PNG, GIF 파일 10장까지 첨부 가능합니다.
           </p>
         </div>
-        <div id="image-preview-container"></div>
+        <div id="image-preview-container">
+          {imageFiles.map((file) => (
+            <img
+              key={file.fileNo}
+              src={`/file/${file.fileNo}`}
+              alt={file.fileName}
+              style={{ width: '150px', height: '150px' }}
+            />
+          ))}
+        </div>
 
         <div className="bottomButton">
           <button type="submit" className="reservationInsertOk sessuce mx-2">
-            등록하기
+            수정하기
           </button>
-          <button type='button' className="cancleInsert mx-2 cancel" onClick={onSubmitRemove}>
+          <button
+            type="button"
+            className="cancleInsert mx-2 cancel"
+            onClick={onSubmitRemove}
+          >
             삭제하기
           </button>
           <Link className="cancleInsert mx-2 cancel p-1" to="/service">

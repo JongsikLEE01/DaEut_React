@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import com.aloha.server.auth.dto.Review;
 import com.aloha.server.partner.dto.Partner;
 
 
@@ -18,7 +19,7 @@ public interface PartnerMapper {
     public int partnerUpdate(Partner partner) throws Exception;
 
     // 사용자가 작성한 리뷰 모아보기
-    // public List<Review> getReviews(int partnerNo) throws Exception;
+    public List<Review> getReviews(int partnerNo) throws Exception;
 
     // 파트너 번호를 기준으로 파트너 정보를 조회하는 메서드
     public Partner getPartnerByPartnerNo(int partnerNo);

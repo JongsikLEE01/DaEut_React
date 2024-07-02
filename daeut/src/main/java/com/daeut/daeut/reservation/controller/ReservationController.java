@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -94,7 +95,6 @@ public class ReservationController {
     public ResponseEntity<Map<String, Object>> reservationRead(@PathVariable("serviceNo") int serviceNo) {
         try {
             Services service = reservationService.serviceSelect(serviceNo);
-            Files thumbnail = reservationService.SelectThumbnail(serviceNo);
             List<Files> files = reservationService.SelectFiles(serviceNo);
             // Users user = (Users) session.getAttribute("user");
             List<Review> reviews = reviewService.getReviewByServiceNo(serviceNo);
@@ -113,12 +113,13 @@ public class ReservationController {
             
             int averageRating = reviewService.getAverageRatingByServiceNo(serviceNo);
 
+            log.info(files.toString());
+
             // Response 맵 구성
             Map<String, Object> response = new HashMap<>();
             response.put("serviceNo", serviceNo);
             response.put("service", service);
             response.put("fileList", fileList);
-            response.put("thumbnail", thumbnail);
             response.put("files", files);
             // response.put("user", user);
             response.put("reviews", reviews);
@@ -168,15 +169,9 @@ public class ReservationController {
      */
     @PutMapping("")
     public ResponseEntity<String> updatePro(Services service) {
+        log.info("서비스 수정....");
+        log.info("service {}", service);
         try {
-            // int partnerNo = (int) session.getAttribute("partnerNo");
-            // service.setPartnerNo(partnerNo);
-
-            Files file = new Files();
-            file.setParentTable("service");
-            file.setParentNo(service.getServiceNo());
-            fileService.deleteByParent(file);
-
             int result = reservationService.serviceUpdate(service);
 
             if (result == 0) {
