@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate, useLocation } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import TipUpdate from '../../components/tip/TipUpdate';
 
 const TipUpdateContainer = () => {
@@ -10,7 +11,6 @@ const TipUpdateContainer = () => {
   const [fileList, setFileList] = useState([]);
   const [mainImagePreview, setMainImagePreview] = useState([]);
   const [additionalImagePreview, setAdditionalImagePreview] = useState([]);
-  const [showModal, setShowModal] = useState(false);
 
   const query = new URLSearchParams(location.search);
   const boardNo = query.get('no');
@@ -60,13 +60,32 @@ const TipUpdateContainer = () => {
   };
 
   const handleDelete = async () => {
-    setShowModal(false);
     try {
-      await axios.post('/tip/tipDelete', { boardNo });
+      const token = localStorage.getItem('token');
+      await axios.delete(`/tip/boards/${boardNo}`, {
+        headers: {
+          'Authorization': token ? `Bearer ${token}` : ''
+        }
+      });
       navigate('/tip/boards');
     } catch (error) {
       console.error('Error deleting post:', error);
     }
+  };
+
+  const handleDeleteConfirm = () => {
+    Swal.fire({
+      title: '게시글을 삭제하시겠습니까?',
+      text: '삭제하면 되돌릴 수 없습니다.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: '삭제',
+      cancelButtonText: '취소'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        handleDelete();
+      }
+    });
   };
 
   const handleFileDelete = async (fileNo) => {
@@ -78,24 +97,18 @@ const TipUpdateContainer = () => {
     }
   };
 
-  const handleShowModal = () => setShowModal(true);
-  const handleCloseModal = () => setShowModal(false);
-
   return (
     <TipUpdate
       board={board}
       mainImagePreview={mainImagePreview}
       additionalImagePreview={additionalImagePreview}
       fileList={fileList}
-      showModal={showModal}
       handleInputChange={handleInputChange}
       handleMainImageChange={handleMainImageChange}
       handleAdditionalImageChange={handleAdditionalImageChange}
       handleSubmit={handleSubmit}
       handleFileDelete={handleFileDelete}
-      handleShowModal={handleShowModal}
-      handleCloseModal={handleCloseModal}
-      handleDelete={handleDelete}
+      handleDeleteConfirm={handleDeleteConfirm} // handleDeleteConfirm을 전달합니다.
       boardNo={boardNo}
     />
   );

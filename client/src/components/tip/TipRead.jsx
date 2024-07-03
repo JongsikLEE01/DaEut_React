@@ -67,7 +67,7 @@ const TipRead = ({
         <h3 className="reply-input-title">댓글</h3>
         <form className="input-group reply-input" onSubmit={handleReplySubmit}>
           <input type="text" id="reply-content" className="form-control" placeholder="댓글을 입력하세요." value={newReply} onChange={handleNewReplyChange} />
-          <button className="btn btn-primary" type="submit">등록</button>
+          <button className="btn btn-primary custom-button" type="submit">등록</button>
         </form>
       </div>
       {replyList.length > 0 && (
