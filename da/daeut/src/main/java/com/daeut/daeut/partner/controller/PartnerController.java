@@ -128,25 +128,23 @@ public class PartnerController {
 
     // 파트너 리뷰란
     @GetMapping("/reviews/{partnerNo}")
-    @Transactional
-    public ResponseEntity<?> getReviewsByPartnerNo(@RequestParam("partnerNo") Integer partnerNo) {
+    public ResponseEntity<?> getReviewsByPartnerNo(@PathVariable("partnerNo") Integer partnerNo) {
+        log.info("왜안나와");
         try {
             if (partnerNo == null) {
                 log.error("PartnerNo is missing in request");
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("PartnerNo is missing in request");
             }
-
             List<Review> reviews = partnerService.getReviews(partnerNo);
-
             // Add reviews to the log
             log.info("Reviews retrieved: {}", reviews);
-
             return ResponseEntity.ok(reviews);
         } catch (Exception e) {
             log.error("Error in getReviewsByPartnerNo method", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Exception occurred: " + e.getMessage());
         }
     }
+    
 
     // 파트너 예약란
     @GetMapping("/reservations/{partnerNo}")
