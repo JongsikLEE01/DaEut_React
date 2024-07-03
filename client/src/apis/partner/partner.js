@@ -7,7 +7,7 @@ export const partnerList = (userNo) => axios.get(`/partner/partnerList/${userNo}
 export const updatePartnerInfo = (data) => axios.put(`/partner/update`, data);
 
 // 파트너 리뷰 조회
-export const getPartnerReviews = (partnerNo) => axios.get(`/partner/reviews/${partnerNo}`);
+export const PartnerReviews = (partnerNo) => axios.get(`/partner/reviews/${partnerNo}`);
 
 // 파트너 예약 조회
 export const getPartnerReservations = (partnerNo) => axios.get(`/partner/reservations/${partnerNo}`);

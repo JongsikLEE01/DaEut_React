@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Route, Routes, Switch  } from 'react-router-dom'
 // import LoginContextProvider from './contexts/LoginContextProvider'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.css';
@@ -70,8 +70,8 @@ const App = () => {
           
           {/* Partner */}
           <Route path="/partnerList/:userNo" element={<PartnerList/>}/>
-          <Route path="/partnerReservation/:partnerNo" element={<PartnerReservation/>}/>
-          <Route path="/partnerReview/:partnerNo" element={<PartnerReview/>}/>
+          <Route path="/partner/reservation/:partnerNo" element={<PartnerReservation/>}/>
+          <Route path="/partner/reviews/:partnerNo" element={<PartnerReview/>}/>
           {/* <Route path="PartnerUpdate" element={<PartnerUpdate/>}/> */}
 
           {/* 소셜로그인 */}

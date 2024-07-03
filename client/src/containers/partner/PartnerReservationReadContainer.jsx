@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom'
 import * as partners from '../../apis/partner/partner'
 import PartnerReservationRead from '../../components/partner/PartnerReservationRead'
 
-const PartnerReviewReadContainer = ( {ordersNo}) => {
+const PartnerReservationRead = ( {ordersNo}) => {
   const {ordersNo} = useParams();
   const [reservationRead, serReservationRead] = useState({})
 
