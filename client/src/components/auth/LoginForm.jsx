@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react'
-import './auth.css'
+import './css/auth.css'
+import styles from './css/Auth.module.css'
 import { LoginContext } from '../contexts/LoginContextProvider'
 import Cookies from 'js-cookie'
 import { Link } from 'react-router-dom'
@@ -73,9 +74,9 @@ const LoginForm = () => {
           </div>
         </div>
         <div className="d-grid gap-3">
-          <button type="submit" className="btn btn-dark darkBtn">로그인</button>
-          <Link to="/join" className="btn btn-dark">회원 가입</Link>
-          <button type="button" className="btn btn-light border" onClick={() => window.history.back()}>돌아가기</button>
+          <button type="submit" className="btn btn-dark btnbtn">로그인</button>
+          <Link to="/join" className={`btn btn-light border btnbtn`}>회원 가입</Link>
+          <button type="button" className={`btn btn-light border ${styles.border}`} onClick={() => window.history.back()}>돌아가기</button>
         </div>
         <div className="text-center my-3">
           <hr />
@@ -85,9 +86,9 @@ const LoginForm = () => {
           {/* <Link to="#" className="btn btn-light google border">
             <img src="/img/google.png" alt="Google" className="img-fluid" style={{ maxHeight: '20px' }} /> Google
           </Link> */}
-          <Button onClick={() => handleSocialLogin('kakao')} className="btn btn-light kakao border">
-            <img src="/img/kakao.png" alt="Kakao" className="img-fluid" style={{ maxHeight: '20px', width: '20px' }} /> Kakao
-          </Button>
+          <Link to="#" className={`btn btn-light kakao border ${styles.border}`}>
+                        <img src="/img/kakao.png" alt="Kakao" className="img-fluid" /> Kakao
+                    </Link>
           {/* <Link to="#" className="btn btn-light naver border">
             <img src="/img/naver.png" alt="Naver" className="img-fluid" style={{ maxHeight: '20px' }} /> Naver
           </Link> */}
@@ -97,8 +98,8 @@ const LoginForm = () => {
           계정이 기억나지 않으신가요?
         </div>
         <div className="d-grid gap-2">
-          <Link to="/findId" className="btn btn-light border">아이디 찾기</Link>
-          <Link to="/findPw" className="btn btn-light border">비밀번호 찾기</Link>
+          <Link to="/findId" className={`btn btn-light border ${styles.border}`}>아이디 찾기</Link>
+          <Link to="/findPw" className={`btn btn-light border ${styles.border}`}>비밀번호 찾기</Link>
         </div>
       </form>
     </div>

@@ -1,32 +1,34 @@
-import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
-import * as partners from '../../apis/partner/partner'
-import PartnerReview from '../../components/partner/PartnerReviewList'
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import * as partners from '../../apis/partner/partner';
+import PartnerReview from '../../components/partner/PartnerReviewList';
 
-const PartnerReviewContainer = ( ) => {
-  const {partnerNo} = useParams();
-  const [partnerReview, setPartnerReview] = useState({})
+const PartnerReviewContainer = ( {partnerNo} ) => {
+  const [partnerReview, setPartnerReview] = useState([]);
+  const [isLoading, setLoading] = useState(false)
 
   // 함수
   const getPartnerReviews = async () => {
     try {
-      const response = await partners.getPartnerReviews(partnerNo);
-      const data = await response.data;
+      setLoading(true)
+      const response = await partners.PartnerReviews(partnerNo);
+      const data = response.data;
+      console.log(response.data);
       setPartnerReview(data);
     } catch (error) {
-      console.log('Error', error);
+      console.error('Error', error);
     }
-  }
+  };
 
-  useEffect(() =>{
-    getPartnerReviews()
-  },[partnerNo]);
-
+  useEffect(() => {
+    getPartnerReviews();
+  }, [partnerNo]);
 
   return (
-   <PartnerReview
-   partnerReview ={partnerReview}/>
-  )
-}
+    <PartnerReview reviews={partnerReview} 
+    partnerNo={partnerNo}
+    isLoading={isLoading}/>
+  );
+};
 
-export default PartnerReviewContainer
+export default PartnerReviewContainer;
