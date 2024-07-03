@@ -53,7 +53,7 @@ const Tap = () => {
                   <div className="text-center">
                     <FontAwesomeIcon icon={faBrush} className="icon-feature text-gradient d-block mb-3 color_point mx-auto" />
                     <h3 className="font-alt">부분 청소</h3>
-                    <p className="text-muted mb-0">더러운 집은 볼 때마다 화가 날거에요. 지금 바로 저희에게 부탁하세요!</p>
+                    <p className="text-muted mb-0">더러운 집은 볼 때마다 화가 날거에요. 지금 저희에게 부탁하세요!</p>
                   </div>
                 </div>
               </div>
@@ -79,7 +79,7 @@ const Tap = () => {
                   <div className="text-center">
                     <FontAwesomeIcon icon={faBug} className="icon-feature text-gradient d-block mb-3 color_point mx-auto" />
                     <h3 className="font-alt">부분 방역</h3>
-                    <p className="text-muted mb-0">더러운 집은 볼 때마다 화가 날거에요지금 바로 저희에게 부탁하세요!</p>
+                    <p className="text-muted mb-0">더러운 집은 볼 때마다 화가 날거에요 지금 저희에게 부탁하세요!</p>
                   </div>
                 </div>
               </div>
@@ -105,7 +105,7 @@ const Tap = () => {
                   <div className="text-center">
                     <FontAwesomeIcon icon={faJugDetergent} className="icon-feature text-gradient d-block mb-3 color_point mx-auto" />
                     <h3 className="font-alt">부분 빨래</h3>
-                    <p className="text-muted mb-0">더러운 집은 볼 때마다 화가 날거에요. 지금 바로 저희에게 부탁하세요!</p>
+                    <p className="text-muted mb-0">더러운 집은 볼 때마다 화가 날거에요. 지금 저희에게 부탁하세요!</p>
                   </div>
                 </div>
               </div>

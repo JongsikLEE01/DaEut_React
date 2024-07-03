@@ -26,7 +26,7 @@ public interface UserMapper {
     public int updatePw(@Param("userId") String userId, @Param("userPassword") String userPassword) throws Exception;
                                      
     // 회원 조회
-    public Users select(String username) throws Exception;
+    public Users select(@Param("userId") String userId) throws Exception;
 
     // 회원 조회 - userNo
     public Users selectUserNo(int userNo) throws Exception;

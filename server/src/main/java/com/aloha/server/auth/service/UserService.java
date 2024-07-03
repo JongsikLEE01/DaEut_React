@@ -20,7 +20,7 @@ public interface UserService {
     public int updatePw(Users user) throws Exception;
     
     // 조회
-    public Users select(String username) throws Exception;
+    public Users select(String userId) throws Exception;
 
     // 회원 조회 - userNo
     public Users selectUserNo(int userNo) throws Exception;

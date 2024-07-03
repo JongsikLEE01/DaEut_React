@@ -126,14 +126,14 @@ const LoginContextProvider = ({ children }) => {
         navigate('/');
       }
     } catch (error) {
-      Swal.alert('로그인 실패', '아이디 또는 비밀번호가 일치하지 않습니다', 'error');
-      console.log('로그인 실패');
+      Swal.alert('로그인 실패', '아이디 또는 비밀번호가 일치하지 않습니다', 'error')
+      console.log('로그인 실패')
     }
   }
 
   // 🔐 로그인 세팅
   const loginSetting = (userData, accessToken) => {
-    const { userNo, userId, authList } = userData           // 👩‍💼 Users (DTO) [JSON]
+    const { userNo, userId, userName, userPhone, userEmail, userAddress, userBirth, authList } = userData           // 👩‍💼 Users (DTO) [JSON]
     const roleList = authList.map((auth) => auth.auth)  // 💳 [ROLE_USER,ROLE_ADMIN,ROLE_PARTNER]
 
     console.log(`no : ${userNo}`);
@@ -149,7 +149,7 @@ const LoginContextProvider = ({ children }) => {
     setLogin(true);
 
     // 👨‍💼 유저 정보 세팅
-    const updatedUserInfo = { userNo, userId, roleList }
+    const updatedUserInfo = { userNo, userId, userName, userPhone, userEmail, userAddress, userBirth, authList  }
     setUserInfo(updatedUserInfo)
 
      // 👮‍♀️ 권한 정보 세팅
@@ -205,7 +205,9 @@ const LoginContextProvider = ({ children }) => {
 
   return (
     // 컨텍스트 값 지정 ➡ value{ ? ? }
+
     <LoginContext.Provider value={{ isLogin, userInfo, roles, login, logout, isLoading, savedUsername  }}>
+
       {children}
     </LoginContext.Provider>
 
