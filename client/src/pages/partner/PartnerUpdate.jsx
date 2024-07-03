@@ -1,5 +1,5 @@
 import React from 'react'
-import PartnerUpdateContainer from '../containers/partner/PartnerUpdateContainer'
+import PartnerUpdateContainer from '../../containers/partner/PartnerUpdateContainer'
 import { useParams } from 'react-router-dom'
 import MainLayout from '../../layouts/MainLayout'
 

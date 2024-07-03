@@ -1,10 +1,9 @@
-import React, { useEffect } from 'react'
-import PartnerReservation from '../components/partner/PartnerReservation'
+import PartnerReservation from '../../components/partner/PartnerReservation'
 import {useState, useEffect } from 'react'
-import * as partners from '../apis/partner'
+import * as partners from '../../apis/partner/partner'
 import { useParams } from 'react-router-dom'
 
-const PartnerReservationContainer = ({partnerNo}) => {
+const PartnerReservationContainer = () => {
   const {partnerNo} = useParams();
   // state
   const [reservation, setReservation] = useState({})
@@ -12,7 +11,7 @@ const PartnerReservationContainer = ({partnerNo}) => {
   // 함수
   const getPartnerReservations = async () => {
     try {
-      const response = await partners.getPartnerReservation(partnerNo);
+      const response = await partners.getPartnerReservations(partnerNo);
       const data = await response.data;
       setReservation(data);
     } catch (error) {

@@ -14,6 +14,14 @@ import LoginPage from './pages/auth/LoginPage'
 import LoginContextProvider from './components/contexts/LoginContextProvider'
 import FindIdPage from './pages/auth/FindIdPage'
 import DoneFindIdPage from './pages/auth/DoneFindIdPage'
+// import LoginContextProvider from './contexts/LoginContextProvider'
+import Order from './pages/Order/Payment'
+// import PartnerList from './pages/partner/PartnerList'
+// import PartnerReservation from './pages/partner/PartnerReservation'
+import PartnerReview from './pages/partner/PartnerReview'
+import PartnerUpdate from './pages/partner/PartnerUpdate'
+import PartnerList from './components/partner/PartnerList'
+import PartnerReservation from './components/partner/PartnerReservation'
 import FindPasswordPage from './pages/auth/FindPasswordPage'
 import ResetPasswordPage from './pages/auth/ResetPasswordPage'
 import ResetPwCompletePage from './pages/auth/ResetPwCompletePage'
@@ -57,6 +65,12 @@ const App = () => {
           <Route path='/tip/tipUpdate' element={<TipUpdate/>}></Route>
           <Route path="/findId" element={<FindIdPage />} />
           <Route path="/findIdComplete/:userId" element={<DoneFindIdPage />} />
+          {/* <Route path="/partnerList/:userNo" element={<PartnerList/>}/> */}
+          {/* <Route path="partnerReservation/:partnerNo" element={<PartnerReservation/>}/> */}
+          <Route path="PartnerReservation" element={<PartnerReservation/>}/>
+          <Route path="partnerReview/:partnerNo" element={<PartnerReview/>}/>
+          {/* <Route path="PartnerUpdate" element={<PartnerUpdate/>}/> */}
+          <Route path="partnerList" element={<PartnerList/>}/>
           <Route path="/findPw" element={<FindPasswordPage />} />
           <Route path="/resetPw" element={<ResetPasswordPage />} />
           <Route path="/resetPwComplete" element={<ResetPwCompletePage />} />
