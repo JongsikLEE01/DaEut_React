@@ -1,13 +1,15 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useContext } from 'react'
 import SockJS from 'sockjs-client'
 import { Stomp } from '@stomp/stompjs'
 import { useNavigate } from 'react-router-dom'
+import { LoginContext } from '../contexts/LoginContextProvider'
 
 const ChatForm = ({ chatRooms, roomNo, chatList, setChatList, partner, user }) => {
   const navigate = useNavigate()
   const [message, setMessage] = useState('')
   const [stompClient, setStompClient] = useState(null)
   const chatAreaRef = useRef(null)
+  const { userInfo } = useContext(LoginContext)
 
   // 팝업 알림
   const pushAlarm = (newChat) => {
@@ -28,7 +30,7 @@ const ChatForm = ({ chatRooms, roomNo, chatList, setChatList, partner, user }) =
       stompClient.send("/pub/sendMessage", {}, JSON.stringify({
         roomNo: roomNo,
         chatContent: message,
-        userNo: 2,
+        userNo: userInfo.userNo,
         chatRegDate: getCurrentTime()
       }))
       setMessage('')
@@ -102,12 +104,12 @@ const ChatForm = ({ chatRooms, roomNo, chatList, setChatList, partner, user }) =
         <div className="chat-box" id="messages">
           <div id="chatArea" className="chatArea" ref={chatAreaRef}>
             {chatList.map((chat) => (
-              <div key={chat.chatNo} className={`message ${chat.userNo === 1 ? 'my-message' : 'other-message'}`}>
-                {chat.userNo !== user.userNo && (
+              <div key={chat.chatNo} className={`message ${chat.userNo === userInfo.userNo ? 'my-message' : 'other-message'}`}>
+                {chat.userNo !== userInfo.userNo && (
                   <span className="partner-name">{partner.userName}</span>
                 )}
                 {chat.userNo === partner.userNo && (
-                  <span className="partner-name">{user.userName}</span>
+                  <span className="userInfo.userNo">{user.userName}</span>
                 )}
                 <span className="message-content">{chat.chatContent}</span>
                 <span className="message-date">{chat.chatRegDate.split(' ')[1].slice(0, 5)}</span>

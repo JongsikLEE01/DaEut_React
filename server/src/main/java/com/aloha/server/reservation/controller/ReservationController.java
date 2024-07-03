@@ -76,8 +76,10 @@ public class ReservationController {
             
             return ResponseEntity.ok().body(responseMap);
         } catch (Exception e) {
-            log.error("Error fetching services: {}", e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            log.error("Error occurred while fetching reservation details", e);
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("message", "Internal Server Error occurred while fetching reservation details");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
         }
     }
     
