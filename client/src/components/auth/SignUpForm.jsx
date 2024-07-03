@@ -220,17 +220,17 @@ const SignUpForm = () => {
                 <div className="text-center my-3"><hr />소셜계정으로 회원 가입</div>
 
                 <div className="d-grid gap-2">
-                    <Link to="#" className="btn btn-light google border">
+                    {/* <Link to="#" className="btn btn-light google border">
                         <img src="/img/google.png" alt="Google" className="img-fluid" style={{ maxHeight: '20px' }} /> Google
-                    </Link>
+                    </Link> */}
 
                     <Link to="#" className="btn btn-light kakao border">
                         <img src="/img/kakao.png" alt="Kakao" className="img-fluid" style={{ maxHeight: '20px', width: '20px' }} /> Kakao
                     </Link>
 
-                    <Link to="#" className="btn btn-light naver border">
+                    {/* <Link to="#" className="btn btn-light naver border">
                         <img src="/img/naver.png" alt="Naver" className="img-fluid" style={{ maxHeight: '20px' }} /> Naver
-                    </Link>
+                    </Link> */}
                 </div>
 
                 <div>

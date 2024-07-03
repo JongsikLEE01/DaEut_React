@@ -19,8 +19,9 @@ const LoginContextProvider = ({ children }) => {
   // 권한 정보
   const [roles, setRoles] = useState({ isUser: false, isAdmin: false, isPartner: false });
 
+  const [isLoading, setIsLoading] = useState(true);
   // 아이디 저장
-  const [rememberId, setRememberId] = useState(false);
+  const [savedUsername , setSavedUsername ] = useState(localStorage.getItem('savedUsername') || '');
 
   /* -------------------------------------------------------- */
 
@@ -80,7 +81,7 @@ const LoginContextProvider = ({ children }) => {
   }
 
   // 🔐 로그인
-  const login = async (username, password) => {
+  const login = async (username, password, rememberMe, rememberId) => {
     console.log(`username : ${username}`);
     console.log(`password : ${password}`);
 
@@ -103,11 +104,16 @@ const LoginContextProvider = ({ children }) => {
         Cookies.set('accessToken', accessToken);
 
         if (rememberId) {
-          Cookies.set('rememberId', 'true');
-          Cookies.set('username', username);
+            localStorage.setItem("savedUsername", username);
+            setSavedUsername(username); // 상태 업데이트
         } else {
-          Cookies.remove('rememberId');
-          Cookies.remove('username');
+            localStorage.removeItem("savedUsername");
+            setSavedUsername(''); // 상태 초기화
+        }
+        if (rememberMe) {
+            localStorage.setItem("rememberMe", "true");
+        } else {
+            localStorage.removeItem("rememberMe");
         }
         // 로그인 체크
         loginCheck();
@@ -164,7 +170,6 @@ const LoginContextProvider = ({ children }) => {
 
     // 🍪❌ 쿠키 초기화
     Cookies.remove('accessToken');
-    Cookies.remove('rememberId');
 
     // 🔐❌ 로그인 여부 : false
     setLogin(false);
@@ -178,6 +183,7 @@ const LoginContextProvider = ({ children }) => {
 
   // 🔓 로그아웃
   const logout = () => {
+    
     Swal.confirm('로그아웃 하시겠습니까?', '로그아웃을 진행합니다.', 'warning', (result) => {
       // isConfirmed : 확인 버튼 클릭 여부
       if (result.isConfirmed) {
@@ -189,26 +195,19 @@ const LoginContextProvider = ({ children }) => {
   };
 
   // Mount / Update
-  useEffect(() => {
-    const rememberedId = Cookies.get('rememberId');
-
-    if (rememberedId === 'true') {
-      setRememberId(true);
-      const rememberedUsername = Cookies.get('username');
-      if (rememberedUsername) {
-      }
-    }
-
+  useEffect( () => {
     // 로그인 체크
-    loginCheck();
+    loginCheck()
     // 1️⃣ 🍪 쿠키에서 jwt💍 을 꺼낸다
     // 2️⃣ jwt 💍 있으면, 서버한테 👩‍💼 사용자정보를 받아온다
     // 3️⃣ 로그인 세팅을 한다. (📦 로그인여부, 사용자정보, 권한정보 등록)
-  }, []);
+  }, [])
 
   return (
     // 컨텍스트 값 지정 ➡ value{ ? ? }
-    <LoginContext.Provider value={{ isLogin, userInfo, setUserInfo, roles, login, logout, rememberId, setRememberId }}>
+
+    <LoginContext.Provider value={{ isLogin, userInfo, roles, login, logout, isLoading, savedUsername  }}>
+
       {children}
     </LoginContext.Provider>
 
