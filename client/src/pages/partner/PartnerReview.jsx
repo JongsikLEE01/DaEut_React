@@ -1,5 +1,5 @@
 import React from 'react'
-import PartnerReviewContainer from '../containers/partner/PartnerReviewContainer'
+import PartnerReviewContainer from '../../containers/partner/PartnerReviewContainer'
 import { useParams  } from 'react-router-dom'
 import MainLayout from '../../layouts/MainLayout'
 

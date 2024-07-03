@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import './css/partner.css';
 
 const PartnerReviewList = () => {
   const [reviews, setReviews] = useState([]);
