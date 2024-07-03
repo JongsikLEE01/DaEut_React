@@ -45,6 +45,27 @@
         </association>
     </resultMap>
 
+    <!-- 회원 조회 - id -->
+    <select id="select" resultMap="userMap">
+        SELECT u.user_no
+              ,u.user_name
+              ,u.user_phone
+              ,u.user_birth
+              ,u.user_address
+              ,u.user_email
+              ,u.user_gender
+              ,u.user_id
+              ,u.user_password
+              ,u.user_reg_date
+              ,u.user_coupon
+              ,u.user_upd_date
+              ,enabled
+              ,auth.auth
+        FROM users u 
+        LEFT OUTER JOIN user_auth auth ON u.user_no = auth.user_no
+        WHERE u.user_id = #{userId}
+    </select>
+
     <!-- 관리자 회원 조회 - user_no로 조회 -->
     <select id="findUserById" resultMap="userMap">
         SELECT 
@@ -134,7 +155,6 @@
     <select id="findUserByDetails" resultType="String">
         SELECT u.user_id
         FROM users u
-        LEFT OUTER JOIN user_auth auth ON u.user_no = auth.user_no
         WHERE u.user_name = #{userName} AND u.user_email = #{userEmail} AND u.user_phone = #{userPhone}
     </select>
 
@@ -208,7 +228,7 @@
     </delete>
 
     <!-- 예약 가져오기 -->
-    <select id="selectOrdersByUserId" resultMap="com.aloha.server.reservation.dto.Orders">
+    <select id="selectOrdersByUserId">
         SELECT 
             o.orders_no AS ordersNo, 
             o.user_no AS userNo, 

@@ -30,7 +30,7 @@ const Header = () => {
             <Nav.Link as={Link} to="/service">예약</Nav.Link>
             <Nav.Link as={Link} to="/tip/index">팁</Nav.Link>
             {!isLogin ? (
-              <Nav.Link as={Link} to="/auth/member">로그인</Nav.Link>
+              <Nav.Link as={Link} to="/member">로그인</Nav.Link>
             ) : (
               <>
                 {roles.isAdmin && (

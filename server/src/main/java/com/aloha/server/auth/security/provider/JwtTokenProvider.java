@@ -142,7 +142,7 @@ public class JwtTokenProvider {
                 Users userInfo = userMapper.select(userId);
                 if( userInfo != null ) {
                     user.setUserName(userInfo.getUserName());
-                    user.setUserId(userInfo.getUserId());
+                    user.setUserEmail(userInfo.getUserEmail());
                 }
             } catch (Exception e) {
                 log.error(e.getMessage());

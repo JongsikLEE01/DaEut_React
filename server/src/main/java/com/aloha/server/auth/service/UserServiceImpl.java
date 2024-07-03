@@ -7,6 +7,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -70,12 +71,12 @@ public class UserServiceImpl implements UserService {
         return userMapper.findUserByDetails(userName, userEmail, userPhone);
     }
 
-    // 비밀번호 찾기 비밀번호 재설정
+    // 비밀번호 재설정 (다른 형식의 메서드)
     @Transactional
-    @Override
     public int updatePw(Users user) throws Exception {
-        int result = userMapper.updatePw(user);
-        return result;
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String encodedPassword = passwordEncoder.encode(user.getUserPassword());
+        return userMapper.updatePw(user.getUserId(), encodedPassword);
     }
 
     // id로 조회
@@ -187,7 +188,7 @@ public class UserServiceImpl implements UserService {
     // 회원 탈퇴
     @Transactional
     @Override
-    public int delete(String userId) throws Exception {
+    public int delete(Users userId) throws Exception {
         int result = userMapper.delete(userId);
         return result;
     }

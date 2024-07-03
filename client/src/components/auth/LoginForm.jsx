@@ -1,33 +1,33 @@
-import React, { useContext, useEffect, useState } from 'react';
-import './auth.css';
-import { LoginContext } from '../contexts/LoginContextProvider';
-import Cookies from 'js-cookie';
-import { Link } from 'react-router-dom';
+import React, { useContext, useEffect, useState } from 'react'
+import './auth.css'
+import { LoginContext } from '../contexts/LoginContextProvider'
+import Cookies from 'js-cookie'
+import { Link } from 'react-router-dom'
 
 const LoginForm = () => {
-  const { login, rememberId, setRememberId } = useContext(LoginContext);
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const { login, rememberId, setRememberId } = useContext(LoginContext)
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
 
   useEffect(() => {
-    const rememberedUsername = Cookies.get('username');
+    const rememberedUsername = Cookies.get('username')
     if (rememberedUsername) {
-      setUsername(rememberedUsername);
+      setUsername(rememberedUsername)
     }
-  }, []);
+  }, [])
 
   const onLogin = async (e) => {
-    e.preventDefault();
-    await login(username, password);
-  };
+    e.preventDefault()
+    await login(username, password)
+  }
 
   const handleRememberId = (e) => {
-    setRememberId(e.target.checked);
+    setRememberId(e.target.checked)
     if (!e.target.checked) {
-      Cookies.remove('username');
-      setUsername('');
+      Cookies.remove('username')
+      setUsername('')
     }
-  };
+  }
 
   return (
     <div className="container form-container">
@@ -60,8 +60,8 @@ const LoginForm = () => {
           </div>
         </div>
         <div className="d-grid gap-3">
-          <button type="submit" className="btn btn-dark">로그인</button>
-          <Link to="/auth/join" className="btn btn-dark">회원 가입</Link>
+          <button type="submit" className="btn btn-dark darkBtn">로그인</button>
+          <Link to="/join" className="btn btn-dark">회원 가입</Link>
           <button type="button" className="btn btn-light border" onClick={() => window.history.back()}>돌아가기</button>
         </div>
         <div className="text-center my-3">
@@ -85,11 +85,11 @@ const LoginForm = () => {
         </div>
         <div className="d-grid gap-2">
           <Link to="/findId" className="btn btn-light border">아이디 찾기</Link>
-          <Link to="/auth/findPw" className="btn btn-light border">비밀번호 찾기</Link>
+          <Link to="/findPw" className="btn btn-light border">비밀번호 찾기</Link>
         </div>
       </form>
     </div>
-  );
-};
+  )
+}
 
-export default LoginForm;
+export default LoginForm
