@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import DaumPostcode from "react-daum-postcode"
 import Modal from "react-modal"
 import { useNavigate } from 'react-router-dom'
-import * as alert from '../../apis/alert'
+import * as Swal from '../../apis/alert'
 
 const OrderForm = ({ orders, orderItem }) => {
   const navigate = useNavigate()
@@ -15,7 +15,7 @@ const OrderForm = ({ orders, orderItem }) => {
   const [isOpen, setIsOpen] = useState(false)
 
   const onCancel = () =>{
-    alert.confirm('정말 취소하시겠습니까?', '지금 결제를 취소 할 경우 현재 저장된 입력한 값이 모두 사라집니다.', 'warning',(result) => {
+    Swal.confirm('정말 취소하시겠습니까?', '지금 결제를 취소 할 경우 현재 저장된 입력한 값이 모두 사라집니다.', 'warning',(result) => {
       // isConfirmed : 확인 버튼 클릭 여부
       if(result.isConfirmed){
         navigate("/service")
@@ -56,19 +56,19 @@ const OrderForm = ({ orders, orderItem }) => {
   // 결제
   const onClickPayment = () => {
     if(!serviceDate){
-      alert.alert('서비스 일정을 입력해주세요', '서비스 일정이 선택되지 않았아요, 서비스 일정을 선택해주세요.', 'warning')
+      Swal.alert('서비스 일정을 입력해주세요', '서비스 일정이 선택되지 않았아요, 서비스 일정을 선택해주세요.', 'warning')
       return
     }
     if(!serviceTime){
-      alert.alert('서비스 시간을 입력해주세요', '서비스 시간이 선택되지 않았아요, 서비스 일정을 선택해주세요.', 'warning')
+      Swal.alert('서비스 시간을 입력해주세요', '서비스 시간이 선택되지 않았아요, 서비스 일정을 선택해주세요.', 'warning')
       return
     }
     if(!userPost){
-      alert.alert('주소가 입력해주세요', '주소가 선택되지 않았아요, 서비스 일정을 선택해주세요.', 'warning')
+      Swal.alert('주소가 입력해주세요', '주소가 선택되지 않았아요, 서비스 일정을 선택해주세요.', 'warning')
       return
     }
     if(!userAddressDetail){
-      alert.alert('상세 주소가 입력해주세요', '상세 주소가 선택되지 않았아요, 서비스 일정을 선택해주세요.', 'warning')
+      Swal.alert('상세 주소가 입력해주세요', '상세 주소가 선택되지 않았아요, 서비스 일정을 선택해주세요.', 'warning')
       return
     }
 
