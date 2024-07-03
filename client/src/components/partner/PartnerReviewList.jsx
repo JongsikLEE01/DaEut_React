@@ -1,20 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React from 'react';
+import {Link} from 'react-router-dom'
 import './css/partner.css';
 
 const PartnerReviewList = () => {
-  const [reviews, setReviews] = useState([]);
-
-  useEffect(() => {
-    // 예시: API를 통해 리뷰 데이터를 가져옵니다.
-    axios.get('/api/reviews') // API URL을 실제로 사용하는 API 엔드포인트로 변경하세요.
-      .then(response => {
-        setReviews(response.data);
-      })
-      .catch(error => {
-        console.error('Error fetching reviews:', error);
-      });
-  }, []);
 
   return (
     <div className="container-fluid container">
