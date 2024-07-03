@@ -15,7 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.daeut.daeut.auth.dto.Users;
 import com.daeut.daeut.auth.service.UserService;
+import com.daeut.daeut.partner.dto.Partner;
+import com.daeut.daeut.partner.service.PartnerService;
 import com.daeut.daeut.reservation.dto.ChatRooms;
 import com.daeut.daeut.reservation.dto.Chats;
 import com.daeut.daeut.reservation.service.ChatRoomService;
@@ -47,6 +50,9 @@ public class ChatController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private PartnerService partnerService;
+
     /**
      * 채팅방 조회
      * @param roomNo
@@ -67,7 +73,13 @@ public class ChatController {
             if (chatRooms == null) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("채팅 방을 찾을 수 없습니다.");
             }
-            int partnerNo = chatRooms.getPartnerNo();
+            Partner pUsers = partnerService.selectByPartnerNo(chatRooms.getPartnerNo());
+            int partnerNo = pUsers.getUserNo();
+            Users partner = userService.findUserById(partnerNo);
+
+            Users user = userService.findUserById(chatRooms.getUserNo());
+            log.info(partner.toString());
+            log.info(user.toString());
 
             // Retrieve chat list for the room
             List<Chats> chatList = chatService.selectByRoomNo(roomNo);
@@ -75,8 +87,9 @@ public class ChatController {
             // Prepare JSON response
             Map<String, Object> response = new HashMap<>();
             response.put("chatRooms", chatRooms);
-            response.put("partnerNo", partnerNo);
             response.put("chatList", chatList);
+            response.put("partner", partner);
+            response.put("user", user);
 
             return ResponseEntity.ok().body(response);
         } catch (Exception e) {

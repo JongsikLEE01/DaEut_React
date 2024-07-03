@@ -2,10 +2,21 @@ import React, { useState, useEffect, useRef } from 'react'
 import SockJS from 'sockjs-client'
 import { Stomp } from '@stomp/stompjs'
 
-const ChatForm = ({ roomNo, chatList, setChatList }) => {
+const ChatForm = ({ chatRooms, roomNo, chatList, partner, user }) => {
   const [message, setMessage] = useState('')
   const [stompClient, setStompClient] = useState(null)
   const chatAreaRef = useRef(null)
+
+  const pushAlarm = (newChat) => {
+    const notification = new Notification('새로운 메시지 도착가 도착했어요!', {
+      body: `${partner.userName}: ${newChat.chatContent}`
+    });
+
+    notification.onclick = () => {
+      // 알림 클릭 시 추가 동작을 정의할 수 있습니다.
+      console.log('알림이 클릭되었습니다.');
+    }
+  }
 
   // 메세지 전송
   const sendMessage = () => {
@@ -13,7 +24,7 @@ const ChatForm = ({ roomNo, chatList, setChatList }) => {
       stompClient.send("/pub/sendMessage", {}, JSON.stringify({
         roomNo: roomNo,
         chatContent: message,
-        userNo: 1,
+        userNo: 2,
         chatRegDate: getCurrentTime()
       }))
       setMessage('')
@@ -55,12 +66,10 @@ const ChatForm = ({ roomNo, chatList, setChatList }) => {
       console.log('Connected: ' + frame)
       client.subscribe(`/sub/chat/${roomNo}`, message => {
         const newChat = JSON.parse(message.body)
-
-        // 새로운 메시지를 기존 채팅 리스트에 추가
-        setChatList(prevChatList => [...prevChatList, newChat])
+        // 푸쉬알림 전송
+        pushAlarm(newChat)
       })
     })
-
     setStompClient(client)
 
     return () => {
@@ -81,13 +90,19 @@ const ChatForm = ({ roomNo, chatList, setChatList }) => {
       <div className="chatbox">
         <div className="chat-header">
           <div className="chat-partner-info">
-            <span className="partner-name-chat">{roomNo}</span>
+            <span className="partner-name-chat">{chatRooms.title}</span>
           </div>
         </div>
         <div className="chat-box" id="messages">
           <div id="chatArea" className="chatArea" ref={chatAreaRef}>
             {chatList.map((chat) => (
               <div key={chat.chatNo} className={`message ${chat.userNo === 1 ? 'my-message' : 'other-message'}`}>
+                {chat.userNo !== user.userNo && (
+                  <span className="partner-name">{partner.userName}</span>
+                )}
+                {chat.userNo === partner.userNo && (
+                  <span className="partner-name">{user.userName}</span>
+                )}
                 <span className="message-content">{chat.chatContent}</span>
                 <span className="message-date">{chat.chatRegDate.split(' ')[1].slice(0, 5)}</span>
               </div>
