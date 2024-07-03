@@ -10,12 +10,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.daeut.daeut.auth.service.UserService;
 import com.daeut.daeut.reservation.dto.ChatRooms;
 import com.daeut.daeut.reservation.dto.Chats;
 import com.daeut.daeut.reservation.service.ChatRoomService;
@@ -25,7 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
-@CrossOrigin(origins = "*")
+// @CrossOrigin(originPatterns = "*", allowCredentials = "true")
 @RequestMapping("/chat")
 public class ChatController {
 
@@ -43,6 +43,9 @@ public class ChatController {
 
     @Autowired
     private ChatRoomService chatRoomService;
+
+    @Autowired
+    private UserService userService;
 
     /**
      * 채팅방 조회
@@ -73,8 +76,6 @@ public class ChatController {
             Map<String, Object> response = new HashMap<>();
             response.put("chatRooms", chatRooms);
             response.put("partnerNo", partnerNo);
-            // response.put("user", userNo);
-            response.put("roomNo", roomNo);
             response.put("chatList", chatList);
 
             return ResponseEntity.ok().body(response);

@@ -12,3 +12,4 @@ export const addCart = (userNo, serviceNo) => axios.post(`/cart`, {userNo, servi
 
 // Chat Axios
 export const addChatRoom = (partnerNo) => axios.post(`/user/userChatRoom`, {params : {partnerNo}})
+export const selectChatData = (roomNo, userInfo) => axios.get(`/chat`, {params : {roomNo}}, userInfo)

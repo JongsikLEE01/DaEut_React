@@ -7,7 +7,7 @@ import Service from './pages/Service/Service';
 import ServiceRead from './pages/Service/ServiceRead';
 import ServiceInsert from './pages/Service/ServiceInsert';
 import ServiceUpdate from './pages/Service/ServiceUpdate';
-import Order from './pages/Order/Payment'
+import Payment from './pages/Order/Payment'
 import LoginPage from './pages/auth/LoginPage';
 import LoginContextProvider from './components/contexts/LoginContextProvider';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -30,10 +30,10 @@ const App = () => {
           <Route path="/service/:serviceNo" element={<ServiceRead />} />
           <Route path="/service/insert" element={<ServiceInsert />} />
           <Route path="/service/update/:serviceNo" element={<ServiceUpdate />} />
-          <Route path="/chat" element={<Chat />} />
+          <Route path="/chat/:roomNo" element={<Chat />} />
           
           {/* Order */}
-          <Route path="/order/:ordersNo" element={<Order />} />
+          <Route path="/order/:ordersNo" element={<Payment />} />
           <Route path="/order/done/:ordersNo/:date/:time/:userAddress/:userPost" element={<Done />} />
           <Route path="/order/false/:ordersNo/:date/:time/:userAddress/:userPost/:errorMsg" element={<False />} />
           

@@ -69,13 +69,30 @@ const ServiceReadContainer = ({ serviceNo }) => {
     }
   }
 
+  // 채팅방 생성
+  const onChatRoom = async (partnerNo, userInfo) =>{
+    try {
+      const response = await Services.addChatRoom(partnerNo, userInfo)
+      const data = response.data
+      const chatRoom = data.chatRoom
+      console.log(`생성된 채팅 방... ${chatRoom}`)
+
+      navigate(`/user/userChatRoom`)
+    } catch (e) {
+      console.error(`채팅방 생성중 오류 발생... ${e}`)
+    }
+  }
+
   useEffect(() => {
     getService()
   }, [])
 
   return (
     <>
-      <ReadHeader service={service} />
+      <ReadHeader 
+        service={service} 
+        onChatRoom={onChatRoom}
+      />
       <div class="detail-form">
         <ReadContent
           service={service}
