@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.aloha.server.auth.dto.UserAuth;
+import com.aloha.server.auth.dto.UserSocial;
 import com.aloha.server.auth.dto.Users;
 import com.aloha.server.partner.dto.Partner;
 import com.aloha.server.reservation.dto.Orders;
@@ -75,14 +76,14 @@ public interface UserMapper {
     // ----------------------------------------------------------------------------
 
     // 소셜 회원 가입
-    // public int insertSocial(userSocial userSocial) throws Exception;
+    public int insertSocial(UserSocial userSocial) throws Exception;
 
     // 소셜 회원 조회
-    // public UserSocial selectSocial(UserSocial userSocial) throws Exception;
+    public UserSocial selectSocial(UserSocial userSocial) throws Exception;
 
     // 소셜 회원 수정
-    // public int updateSocial(UserSocial userSocial) throws Exception;
+    public int updateSocial(UserSocial userSocial) throws Exception;
 
     // 소셜 정보로 회원 조회
-    // public Users selectBySocial(UserSocial userSocial) throws Exception;
+    public Users selectBySocial(UserSocial userSocial) throws Exception;
 }

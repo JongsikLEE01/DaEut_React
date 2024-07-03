@@ -25,6 +25,7 @@ import TipUpdate from './pages/Tip/TipUpdate'
 import SingUpPage from './pages/auth/SingUpPage'
 import AdminSignUpPage from './pages/auth/AdminSignUpPage'
 import SignUpCompletePage from './pages/auth/SignUpCompletePage'
+import OAuth2RedirectHandler from './components/auth/OAuth2RedirectHandler'
 
 
 
@@ -54,6 +55,10 @@ const App = () => {
           <Route path="/join" element={<SingUpPage />} />
           <Route path="/admin/join" element={<AdminSignUpPage />} />
           <Route path="/joinDone" element={<SignUpCompletePage />} />
+
+          {/* 소셜로그인 */}
+          <Route path="/oauth2/redirect" element={<OAuth2RedirectHandler />} />
+
         </Routes>
       </LoginContextProvider>
     </BrowserRouter>

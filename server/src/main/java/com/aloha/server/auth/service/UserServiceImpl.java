@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.aloha.server.auth.dto.UserAuth;
+import com.aloha.server.auth.dto.UserSocial;
 import com.aloha.server.auth.dto.Users;
 import com.aloha.server.auth.mapper.UserMapper;
 import com.aloha.server.main.dto.Files;
@@ -237,37 +238,29 @@ public class UserServiceImpl implements UserService {
     }
     // ----------------------------------------------------------------------------
 
-    // @Override
-    // public int insertSocial(UserSocial userSocial) throws Exception {
-    //     int result = userMapper.insertSocial(userSocial);
-    //     return result;
-    // }
+    @Override
+    public int insertSocial(UserSocial userSocial) throws Exception {
+        int result = userMapper.insertSocial(userSocial);
+        return result;
+    }
 
-    // @Override
-    // public UserSocial selectSocial(UserSocial userSocial) throws Exception {
-    //     UserSocial selectedUserSocial = userMapper.selectSocial(userSocial);
-    //     return selectedUserSocial;
-    // }
+    @Override
+    public UserSocial selectSocial(UserSocial userSocial) throws Exception {
+        UserSocial selectedUserSocial = userMapper.selectSocial(userSocial);
+        return selectedUserSocial;
+    }
 
-    // @Override
-    // public int updateSocial(UserSocial userSocial) throws Exception {
-    //     int result = userMapper.updateSocial(userSocial);
-    //     return result;
-    // }
+    @Override
+    public int updateSocial(UserSocial userSocial) throws Exception {
+        int result = userMapper.updateSocial(userSocial);
+        return result;
+    }
 
-    // @Override
-    // public Users selectBySocial(UserSocial userSocial) throws Exception {
-    //     Users user = userMapper.selectBySocial(userSocial);
-    //     return user;
-    // }
-
-
-    // @Override
-    // public Users selectUserNo(int userNo) throws Exception {
-    //     Users user = userMapper.selectUserNo(userNo);
-    //     return user;
-
-    // }
+    @Override
+    public Users selectBySocial(UserSocial userSocial) throws Exception {
+        Users user = userMapper.selectBySocial(userSocial);
+        return user;
+    }
 
     
 
