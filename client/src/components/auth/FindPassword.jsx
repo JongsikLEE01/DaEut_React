@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { sendAuthCode, verifyAuthCode } from '../../apis/auth/auth'
 import Swal from 'sweetalert2'
+import './css/auth.css'
+import styles from './css/Auth.module.css'
 
 const FindPassword = () => {
     const [userName, setUserName] = useState('')
@@ -67,7 +69,7 @@ const FindPassword = () => {
     }
 
     return (
-        <div className="container form-container">
+        <div className={`container ${styles.formContainer}`}>
             <form id="form" onSubmit={handleSubmit}>
                 <h2 className="text-center">비밀번호 찾기</h2>
                 <p className="text-center">비밀번호 찾기를 위한 정보를 입력해주세요.</p>
@@ -94,7 +96,7 @@ const FindPassword = () => {
                         required 
                     />
                 </div>
-                <div className="mb-3 input-group">
+                <div className={`mb-3 ${styles.inputGroup}`}>
                     <input 
                         type="text" 
                         name="userEmail" 
@@ -104,7 +106,7 @@ const FindPassword = () => {
                         onChange={(e) => setUserEmail(e.target.value)}
                         required 
                     />
-                    <button type="button" className="btn btn-primary custom-auth-btn" onClick={handleSendAuthCode}>인증하기</button>
+                    <button type="button" className={`btn btn-primary ${styles.customAuthBtn}`} onClick={handleSendAuthCode}>인증하기</button>
                 </div>
                 <div className="mb-3">
                     <input 
@@ -118,8 +120,8 @@ const FindPassword = () => {
                     />
                 </div>
                 <div className="d-grid gap-2">
-                    <button type="submit" className="btn btn-dark">비밀번호 찾기</button>
-                    <button type="button" className="btn btn-light border" onClick={() => window.history.back()}>돌아가기</button>
+                    <button type="submit" className={`btn btn-light border btnbtn`}>비밀번호 찾기</button>
+                    <button type="button" className={`btn btn-light border ${styles.border}`} onClick={() => window.history.back()}>돌아가기</button>
                 </div>
                 <hr />
             </form>
