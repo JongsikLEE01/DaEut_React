@@ -16,12 +16,10 @@ import FindIdPage from './pages/auth/FindIdPage'
 import DoneFindIdPage from './pages/auth/DoneFindIdPage'
 // import LoginContextProvider from './contexts/LoginContextProvider'
 import Order from './pages/Order/Payment'
-// import PartnerList from './pages/partner/PartnerList'
-// import PartnerReservation from './pages/partner/PartnerReservation'
+import PartnerList from './pages/partner/PartnerList'
 import PartnerReview from './pages/partner/PartnerReview'
 import PartnerUpdate from './pages/partner/PartnerUpdate'
-import PartnerList from './components/partner/PartnerList'
-import PartnerReservation from './components/partner/PartnerReservation'
+import PartnerReservation from './pages/partner/PartnerReservation'
 import FindPasswordPage from './pages/auth/FindPasswordPage'
 import ResetPasswordPage from './pages/auth/ResetPasswordPage'
 import ResetPwCompletePage from './pages/auth/ResetPwCompletePage'
@@ -57,7 +55,7 @@ const App = () => {
           
           {/*  */}
           <Route path="/test" element={<Test />} />
-          <Route path="/auth/member" element={<Member />} />
+          <Route path="/member" element={<Member />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path='/tip/boards' element={<TipIndex/>}></Route>
           <Route path='/tip/boards/:boardNo' element={<TipRead/>}></Route>
@@ -65,18 +63,18 @@ const App = () => {
           <Route path='/tip/tipUpdate' element={<TipUpdate/>}></Route>
           <Route path="/findId" element={<FindIdPage />} />
           <Route path="/findIdComplete/:userId" element={<DoneFindIdPage />} />
-          {/* <Route path="/partnerList/:userNo" element={<PartnerList/>}/> */}
-          {/* <Route path="partnerReservation/:partnerNo" element={<PartnerReservation/>}/> */}
-          <Route path="PartnerReservation" element={<PartnerReservation/>}/>
-          <Route path="partnerReview/:partnerNo" element={<PartnerReview/>}/>
-          {/* <Route path="PartnerUpdate" element={<PartnerUpdate/>}/> */}
-          <Route path="partnerList" element={<PartnerList/>}/>
           <Route path="/findPw" element={<FindPasswordPage />} />
           <Route path="/resetPw" element={<ResetPasswordPage />} />
           <Route path="/resetPwComplete" element={<ResetPwCompletePage />} />
           <Route path="/join" element={<SingUpPage />} />
           <Route path="/admin/join" element={<AdminSignUpPage />} />
           <Route path="/joinDone" element={<SignUpCompletePage />} />
+
+          {/* Partner */}
+          <Route path="/partnerList/:userNo" element={<PartnerList/>}/>
+          <Route path="/partnerReservation/:partnerNo" element={<PartnerReservation/>}/>
+          <Route path="/partnerReview/:partnerNo" element={<PartnerReview/>}/>
+          {/* <Route path="PartnerUpdate" element={<PartnerUpdate/>}/> */}
         </Routes>
       </LoginContextProvider>
     </BrowserRouter>
