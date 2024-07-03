@@ -269,6 +269,7 @@ const TipReadContainer = () => {
       setReplyParentNo={setReplyParentNo}
       editingReply={editingReply}
       setEditingReply={setEditingReply}
+      userInfo={userInfo} // 추가: userInfo를 TipRead 컴포넌트로 전달
     />
   );
 };
