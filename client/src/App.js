@@ -49,7 +49,7 @@ const App = () => {
           
           {/*  */}
           <Route path="/test" element={<Test />} />
-          <Route path="/auth/member" element={<Member />} />
+          <Route path="/member" element={<Member />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path='/tip/boards' element={<TipIndex/>}></Route>
           <Route path='/tip/boards/:boardNo' element={<TipRead/>}></Route>

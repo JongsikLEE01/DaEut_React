@@ -62,7 +62,7 @@ public class ReservationController {
      * @throws Exception
      */
     @GetMapping("")
-    public ResponseEntity<Map<String, Object>> getAllServices(ServicePage page, Option option) {
+    public ResponseEntity<?> getAllServices(ServicePage page, Option option) {
         try {
             String keyword = option.getKeyword();
             if (keyword == null || keyword.isEmpty()) {
@@ -72,7 +72,7 @@ public class ReservationController {
             List<Services> serviceList = reservationService.serviceList(page, option);
             Map<String, Object> responseMap = new HashMap<>();
             responseMap.put("serviceList", serviceList);
-            responseMap.put("page", page.getTotal()); // 예시로 totalCount 설정
+            responseMap.put("page", page.getTotal());       // totalCount 설정
             
             return ResponseEntity.ok().body(responseMap);
         } catch (Exception e) {

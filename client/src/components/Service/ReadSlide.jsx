@@ -20,6 +20,7 @@ const ReadSlide = ({ fileList }) => {
 				<img
 				src={`/file/${file.fileNo}`}
 				className="reservation-image-slide swiper-slide"
+				// style={{ width: 'auto', maxWidth: '777px', height: 'auto', display: 'block' }}
 				style={{ width: 'auto', maxWidth: '777px', height: 'auto', display: 'block' }}
 				alt={`Slide ${index + 1}`}
 				/>
