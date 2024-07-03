@@ -1,0 +1,154 @@
+.sidebar {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-right: 1px solid #dee2e6;
+}
+
+.sidebar a {
+    display: block;
+    padding: 10px;
+    margin-left: 15px;
+    color: #333;
+    text-decoration: none;
+}
+
+.sidebar a:hover {
+    background-color: #e9ecef;
+    border-radius: 8px;
+    color: #8FA2CA;
+}
+
+.toggle-btn {
+    position: fixed;
+    width: 60px !important;
+    left: 10px;
+    top: 70px;
+    z-index: 1001;
+}
+
+.close-btn {
+    display: none;
+    position: fixed;
+    right: 10px;
+    top: 70px;
+    z-index: 1001;
+}
+  @media (max-width: 767px) {
+    .sidebar {
+        position: fixed;
+        left: -250px;
+        top: 50px; /* Adjust the top position to make space for the header */
+        width: 250px !important;
+        height: calc(100% - 50px); /* Adjust the height to make space for the header */
+        transition: left 0.3s;
+        z-index: 900; /* Ensure the sidebar is behind the header */
+    }
+    .sidebar.active {
+        left: 0;
+    }
+    .form-section {
+        padding-top: 60px;
+        transition: margin-left 0.3s;
+    }
+    .sidebar.active ~ .form-section {
+        margin-left: 250px; /* Adjust this value to match the sidebar width */
+    }
+    .toggle-btn {
+        position: fixed;
+        width: 60px;
+        left: 10px;
+        top: 70px; /* Adjust the position of the toggle button */
+        z-index: 1001; /* Ensure the button is above the sidebar */
+    }
+    .sidebar.active + .toggle-btn {
+        left: 250px; /* Move the toggle button when sidebar is active */
+    }
+    .close-btn {
+        display: none;
+        position: fixed;
+        right: 10px;
+        top: 70px; /* Adjust the position of the close button */
+        z-index: 1001; /* Ensure the button is above the sidebar */
+    }
+    .sidebar.active + .close-btn {
+        display: block;
+    }
+    .sidebar .close-btn {
+        display: block;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        z-index: 1002;
+    }
+  }
+  @media (min-width: 768px) {
+    .toggle-btn {
+        display: none !important;
+    }
+    .sidebar .close-btn {
+        display: none !important;
+    }
+  }
+
+/* 페이지 고정 */
+/* 관리자 */
+.partnerManage {
+    background-color: #e9ecef;
+    color: #8FA2CA !important;
+    border-radius: 8px;
+}
+
+.reservationManage {
+    background-color: #e9ecef;
+    color: #8FA2CA !important;
+    border-radius: 8px;
+}
+
+.userManage {
+    background-color: #e9ecef;
+    color: #8FA2CA !important;
+    border-radius: 8px;
+}
+/* 사용자 */
+.userMypage {
+    background-color: #e9ecef;
+    color: #8FA2CA !important;
+    border-radius: 8px;
+  }
+  
+  .userReservation {
+    background-color: #e9ecef;
+    color: #8FA2CA !important;
+    border-radius: 8px;
+  }
+  
+  .userLikeTip {
+    background-color: #e9ecef;
+    color: #8FA2CA !important;
+    border-radius: 8px;
+  }
+  
+  .userReview {
+    background-color: #e9ecef;
+    color: #8FA2CA !important;
+    border-radius: 8px;
+  }
+  
+  .userChatRoom {
+    background-color: #e9ecef;
+    color: #8FA2CA !important;
+    border-radius: 8px;
+  }
+  
+  .userPartner {
+    background-color: #e9ecef;
+    color: #8FA2CA !important;
+    border-radius: 8px;
+  }
+  
+  .userCart {
+    background-color: #e9ecef;
+    color: #8FA2CA !important;
+    border-radius: 8px;
+  }
+/* 파트너 */
