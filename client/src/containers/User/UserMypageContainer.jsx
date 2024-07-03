@@ -3,7 +3,7 @@ import { LoginContext } from '../../components/contexts/LoginContextProvider';
 import UserForm from '../../components/user/UserForm';
 import { getUserInfo } from '../../apis/Users/User';
 import { formatDate } from '../../apis/format';
-import UserLayout from '../../layouts/UserLayout';
+import '../../components/user/User.css'
 
 const UserMypageContainer = () => {
   const { userInfo, setUserInfo } = useContext(LoginContext);
@@ -46,7 +46,7 @@ const UserMypageContainer = () => {
   }
 
   return (
-    <UserLayout>
+    <>
       {userInfo ? (
         <>
           <h3>내 정보 변경</h3>
@@ -59,7 +59,7 @@ const UserMypageContainer = () => {
       ) : (
         <p>No user information available</p>
       )}
-    </UserLayout>
+    </>
   );
 };
 
