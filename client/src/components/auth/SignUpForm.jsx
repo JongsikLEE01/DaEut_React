@@ -1,13 +1,13 @@
-import React from 'react'
-import { checkDuplicateId, checkDuplicateEmail, signup } from '../../apis/auth/auth'
-import { Link, useNavigate } from 'react-router-dom'
-import './auth.css'
-import useForm from './hook/useForm'
-import useValidation from './hook/useValidation'
-import useDuplicateCheck from './hook/useDuplicateCheck'
+import React from 'react';
+import { checkDuplicateId, checkDuplicateEmail, join } from '../../apis/auth/auth';
+import { Link, useNavigate } from 'react-router-dom';
+import './auth.css';
+import useForm from './hook/useForm';
+import useValidation from './hook/useValidation';
+import useDuplicateCheck from './hook/useDuplicateCheck';
 
 const SignUpForm = () => {
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     const [formData, handleChange] = useForm({
         userId: '',
@@ -19,34 +19,32 @@ const SignUpForm = () => {
         userEmail: '',
         userAddress: '',
         userGender: 'male' // 기본값 설정
-    })
+    });
 
-    const [isIdChecked, isEmailChecked, handleCheckDuplicateId, handleCheckDuplicateEmail] = useDuplicateCheck(checkDuplicateId, checkDuplicateEmail)
-    const [validateForm, showAlert] = useValidation(formData, isIdChecked, isEmailChecked)
+    const [isIdChecked, isEmailChecked, handleCheckDuplicateId, handleCheckDuplicateEmail] = useDuplicateCheck(checkDuplicateId, checkDuplicateEmail);
+    const [validateForm, showAlert] = useValidation(formData, isIdChecked, isEmailChecked);
 
     const handleSubmit = (e) => {
-        e.preventDefault()
+        e.preventDefault();
         if (!validateForm()) {
-            return
+            return;
         }
-        signup(formData)
+        join(formData)
             .then(response => {
-                const { status, message } = response.data || {} // response.data가 정의되지 않았을 경우 빈 객체를 사용
-                if (status === 'SUCCESS') {
-                    showAlert('회원가입 성공!', 'success')
-                    navigate('/joinDone') // Redirect to the CompleteSignupPage
-                } else if (status === 'SYSTEM_PW_INCORRECT') {
-                    showAlert('시스템 비밀번호가 일치하지 않습니다.', 'error')
+                const { data, status } = response;
+                if (status === 200 && data === 'SUCCESS') {
+                    navigate('/joinDone'); // 회원가입 완료 페이지로 이동
                 } else {
-                    showAlert(message || '회원가입에 실패했습니다.', 'error')
+                    showAlert('회원가입에 실패했습니다.', 'error');
                 }
             })
             .catch(error => {
-                const errorMessage = error.response?.data?.message || '회원가입 중 오류가 발생했습니다.'
-                showAlert(errorMessage, 'error')
+                const errorMessage = error.response?.data?.message || '회원가입 중 오류가 발생했습니다.';
+                showAlert(errorMessage, 'error');
                 console.error('회원가입 오류:', error);
-            })
-    }
+            });
+    };
+    
 
     return (
         <div className="container form-container">
@@ -242,9 +240,7 @@ const SignUpForm = () => {
                 </div>
             </form>
         </div>
-    )
-}
+    );
+};
 
-export default SignUpForm
-
-                       
+export default SignUpForm;

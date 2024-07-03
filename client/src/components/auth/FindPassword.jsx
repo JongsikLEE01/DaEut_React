@@ -8,7 +8,6 @@ const FindPassword = () => {
     const [userEmail, setUserEmail] = useState('')
     const [authCode, setAuthCode] = useState('')
     const [inputAuthCode, setInputAuthCode] = useState('')
-    const [message, setMessage] = useState('')
 
     const handleSubmit = async (e) => {
         e.preventDefault()
