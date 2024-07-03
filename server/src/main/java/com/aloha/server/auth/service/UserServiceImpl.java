@@ -80,8 +80,9 @@ public class UserServiceImpl implements UserService {
 
     // id로 조회
     @Override
-    public Users select(String username) throws Exception {
-        Users user = userMapper.select(username);
+    public Users select(String userId) throws Exception {
+        Users user = userMapper.select(userId);
+        log.info("userImpl : " + user);
         return user;
     }
 

@@ -1,8 +1,9 @@
 import React, { useContext } from 'react';
-import Sidebar from '../components/user/Sidebar';
 import { LoginContext } from '../components/contexts/LoginContextProvider';
 import Header from '../components/static/Header';
 import Footer from '../components/static/Footer';
+import Sidebar from '../components/user/Sidebar';
+import '../components/user/User.css'
 
 const UserLayout = ({ children }) => {
   const { userInfo } = useContext(LoginContext);
@@ -21,7 +22,7 @@ const UserLayout = ({ children }) => {
       <div className="row">
         <Sidebar toggleSidebar={toggleSidebar} />
         <div className="col-md-9 col-lg-10 form-section">
-          {userInfo ? children(userInfo) : <p>Loading...</p>}
+          {userInfo ? children : <p>Loading...</p>}
         </div>
       </div>
       <Footer />

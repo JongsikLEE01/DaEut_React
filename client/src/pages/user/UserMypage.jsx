@@ -1,26 +1,15 @@
-import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
-import UserForm from '../../components/user/UserForm';
-import UserLayout from '../../layouts/UserLayout';
-import { LoginContext } from '../../components/contexts/LoginContextProvider';
+import React from 'react'
+import UserMypageContainer from '../../containers/User/UserMypageContainer'
+import UserLayout from '../../layouts/UserLayout'
 
-const UserMypage = () => {
-  const { userInfo } = useContext(LoginContext);
-
+const UserMyPage = () => {
   return (
-    <UserLayout>
-      {(userInfo) => (
-        <>
-          <h3>내 정보 변경</h3>
-          <br />
-          <UserForm userDetails={userInfo} disabled={true} />
-          <div className="form-buttons">
-            <Link to="/userMypageUpdate" className="btn btn-primary sessuce color_main">정보 수정</Link>
-          </div>
-        </>
-      )}
-    </UserLayout>
-  );
-};
+    <>
+      <UserLayout>
+        <UserMypageContainer />        
+      </UserLayout>  
+    </>
+  )
+}
 
-export default UserMypage;
+export default UserMyPage

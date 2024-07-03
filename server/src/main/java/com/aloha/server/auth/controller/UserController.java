@@ -1,12 +1,15 @@
 package com.aloha.server.auth.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,6 +38,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 @RequestMapping("/user")
+@CrossOrigin(origins = "*")
 public class UserController {
 
     @Autowired
@@ -52,18 +56,47 @@ public class UserController {
     @Autowired
     private ReviewService reviewService;
 
-    // 사용자 마이페이지 조회
+//    // 사용자 마이페이지 조회
+//    @GetMapping("/userMypage/{userId}")
+//     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN') or hasRole('ROLE_PARTNER')")
+//     public ResponseEntity<?> userMypage(@AuthenticationPrincipal CustomUser customUser,@PathVariable("userId") String userId) throws Exception {
+
+//     Users user = customUser.getUser();
+//     log.info("user넘어와주라 : " + user);
+
+//     Users userList = userService.select(userId);
+//     log.info("userList : " + userList);
+//     if (user == null) {
+//         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+//     }
+
+//     // Map<String, Object> response = new HashMap<>();
+//     // response.put("user", user);
+//     // response.put("additionalInfo", "Some additional info");
+
+//     return ResponseEntity.ok(userList);
+//  }
     @GetMapping("/userMypage")
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN') or hasRole('ROLE_PARTNER')")
-    public ResponseEntity<Users> userMypage(@AuthenticationPrincipal CustomUser customUser) throws Exception {
-        log.info("/user/userMypage");
+    public ResponseEntity<?> userMypage(@AuthenticationPrincipal CustomUser customUser) throws Exception {
+    log.info("/user/userMypage");
 
-        Users user = customUser.getUser();
-        if (user == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-        return ResponseEntity.ok(user);
+    String userId = customUser.getUsername();
+    log.info("user넘어와주라 : " + userId);
+    
+
+    Users fullUserDetails = userService.select(userId);
+    log.info("Fetched full user details: " + fullUserDetails);
+
+    // Map<String, Object> response = new HashMap<>();
+    // response.put("user", userId);
+    // response.put("additionalInfo", "Some additional info");
+    if (fullUserDetails == null) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
+
+    return ResponseEntity.ok(fullUserDetails);
+}
 
     // 사용자 마이페이지 수정 화면 (이 부분은 단순 조회이므로 GET 유지)
     @GetMapping("/userMypageUpdate")
