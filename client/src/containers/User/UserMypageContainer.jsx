@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from 'react';
 import { LoginContext } from '../../components/contexts/LoginContextProvider';
 import UserForm from '../../components/user/UserForm';
 import { getUserInfo } from '../../apis/Users/User';
-import { formatDate } from '../../apis/format';
 import '../../components/user/User.css'
 
 const UserMypageContainer = () => {
@@ -15,10 +14,6 @@ const UserMypageContainer = () => {
       const response = await getUserInfo();
       const data = response.data;
 
-      // 생년월일 변환
-      if (data.userBirth) {
-        data.userBirth = formatDate(data.userBirth);
-      }
       setUserInfo(data);
       console.log("Fetched data: ", data);
     } catch (error) {

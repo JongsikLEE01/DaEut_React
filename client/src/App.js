@@ -41,7 +41,8 @@ import Payment from './pages/Order/Payment'
 import Done from './pages/Order/Done';
 import False from './pages/Order/False';
 import Chat from './pages/Service/Chat';
-import UserMypage from './pages/user/UserMypage'
+import UserMypage from './pages/user/UserMypage';
+import UserMypageUpdate from './pages/user/UserMypageUpdate';
 
 
 
@@ -93,6 +94,7 @@ const App = () => {
 
           {/* 사용자 */}
           <Route path="/user/UserMypage" element={<UserMypage />} />
+          <Route path="/user/UserMypageUpdate" element={<UserMypageUpdate />} />
 
 
         </Routes>
