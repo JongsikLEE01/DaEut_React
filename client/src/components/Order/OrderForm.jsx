@@ -1,18 +1,27 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import DaumPostcode from "react-daum-postcode"
 import Modal from "react-modal"
 import { useNavigate } from 'react-router-dom'
 import * as Swal from '../../apis/alert'
+import { LoginContext } from '../contexts/LoginContextProvider'
 
 const OrderForm = ({ orders, orderItem }) => {
   const navigate = useNavigate()
   const [serviceDate, setServiceDate] = useState('')
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [phone, setPhone] = useState('')
   const [serviceTime, setServiceTime] = useState('')
   const [userPost, setUserPost] = useState('')
   const [userAddress, setUserAddress] = useState('')
   const [userAddressDetail, setUserAddressDetail] = useState('')
   const [address, setAdderss] = useState('')
   const [isOpen, setIsOpen] = useState(false)
+  const { userInfo } = useContext(LoginContext)
+
+  console.log(name);
+  console.log(email);
+  console.log(phone);
 
   const onCancel = () =>{
     Swal.confirm('정말 취소하시겠습니까?', '지금 결제를 취소 할 경우 현재 저장된 입력한 값이 모두 사라집니다.', 'warning',(result) => {
@@ -55,20 +64,8 @@ const OrderForm = ({ orders, orderItem }) => {
   
   // 결제
   const onClickPayment = () => {
-    if(!serviceDate){
-      Swal.alert('서비스 일정을 입력해주세요', '서비스 일정이 선택되지 않았아요, 서비스 일정을 선택해주세요.', 'warning')
-      return
-    }
-    if(!serviceTime){
-      Swal.alert('서비스 시간을 입력해주세요', '서비스 시간이 선택되지 않았아요, 서비스 일정을 선택해주세요.', 'warning')
-      return
-    }
-    if(!userPost){
-      Swal.alert('주소가 입력해주세요', '주소가 선택되지 않았아요, 서비스 일정을 선택해주세요.', 'warning')
-      return
-    }
-    if(!userAddressDetail){
-      Swal.alert('상세 주소가 입력해주세요', '상세 주소가 선택되지 않았아요, 서비스 일정을 선택해주세요.', 'warning')
+    if(!name || !email || !phone || !serviceDate || !serviceTime || !userPost || !userAddress || !userAddressDetail ){
+      Swal.alert('모든 입력 값을 입력해주세요', '선택되지 않은 입력 값이 있어요. 선택해주세요.', 'warning')
       return
     }
 
@@ -82,9 +79,9 @@ const OrderForm = ({ orders, orderItem }) => {
       merchant_uid: `mid_${new Date().getTime()}`,              // 결제금액 (필수항목)
       name: orders.title,                                       // 주문명 (필수항목)
       amount: orders.totalPrice,                                // 금액 (필수항목)
-      buyer_name: '이름',                                       // 구매자 이름
-      buyer_tel: '전화번호',                                    // 구매자 전화번호 (필수항목)
-      buyer_email: '이메일',                                    // 구매자 이메일
+      buyer_name: name,                                         // 구매자 이름
+      buyer_tel: phone,                                         // 구매자 전화번호 (필수항목)
+      buyer_email: email,                                       // 구매자 이메일
       buyer_addr: address,
       buyer_postalcode: userPost
     }
@@ -106,6 +103,9 @@ const OrderForm = ({ orders, orderItem }) => {
   // 결제 설정
   useEffect(()=>{
     setAdderss(`${userAddress} ${userAddressDetail}`)
+    setName(userInfo.userName)
+    setEmail(userInfo.userEmail)
+    setPhone(userInfo.userPhone)
 
     const jquery = document.createElement("script")
     jquery.src = "https://code.jquery.com/jquery-1.12.4.min.js"
@@ -117,7 +117,7 @@ const OrderForm = ({ orders, orderItem }) => {
       document.head.removeChild(jquery)
       document.head.removeChild(iamport)
     }
-  }, [userAddress, userAddressDetail])
+  }, [userAddress, userAddressDetail, userInfo])
 
   return (
     <>
@@ -154,7 +154,7 @@ const OrderForm = ({ orders, orderItem }) => {
               <div className="col-12">
                 <label htmlFor="userName" className="form-label">이름</label>
                 {/* <input type="text" className="form-control" id="userName" placeholder="이름" value={userName} onChange={(e) => setUserName(e.target.value)} required /> */}
-                <input type="text" className="form-control" id="userName" placeholder="이름" value={'김조은'} readOnly />
+                <input type="text" className="form-control" id="userName" placeholder="이름" value={userInfo.userName} onChange={(e) => setName(e.target.value)} />
               </div>
 
               <div className="col-12">
@@ -170,13 +170,13 @@ const OrderForm = ({ orders, orderItem }) => {
               <div className="col-12">
                 <label htmlFor="userEmail" className="form-label">이메일</label>
                 {/* <input type="email" className="form-control" id="userEmail" placeholder="daeut@example.com" value={userEmail} onChange={(e) => setUserEmail(e.target.value)} /> */}
-                <input type="email" className="form-control" id="userEmail" placeholder="daeut@example.com" value={'ddd@dd.dd'} readOnly />
+                <input type="email" className="form-control" id="userEmail" placeholder="daeut@example.com" value={userInfo.userEmail} onChange={(e) => setEmail(e.target.value)} />
               </div>
 
               <div className="col-md-12">
                 <label htmlFor="userPhone" className="form-label">전화번호</label>
                 {/* <input type="text" className="form-control" id="userPhone" placeholder="전화번호를 입력해주세요" value={userPhone} onChange={(e) => setUserPhone(e.target.value)} required /> */}
-                <input type="text" className="form-control" id="userPhone" placeholder="전화번호를 입력해주세요" value={123}  readOnly />
+                <input type="text" className="form-control" id="userPhone" placeholder="전화번호를 입력해주세요" value={userInfo.userPhone} onChange={(e) => setPhone(e.target.value)}  />
               </div>
 
               <div className="col-12">
