@@ -89,7 +89,7 @@ const App = () => {
           <Route path="/resetPwComplete" element={<ResetPwCompletePage />} />
           <Route path="/join" element={<SingUpPage />} />
           <Route path="/admin/join" element={<AdminSignUpPage />} />
-          <Route path="/joinDone" element={<SignUpCompletePage />} />  
+           <Route path="/joinDone" element={<SignUpCompletePage />} />
 
           {/* 사용자 */}
           <Route path="/user/UserMypage" element={<UserMypage />} />
