@@ -1,6 +1,6 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../tip/css/TipInsert.css';
+import '../tip/css/TipInsert.module.css';
 
 const TipInsert = ({
   boardTitle,

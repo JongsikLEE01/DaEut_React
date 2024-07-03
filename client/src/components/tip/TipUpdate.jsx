@@ -1,6 +1,6 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../tip/css/TipRead.css';
+import '../tip/css/TipRead.module.css';
 
 const TipUpdate = ({
   board,
