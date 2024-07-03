@@ -10,12 +10,14 @@ import java.util.HashSet;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.aloha.server.main.dto.Files;
 import com.aloha.server.tip.dto.Option2;
@@ -115,14 +117,38 @@ public class BoardController {
     }
 
     @PostMapping("/boards")
-    public ResponseEntity<String> createBoard(@RequestBody Board board) throws Exception {
-        // board.setUserNo(userNo);
-        log.info("board?? : {}", board);
-        int result = boardService.insert(board);
-        if (result > 0) {
-            return ResponseEntity.ok("Board created successfully");
+    public ResponseEntity<String> createBoard(
+        @RequestParam("boardTitle") String boardTitle,
+        @RequestParam("boardContent") String boardContent,
+        @RequestParam("userNo") int userNo,
+        @RequestParam(value = "thumbnail", required = false) MultipartFile thumbnail,
+        @RequestParam(value = "file", required = false) List<MultipartFile> files) {
+        try {
+            // 로그로 데이터 확인
+            log.info("boardTitle: {}, boardContent: {}, userNo: {}", boardTitle, boardContent, userNo);
+            if (thumbnail != null) {
+                log.info("Thumbnail file name: {}", thumbnail.getOriginalFilename());
+            }
+            if (files != null) {
+                for (MultipartFile file : files) {
+                    log.info("File name: {}", file.getOriginalFilename());
+                }
+            }
+
+            Board board = new Board();
+            board.setBoardTitle(boardTitle);
+            board.setBoardContent(boardContent);
+            board.setUserNo(userNo); // userNo 설정
+
+            int result = boardService.insert(board);
+            if (result > 0) {
+                return ResponseEntity.ok("Board created successfully");
+            }
+            return ResponseEntity.badRequest().body("Failed to create board");
+        } catch (Exception e) {
+            log.error("Error creating board", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Server error occurred");
         }
-        return ResponseEntity.badRequest().body("Failed to create board");
     }
 
     @PutMapping("/boards/{boardNo}")
