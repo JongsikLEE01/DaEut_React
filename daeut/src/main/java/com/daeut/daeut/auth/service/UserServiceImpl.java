@@ -19,8 +19,11 @@ import com.daeut.daeut.partner.dto.Partner;
 import com.daeut.daeut.partner.mapper.PartnerMapper;
 import com.daeut.daeut.reservation.dto.Orders;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.List;
 
+@Slf4j
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -80,6 +83,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public Users select(String username) throws Exception {
         Users user = userMapper.select(username);
+        log.info("user 넘오오냐 : " + user);
         return user;
     }
 
@@ -89,6 +93,7 @@ public class UserServiceImpl implements UserService {
         Users user = userMapper.findUserByEmail(userEmail);
         return user;
     }
+    
 
     // 회원가입
     @Override
