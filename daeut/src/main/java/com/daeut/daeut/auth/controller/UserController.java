@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,6 +38,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 @RequestMapping("/user")
+@CrossOrigin(origins = "*")
 public class UserController {
 
     @Autowired
@@ -208,6 +210,8 @@ public class UserController {
     // 유저 채팅방 생성 처리
     @PostMapping("/userChatRoom")
     public ResponseEntity<Void> createChatRoom(@RequestParam("partnerNo") int partnerNo, @AuthenticationPrincipal CustomUser customUser) throws Exception {
+        log.info("partnerNo {}", partnerNo);
+        log.info("customUser {}", customUser);
         ChatRooms chatRoom = new ChatRooms();
         chatRoom.setPartnerNo(partnerNo);
 

@@ -60,8 +60,8 @@ const LoginForm = () => {
           </div>
         </div>
         <div className="d-grid gap-3">
-          <button type="submit" className="btn btn-dark">로그인</button>
-          <Link to="/auth/join" className="btn btn-dark">회원 가입</Link>
+          <button type="submit" className="btn btn-dark darkBtn">로그인</button>
+          <Link to="/join" className="btn btn-dark">회원 가입</Link>
           <button type="button" className="btn btn-light border" onClick={() => window.history.back()}>돌아가기</button>
         </div>
         <div className="text-center my-3">
@@ -85,7 +85,7 @@ const LoginForm = () => {
         </div>
         <div className="d-grid gap-2">
           <Link to="/findId" className="btn btn-light border">아이디 찾기</Link>
-          <Link to="/auth/findPw" className="btn btn-light border">비밀번호 찾기</Link>
+          <Link to="/findPw" className="btn btn-light border">비밀번호 찾기</Link>
         </div>
       </form>
     </div>

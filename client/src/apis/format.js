@@ -22,7 +22,7 @@ export const formatDate = (dateString) =>{
     const hours = String(date.getHours()).padStart(2, '0');
     const minutes = String(date.getMinutes()).padStart(2, '0');
     const seconds = String(date.getSeconds()).padStart(2, '0');
-    return `${year}/${month}/${day} ${hours}:${minutes}:${seconds}`
+    return `${year}년${month}월 ${day}일 ${hours}시 ${minutes}분`
 }
 
 export const byteToUnit = (byte) => {

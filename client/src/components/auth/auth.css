@@ -49,14 +49,14 @@
   button {
     border: none;
   }
-  .custom-margin {
-    margin: 100px; /* 요소 간 간격 설정 */
-  }
+  /* .custom-margin {
+    margin: 100px; 
+  } */
   .memberRow {
     display: flex;
     justify-content: center;
     flex-wrap: wrap; /* 반응형 지원을 위한 wrap 설정 */
-    gap: 20px; /* 요소 간의 간격 설정 */
+    gap: 100px; /* 요소 간의 간격 설정 */
   }
   .form-container {
     flex: 1;
@@ -106,9 +106,10 @@
   }
   
   .custom-auth-btn {
-    background-color: #8FA2CA !important;
+    background-color: #c0dcc5 !important;
     border: none !important;
     padding-top: 50px;
+    height: 39.64px !important;
   }
   
   .form-container.complete {
@@ -195,3 +196,18 @@
       font-size: 14px;
     }
   }
+
+button[type="submit"].darkBtn {
+  height: 37.6px !important;
+}
+
+#signId, #signEmail {
+  border: 1px solid #ccc !important;
+  border-right: 0 !important;
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+
+.input-group {
+  display: flex;
+}

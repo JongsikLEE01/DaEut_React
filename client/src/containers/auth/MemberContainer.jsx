@@ -1,6 +1,6 @@
-import React from 'react';
-import MemberComponent from '../../components/auth/MemberComponent';
-import { faLock, faLockOpen, faUser, faUsers } from '@fortawesome/free-solid-svg-icons';
+import React from 'react'
+import MemberComponent from '../../components/auth/MemberComponent'
+import { faLock, faLockOpen, faUser, faUsers } from '@fortawesome/free-solid-svg-icons'
 
 const MemberContainer = () => {
   return (
@@ -14,7 +14,7 @@ const MemberContainer = () => {
           className="login-icon"
         />
         <MemberComponent
-          to="/auth/join"
+          to="/join"
           normalIcon={faUser}
           hoverIcon={faUsers}
           text="회원가입 하기"
@@ -29,7 +29,7 @@ const MemberContainer = () => {
         />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default MemberContainer;
+export default MemberContainer

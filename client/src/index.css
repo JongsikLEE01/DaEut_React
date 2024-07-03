@@ -1,5 +1,4 @@
 /* noto sans 폰트 import */
-/* TODO : 폰트 변경필요 */
 @font-face {
     font-family: 'Binggrae';
     src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/Binggrae.woff') format('woff');
