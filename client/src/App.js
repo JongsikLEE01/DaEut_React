@@ -80,6 +80,8 @@ const App = () => {
           <Route path="/join" element={<SingUpPage />} />
           <Route path="/admin/join" element={<AdminSignUpPage />} />
           <Route path="/joinDone" element={<SignUpCompletePage />} />
+
+          {/* User */}
           <Route path="/user/UserMypage" element={<UserMypage />} />
 
         </Routes>
