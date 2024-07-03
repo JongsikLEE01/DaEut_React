@@ -26,6 +26,7 @@ public class Users {
     private Date userUpdDate; // 사용자 수정일자
     private int enabled; // 활성화 여부
     private int status; // 상태
+    private int partnerNo;  // 파트너 번호
 
     // 권한 목록
     private List<UserAuth> authList;
@@ -50,5 +51,6 @@ public class Users {
         this.enabled = user.getEnabled();
         this.status = user.getStatus();
         this.authList = user.getAuthList();
+        this.partnerNo = user.getPartnerNo();
     }
 }

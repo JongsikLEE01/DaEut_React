@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Route, Routes, Switch  } from 'react-router-dom'
 // import LoginContextProvider from './contexts/LoginContextProvider'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.css';
@@ -17,12 +17,10 @@ import FindIdPage from './pages/auth/FindIdPage'
 import DoneFindIdPage from './pages/auth/DoneFindIdPage'
 // import LoginContextProvider from './contexts/LoginContextProvider'
 import Order from './pages/Order/Payment'
-// import PartnerList from './pages/partner/PartnerList'
-// import PartnerReservation from './pages/partner/PartnerReservation'
+import PartnerList from './pages/partner/PartnerList'
 import PartnerReview from './pages/partner/PartnerReview'
 import PartnerUpdate from './pages/partner/PartnerUpdate'
-import PartnerList from './components/partner/PartnerList'
-import PartnerReservation from './components/partner/PartnerReservation'
+import PartnerReservation from './pages/partner/PartnerReservation'
 import FindPasswordPage from './pages/auth/FindPasswordPage'
 import ResetPasswordPage from './pages/auth/ResetPasswordPage'
 import ResetPwCompletePage from './pages/auth/ResetPwCompletePage'
@@ -65,6 +63,8 @@ const App = () => {
           
           {/* 팁게시판  */}
           <Route path="/test" element={<Test />} />
+          <Route path="/member" element={<Member />} />
+          <Route path="/login" element={<LoginPage />} />
           <Route path='/tip/boards' element={<TipIndex/>}></Route>
           <Route path='/tip/boards/:boardNo' element={<TipRead/>}></Route>
           <Route path='/tip/tipInsert' element={<TipInsert/>}></Route>
@@ -72,8 +72,8 @@ const App = () => {
           
           {/* Partner */}
           <Route path="/partnerList/:userNo" element={<PartnerList/>}/>
-          <Route path="/partnerReservation/:partnerNo" element={<PartnerReservation/>}/>
-          <Route path="/partnerReview/:partnerNo" element={<PartnerReview/>}/>
+          <Route path="/partner/reservation/:partnerNo" element={<PartnerReservation/>}/>
+          <Route path="/partner/reviews/:partnerNo" element={<PartnerReview/>}/>
           {/* <Route path="PartnerUpdate" element={<PartnerUpdate/>}/> */}
 
           {/* 소셜로그인 */}

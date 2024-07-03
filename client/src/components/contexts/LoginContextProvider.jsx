@@ -133,13 +133,14 @@ const LoginContextProvider = ({ children }) => {
 
   // 🔐 로그인 세팅
   const loginSetting = (userData, accessToken) => {
-    const { userNo, userId, userName, userPhone, userEmail, userAddress, userBirth, authList } = userData           // 👩‍💼 Users (DTO) [JSON]
+    const { userNo, userId, userName, userPhone, userEmail, userAddress, userBirth, authList, partnerNo } = userData           // 👩‍💼 Users (DTO) [JSON]
     const roleList = authList.map((auth) => auth.auth)  // 💳 [ROLE_USER,ROLE_ADMIN,ROLE_PARTNER]
 
     console.log(`no : ${userNo}`);
     console.log(`userId : ${userId}`);
     console.log(`authList : ${authList}`);
     console.log(`roleList : ${roleList}`);
+    console.log(`partnerNo : ${partnerNo}`);
 
     // axios common header - Authorization 헤더에 jwt 등록
     api.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
@@ -149,7 +150,7 @@ const LoginContextProvider = ({ children }) => {
     setLogin(true);
 
     // 👨‍💼 유저 정보 세팅
-    const updatedUserInfo = { userNo, userId, userName, userPhone, userEmail, userAddress, userBirth, authList  }
+    const updatedUserInfo = { userNo, userId, userName, userPhone, userEmail, userAddress, userBirth, authList, partnerNo  }
     setUserInfo(updatedUserInfo)
 
      // 👮‍♀️ 권한 정보 세팅

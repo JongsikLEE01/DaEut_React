@@ -1,20 +1,26 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useContext } from 'react'
 import SockJS from 'sockjs-client'
 import { Stomp } from '@stomp/stompjs'
+import { useNavigate } from 'react-router-dom'
+import { LoginContext } from '../contexts/LoginContextProvider'
 
-const ChatForm = ({ chatRooms, roomNo, chatList, partner, user }) => {
+const ChatForm = ({ chatRooms, roomNo, chatList, setChatList, partner, user }) => {
+  const navigate = useNavigate()
   const [message, setMessage] = useState('')
   const [stompClient, setStompClient] = useState(null)
   const chatAreaRef = useRef(null)
+  const { userInfo } = useContext(LoginContext)
 
+  // 팝업 알림
   const pushAlarm = (newChat) => {
     const notification = new Notification('새로운 메시지 도착가 도착했어요!', {
-      body: `${partner.userName}: ${newChat.chatContent}`
+      body: `${partner.userName}: ${newChat.chatContent}`,
+      icon: `${process.env.PUBLIC_URL}/img/logo-h.png`
     });
 
     notification.onclick = () => {
-      // 알림 클릭 시 추가 동작을 정의할 수 있습니다.
-      console.log('알림이 클릭되었습니다.');
+      // 알림이 클릭되면 채팅방으로 이동
+      navigate(`/chat/${roomNo}`)
     }
   }
 
@@ -24,7 +30,7 @@ const ChatForm = ({ chatRooms, roomNo, chatList, partner, user }) => {
       stompClient.send("/pub/sendMessage", {}, JSON.stringify({
         roomNo: roomNo,
         chatContent: message,
-        userNo: 2,
+        userNo: userInfo.userNo,
         chatRegDate: getCurrentTime()
       }))
       setMessage('')
@@ -68,6 +74,8 @@ const ChatForm = ({ chatRooms, roomNo, chatList, partner, user }) => {
         const newChat = JSON.parse(message.body)
         // 푸쉬알림 전송
         pushAlarm(newChat)
+        // 새로운 메시지를 기존 채팅 리스트에 추가
+        setChatList(prevChatList => [...prevChatList, newChat])
       })
     })
     setStompClient(client)
@@ -96,12 +104,12 @@ const ChatForm = ({ chatRooms, roomNo, chatList, partner, user }) => {
         <div className="chat-box" id="messages">
           <div id="chatArea" className="chatArea" ref={chatAreaRef}>
             {chatList.map((chat) => (
-              <div key={chat.chatNo} className={`message ${chat.userNo === 1 ? 'my-message' : 'other-message'}`}>
-                {chat.userNo !== user.userNo && (
+              <div key={chat.chatNo} className={`message ${chat.userNo === userInfo.userNo ? 'my-message' : 'other-message'}`}>
+                {chat.userNo !== userInfo.userNo && (
                   <span className="partner-name">{partner.userName}</span>
                 )}
                 {chat.userNo === partner.userNo && (
-                  <span className="partner-name">{user.userName}</span>
+                  <span className="userInfo.userNo">{user.userName}</span>
                 )}
                 <span className="message-content">{chat.chatContent}</span>
                 <span className="message-date">{chat.chatRegDate.split(' ')[1].slice(0, 5)}</span>

@@ -46,7 +46,7 @@
     </resultMap>
 
     <!-- 회원 조회 - id -->
-    <select id="select" resultMap="userMap">
+    <!-- <select id="select" resultMap="userMap">
         SELECT u.user_no
               ,u.user_name
               ,u.user_phone
@@ -64,7 +64,7 @@
         FROM users u 
         LEFT OUTER JOIN user_auth auth ON u.user_no = auth.user_no
         WHERE u.user_id = #{userId}
-    </select>
+    </select> -->
 
     <!-- 관리자 회원 조회 - user_no로 조회 -->
     <select id="findUserById" resultMap="userMap">
