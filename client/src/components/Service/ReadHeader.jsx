@@ -9,13 +9,13 @@ const ReadHeader = ({ service, onChatRoom }) => {
   const addChatRoom=()=>{
 
     const partnerNo = service.partnerNo
-    if(partnerNo == userInfo.userNo){
+    if(partnerNo == userInfo.partnerNo){
       Swal.alert('채팅방 생성을 실패했어요', '채팅방 생성을 실패했어요, 자기 자긴에게는 채팅 할 수 없어요', 'warning', )
+    }else{
+      onChatRoom(partnerNo, userInfo)
     }
-    onChatRoom(partnerNo, userInfo)
   }
 
-  // JSX로 변환된 HTML 부분
   return (
     <>
       <div className="header-area">
@@ -44,7 +44,7 @@ const ReadHeader = ({ service, onChatRoom }) => {
             </div>
         
             {/* 수정 버튼 표시 */}
-            {service.partnerNo == userInfo.userNo && 
+            {service.partnerNo == userInfo.partnerNo && 
               (
                 <div className="reservation-link">
                   <Link to={`/service/update/${service.serviceNo}`}>
