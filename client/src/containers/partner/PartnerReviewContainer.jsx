@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import * as partners from '../../apis/partner/partner'
-import PartnerReview from '../components/partner/PartnerList'
+import PartnerReview from '../../components/partner/PartnerReviewList'
 
-const PartnerReviewContainer = ( {partnerNo} ) => {
+const PartnerReviewContainer = ( ) => {
   const {partnerNo} = useParams();
   const [partnerReview, setPartnerReview] = useState({})
 

@@ -15,6 +15,12 @@ import FindIdPage from './pages/auth/FindIdPage'
 import DoneFindIdPage from './pages/auth/DoneFindIdPage'
 // import LoginContextProvider from './contexts/LoginContextProvider'
 import Order from './pages/Order/Payment'
+// import PartnerList from './pages/partner/PartnerList'
+// import PartnerReservation from './pages/partner/PartnerReservation'
+import PartnerReview from './pages/partner/PartnerReview'
+import PartnerUpdate from './pages/partner/PartnerUpdate'
+import PartnerList from './components/partner/PartnerList'
+import PartnerReservation from './components/partner/PartnerReservation'
 
 
 const App = () => {
@@ -33,6 +39,12 @@ const App = () => {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/findId" element={<FindIdPage />} />
           <Route path="/findIdComplete/:userId" element={<DoneFindIdPage />} />
+          {/* <Route path="/partnerList/:userNo" element={<PartnerList/>}/> */}
+          {/* <Route path="partnerReservation/:partnerNo" element={<PartnerReservation/>}/> */}
+          <Route path="PartnerReservation" element={<PartnerReservation/>}/>
+          <Route path="partnerReview/:partnerNo" element={<PartnerReview/>}/>
+          {/* <Route path="PartnerUpdate" element={<PartnerUpdate/>}/> */}
+          <Route path="partnerList" element={<PartnerList/>}/>
         </Routes>
       </LoginContextProvider>
     </BrowserRouter>
