@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import * as alert from '../../apis/alert'
 
 const ServiceUpdateForm = ({ onUpdate, service, fileList, onRemove }) => {
   // state 등록
@@ -91,7 +92,7 @@ const ServiceUpdateForm = ({ onUpdate, service, fileList, onRemove }) => {
     e.preventDefault()
 
     if (serviceCategory.length === 0) {
-      alert('카테고리를 선택해주세요')
+      alert.alert('카테고리를 선택해주세요','카테고리가 선택되지않았어요. 카테고리를 선택해주세요.', 'warning')
       return
     }
 

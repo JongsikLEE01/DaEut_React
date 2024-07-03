@@ -21,8 +21,8 @@ public interface UserMapper {
                                      @Param("userEmail") String userEmail, 
                                      @Param("userPhone") String userPhone) throws Exception;
 
-    // 비밀번호 찾기
-    public int updatePw(Users user) throws Exception;
+    // 비밀번호 재설정
+    public int updatePw(@Param("userId") String userId, @Param("userPassword") String userPassword) throws Exception;
                                      
     // 회원 조회
     public Users select(@Param("userId") String userId) throws Exception;

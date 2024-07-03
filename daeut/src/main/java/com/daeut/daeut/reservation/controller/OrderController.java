@@ -104,9 +104,12 @@ public class OrderController {
                                                @RequestParam("userAddress") String userAddress,
                                                @RequestParam("userPost") String userPost
                                                ) {
+        log.info("ordersNo? {}", ordersNo);
+        log.info("date? {}", date);
+        log.info("time? {}", time);
+        log.info("userAddress? {}", userAddress);
+        log.info("userPost? {}", userPost);
         try {
-            // Users user = (Users) session.getAttribute("user");
-
             Payments payments = new Payments();
             payments.setOrdersNo(ordersNo);
             payments.setPaymentMethod("card");
@@ -169,8 +172,14 @@ public class OrderController {
                                             @RequestParam(value = "time", required = false) String time,
                                             @RequestParam(value = "userAddress", required = false) String userAddress,
                                             @RequestParam(value = "userPost", required = false) String userPost,
-                                            @RequestParam(value = "errorMsg", required = false) String errorMsg,
-                                            HttpSession session) {
+                                            @RequestParam(value = "errorMsg", required = false) String errorMsg
+                                            ) {
+        log.info("ordersNo? {}", ordersNo);
+        log.info("date? {}", date);
+        log.info("time? {}", time);
+        log.info("userAddress? {}", userAddress);
+        log.info("userPost? {}", userPost);
+        log.info("errorMsg? {}", errorMsg);
         try {
             Payments payments = new Payments();
             payments.setOrdersNo(ordersNo);
@@ -233,7 +242,8 @@ public class OrderController {
      * @throws Exception
      */
     @GetMapping("/{ordersNo}")
-    public ResponseEntity<Object> checkout(@PathVariable("ordersNo") String ordersNo) {
+    public ResponseEntity<?> checkout(@PathVariable("ordersNo") String ordersNo) {
+        log.info(ordersNo);
         try {
             // 주문 정보 가져오기
             Orders order = orderService.select(ordersNo);

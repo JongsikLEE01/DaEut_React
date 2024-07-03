@@ -7,7 +7,6 @@ import com.aloha.server.main.dto.Option;
 import com.aloha.server.main.dto.ServicePage;
 import com.aloha.server.reservation.dto.Event;
 import com.aloha.server.reservation.dto.Services;
-import com.aloha.server.tip.dto.Board;
 
 public interface ReservationService {
     // 목록

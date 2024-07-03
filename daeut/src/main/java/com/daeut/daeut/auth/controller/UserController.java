@@ -244,6 +244,8 @@ public class UserController {
     @PostMapping("/userChatRoom")
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN') or hasRole('ROLE_PARTNER')")
     public ResponseEntity<Void> createChatRoom(@RequestParam("partnerNo") int partnerNo, @AuthenticationPrincipal CustomUser customUser) throws Exception {
+        log.info("partnerNo {}", partnerNo);
+        log.info("customUser {}", customUser);
         ChatRooms chatRoom = new ChatRooms();
         chatRoom.setPartnerNo(partnerNo);
 
