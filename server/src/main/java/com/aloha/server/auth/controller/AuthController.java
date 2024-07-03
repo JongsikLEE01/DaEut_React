@@ -78,7 +78,7 @@ public class AuthController {
      * @return
      * @throws Exception
      */
-    @PostMapping("")
+    @PostMapping("/join")
     public ResponseEntity<?> join(@RequestBody Users user) throws Exception {
         log.info("[POST] - /users");
         int result = userService.join(user);

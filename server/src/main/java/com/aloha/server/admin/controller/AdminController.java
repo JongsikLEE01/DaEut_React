@@ -108,22 +108,23 @@ public class AdminController {
     public ResponseEntity<Map<String, String>> adminJoin(@RequestBody Users user, @RequestParam String systemPw) {
         Map<String, String> response = new HashMap<>();
         try {
-            if (!this.systemPw.equals(systemPw)) {
+            if (!this.systemPw.equals(systemPw)) { // systemPw 필드는 클래스 변수로 정의되어 있어야 합니다.
                 log.info("시스템 비밀번호 불일치");
                 response.put("status", "SYSTEM_PW_INCORRECT");
                 response.put("message", "시스템 비밀번호가 일치하지 않습니다.");
                 return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
             }
 
-            Users existingUser = userService.select(user.getUserId());
-            if (existingUser != null) {
-                log.info("아이디 중복");
-                response.put("status", "USER_ID_DUPLICATE");
-                response.put("message", "아이디가 중복되었습니다.");
-                return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-            }
+            // Users existingUser = userService.select(user.getUserId());
+            // if (existingUser != null) {
+            //     log.info("아이디 중복");
+            //     response.put("status", "USER_ID_DUPLICATE");
+            //     response.put("message", "아이디가 중복되었습니다.");
+            //     return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+            // }
 
-            adminService.adminJoin(user, systemPw);
+            adminService.adminJoin(user, systemPw); // adminService에서 회원 가입 로직을 처리하는 메서드 호출
+
             response.put("status", "SUCCESS");
             response.put("message", "회원가입 성공");
             return new ResponseEntity<>(response, HttpStatus.OK);
