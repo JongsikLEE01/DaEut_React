@@ -3,15 +3,31 @@ import api from '../api'
 
 // 로그인
 export const login = (username, password) => api.post(`/login?username=${username}&password=${password}`)
+
 // 사용자 정보
-export const info = () => api.get(`/info`) // 수정된 부분
+export const info = () => api.get(`/info`)
+
 // 회원 가입
-export const join = (data) => api.post(`/auth`, data)
+export const join = (data) => api.post(`/join`, data)
+
+// 관리자 회원 가입
+export const adminJoin = (data, systemPw) => api.post(`/admin/join`, data, { params: { systemPw }})
+
 // 회원 정보 수정
 export const update = (data) => api.put(`/auth`, data)
+
 // 회원 탈퇴
 export const remove = (userId) => api.delete(`/auth/${userId}`)
 
+// 아이디 중복 확인
+export const checkDuplicateId = (userId) => {
+    return axios.get(`/check-duplicate?userId=${userId}`)
+}
+
+// 이메일 중복 확인
+export const checkDuplicateEmail = (userEmail) => {
+    return axios.get(`/check-duplicate-email?userEmail=${userEmail}`)
+}
 
 // 아이디 찾기 처리
 export const findId = (userDetails) => {
@@ -74,7 +90,7 @@ export const resetPassword = (userId, userPassword, confirmPassword) => {
 }
 
 // 비밀번호 재설정
-export const  resetPw = (userId, userPassword, confirmPassword) => {
+export const resetPw = (userId, userPassword, confirmPassword) => {
     const data = {
         userId: userId,
         userPassword: userPassword,
@@ -88,33 +104,3 @@ export const  resetPw = (userId, userPassword, confirmPassword) => {
             throw error
         })
 }
-
-// 아이디 중복 확인
-export const checkDuplicateId = (userId) => {
-    return api.get(`/check-duplicate?userId=${userId}`)
-        .then(response => response.data)
-        .catch(error => {
-            console.error('아이디 중복 확인 오류:', error);
-            throw error;
-        });
-};
-
-// 이메일 중복 확인
-export const checkDuplicateEmail = (userEmail) => {
-    return api.get(`/check-duplicate-email?userEmail=${userEmail}`)
-        .then(response => response.data)
-        .catch(error => {
-            console.error('이메일 중복 확인 오류:', error);
-            throw error;
-        });
-};
-
-// 회원가입
-export const signup = (userData) => {
-    return api.post('/', userData)
-        .then(response => response.data)
-        .catch(error => {
-            console.error('회원가입 오류:', error);
-            throw error;
-        });
-};

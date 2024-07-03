@@ -28,7 +28,8 @@ const useDuplicateCheck = (checkDuplicateId, checkDuplicateEmail) => {
             return
         }
         checkDuplicateId(userId)
-            .then(data => {
+            .then(response => {
+                const data = response.data
                 if (data.exists) {
                     showAlert('이미 사용 중인 아이디입니다.', 'warning')
                     setIsIdChecked(false)
@@ -49,7 +50,8 @@ const useDuplicateCheck = (checkDuplicateId, checkDuplicateEmail) => {
             return
         }
         checkDuplicateEmail(userEmail)
-            .then(data => {
+            .then(response => {
+                const data = response.data
                 if (data.exists) {
                     showAlert('이미 사용 중인 이메일입니다.', 'warning')
                     setIsEmailChecked(false)

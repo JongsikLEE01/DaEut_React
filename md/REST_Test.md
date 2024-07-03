@@ -8,11 +8,11 @@
 
 # OrderController
 ## 주문 경로
-1. ⭕ 주문 등록         - [POST]  "/orders"
-2. ❌ 주문 완료         - [GET]   "/orders/success"
-3. ❌ 주문 실패         - [GET]   "/orders/fail"
-4. ❌ 결제 하기         - [GET]   "/orders/{ordersNo}"
-5. ❌ 취소 하기         - [POST]  "/orders/cancel"
+1. ⭕ 주문 등록         - [POST]  "/orders"                     - 구현
+2. ⭕ 주문 완료         - [GET]   "/orders/success"             - 구현
+3. ⭕ 주문 실패         - [GET]   "/orders/fail"                - 구현
+4. ⭕ 결제 하기         - [GET]   "/orders/{ordersNo}"          - 구현
+5. ⭕ 취소 하기         - [POST]  "/orders/cancel"
 
 # ChatController
 ## 채팅 경로

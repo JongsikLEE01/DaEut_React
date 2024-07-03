@@ -1,5 +1,5 @@
 import React from 'react'
-import { checkDuplicateId, checkDuplicateEmail, signup } from '../../apis/auth/auth'
+import { adminJoin, checkDuplicateId, checkDuplicateEmail } from '../../apis/auth/auth'
 import { Link, useNavigate } from 'react-router-dom'
 import useForm from './hook/useForm'
 import useValidation from './hook/useValidation'
@@ -22,23 +22,31 @@ const AdminSignUpForm = () => {
         systemPw: '' // 시스템 비밀번호 필드 추가
     })
 
-    const [isIdChecked, isEmailChecked, handleCheckDuplicateId, handleCheckDuplicateEmail] = useDuplicateCheck(checkDuplicateId, checkDuplicateEmail)
+    const [isIdChecked, isEmailChecked, handleCheckDuplicateId, handleCheckDuplicateEmail] = useDuplicateCheck(
+        checkDuplicateId,
+        checkDuplicateEmail
+    )
+
     const [validateForm, showAlert] = useValidation(formData, isIdChecked, isEmailChecked)
 
     const handleSubmit = (e) => {
         e.preventDefault()
+        
         if (!validateForm()) {
             return
         }
-        signup(formData)
+
+        const { systemPw, ...userData } = formData
+
+        adminJoin(userData, systemPw)
             .then(response => {
-                const { status, message } = response.data || {} // response.data가 정의되지 않았을 경우 빈 객체를 사용
-                console.log("응답 데이터:", response.data); // 응답 데이터 로그 추가
+                const { status, message } = response.data || {}
                 if (status === 'SUCCESS') {
-                    showAlert('회원가입 성공!', 'success')
-                    navigate('/joinDone') // Redirect to the CompleteSignupPage
+                    navigate('/joinDone')
                 } else if (status === 'SYSTEM_PW_INCORRECT') {
                     showAlert('시스템 비밀번호가 일치하지 않습니다.', 'error')
+                } else if (status === 'USER_ID_DUPLICATE') {
+                    showAlert('아이디가 이미 존재합니다.', 'error')
                 } else {
                     showAlert(message || '회원가입에 실패했습니다.', 'error')
                 }

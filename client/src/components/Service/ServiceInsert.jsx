@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { alert } from '../../apis/alert'
 
 const ServiceInsert = ({ onInsert }) => {
   // state 등록
@@ -89,7 +90,7 @@ const ServiceInsert = ({ onInsert }) => {
     e.preventDefault()
 
     if (serviceCategory.length === 0) {
-      alert('카테고리를 선택해주세요')
+      alert.alert('카테고리를 선택해주세요','카테고리가 선택되지않았어요. 카테고리를 선택해주세요.', 'warning')
       return
     }
 

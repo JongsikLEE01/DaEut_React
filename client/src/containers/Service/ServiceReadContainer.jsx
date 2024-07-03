@@ -9,6 +9,7 @@ import ReadInfo from '../../components/Service/ReadInfo'
 import ReadReview from '../../components/Service/ReadReview'
 import ReadContent from '../../components/Service/ReadContent'
 import { useNavigate } from 'react-router-dom'
+import * as alert from '../../apis/alert'
 
 const ServiceReadContainer = ({ serviceNo }) => {
   const navigate = useNavigate()
@@ -37,7 +38,7 @@ const ServiceReadContainer = ({ serviceNo }) => {
       setPartnerInfo(partnerInfo)
       setPthumbnail(pthumbnail)
     } catch (e) {
-      console.error('Error fetching service:', e)
+      console.error('서비스 조회 중 에러 발생... ', e)
     }
   }
 
@@ -47,8 +48,9 @@ const ServiceReadContainer = ({ serviceNo }) => {
       const response = await Services.addCart(userNo, serviceNo)
       const status = await response.status
       console.log(`장바구니 추가 요청 결과 ${status}`);
-      alert('장바구니 등록 성공')
+      alert.alert('장바구니에 담기', '축하드립니다! 서비스가 장바구니에 성공적으로 담겼어요.', 'succes')
     } catch (e) {
+      alert.alert('장바구니에 담기', '장바구니에 담기지 못했어요, 이미 있는 담겨있는 서비스인지 확인해보세요', 'warning')
       console.error(e)
     }
   }
@@ -67,13 +69,30 @@ const ServiceReadContainer = ({ serviceNo }) => {
     }
   }
 
+  // 채팅방 생성
+  const onChatRoom = async (partnerNo, userInfo) =>{
+    try {
+      const response = await Services.addChatRoom(partnerNo, userInfo)
+      const data = response.data
+      const chatRoom = data.chatRoom
+      console.log(`생성된 채팅 방... ${chatRoom}`)
+
+      navigate(`/user/userChatRoom`)
+    } catch (e) {
+      console.error(`채팅방 생성중 오류 발생... ${e}`)
+    }
+  }
+
   useEffect(() => {
     getService()
   }, [])
 
   return (
     <>
-      <ReadHeader service={service} />
+      <ReadHeader 
+        service={service} 
+        onChatRoom={onChatRoom}
+      />
       <div class="detail-form">
         <ReadContent
           service={service}

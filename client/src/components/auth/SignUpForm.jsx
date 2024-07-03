@@ -1,5 +1,5 @@
 import React from 'react'
-import { checkDuplicateId, checkDuplicateEmail, signup } from '../../apis/auth/auth'
+import { checkDuplicateId, checkDuplicateEmail, join } from '../../apis/auth/auth'
 import { Link, useNavigate } from 'react-router-dom'
 import './auth.css'
 import useForm from './hook/useForm'
@@ -29,16 +29,13 @@ const SignUpForm = () => {
         if (!validateForm()) {
             return
         }
-        signup(formData)
+        join(formData)
             .then(response => {
-                const { status, message } = response.data || {} // response.data가 정의되지 않았을 경우 빈 객체를 사용
-                if (status === 'SUCCESS') {
-                    showAlert('회원가입 성공!', 'success')
-                    navigate('/joinDone') // Redirect to the CompleteSignupPage
-                } else if (status === 'SYSTEM_PW_INCORRECT') {
-                    showAlert('시스템 비밀번호가 일치하지 않습니다.', 'error')
+                const { data, status } = response
+                if (status === 200 && data === 'SUCCESS') {
+                    navigate('/joinDone') // 회원가입 완료 페이지로 이동
                 } else {
-                    showAlert(message || '회원가입에 실패했습니다.', 'error')
+                    showAlert('회원가입에 실패했습니다.', 'error')
                 }
             })
             .catch(error => {
@@ -47,6 +44,7 @@ const SignUpForm = () => {
                 console.error('회원가입 오류:', error);
             })
     }
+    
 
     return (
         <div className="container form-container">
@@ -246,5 +244,3 @@ const SignUpForm = () => {
 }
 
 export default SignUpForm
-
-                       
