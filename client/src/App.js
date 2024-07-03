@@ -63,6 +63,8 @@ const App = () => {
           
           {/* 팁게시판  */}
           <Route path="/test" element={<Test />} />
+          <Route path="/member" element={<Member />} />
+          <Route path="/login" element={<LoginPage />} />
           <Route path='/tip/boards' element={<TipIndex/>}></Route>
           <Route path='/tip/boards/:boardNo' element={<TipRead/>}></Route>
           <Route path='/tip/tipInsert' element={<TipInsert/>}></Route>

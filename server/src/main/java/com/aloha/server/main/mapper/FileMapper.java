@@ -7,7 +7,6 @@ import org.apache.ibatis.annotations.Mapper;
 import com.aloha.server.main.dto.Files;
 
 
-
 @Mapper
 public interface FileMapper {
     // 파일 목록

@@ -25,6 +25,8 @@ import com.aloha.server.auth.dto.CustomUser;
 import com.aloha.server.auth.dto.Users;
 import com.aloha.server.auth.service.EmailService;
 import com.aloha.server.auth.service.UserService;
+import com.aloha.server.partner.dto.Partner;
+import com.aloha.server.partner.service.PartnerService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -39,6 +41,9 @@ public class AuthController {
 
     @Autowired
     private EmailService emailService;
+
+    @Autowired
+    private PartnerService partnerService;
 
     // 로그인 선택
     @GetMapping("/member")
@@ -306,13 +311,21 @@ public class AuthController {
      * @return
      */
     @GetMapping("/info")
-    public ResponseEntity<?> userInfo(@AuthenticationPrincipal CustomUser customUser) {
+    public ResponseEntity<?> userInfo(@AuthenticationPrincipal CustomUser customUser) throws Exception{
         
         log.info("::::: customUser :::::");
         log.info("customUser : "+ customUser);
 
         Users user = customUser.getUser();
         log.info("user : " + user);
+
+        Partner partner = partnerService.findByUserNo(user.getUserNo());
+        log.info("partner {}", partner);
+
+        if(partner != null){
+            int partnerNo = partner.getPartnerNo();
+            user.setPartnerNo(partnerNo);
+        }
 
         // 인증된 사용자 정보 
         if( user != null )

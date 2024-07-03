@@ -57,6 +57,7 @@ const ChatContainer = ({ roomNo }) => {
       chatRooms={chatRooms}
       roomNo={roomNo} 
       chatList={chatList} 
+      setChatList={setChatList}
       partner={partner}
       user={user}
     />
