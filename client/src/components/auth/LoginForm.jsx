@@ -1,24 +1,21 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import './auth.css'
 import { LoginContext } from '../contexts/LoginContextProvider'
 import Cookies from 'js-cookie'
 import { Link } from 'react-router-dom'
+import { Button } from 'react-bootstrap'
 
 const LoginForm = () => {
-  const { login, rememberId, setRememberId } = useContext(LoginContext)
-  const [username, setUsername] = useState('')
+  const { login, savedUsername } = useContext(LoginContext)
+  const [username, setUsername] = useState(savedUsername);
   const [password, setPassword] = useState('')
 
-  useEffect(() => {
-    const rememberedUsername = Cookies.get('username')
-    if (rememberedUsername) {
-      setUsername(rememberedUsername)
-    }
-  }, [])
+  const [rememberMe, setRememberMe] = useState(localStorage.getItem("rememberMe") === "true");
+  const [rememberId, setRememberId] = useState(!!savedUsername);
 
-  const onLogin = async (e) => {
-    e.preventDefault()
-    await login(username, password)
+  const onLogin = (e) => {
+      e.preventDefault();
+      login(username, password, rememberMe, rememberId);
   }
 
   const handleRememberId = (e) => {
@@ -28,6 +25,11 @@ const LoginForm = () => {
       setUsername('')
     }
   }
+
+  const handleSocialLogin = (provider) => {
+      // http://localhost:3000/login/oauth2/code/kakao
+      window.location.href = `http://localhost:8080/oauth2/authorization/${provider}`;
+  };
 
   return (
     <div className="container form-container">
@@ -48,12 +50,23 @@ const LoginForm = () => {
                   <input
                     className="form-check-input"
                     type="checkbox"
-                    name="rememberId"
-                    id="remember-id"
+                    name="remember-id" 
+                    id="remember-id" 
                     checked={rememberId}
-                    onChange={handleRememberId}
+                    onChange={handleRememberId} 
                   />
                   <label className="form-check-label" htmlFor="remember-id">아이디 저장</label>
+                </div>
+                <div className="form-check form-check-inline">
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    name="remember-me" 
+                    id="remember-me" 
+                    checked={rememberMe}
+                    onChange={(e) => setRememberMe(e.target.checked)} 
+                  />
+                  <label className="form-check-label" htmlFor="remember-me">자동로그인</label>
                 </div>
               </div>
             </div>
@@ -69,15 +82,15 @@ const LoginForm = () => {
           소셜계정으로 로그인
         </div>
         <div className="d-grid gap-2">
-          <Link to="#" className="btn btn-light google border">
+          {/* <Link to="#" className="btn btn-light google border">
             <img src="/img/google.png" alt="Google" className="img-fluid" style={{ maxHeight: '20px' }} /> Google
-          </Link>
-          <Link to="/oauth2/authorization/kakao" className="btn btn-light kakao border">
+          </Link> */}
+          <Button onClick={() => handleSocialLogin('kakao')} className="btn btn-light kakao border">
             <img src="/img/kakao.png" alt="Kakao" className="img-fluid" style={{ maxHeight: '20px', width: '20px' }} /> Kakao
-          </Link>
-          <Link to="#" className="btn btn-light naver border">
+          </Button>
+          {/* <Link to="#" className="btn btn-light naver border">
             <img src="/img/naver.png" alt="Naver" className="img-fluid" style={{ maxHeight: '20px' }} /> Naver
-          </Link>
+          </Link> */}
         </div>
         <div className="text-center my-3">
           <hr />

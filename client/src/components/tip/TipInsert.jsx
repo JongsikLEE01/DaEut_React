@@ -12,6 +12,7 @@ const TipInsert = ({
   handleThumbnailChange,
   handleFilesChange,
   handleSubmit,
+  userId
 }) => {
   return (
     <div className="container">
@@ -20,7 +21,7 @@ const TipInsert = ({
           <input type="hidden" name="userNo" value="userNo" />
           <label htmlFor="userId" className="form-label mb-0 text-center me-3 label-adjust">작성자 ID</label>
           <div className="vertical-line"></div>
-          <input type="text" id="userId" className="form-control borderless-input" value="joeun" disabled />
+          <input type="text" id="userId" className="form-control borderless-input" value={userId || ''} disabled />
         </div>
         <div className="mb-3">
           <label htmlFor="title" className="form-label visually-hidden">제목을 입력해주세요.</label>

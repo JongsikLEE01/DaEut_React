@@ -1,11 +1,11 @@
 import React from 'react'
-import PartnerList from '../components/partner/PartnerList'
+import PartnerList from '../../components/partner/PartnerList'
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom';
 import * as partners from '../../apis/partner/partner'
 
 
-const PartnerContainer = ( {userNo}) => {
+const PartnerContainer = ( ) => {
   const { userNo } = useParams();
   const [partnerData ,setPartnerData] = useState({})
 

@@ -1,23 +1,46 @@
 // components/TipCard.js
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { tumbnail } from '../../apis/file';
 
 const TipCard = ({ board, isLoggedIn }) => {
+  const [thumbnailUrl, setThumbnailUrl] = useState('/img/no-img.png'); // 기본 이미지 설정
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchThumbnail = async () => {
+      try {
+        const response = await tumbnail(board.fileNo);
+        console.log('Thumbnail response:', response.data);
+        setThumbnailUrl(response.data.url);
+        setIsLoading(false);
+      } catch (error) {
+        console.error('Error fetching thumbnail:', error);
+        setIsLoading(false);
+      }
+    };
+
+    if (board.fileNo) {
+      fetchThumbnail();
+    } else {
+      setIsLoading(false);
+    }
+  }, [board.fileNo]);
+
   const handleClick = (e) => {
     e.stopPropagation();
-    // 로그인 여부 확인 제거
-    // if (!isLoggedIn) {
-    //   alert('회원가입이 필요합니다. 게시글 조회는 회원가입 후 가능합니다.');
-    //   window.location.href = '/auth/login';
-    // }
-    // 여기에 추가적인 동작이 필요한 경우 추가
+    
   };
 
   return (
-    <div className="card">
-      <div className="card-content" style={{ position: 'relative' }}>
-        <Link to={`/tip/boards/${board.boardNo}`}> {/* URL 파라미터 사용 */}
-          <img src={`/file/img/${board.fileNo}`} alt="썸네일" style={{ width: '200px', height: '200px' }} />
+    <div className="card" onClick={handleClick}>
+      <div className="card-content">
+        <Link to={`/tip/boards/${board.boardNo}`}>
+          {isLoading ? (
+            <p>Loading...</p>
+          ) : (
+            <img src={thumbnailUrl} alt="썸네일" className="thumbnail" />
+          )}
         </Link>
         <p className="highlight-text">{board.boardTitle}</p>
       </div>
