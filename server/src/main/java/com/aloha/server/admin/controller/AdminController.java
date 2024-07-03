@@ -438,7 +438,7 @@ public class AdminController {
 
             // 결제 내역 환불로 수정
             Payments payments = paymentService.selectByOrdersNo(ordersNo);
-            payments.setStatus(PaymentStatus.REFUND);
+            payments.setStatus(PaymentStatus.환불);
             log.info("payments: " + payments);
             paymentService.merge(payments);
 

@@ -44,6 +44,7 @@ public class ReservationServiceImpl implements ReservationService{
     // 게시글 조회
     @Override
     public Services serviceSelect(int serviceNo) throws Exception {
+        log.info("serviceNo {}", serviceNo);
         // 조회
         Services service = reservationMapper.serviceSelect(serviceNo);
         
@@ -58,7 +59,7 @@ public class ReservationServiceImpl implements ReservationService{
         log.info("result {}", result);
         int newServiceNo = service.getServiceNo();
         log.info("newServiceNo {}", newServiceNo);
-        Services newService = reservationMapper.select(newServiceNo);
+        Services newService = reservationMapper.serviceSelect(newServiceNo);
         
         int uploadresult = upload(service);
         log.info("파일 업로드 개수 {}", uploadresult);
@@ -144,7 +145,7 @@ public class ReservationServiceImpl implements ReservationService{
 
     @Override
     public Services select(int serviceNo) throws Exception {
-        return reservationMapper.select(serviceNo);
+        return reservationMapper.serviceSelect(serviceNo);
     }
 
      @Override

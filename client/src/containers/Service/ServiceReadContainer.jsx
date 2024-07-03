@@ -19,18 +19,20 @@ const ServiceReadContainer = ({ serviceNo }) => {
   const [partner, setPartner] = useState({})
   const [partnerInfo, setPartnerInfo] = useState({})
   const [pthumbnail, setPthumbnail] = useState({})
-
+  
   // 서비스 조회
   const getService = async () => {
     try {
       const response = await Services.select(serviceNo)
       const data = response.data
 
-      const serviceData = data.service  // 서버 응답에서 서비스 데이터를 가져옴
+      const serviceData = data.service     // 서버 응답에서 서비스 데이터를 가져옴
       const files = data.fileList          // 서버 응답에서 파일 목록을 가져옴
       const partner = data.pUsers          // 서버 응답에서 파트너를 가져옴
       const partnerInfo = data.partner     // 서버 응답에서 파트너 정보를 가져옴
-      const pthumbnail = data.pthumbnail     // 서버 응답에서 파트너 정보를 가져옴
+      const pthumbnail = data.pthumbnail   // 서버 응답에서 파트너 정보를 가져옴
+
+      console.log(`serviceData ${serviceData}`);
 
       setService(serviceData)
       setFileList(files)
