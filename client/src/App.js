@@ -33,11 +33,16 @@ import TipUpdate from './pages/Tip/TipUpdate'
 import SingUpPage from './pages/auth/SingUpPage'
 import AdminSignUpPage from './pages/auth/AdminSignUpPage'
 import SignUpCompletePage from './pages/auth/SignUpCompletePage'
+
+import OAuth2RedirectHandler from './components/auth/OAuth2RedirectHandler'
+
+
 import Payment from './pages/Order/Payment'
 import Done from './pages/Order/Done';
 import False from './pages/Order/False';
 import Chat from './pages/Service/Chat';
 import UserMypage from './pages/user/UserMypage'
+
 
 
 const App = () => {
@@ -58,31 +63,37 @@ const App = () => {
           <Route path="/order/done/:ordersNo/:date/:time/:userAddress/:userPost" element={<Done />} />
           <Route path="/order/false/:ordersNo/:date/:time/:userAddress/:userPost/:errorMsg" element={<False />} />
           
-          {/*  */}
+          {/* 팁게시판  */}
           <Route path="/test" element={<Test />} />
-          <Route path="/auth/member" element={<Member />} />
-          <Route path="/login" element={<LoginPage />} />
           <Route path='/tip/boards' element={<TipIndex/>}></Route>
           <Route path='/tip/boards/:boardNo' element={<TipRead/>}></Route>
           <Route path='/tip/tipInsert' element={<TipInsert/>}></Route>
           <Route path='/tip/tipUpdate' element={<TipUpdate/>}></Route>
-          <Route path="/findId" element={<FindIdPage />} />
-          <Route path="/findIdComplete/:userId" element={<DoneFindIdPage />} />
-          {/* <Route path="/partnerList/:userNo" element={<PartnerList/>}/> */}
-          {/* <Route path="partnerReservation/:partnerNo" element={<PartnerReservation/>}/> */}
-          <Route path="PartnerReservation" element={<PartnerReservation/>}/>
-          <Route path="partnerReview/:partnerNo" element={<PartnerReview/>}/>
+          
+          {/* Partner */}
+          <Route path="/partnerList/:userNo" element={<PartnerList/>}/>
+          <Route path="/partnerReservation/:partnerNo" element={<PartnerReservation/>}/>
+          <Route path="/partnerReview/:partnerNo" element={<PartnerReview/>}/>
           {/* <Route path="PartnerUpdate" element={<PartnerUpdate/>}/> */}
-          <Route path="partnerList" element={<PartnerList/>}/>
+
+          {/* 소셜로그인 */}
+          <Route path="/oauth2/redirect" element={<OAuth2RedirectHandler />} />
+            
+          {/* 로그인 */}  
+          <Route path="/member" element={<Member />} />
+          <Route path="/login" element={<LoginPage />} />  
+          <Route path="/findId" element={<FindIdPage />} />
+          <Route path="/findIdComplete/:userId" element={<DoneFindIdPage />} /> 
           <Route path="/findPw" element={<FindPasswordPage />} />
           <Route path="/resetPw" element={<ResetPasswordPage />} />
           <Route path="/resetPwComplete" element={<ResetPwCompletePage />} />
           <Route path="/join" element={<SingUpPage />} />
           <Route path="/admin/join" element={<AdminSignUpPage />} />
-          <Route path="/joinDone" element={<SignUpCompletePage />} />
+           <Route path="/joinDone" element={<SignUpCompletePage />} />
 
-          {/* User */}
+          {/* 사용자 */}
           <Route path="/user/UserMypage" element={<UserMypage />} />
+
 
         </Routes>
       </LoginContextProvider>
