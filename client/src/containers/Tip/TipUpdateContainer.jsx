@@ -52,7 +52,11 @@ const TipUpdateContainer = () => {
     formData.append('boardContent', board.boardContent);
 
     try {
-      await axios.post('/tip/tipUpdate', formData);
+      await axios.put(`/tip/boards/${boardNo}`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
       navigate(`/tip/boards/${boardNo}`);
     } catch (error) {
       console.error('Error updating post:', error);
@@ -108,7 +112,7 @@ const TipUpdateContainer = () => {
       handleAdditionalImageChange={handleAdditionalImageChange}
       handleSubmit={handleSubmit}
       handleFileDelete={handleFileDelete}
-      handleDeleteConfirm={handleDeleteConfirm} // handleDeleteConfirm을 전달합니다.
+      handleDeleteConfirm={handleDeleteConfirm}
       boardNo={boardNo}
     />
   );

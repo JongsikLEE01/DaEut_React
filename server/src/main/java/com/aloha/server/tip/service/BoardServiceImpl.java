@@ -94,8 +94,8 @@ public class BoardServiceImpl implements BoardService {
         int parentNo = boardMapper.maxPk();
 
         MultipartFile thumbnailFile = board.getThumbnail();
-        log.info("썸네일 파일 이름 : " + thumbnailFile.getOriginalFilename());
-        if( thumbnailFile != null && !thumbnailFile.isEmpty() ) {
+        if (thumbnailFile != null && !thumbnailFile.isEmpty()) {
+            log.info("썸네일 파일 이름 : " + thumbnailFile.getOriginalFilename());
             Files thumbnail = new Files();
             thumbnail.setFile(thumbnailFile);
             thumbnail.setParentTable(parentTable);
@@ -105,20 +105,19 @@ public class BoardServiceImpl implements BoardService {
         }
 
         List<MultipartFile> fileList = board.getFile();
-        if( !fileList.isEmpty() ) {
-            for(MultipartFile file : fileList) {
+        if (fileList != null && !fileList.isEmpty()) {
+            for (MultipartFile file : fileList) {
+                if (file.isEmpty()) continue;
                 log.info("file : " + file.getOriginalFilename());
-                if( file.isEmpty() ) continue;
 
                 Files uploadFile = new Files();
                 uploadFile.setParentTable(parentTable);
                 uploadFile.setParentNo(parentNo);
                 uploadFile.setFile(file);
-                // uploadFile.setFileCode(0);
                 fileService.upload(uploadFile);
             }
         }
-        
+
         return result;
     }
 

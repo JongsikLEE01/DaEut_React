@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '../tip/css/TipRead.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faThumbsUp } from '@fortawesome/free-solid-svg-icons';
+import { useNavigate } from 'react-router-dom';
 
 const TipRead = ({
   board,
@@ -23,7 +24,10 @@ const TipRead = ({
   handleReplyEditSubmit,
   editingReply,
   setEditingReply,
+  userInfo, // 추가: userInfo를 받아옵니다
 }) => {
+  const navigate = useNavigate(); // useNavigate 훅을 사용하여 navigate 함수 정의
+
   return (
     <div className="container">
       {board && (
@@ -60,8 +64,12 @@ const TipRead = ({
       )}
       <div className="d-flex justify-content-end gap-2 mt-2">
         <a href="/tip/boards" className="boardList">목록</a>
-        <a href={`/tip/tipUpdate?no=${board?.boardNo}`} className="boardUpdate">수정</a>
-        <button type="button" onClick={handleDelete} className="boardDelete">삭제</button>
+        {userInfo && userInfo.userId === board?.userId && (
+          <>
+            <a href={`/tip/tipUpdate?no=${board?.boardNo}`} className="boardUpdate">수정</a>
+            <button type="button" onClick={handleDelete} className="boardDelete">삭제</button>
+          </>
+        )}
       </div>
       <div id="reply-input" className="reply-input-container">
         <h3 className="reply-input-title">댓글</h3>
