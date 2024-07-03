@@ -1,4 +1,4 @@
-.icon-box {
+.iconBox {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -10,63 +10,63 @@
     font-size: 80px; /* 아이콘 크기 조정 */
     position: relative; /* 호버 아이콘을 겹치게 하기 위해 필요 */
     overflow: hidden;
-  }
-  .icon-text {
+}
+.iconText {
     text-align: center;
     margin-top: 10px;
     font-size: 18px;
-  }
-  .login-icon {
+}
+.loginIcon {
     background-color: #8FA2CA;
-  }
-  .signup-icon {
+}
+.signupIcon {
     background-color: #B5C6B8;
-  }
-  .normalIcon,
-  .hoverIcon {
+}
+.normalIcon,
+.hoverIcon {
     position: absolute;
     transition: opacity 0.3s ease;
-  }
-  .normalIcon {
+}
+.normalIcon {
     opacity: 1;
-  }
-  .hoverIcon {
+}
+.hoverIcon {
     opacity: 0;
-  }
-  .login-icon:hover .normalIcon,
-  .signup-icon:hover .normalIcon {
+}
+.loginIcon:hover .normalIcon,
+.signupIcon:hover .normalIcon {
     opacity: 0;
-  }
-  .login-icon:hover .hoverIcon,
-  .signup-icon:hover .hoverIcon {
+}
+.loginIcon:hover .hoverIcon,
+.signupIcon:hover .hoverIcon {
     opacity: 1;
-  }
-  .normalIcon,
-  .hoverIcon {
+}
+.normalIcon,
+.hoverIcon {
     color: white; /* 아이콘 색상 흰색 */
-  }
-  
-  button {
+}
+
+button {
     border: none;
-  }
-  /* .custom-margin {
+}
+/* .custom-margin {
     margin: 100px; 
-  } */
-  .memberRow {
+} */
+.memberRow {
     display: flex;
     justify-content: center;
     flex-wrap: wrap; /* 반응형 지원을 위한 wrap 설정 */
     gap: 100px; /* 요소 간의 간격 설정 */
-  }
-  .form-container {
+}
+.formContainer {
     flex: 1;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 16px;
     margin: 20px auto;
-  }
-  .form-container form {
+}
+.formContainer form {
     max-width: 500px; /* 줄어든 너비 */
     width: 100%;
     margin: 20px;
@@ -75,44 +75,43 @@
     border-radius: 5px;
     background-color: #fff;
     font-size: 14px;
-  }
-  .form-control {
+}
+.formControl {
     line-height: 1 !important;
     font-size: 14px !important;
-  }
-  
-  .gender {
+}
+
+.gender {
     display: flex;
     justify-content: center;
     gap: 20px; /* 라디오 버튼 간격 조정 */
-  }
-  
-  .google {
+}
+
+.google {
     background-color: royalblue !important;
     color: white !important;
-  }
-  .kakao {
+}
+.kakao {
     background-color: #FEE500 !important;
     color: black !important;
-  }
-  .naver {
+}
+.naver {
     background-color: #03C75A !important;
     color: white !important;
-  }
-  .description {
+}
+.description {
     word-break: keep-all;
     padding-top: 20px;
     text-align: center;
-  }
-  
-  .custom-auth-btn {
-    background-color: #c0dcc5 !important;
-    border: none !important;
-    padding-top: 50px;
-    height: 39.64px !important;
-  }
-  
-  .form-container.complete {
+}
+
+.customAuthBtn {
+    font-size: 14px;
+    line-height: 50%;
+    width: 30%;
+}
+
+.formContainer.complete {
     max-width: 700px; /* 줄어든 너비 */
     width: 100%;
     margin: 20px;
@@ -124,90 +123,95 @@
     text-align: center;
     display: flex;
     flex-direction: column;
-  }
-  
-  .container.complete {
+}
+
+.container.complete {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 680px; /* 화면 전체 높이 */
-  }
-  
-  .custom-auth-btn.complete {
+}
+
+.success {
     border-color: #8FA2CA;
-    margin-top: 60px;
+    margin-top: 100px;
     margin-bottom: 30px;
-    width: 130px;
-    height: 40px;
     font-size: 18px;
-  }
-  
-  .completeHr {
+}
+
+.completeHr {
     width: 100%;
-  }
-  
-  h2 {
+}
+
+h2 {
     color: #8FA2CA !important;
     font-weight: bold !important;
-  }
-  
-  input[type="password"] {
-    font-family: 'Courier New', Courier, monospace;
-  }
-  
-  /* 아이콘 hover 변경 */
-  .loginHover {
-    display: none;
-  }
-  .login-icon:hover .loginHover {
-    display: inline-block;
-  }
-  .login-icon:hover .loginNormal {
-    display: none;
-  }
-  
-  .joinHover {
-    display: none;
-  }
-  .signup-icon:hover .joinHover {
-    display: inline-block;
-  }
-  .signup-icon:hover .joinNormal {
-    display: none;
-  }
-  
-  @media (max-width: 768px) {
-    .icon-box {
-      width: 150px;
-      height: 150px;
-      font-size: 60px;
-    }
-    .icon-text {
-      font-size: 16px;
-    }
-  }
-  @media (max-width: 576px) {
-    .icon-box {
-      width: 120px;
-      height: 120px;
-      font-size: 50px;
-    }
-    .icon-text {
-      font-size: 14px;
-    }
-  }
-
-button[type="submit"].darkBtn {
-  height: 37.6px !important;
 }
+
+input[type="password"] {
+    font-family: 'Courier New', Courier, monospace;
+}
+
+/* 아이콘 hover 변경 */
+.loginHover {
+    display: none;
+}
+.loginIcon:hover .loginHover {
+    display: inline-block;
+}
+.loginIcon:hover .loginNormal {
+    display: none;
+}
+
+.joinHover {
+    display: none;
+}
+.signupIcon:hover .joinHover {
+    display: inline-block;
+}
+.signupIcon:hover .joinNormal {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .iconBox {
+        width: 150px;
+        height: 150px;
+        font-size: 60px;
+    }
+    .iconText {
+        font-size: 16px;
+    }
+}
+@media (max-width: 576px) {
+    .iconBox {
+        width: 120px;
+        height: 120px;
+        font-size: 50px;
+    }
+    .iconText {
+        font-size: 14px;
+    }
+}
+
 
 #signId, #signEmail {
-  border: 1px solid #ccc !important;
-  border-right: 0 !important;
-  border-top-right-radius: 0 !important;
-  border-bottom-right-radius: 0 !important;
+    border: 1px solid #ccc !important;
+    border-right: 0 !important;
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
 }
 
-.input-group {
-  display: flex;
+.inputGroup {
+    display: flex;
+    height: 41px;
+}
+
+.border {
+    padding: 10px 15px !important;
+}
+
+.btnbtn {
+    height: 46px !important;
+    color: #212529 !important;
 }
