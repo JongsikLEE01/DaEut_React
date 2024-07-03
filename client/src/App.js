@@ -12,6 +12,7 @@ import ServiceInsert from './pages/Service/ServiceInsert'
 import ServiceUpdate from './pages/Service/ServiceUpdate'
 import LoginPage from './pages/auth/LoginPage'
 import LoginContextProvider from './components/contexts/LoginContextProvider'
+import 'bootstrap/dist/css/bootstrap.min.css'
 import FindIdPage from './pages/auth/FindIdPage'
 import DoneFindIdPage from './pages/auth/DoneFindIdPage'
 // import LoginContextProvider from './contexts/LoginContextProvider'
@@ -36,6 +37,8 @@ import Payment from './pages/Order/Payment'
 import Done from './pages/Order/Done';
 import False from './pages/Order/False';
 import Chat from './pages/Service/Chat';
+import UserMypage from './pages/user/UserMypage'
+
 
 const App = () => {
   return (
@@ -77,12 +80,12 @@ const App = () => {
           <Route path="/join" element={<SingUpPage />} />
           <Route path="/admin/join" element={<AdminSignUpPage />} />
           <Route path="/joinDone" element={<SignUpCompletePage />} />
+          <Route path="/user/UserMypage" element={<UserMypage />} />
+
         </Routes>
       </LoginContextProvider>
     </BrowserRouter>
   )
 }
-
-
 export default App
 
