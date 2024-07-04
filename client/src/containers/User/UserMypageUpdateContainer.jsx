@@ -1,9 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { LoginContext } from '../../components/contexts/LoginContextProvider';
 import UserForm from '../../components/user/UserForm';
-import { getUserInfo, updateUserInfo } from '../../apis/Users/User';
+import { getUserInfo, updateUserInfo } from '../../apis/Users/user';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
+import '../../components/user/User.css'
 
 const UserMypageUpdateContainer = () => {
   const { userInfo, setUserInfo } = useContext(LoginContext);
@@ -34,7 +35,8 @@ const UserMypageUpdateContainer = () => {
     }
   }, [userInfo, setUserInfo]);
 
-  const handleInputChange = (id, value) => {
+  const handleInputChange = (event) => {
+    const { id, value } = event.target;
     setFormValues((prevValues) => ({
       ...prevValues,
       [id]: value,

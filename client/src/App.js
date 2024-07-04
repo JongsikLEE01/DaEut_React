@@ -38,11 +38,12 @@ import OAuth2RedirectHandler from './components/auth/OAuth2RedirectHandler'
 
 
 import Payment from './pages/Order/Payment'
-import Done from './pages/Order/Done';
-import False from './pages/Order/False';
-import Chat from './pages/Service/Chat';
-import UserMypage from './pages/user/UserMypage';
-import UserMypageUpdate from './pages/user/UserMypageUpdate';
+import Done from './pages/Order/Done'
+import False from './pages/Order/False'
+import Chat from './pages/Service/Chat'
+import UserMypage from './pages/user/UserMypage'
+import UserMypageUpdate from './pages/user/UserMypageUpdate'
+import UserReservation from './pages/user/UserReservation'
 
 
 
@@ -95,6 +96,7 @@ const App = () => {
           {/* 사용자 */}
           <Route path="/user/UserMypage" element={<UserMypage />} />
           <Route path="/user/UserMypageUpdate" element={<UserMypageUpdate />} />
+          <Route path="/user/UserReservation" element={<UserReservation />} />
 
 
         </Routes>
