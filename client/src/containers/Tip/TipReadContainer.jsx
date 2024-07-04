@@ -259,11 +259,18 @@ const TipReadContainer = () => {
       <div key={reply.replyNo} className={`${reply.parentNo ? styles.answer : styles.reply}`} style={{ marginLeft: `${level * 20}px` }}>
         <p><strong>{reply.userId}</strong></p>
         {editingReply === reply.replyNo ? (
-          <form onSubmit={handleReplyEditSubmit}>
-            <textarea value={replyContent} onChange={(e) => setReplyContent(e.target.value)} />
-            <button type="submit">저장</button>
-            <button type="button" onClick={() => setEditingReply(null)}>취소</button>
-          </form>
+          <form onSubmit={handleReplyEditSubmit} className={styles.editForm}>
+          <textarea 
+            value={replyContent} 
+            onChange={(e) => setReplyContent(e.target.value)} 
+            className={`form-control mb-2 ${styles.textareaNoResize}`} 
+            rows="3" 
+          />
+          <div className={`${styles.buttonContainer} d-flex justify-content-end gap-2`}>
+            <button type="submit" className={`${styles.saveButton} btn btn-primary`}>저장</button>
+            <button type="button" className={`${styles.cancelButton} btn btn-secondary`} onClick={() => setEditingReply(null)}>취소</button>
+          </div>
+        </form>
         ) : (
           <>
             <p>{reply.replyContent}</p>
@@ -277,12 +284,12 @@ const TipReadContainer = () => {
         )}
       </div>
     );
-
+  
     const sortedReplies = replies.sort((a, b) => a.parentNo - b.parentNo);
     const replyElements = [];
     const parentReplies = sortedReplies.filter(reply => reply.parentNo === 0);
     const childReplies = sortedReplies.filter(reply => reply.parentNo !== 0);
-
+  
     const renderNestedReplies = (parentReply, level) => {
       replyElements.push(renderReply(parentReply, level));
       const children = childReplies.filter(reply => reply.parentNo === parentReply.replyNo);
@@ -290,11 +297,11 @@ const TipReadContainer = () => {
         renderNestedReplies(childReply, level + 1);
       });
     };
-
+  
     parentReplies.forEach(parentReply => {
       renderNestedReplies(parentReply, 0);
     });
-
+  
     return replyElements;
   };
 

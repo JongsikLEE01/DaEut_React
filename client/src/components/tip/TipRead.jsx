@@ -39,7 +39,7 @@ const TipRead = ({
           <div className="d-flex justify-content-between align-items-center mt-2">
             <input type="text" id="userId" value={board.userId} placeholder="userId" className={styles.input} disabled />
             <div className="d-flex gap-2" style={{ fontSize: '0.8em' }}>
-            <span><FontAwesomeIcon icon={faEye} aria-hidden="true" /> {board.boardViews}</span>
+              <span><FontAwesomeIcon icon={faEye} aria-hidden="true" /> {board.boardViews}</span>
               <span>추천수: {board.boardLike}</span>
               <span>댓글수: {board.replyCount}</span>
             </div>
@@ -92,16 +92,6 @@ const TipRead = ({
             <textarea value={replyContent} onChange={(e) => setReplyContent(e.target.value)} />
             <button type="submit">답글 등록</button>
             <button type="button" onClick={() => setReplyParentNo(null)}>취소</button>
-          </form>
-        </div>
-      )}
-      {editingReply !== null && (
-        <div className={styles['reply-edit-container']}>
-          <h3 className={styles['reply-edit-title']}>댓글 수정</h3>
-          <form className={styles['reply-edit-input']} onSubmit={handleReplyEditSubmit}>
-            <textarea value={replyContent} onChange={(e) => setReplyContent(e.target.value)} />
-            <button type="submit">저장</button>
-            <button type="button" onClick={() => setEditingReply(null)}>취소</button>
           </form>
         </div>
       )}
