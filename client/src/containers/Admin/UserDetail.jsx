@@ -3,10 +3,12 @@ import { Link } from 'react-router-dom';
 import Sidebar from '../../components/static/Sidebar';
 import UserForm from '../../components/admin/UserForm';
 import UserReviews from '../../components/admin/UserReviews';
-import { deleteReview, getAllUsers, getUserAndReviews } from '../../apis/admin/admin';
+import { deleteReview, getUserAndReviews } from '../../apis/admin/admin';
 import * as Swal from '../../apis/alert'
+import './Admin.css';
 
-const UserDetailContainer = ({ userNo }) => {
+const UserReadContainer = ({ userNo }) => {
+    
     const [isOpen, setIsOpen] = useState(true);
     const [user, setUser] = useState(null);
     const [reviews, setReviews] = useState([]);
@@ -20,27 +22,15 @@ const UserDetailContainer = ({ userNo }) => {
         const fetchUserData = async () => {
             try {
                 const response = await getUserAndReviews(userNo);
-                setUser(response.user);
-                setReviews(response.reviews);
+                setUser(response.data.user);
+                setReviews(response.data.reviews);
             } catch (error) {
                 console.error('Error fetching user data:', error);
+                setError(error);
             }
         };
         fetchUserData();
     }, [userNo]);
-
-    useEffect(() => {
-        const fetchUsers = async () => {
-            try {
-                const response = await getAllUsers();
-                setUser(response.userList);
-            } catch (error) {
-                setError(error);
-            }
-        };
-
-        fetchUsers();
-    }, []);
 
     const handleDeleteReview = async (reviewNo) => {
         try {
@@ -59,6 +49,10 @@ const UserDetailContainer = ({ userNo }) => {
             // Swal.alert('리뷰 삭제에 실패했습니다.');
         }
     };
+
+    if (error) {
+        return <div>Error loading user data.</div>;
+    }
 
     return (
         <div className="container-fluid container">
@@ -98,4 +92,4 @@ const UserDetailContainer = ({ userNo }) => {
     );
 };
 
-export default UserDetailContainer;
+export default UserReadContainer;

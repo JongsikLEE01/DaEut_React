@@ -48,6 +48,8 @@ import UserManagementPage from './pages/admin/UserManagementPage'
 import UserCancel from './pages/user/UserCancel'
 import UserCancelDone from './pages/user/UserCancelDone'
 import UserDetailPage from './pages/admin/UserDetailPage'
+import UserUpdatePage from './pages/admin/UserUpdatePage'
+import ReservationManagePage from './pages/admin/ReservationManagePage'
 import PartnerChatList from './components/partner/PartnerChatList'
 
 
@@ -115,6 +117,9 @@ const App = () => {
           {/* 관리자 */}
           <Route path="/admin/adminUser" element={<UserManagementPage/>} />
           <Route path="/admin/adminUserRead/:userNo" element={<UserDetailPage/>} />
+          <Route path="/admin/adminUserUpdate/:userNo" element={<UserUpdatePage />} />
+          <Route path="/admin/adminReservation" element={<ReservationManagePage />} />
+
         </Routes>
       </LoginContextProvider>
     </BrowserRouter>
