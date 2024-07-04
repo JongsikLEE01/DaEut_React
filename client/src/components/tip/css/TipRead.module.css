@@ -221,16 +221,80 @@
   
   .reply-container {
     margin-bottom: 70px;
-    margin-left: 200px;
+    width: 80%;
+    margin: 0 auto;
   }
 
 
-.button-container {
+  .button-container {
     display: flex;
     justify-content: flex-end !important;
     gap: 10px !important;
     margin-right: 200px;
     margin-bottom: 50px !important;
   }
+
+  .reply-container {
+    margin-top: 20px;
+  }
+  
+  .reply {
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    background-color: white;
+  }
+  
+  .answer {
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    background-color: #E4E8F4;
+    margin-left: 20px;
+  }
+  
+  .reply-reply-container,
+  .reply-edit-container {
+    margin-top: 20px;
+  }
+  
+  .reply-reply-title,
+  .reply-edit-title {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+  }
+  
+  .reply-reply-input,
+  .reply-edit-input {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .reply-reply-input textarea,
+  .reply-edit-input textarea {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 10px;
+  }
+  
+  .reply-reply-input button,
+  .reply-edit-input button {
+    background-color: #8FA2CA;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    cursor: pointer;
+    align-self: flex-end;
+  }
+  
+  .reply-reply-input button:hover,
+  .reply-edit-input button:hover {
+    background-color: #6f8bbd;
+  }
+  
   
   

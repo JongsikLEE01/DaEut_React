@@ -4,13 +4,13 @@ import { useParams, useNavigate } from 'react-router-dom';
 import TipRead from '../../components/tip/TipRead';
 import Swal from 'sweetalert2';
 import { LoginContext } from '../../components/contexts/LoginContextProvider';
-import * as board from '../../apis/tips/board'; // API 모듈 임포트
+import * as board from '../../apis/tips/board';
 import styles from '../../components/tip/css/TipRead.module.css';
 
 const TipReadContainer = () => {
   const { boardNo } = useParams();
   const navigate = useNavigate();
-  const { userInfo } = useContext(LoginContext); // 컨텍스트에서 userInfo 가져오기
+  const { userInfo } = useContext(LoginContext);
   const [boardData, setBoardData] = useState(null);
   const [fileList, setFileList] = useState([]);
   const [replyList, setReplyList] = useState([]);
@@ -18,7 +18,7 @@ const TipReadContainer = () => {
   const [replyContent, setReplyContent] = useState('');
   const [editingReply, setEditingReply] = useState(null);
   const [replyParentNo, setReplyParentNo] = useState(null);
-  const [isLoading, setIsLoading] = useState(true); // 로딩 상태 추가
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     if (!boardNo) {
@@ -30,9 +30,8 @@ const TipReadContainer = () => {
 
   const fetchBoardDetails = async () => {
     try {
-      setIsLoading(true); // 로딩 시작
+      setIsLoading(true);
       const response = await axios.get(`/tip/boards/${boardNo}`);
-      console.log('Response data:', response.data); // 응답 데이터 확인
       const { board, fileList, replyList } = response.data;
       setBoardData(board);
       setFileList(fileList);
@@ -40,7 +39,7 @@ const TipReadContainer = () => {
     } catch (error) {
       console.error('Error fetching board details:', error);
     } finally {
-      setIsLoading(false); // 로딩 종료
+      setIsLoading(false);
     }
   };
 
@@ -136,28 +135,58 @@ const TipReadContainer = () => {
     e.preventDefault();
     try {
       const token = localStorage.getItem('token');
-      const formData = new URLSearchParams();
-      formData.append('replyContent', replyContent);
+      const userNo = userInfo?.userNo;
+      if (!userNo) {
+        console.error('User number not found');
+        return;
+      }
+      const formData = {
+        replyNo: editingReply,
+        replyContent: replyContent,
+        userNo: userNo // userNo를 포함하여 전송
+      };
 
-      await axios.put(`/tip/replies/${editingReply}`, formData.toString(), {
+      const response = await axios.put(`/reply/${editingReply}`, formData, {
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
+          'Content-Type': 'application/json',
           'Authorization': token ? `Bearer ${token}` : ''
         }
       });
 
+      const updatedReply = response.data;
+
+      setReplyList((prevReplies) => 
+        prevReplies.map((reply) => 
+          reply.replyNo === editingReply ? updatedReply : reply
+        )
+      );
+
       setReplyContent('');
       setEditingReply(null);
-      updateReplies();
     } catch (error) {
       console.error('Error editing reply:', error);
     }
   };
 
+  const handleReplyDeleteConfirm = (replyNo) => {
+    Swal.fire({
+      title: '댓글을 삭제하시겠습니까?',
+      text: '삭제하면 되돌릴 수 없습니다.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: '삭제',
+      cancelButtonText: '취소'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        handleReplyDelete(replyNo);
+      }
+    });
+  };
+
   const handleReplyDelete = async (replyNo) => {
     try {
       const token = localStorage.getItem('token');
-      await axios.delete(`/tip/replies/${replyNo}`, {
+      await axios.delete(`/reply/${replyNo}`, {
         headers: {
           'Authorization': token ? `Bearer ${token}` : ''
         }
@@ -186,15 +215,12 @@ const TipReadContainer = () => {
       }
 
       const responseData = response.data;
-      console.log('Like response:', responseData);
-
       if (responseData.success) {
         alert('추천이 완료되었습니다.');
-        fetchBoardDetails(); // 최신 데이터로 갱신
+        fetchBoardDetails();
       } else {
         alert(responseData.message);
       }
-
     } catch (error) {
       console.error('Error liking the board:', error);
       alert(`추천 중 오류가 발생했습니다: ${error.message}`);
@@ -211,9 +237,8 @@ const TipReadContainer = () => {
   };
 
   const renderReplies = (replies) => {
-    const sortedReplies = replies.sort((a, b) => a.parentNo - b.parentNo);
-    return sortedReplies.map((reply) => (
-      <div key={reply.replyNo} className={reply.parentNo ? 'reply answer' : 'reply'}>
+    const renderReply = (reply) => (
+      <div key={reply.replyNo} className={reply.parentNo ? styles.answer : styles.reply}>
         <p><strong>{reply.userId}</strong></p>
         {editingReply === reply.replyNo ? (
           <form onSubmit={handleReplyEditSubmit}>
@@ -228,13 +253,28 @@ const TipReadContainer = () => {
               <span className={styles.date}>{new Date(reply.replyRegDate).toLocaleDateString()}</span>
               <button type="button" onClick={() => { setReplyParentNo(reply.replyNo); setReplyContent(''); }}>답글달기</button>
               <button type="button" onClick={() => { setEditingReply(reply.replyNo); setReplyContent(reply.replyContent); }}>수정</button>
-              <button type="button" onClick={() => handleReplyDelete(reply.replyNo)}>삭제</button>
+              <button type="button" onClick={() => handleReplyDeleteConfirm(reply.replyNo)}>삭제</button>
             </div>
           </>
         )}
       </div>
-    ));
-  };  
+    );
+  
+    const sortedReplies = replies.sort((a, b) => a.parentNo - b.parentNo);
+    const replyElements = [];
+    const parentReplies = sortedReplies.filter(reply => reply.parentNo === 0);
+    const childReplies = sortedReplies.filter(reply => reply.parentNo !== 0);
+  
+    parentReplies.forEach(parentReply => {
+      replyElements.push(renderReply(parentReply));
+      const children = childReplies.filter(reply => reply.parentNo === parentReply.replyNo);
+      children.forEach(childReply => {
+        replyElements.push(renderReply(childReply));
+      });
+    });
+  
+    return replyElements;
+  };
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -270,7 +310,7 @@ const TipReadContainer = () => {
       setReplyParentNo={setReplyParentNo}
       editingReply={editingReply}
       setEditingReply={setEditingReply}
-      userInfo={userInfo} // 추가: userInfo를 TipRead 컴포넌트로 전달
+      userInfo={userInfo}
     />
   );
 };
