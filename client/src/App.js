@@ -45,6 +45,8 @@ import UserMypageUpdate from './pages/user/UserMypageUpdate'
 import UserReservation from './pages/user/UserReservation'
 import UserManagementPage from './pages/admin/UserManagementPage'
 
+import PartnerChatList from './components/partner/PartnerChatList'
+
 
 
 
@@ -80,6 +82,7 @@ const App = () => {
           <Route path="/partner/reservation/:partnerNo" element={<PartnerReservation/>}/>
           <Route path="/partner/reviews/:partnerNo" element={<PartnerReview/>}/>
           <Route path="/partner/reservationRead/:ordersNo" element={<PartnerReservationRead/>}/>
+          <Route path="/partner/partnerChatList" element={<PartnerChatList />} />
           {/* <Route path="PartnerUpdate" element={<PartnerUpdate/>}/> */}
 
           {/* 소셜로그인 */}
