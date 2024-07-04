@@ -174,7 +174,7 @@ public class PartnerController {
         }
     
     // 파트너 예약 상세조회란 
-    @GetMapping("/{ordersNo}")
+    @GetMapping("/reservationRead/{ordersNo}")
     public ResponseEntity<?> partnerReservationRead(@PathVariable("ordersNo") String ordersNo) {
         try {
             // 주문에 대한 상세 정보를 조회

@@ -6,6 +6,12 @@ const PartnerReservation = ({ orderList }) => {
     sidebar.classList.toggle('d-none');
   };
 
+  const handleDetailClick = (ordersNo) => {
+    window.location.href = `/partner/partnerReservation/${ordersNo}`;
+  };
+
+  console.log("component- oderList  : " + orderList.ordersNo);
+
   return (
     <div className="container-fluid container">
       <button className="btn btn-primary toggle-btn menu mt-2 myBtn d-md-none transitionNone" id="toggle-btn" onClick={toggleSidebar}>메뉴</button>
@@ -40,9 +46,9 @@ const PartnerReservation = ({ orderList }) => {
                       <td data-label="No.">{index + 1}</td>
                       <td data-label="사용자 명">{order.user.userName}</td>
                       <td data-label="예약 상태">{order.orderStatus}</td>
-                      <td data-label="예약 시간">{new Date(order.payments.serviceDate).toLocaleString()}</td>
+                      <td data-label="예약 시간">{new Date(order.payment.serviceDate).toLocaleString()}</td>
                       <td data-label="자세히보기">
-                        <a href={`/partner/partnerReservationRead?ordersNo=${order.ordersNo}`} className="detail-button">자세히보기</a>
+                      <button className="detail-button" onClick={() => handleDetailClick(order.ordersNo)}>자세히보기</button>
                       </td>
                     </tr>
                   ))}
