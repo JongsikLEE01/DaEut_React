@@ -1,0 +1,59 @@
+.pagination {
+    margin: 50px 0;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    list-style-type: none;
+    padding: 0;
+}
+
+.pagination li {
+    display: inline;
+}
+
+.pagination a {
+    margin: 0 5px;
+    padding: 5px 10px;
+    text-decoration: none;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    color: #8FA2CA !important;
+    cursor: pointer;
+}
+
+.pagination a:hover {
+    background-color: #E4E8F4;
+}
+
+.pagination a.active {
+    background-color: #8FA2CA;
+    color: white !important;
+    border: 1px solid #8FA2CA;
+}
+
+/* Responsive styles */
+@media (max-width: 576px) {
+    .pagination a {
+        font-size: 0.875rem;
+        margin: 0 3px;
+    }
+}
+
+@media (max-width: 1200px) {
+    .pagination a {
+        font-size: 0.75rem;
+        margin: 0 2px;
+    }
+}
+
+/* 현재 페이지에 대한 스타일 정의 */
+.active-page a {
+    background-color: #8FA2CA; 
+    color: white !important;
+    border-color: #8FA2CA;
+}
+
+.active-page a:hover {
+    color: #8FA2CA !important;
+    border-color: #ddd;
+}

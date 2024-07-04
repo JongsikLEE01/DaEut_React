@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { alert } from '../../apis/alert'
+import * as Swal from '../../apis/alert'
+import { LoginContext } from '../contexts/LoginContextProvider'
 
 const ServiceInsert = ({ onInsert }) => {
   // state 등록
@@ -10,6 +11,7 @@ const ServiceInsert = ({ onInsert }) => {
   const [serviceContent, setServiceContent] = useState('')
   const [thumbnailFile, setThumbnailFile] = useState(null)
   const [imageFiles, setImageFiles] = useState([])
+  const { userInfo } = useContext(LoginContext)
 
   // handle
   const handleChangeName = (e) => {
@@ -90,7 +92,7 @@ const ServiceInsert = ({ onInsert }) => {
     e.preventDefault()
 
     if (serviceCategory.length === 0) {
-      alert.alert('카테고리를 선택해주세요','카테고리가 선택되지않았어요. 카테고리를 선택해주세요.', 'warning')
+      Swal.alert('카테고리를 선택해주세요','카테고리가 선택되지않았어요. 카테고리를 선택해주세요.', 'warning')
       return
     }
 
@@ -99,7 +101,7 @@ const ServiceInsert = ({ onInsert }) => {
     formData.append('serviceCategory', serviceCategory.join(','))
     formData.append('servicePrice', servicePrice)
     formData.append('serviceContent', serviceContent)
-    formData.append('partnerNo', 1)
+    formData.append('partnerNo', userInfo.partnerNo)
 
     // 썸네일 이미지
     if (thumbnailFile) {
