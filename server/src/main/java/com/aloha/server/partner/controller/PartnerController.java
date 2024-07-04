@@ -1,6 +1,7 @@
 package com.aloha.server.partner.controller;
 
 import java.util.List;
+import java.util.ArrayList;
 
 import javax.servlet.http.HttpSession;
 
@@ -143,20 +144,35 @@ public class PartnerController {
         }
     }
 
-    // 파트너 예약란
-    @GetMapping("/reservations/{partnerNo}")
-    public String partnerReservation(Model model, HttpSession session) throws Exception {
-        int partnerNo = (int) session.getAttribute("partnerNo"); // 세션에서 partnerNo 가져오기
-        List<Orders> orderList = orderService.listByPartnerNo(partnerNo); // 주문 목록 가져오기
+        @GetMapping("/reservations/{partnerNo}")
+        public ResponseEntity<?> partnerReservation(@PathVariable("partnerNo") Integer partnerNo) {
+            log.info("Fetching reservations for partnerNo: {}", partnerNo);
+            try {
+                if (partnerNo == null) {
+                    log.error("PartnerNo is missing in request");
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("PartnerNo is missing in request");
+                }
         
-        for (Orders orders : orderList) {
-            Payments payments = paymentService.selectByOrdersNo(orders.getOrdersNo());
-            model.addAttribute("payments", payments);
+                List<Orders> orderList = orderService.listByPartnerNo(partnerNo); // 주문 목록 가져오기
+                
+                List<Payments> paymentsList = new ArrayList<>();
+                for (Orders orders : orderList) {
+                    Payments payments = paymentService.selectByOrdersNo(orders.getOrdersNo());
+                    paymentsList.add(payments);
+                }
+        
+                Map<String, Object> response = new HashMap<>();
+                response.put("orderList", orderList);
+                response.put("paymentsList", paymentsList);
+        
+                log.info("Reservations and payments retrieved: {}", response);
+                return ResponseEntity.ok(response);
+            } catch (Exception e) {
+                log.error("Error in partnerReservation method", e);
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Exception occurred: " + e.getMessage());
+            }
         }
-        model.addAttribute("orderList", orderList); // 모델에 주문 목록 추가
-        return "/partner/partnerReservation";  
-    }
-
+    
     // 파트너 예약 상세조회란 
     @GetMapping("/{ordersNo}")
     public ResponseEntity<?> partnerReservationRead(@PathVariable("ordersNo") String ordersNo) {
