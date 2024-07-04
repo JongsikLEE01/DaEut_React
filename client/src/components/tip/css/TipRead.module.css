@@ -222,7 +222,7 @@
   .reply-container {
     margin-bottom: 70px;
     width: 80%;
-    margin: 0 auto;
+    margin: 0 auto !important;
   }
 
 
@@ -244,6 +244,7 @@
     border-radius: 8px;
     margin-bottom: 10px;
     background-color: white;
+    width: 90%;
   }
   
   .answer {
@@ -253,6 +254,7 @@
     margin-bottom: 10px;
     background-color: #E4E8F4;
     margin-left: 20px;
+    width: 90%;
   }
   
   .reply-reply-container,
@@ -297,7 +299,7 @@
   }
 
   .reply-list {
-    margin-bottom: 80px; /* 원하는 간격 크기로 수정 */
+    margin-bottom: 80px !important;
   }
   
   

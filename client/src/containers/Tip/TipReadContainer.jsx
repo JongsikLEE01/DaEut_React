@@ -43,6 +43,18 @@ const TipReadContainer = () => {
     }
   };
 
+  const updateReplyCount = async () => {
+    try {
+      const response = await axios.get(`/tip/boards/${boardNo}`);
+      setBoardData(prevData => ({
+        ...prevData,
+        replyCount: response.data.board.replyCount
+      }));
+    } catch (error) {
+      console.error('Error updating reply count:', error);
+    }
+  };
+
   const handleDelete = async () => {
     try {
       const token = localStorage.getItem('token');
@@ -97,6 +109,7 @@ const TipReadContainer = () => {
 
       setNewReply('');
       updateReplies();
+      updateReplyCount(); // 댓글 수 업데이트
     } catch (error) {
       console.error('Error adding reply:', error);
     }
@@ -126,6 +139,7 @@ const TipReadContainer = () => {
       setReplyContent('');
       setReplyParentNo(null);
       updateReplies();
+      updateReplyCount(); // 댓글 수 업데이트
     } catch (error) {
       console.error('Error adding reply reply:', error);
     }
@@ -165,6 +179,7 @@ const TipReadContainer = () => {
 
       setReplyContent('');
       setEditingReply(null);
+      updateReplyCount(); // 댓글 수 업데이트
     } catch (error) {
       console.error('Error editing reply:', error);
     }
@@ -195,6 +210,7 @@ const TipReadContainer = () => {
       });
 
       updateReplies();
+      updateReplyCount(); // 댓글 수 업데이트
     } catch (error) {
       console.error('Error deleting reply:', error);
     }
