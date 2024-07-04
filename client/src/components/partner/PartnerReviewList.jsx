@@ -11,17 +11,6 @@ const PartnerReviewList = ({ reviews, parnterNo }) => {
 
   return (
     <div className="container-fluid container">
-      <button className="btn btn-primary toggle-btn menu mt-2 ml-2 myBtn" id="toggle-btn" onClick={toggleSidebar}>메뉴</button>
-      <div className="row">
-        <nav className="col-md-3 col-lg-2 sidebar" id="sidebar">
-          <button className="btn btn-danger d-block d-md-none cancel" onClick={toggleSidebar}>닫기</button>
-          <h5>마이페이지</h5>
-          <br />
-          <Link to="/partner/partnerMypage" className="active">내 정보 변경</Link>
-          <Link to={`/partner/partnerReservation/${parnterNo}`}>내 예약 보기</Link>
-          <Link to={`/partner/reviews/${parnterNo}`}>내 리뷰 보기</Link>
-          <Link to="/partner/partnerChatRoom">채팅 내역</Link>
-        </nav>
         <div className="col-md-9 col-lg-10 form-section">
           <div>
             <h3>작성 리뷰</h3>
@@ -60,7 +49,6 @@ const PartnerReviewList = ({ reviews, parnterNo }) => {
           </div>
         </div>
       </div>
-    </div>
   );
 };
 

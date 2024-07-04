@@ -50,13 +50,13 @@ const SignUpForm = () => {
     return (
         <div className={`container ${styles.formContainer}`}>
             <form id="signup-form" onSubmit={handleSubmit}>
-                <h2 className="text-center">계정 생성</h2>
+                <h2 className="text-center adminTitle">계정 생성</h2>
                 <p className="text-center">계정에 사용될 정보를 입력해주세요</p>
 
                 <div className={`mb-3 ${styles.inputGroup}`}>
                     <input
                         type="text"
-                        className="form-control singId"
+                        className="form-control inputAuth singId"
                         id="signId"
                         name="userId"
                         value={formData.userId}
@@ -76,7 +76,7 @@ const SignUpForm = () => {
                 <div className="mb-3">
                     <input
                         type="password"
-                        className="form-control"
+                        className="form-control inputAuth"
                         id="userPassword"
                         name="userPassword"
                         value={formData.userPassword}
@@ -89,7 +89,7 @@ const SignUpForm = () => {
                 <div className="mb-3">
                     <input
                         type="password"
-                        className="form-control"
+                        className="form-control inputAuth"
                         id="confirmPassword"
                         name="confirmPassword"
                         value={formData.confirmPassword}
@@ -102,7 +102,7 @@ const SignUpForm = () => {
                 <div className="mb-3">
                     <input
                         type="text"
-                        className="form-control"
+                        className="form-control inputAuth"
                         id="userName"
                         name="userName"
                         onChange={handleChange}
@@ -114,7 +114,7 @@ const SignUpForm = () => {
                 <div className="mb-3">
                     <input
                         type="date"
-                        className="form-control"
+                        className="form-control inputAuth"
                         id="userBirth"
                         name="userBirth"
                         value={formData.userBirth}
@@ -127,7 +127,7 @@ const SignUpForm = () => {
                 <div className="mb-3">
                     <input
                         type="text"
-                        className="form-control"
+                        className="form-control inputAuth"
                         id="userPhone"
                         name="userPhone"
                         value={formData.userPhone}
@@ -140,7 +140,7 @@ const SignUpForm = () => {
                 <div className={`mb-3 ${styles.inputGroup}`}>
                     <input
                         type="email"
-                        className="form-control"
+                        className="form-control inputAuth"
                         id="signEmail"
                         name="userEmail"
                         value={formData.userEmail}
@@ -160,7 +160,7 @@ const SignUpForm = () => {
                 <div className="mb-3">
                     <input
                         type="text"
-                        className="form-control"
+                        className="form-control inputAuth"
                         id="userAddress"
                         name="userAddress"
                         value={formData.userAddress}

@@ -13,7 +13,7 @@ export const PartnerReviews = (partnerNo) => axios.get(`/partner/reviews/${partn
 export const getPartnerReservations = (partnerNo) => axios.get(`/partner/reservations/${partnerNo}`);
 
 // 파트너 예약 상세 조회
-export const getpartnerReservationRead = (ordersNo) => axios.get(`/partner/${ordersNo}`);
+export const getpartnerReservationRead = (ordersNo) => axios.get(`/partner/reservationRead/${ordersNo}`);
 
 // 파트너 탈퇴
 export const deletePartner = (userNo) => axios.delete(`/partner/delete/${userNo}`);

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,11 +23,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.aloha.server.admin.service.AdminService;
+import com.aloha.server.auth.dto.CustomUser;
 import com.aloha.server.auth.dto.Review;
 import com.aloha.server.auth.dto.Users;
 import com.aloha.server.auth.service.UserService;
 import com.aloha.server.main.dto.Page;
 import com.aloha.server.partner.dto.Partner;
+import com.aloha.server.partner.service.PartnerService;
 import com.aloha.server.reservation.dto.Cancel;
 import com.aloha.server.reservation.dto.OrderStatus;
 import com.aloha.server.reservation.dto.Orders;
@@ -65,6 +68,9 @@ public class AdminController {
 
     @Autowired
     private ReservationService reservationService;
+
+    @Autowired
+    private PartnerService partnerService;
 
     // 회원가입 화면
     @GetMapping("/join")
@@ -148,19 +154,44 @@ public class AdminController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
     
+    
     // 관리자 - 회원 목록
     @GetMapping("/adminUser")
-    public ResponseEntity<?> adminUser(@RequestParam(value = "page", defaultValue = "1") int pageNumber) throws Exception {
+    public ResponseEntity<?> adminUser(@RequestParam(value = "page", defaultValue = "1") int pageNumber, @AuthenticationPrincipal CustomUser customUser) throws Exception {
+        
+        Users user = customUser.getUser();
+        log.info("user : " + user);
+
+        // 인증된 사용자 정보
+        if (user == null) {
+            return new ResponseEntity<>("UNAUTHORIZED", HttpStatus.UNAUTHORIZED);
+        }
+
         try {
             int total = adminService.countUsers();
             Page page = new Page(pageNumber, total);
             List<Users> userList = adminService.selectAllUsers(page);
-            return new ResponseEntity<>(userList, HttpStatus.OK);
+
+            for (Users u : userList) {
+                Partner partner = partnerService.findByUserNo(u.getUserNo());
+                if (partner != null) {
+                    u.setPartnerNo(partner.getPartnerNo());
+                }
+            }
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("userList", userList);
+            response.put("totalCount", total);
+            response.put("currentPage", pageNumber);
+            // response.put("pageSize", page.getPageSize());
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             log.info("예외 발생 !!!", e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    
 
     // 관리자 - 파트너 목록
     @GetMapping("/adminPartner")
@@ -183,7 +214,7 @@ public class AdminController {
             Users user = adminService.findUserById(userNo);
             log.info(user.toString());
             List<Review> reviews = adminService.selectReviewsByUser(userNo); // 리뷰 목록 조회 추가
-            log.info("reviews" + reviews);
+            log.info("reviews: " + reviews);
             HashMap<String, Object> response = new HashMap<>();
             response.put("user", user);
             response.put("reviews", reviews); // 모델에 리뷰 추가
@@ -233,8 +264,8 @@ public class AdminController {
     }
 
     // 관리자 - 회원 삭제 처리
-    @DeleteMapping("/adminUserDelete/{userNo}")
-    public ResponseEntity<?> adminUserDelete(@PathVariable("userNo") int userNo) throws Exception {
+    @DeleteMapping("/adminUserDelete")
+    public ResponseEntity<?> adminUserDelete(@RequestParam("userNo") int userNo) throws Exception {
         try {
             int result = adminService.adminDeleteUser(userNo);
             if (result > 0) {
@@ -251,13 +282,13 @@ public class AdminController {
     // 관리자 - 리뷰 삭제 처리
     @DeleteMapping("/adminReviewDelete/{reviewNo}")
     public ResponseEntity<?> adminReviewDelete(@PathVariable("reviewNo") int reviewNo) throws Exception {
+        log.info("reviewNo : " + reviewNo);
         try {
             int result = adminService.adminDeleteReview(reviewNo);
-            if (result > 0) {
+            log.info("review 삭제 : " + result);
+
                 return new ResponseEntity<>(result, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(result, HttpStatus.INTERNAL_SERVER_ERROR);
-            }
+            
         } catch (Exception e) {
             log.info("예외 발생 !!!", e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

@@ -1,3 +1,11 @@
+.containerMember {
+  height: 400px !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
 .icon-box {
     display: flex;
     justify-content: center;
@@ -56,7 +64,7 @@
     display: flex;
     justify-content: center;
     flex-wrap: wrap; /* 반응형 지원을 위한 wrap 설정 */
-    gap: 100px; /* 요소 간의 간격 설정 */
+    gap: 200px !important; /* 요소 간의 간격 설정 */
   }
   .form-container {
     flex: 1;
@@ -146,9 +154,10 @@
     width: 100%;
   }
   
-  h2 {
+  .adminTitle {
     color: #8FA2CA !important;
     font-weight: bold !important;
+    font-size: 32px !important;
   }
   
   input[type="password"] {
@@ -198,7 +207,7 @@
   }
 
 #signId, #signEmail {
-  border: 1px solid #ccc !important;
+  border: var(--bs-border-width) solid var(--bs-border-color);
   border-right: 0 !important;
   border-top-right-radius: 0 !important;
   border-bottom-right-radius: 0 !important;
@@ -212,4 +221,9 @@
   height: 46px !important;
   background-color: #212529 !important;
   color: white !important;
+  line-height: 50%;
+}
+
+.inputAuth {
+  height: 41px !important;
 }

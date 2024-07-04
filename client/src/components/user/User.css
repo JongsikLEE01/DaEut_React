@@ -46,7 +46,7 @@ main {
   justify-content: flex-end;
   margin-top: 20px;
 }
-.form-buttons button {
+.form-buttons .btn {
   margin-left: 10px;
 }
 .toggle-btn {

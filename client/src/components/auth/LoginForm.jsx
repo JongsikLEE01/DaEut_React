@@ -35,13 +35,13 @@ const LoginForm = () => {
   return (
     <div className="container form-container">
       <form className='login-form' onSubmit={onLogin}>
-        <h2 className="text-center">로그인</h2>
+        <h2 className="text-center adminTitle">로그인</h2>
         <p className="text-center">다이웃 이용을 위한 아이디, 비밀번호를 입력해주세요.</p>
         <div className="mb-3">
-          <input type="text" className="form-control" placeholder="아이디" name="username" id="username" required value={username} onChange={(e) => setUsername(e.target.value)} />
+          <input type="text" className="form-control inputAuth" placeholder="아이디" name="username" id="username" required value={username} onChange={(e) => setUsername(e.target.value)} />
         </div>
         <div className="mb-3">
-          <input type="password" className="form-control" placeholder="비밀번호" name="password" id="password" required value={password} onChange={(e) => setPassword(e.target.value)} />
+          <input type="password" className="form-control inputAuth" placeholder="비밀번호" name="password" id="password" required value={password} onChange={(e) => setPassword(e.target.value)} />
         </div>
         <div className="mb-3">
           <div className="row">
