@@ -43,10 +43,14 @@ import Chat from './pages/Service/Chat'
 import UserMypage from './pages/user/UserMypage'
 import UserMypageUpdate from './pages/user/UserMypageUpdate'
 import UserReservation from './pages/user/UserReservation'
+import UserReview from './pages/user/UserReview'
 import UserManagementPage from './pages/admin/UserManagementPage'
+import UserCancel from './pages/user/UserCancel'
+import UserCancelDone from './pages/user/UserCancelDone'
 import UserDetailPage from './pages/admin/UserDetailPage'
 import UserUpdatePage from './pages/admin/UserUpdatePage'
 import ReservationManagePage from './pages/admin/ReservationManagePage'
+import PartnerChatList from './components/partner/PartnerChatList'
 
 
 
@@ -83,6 +87,7 @@ const App = () => {
           <Route path="/partner/reservation/:partnerNo" element={<PartnerReservation/>}/>
           <Route path="/partner/reviews/:partnerNo" element={<PartnerReview/>}/>
           <Route path="/partner/reservationRead/:ordersNo" element={<PartnerReservationRead/>}/>
+          <Route path="/partner/partnerChatList" element={<PartnerChatList />} />
           {/* <Route path="PartnerUpdate" element={<PartnerUpdate/>}/> */}
 
           {/* 소셜로그인 */}
@@ -104,16 +109,17 @@ const App = () => {
           <Route path="/user/UserMypage" element={<UserMypage />} />
           <Route path="/user/UserMypageUpdate" element={<UserMypageUpdate />} />
           <Route path="/user/UserReservation" element={<UserReservation />} />
+          <Route path="/user/UserReview" element={<UserReview/>} />
+            
+          <Route path="/cancel/:ordersNo" element={<UserCancel />} />
+          <Route path="/cancelDone/:ordersNo" element={<UserCancelDone />} />
 
+          {/* 관리자 */}
+          <Route path="/admin/adminUser" element={<UserManagementPage/>} />
+          <Route path="/admin/adminUserRead/:userNo" element={<UserDetailPage/>} />
+          <Route path="/admin/adminUserUpdate/:userNo" element={<UserUpdatePage />} />
+          <Route path="/admin/adminReservation" element={<ReservationManagePage />} />
 
-
-
-
-        {/* 관리자 */}
-        <Route path="/admin/adminUser" element={<UserManagementPage/>} />
-        <Route path="/admin/adminUserRead/:userNo" element={<UserDetailPage/>} />
-        <Route path="/admin/adminUserUpdate/:userNo" element={<UserUpdatePage />} />
-        <Route path="/admin/adminReservation" element={<ReservationManagePage />} />
         </Routes>
       </LoginContextProvider>
     </BrowserRouter>

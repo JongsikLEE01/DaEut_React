@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{/layout/reserv_layout}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Da E ut</title>
+    <!-- SockJS 및 stomp.js 라이브러리 추가 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.1/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+</head>
+
+<body layout:fragment="content">
+
+    <div class="container">
+        <div class="chatbox">
+            <div class="chat-header">
+                <div class="chat-partner-info">
+                    <span class="partner-name-chat" th:text="${chatRooms.title}"></span>
+                </div>
+            </div>
+            <div class="chat-box" id="messages">
+                <div id="chatArea" class="chatArea">
+                    <th:block th:each="chat : ${chatList}">
+                        <div th:class="${chat.userNo == user.userNo} ? 'message my-message' : 'message other-message'">
+                            <span class="message-content" th:text="${chat.chatContent}"></span>
+                            <span class="message-date" th:text="${#dates.format(chat.chatRegDate, 'HH:mm')}"></span>
+                        </div>
+                    </th:block>
+                </div>
+            </div>
+            <div class="input-box">
+                <input type="text" name="chatcontent" id="message" placeholder="부적절한 메세지는 삭제 처리됩니다." onkeypress="enterSend(event)">
+                <button type="button" class="sendchat" id="send" onclick="sendMessage()">전송</button>
+            </div>
+            <div class="button-box">
+                <button class="goback" onclick="goBack()">돌아가기</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const url = new URL(location.href).searchParams;
+        const roomNo = url.get('roomNo');
+        const userNo = '[[${user.userNo}]]';
+
+        console.log(roomNo);
+
+        var stompClient = null;
+
+        // webSocket 연결
+        function connect() {
+            var socket = new SockJS('/chat');
+            stompClient = Stomp.over(socket);
+            stompClient.connect({}, function (frame) {
+                console.log('Connected: ' + frame);
+                stompClient.subscribe(`/sub/chat/${roomNo}`, function (chat) {
+                    showMessage(JSON.parse(chat.body));
+                });
+            });
+        }
+
+        // 메세지 보내기
+        function sendMessage() {
+            let chatContent = document.getElementById('message').value;
+
+            let data = {
+                'chatContent': chatContent,
+                'userNo': userNo,
+                'roomNo': roomNo,
+                'chatRegDate': getCurrentTime()
+            };
+
+            stompClient.send("/pub/chat/sendMessage", {}, JSON.stringify(data));
+            document.getElementById('message').value = ''; // 전송 후 입력란 초기화
+        }
+
+
+        // 메세지를 출력
+        function showMessage(chat) {
+            var chatArea = document.getElementById('chatArea');
+
+            var messageDiv = document.createElement('div');
+            messageDiv.className = chat.userNo == userNo ? 'message my-message' : 'message other-message';
+
+            var pContent = document.createElement('span');
+            pContent.className = 'message-content';
+            pContent.classList.add(chat.userNo == userNo ? 'message-content-right' : 'message-content-left');
+            pContent.textContent = chat.chatContent;
+
+            var pDate = document.createElement('span');
+            pDate.className = 'message-date';
+            pDate.textContent = chat.chatRegDate.split(' ')[1].slice(0, 5); // 시간과 분만 표시
+
+            messageDiv.appendChild(pContent);
+            messageDiv.appendChild(pDate);
+
+            chatArea.appendChild(messageDiv);
+            chatArea.scrollTop = chatArea.scrollHeight
+        }
+
+        // 현재 시간을 가져오기
+        function getCurrentTime() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+
+            return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+        }
+        
+        // 엔터키로 메세지 전송
+        function enterSend(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+                event.preventDefault();
+            }
+        }
+
+        // 돌아가기
+        function goBack() {
+            window.history.back();
+        }
+
+        connect();
+    </script>
+</body>
+</html>

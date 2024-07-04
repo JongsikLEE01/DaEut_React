@@ -19,6 +19,7 @@ public class Review {
     private int paymentNo;
     private int partnerNo;
     private int serviceNo;
+    private String serviceName;
 
 
     private String ordersNo;
