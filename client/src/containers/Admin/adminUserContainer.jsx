@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import Sidebar from '../../components/static/Sidebar'
 import UserTable from '../../components/admin/UserTable'
 import './Admin.css'
 import '../../components/static/css/Pagenation.css'
 import { deleteSelectedUsers, getAllUsers } from '../../apis/admin/admin'
-import Pagination from '../../components/admin/Pagenation'
 import Swal from 'sweetalert2'
-
+import CustomPagination from '../../components/admin/Pagenation'
+import Sidebar from '../../components/static/Sidebar'
 
 const AdminUserContainer = () => {
     const [isOpen, setIsOpen] = useState(true)
@@ -15,18 +14,17 @@ const AdminUserContainer = () => {
     const [error, setError] = useState(null)
     const [currentPage, setCurrentPage] = useState(1)
     const [totalCount, setTotalCount] = useState(0)
-    const itemsPerPage = 10 // 페이지당 항목 수
+    const itemsPerPage = 10
 
     const fetchUsers = async (page) => {
         setLoading(true)
         try {
             const response = await getAllUsers(page)
             const data = response.data
-            console.log(data); // 응답 데이터를 로그에 출력하여 확인
-            setUsers(data.userList) // userList 배열을 설정
-            setTotalCount(data.totalCount) // 총 항목 수 설정
+            setUsers(data.userList)
+            setTotalCount(data.totalCount)
         } catch (error) {
-            console.error('Failed to fetch users:', error);
+            console.error('Failed to fetch users:', error)
             setError(error)
         } finally {
             setLoading(false)
@@ -35,7 +33,10 @@ const AdminUserContainer = () => {
 
     const handleDeleteUsers = async () => {
         const checkboxes = document.querySelectorAll('.checkbox:checked')
-        const deleteNoList = Array.from(checkboxes).map(checkbox => checkbox.value)
+        const deleteNoList = Array.from(checkboxes)
+            .map(checkbox => checkbox.value)
+            .filter(value => value !== 'on') // 'on' 값 필터링
+        console.log('deleteNoList:', deleteNoList) // 로깅하여 확인
         if (deleteNoList.length === 0) {
             Swal.fire({
                 icon: 'warning',
@@ -52,29 +53,23 @@ const AdminUserContainer = () => {
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: '네, 삭제하겠습니다!',
+            confirmButtonText: '확인',
             cancelButtonText: '취소'
         })
 
         if (result.isConfirmed) {
             try {
                 await deleteSelectedUsers(deleteNoList)
-                // 현재 페이지의 사용자 목록을 다시 불러옵니다.
-                await fetchUsers(currentPage)
-
-                // 현재 페이지에 사용자가 없으면 이전 페이지로 이동합니다.
-                if (users.length === 0 && currentPage > 1) {
-                    setCurrentPage(currentPage - 1)
-                    await fetchUsers(currentPage - 1)
-                } else {
-                    Swal.fire({
-                        icon: 'success',
-                        title: '삭제 완료',
-                        text: '선택한 사용자가 성공적으로 삭제되었습니다.',
-                    })
-                }
+                const updatedPage = currentPage > 1 && users.length === deleteNoList.length ? currentPage - 1 : currentPage
+                setCurrentPage(updatedPage)
+                await fetchUsers(updatedPage)
+                Swal.fire({
+                    icon: 'success',
+                    title: '삭제 완료',
+                    text: '선택한 사용자가 성공적으로 삭제되었습니다.',
+                })
             } catch (error) {
-                console.error('Failed to delete users:', error);
+                console.error('Failed to delete users:', error)
                 Swal.fire({
                     icon: 'error',
                     title: '삭제 실패',
@@ -102,7 +97,6 @@ const AdminUserContainer = () => {
 
     return (
         <div className="container-fluid container">
-            <button className="btn btn-primary toggle-btn menu mt-2 myBtn d-md-none transitionNone" id="toggle-btn" onClick={toggleSidebar}>메뉴</button>
             <div className="row">
                 <Sidebar isOpen={isOpen} toggleSidebar={toggleSidebar} roles={{ isAdmin: true }} />
                 <div className="col-md-9 col-lg-10 form-section">
@@ -112,7 +106,7 @@ const AdminUserContainer = () => {
                     <div className="buttons">
                         <button className="btn btn-primary custom1 delBtn" onClick={handleDeleteUsers}>선택 삭제</button>
                     </div>
-                    <Pagination currentPage={currentPage} totalCount={totalCount} itemsPerPage={itemsPerPage} onPageChange={setCurrentPage} />
+                    <CustomPagination currentPage={currentPage} totalCount={totalCount} itemsPerPage={itemsPerPage} onPageChange={setCurrentPage} />
                 </div>
             </div>
         </div>

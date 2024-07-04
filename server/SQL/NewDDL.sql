@@ -1,4 +1,4 @@
--- Active: 1717658424847@@127.0.0.1@3306@daeut
+-- Active: 1715242304860@@127.0.0.1@3306@daeut
 
 
 DROP TABLE IF EXISTS reply;
@@ -405,19 +405,19 @@ VALUES
     ("사용자11", "01012345679", "1990-11-11", "경상남도 창원시", "user11@gmail.com", "male", "user11", "$2a$12$TrN..KcVjciCiz.5Vj96YOBljeVTTGJ9AUKmtfbGpgc9hmC7BxQ92");
 INSERT INTO user_auth ( user_no,  auth )
 VALUES 
-	( 51, 'ROLE_USER' ),
-	( 52, 'ROLE_USER' ),
-	( 53, 'ROLE_USER' ),
-	( 54, 'ROLE_USER' ),
-	( 55, 'ROLE_USER' ),
-	( 56, 'ROLE_USER' ),
-	( 57, 'ROLE_USER' ),
-	( 58, 'ROLE_USER' );
+	( 4, 'ROLE_USER' ),
+	( 5, 'ROLE_USER' ),
+	( 6, 'ROLE_USER' ),
+	( 7, 'ROLE_USER' ),
+	( 8, 'ROLE_USER' ),
+	( 9, 'ROLE_USER' ),
+	( 10, 'ROLE_USER' ),
+	( 11, 'ROLE_USER' );
 INSERT INTO user_auth ( user_no,  auth )
 VALUES 
-( 59, 'ROLE_USER' ),
-( 60, 'ROLE_USER' ),
-( 61, 'ROLE_USER' );
+( 12, 'ROLE_USER' ),
+( 13, 'ROLE_USER' ),
+( 14, 'ROLE_USER' );
     
 INSERT INTO users (user_name, user_phone, user_birth, user_address, user_email, user_gender, user_id, user_password)
 VALUES 

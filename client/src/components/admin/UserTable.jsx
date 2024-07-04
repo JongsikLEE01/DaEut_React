@@ -14,7 +14,7 @@ const UserTable = ({ users }) => {
     }
 
     return (
-        <form id="form" action="/admin/user/delete" method="post">
+        <form id="form">
             <table className="table table-sm table-hover">
                 <thead className="table-light">
                     <tr>
@@ -37,7 +37,7 @@ const UserTable = ({ users }) => {
                         users.map(user => (
                             <tr key={user.userNo}>
                                 <td className='userTd'>{user.userNo}</td>
-                                <td>
+                                <td className='userTd'>
                                     <Link to={`/admin/adminUserRead/${user.userNo}`} className="text-decoration-line">
                                         {user.userName}
                                     </Link>
@@ -45,7 +45,7 @@ const UserTable = ({ users }) => {
                                 <td className='userTd'>{user.userId}</td>
                                 <td className='userTd'>{user.userPhone}</td>
                                 <td className='userTd'>{new Date(user.userRegDate).toLocaleString()}</td>
-                                <td className="checked userTd">
+                                <td className='userTd'>
                                     <input type="checkbox" className="checkbox" name="deleteNoList" value={user.userNo} />
                                 </td>
                             </tr>

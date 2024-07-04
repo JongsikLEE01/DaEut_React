@@ -8,7 +8,7 @@ const DeleteButton = () => {
         } else {
             document.getElementById('form').submit()
         }
-    };
+    }
 
     return (
         <div className="buttons">

@@ -1,11 +1,11 @@
 import React from 'react'
 import MainLayout from '../../layouts/MainLayout'
-import AdminUserContainer from '../../containers/admin/AdminUserContainer'
+import AdminUserContainer from '../../containers/Admin/AdminUserContainer'
 
 const UserManagementPage = () => {
   return (
     <MainLayout>
-        <AdminUserContainer/>
+        <AdminUserContainer />
     </MainLayout>
         
 
