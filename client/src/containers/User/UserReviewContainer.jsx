@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getUserPaymentsAndReview } from '../../apis/Users/user';
+import { getUserPaymentsAndReview } from '../../apis/Users/User';
 import UserReviewForm from '../../components/user/UserReviewForm';
 
 const UserReviewContainer = () => {

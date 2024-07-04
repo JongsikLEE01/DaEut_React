@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { submitUserReview } from '../../apis/Users/user';
+import { submitUserReview } from '../../apis/Users/User';
 import Swal from 'sweetalert2';
 
 const UserReviewForm = ({ payments, initialReview }) => {
