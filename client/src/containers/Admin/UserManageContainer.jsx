@@ -7,7 +7,7 @@ import Swal from 'sweetalert2';
 import CustomPagination from '../../components/admin/Pagenation';
 import Sidebar from '../../components/static/Sidebar';
 
-const AdminUserContainer = () => {
+const UserManageContainer = () => {
     const [isOpen, setIsOpen] = useState(true);
     const [users, setUsers] = useState([]);
     const [error, setError] = useState(null);
@@ -105,4 +105,4 @@ const AdminUserContainer = () => {
     );
 }
 
-export default AdminUserContainer;
+export default UserManageContainer;

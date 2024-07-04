@@ -142,11 +142,12 @@ button {
 }
 
 .success {
-    border-color: #8FA2CA;
-    margin-top: 100px;
-    margin-bottom: 30px;
-    font-size: 18px;
-    line-height: 10px;
+    border-color: #8FA2CA !important;
+    margin-top: 100px !important;
+    margin-bottom: 30px !important;
+    font-size: 18px !important;
+    line-height: 10px !important;
+    padding: 20px 32px !important
 }
 
 .completeHr {

@@ -45,6 +45,8 @@ import UserMypageUpdate from './pages/user/UserMypageUpdate'
 import UserReservation from './pages/user/UserReservation'
 import UserManagementPage from './pages/admin/UserManagementPage'
 import UserDetailPage from './pages/admin/UserDetailPage'
+import UserUpdatePage from './pages/admin/UserUpdatePage'
+import ReservationManagePage from './pages/admin/ReservationManagePage'
 
 
 
@@ -110,8 +112,8 @@ const App = () => {
         {/* 관리자 */}
         <Route path="/admin/adminUser" element={<UserManagementPage/>} />
         <Route path="/admin/adminUserRead/:userNo" element={<UserDetailPage/>} />
-
-        
+        <Route path="/admin/adminUserUpdate/:userNo" element={<UserUpdatePage />} />
+        <Route path="/admin/adminReservation" element={<ReservationManagePage />} />
         </Routes>
       </LoginContextProvider>
     </BrowserRouter>
