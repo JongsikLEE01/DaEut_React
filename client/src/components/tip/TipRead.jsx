@@ -24,9 +24,9 @@ const TipRead = ({
   handleReplyEditSubmit,
   editingReply,
   setEditingReply,
-  userInfo, // 추가: userInfo를 받아옵니다
+  userInfo,
 }) => {
-  const navigate = useNavigate(); // useNavigate 훅을 사용하여 navigate 함수 정의
+  const navigate = useNavigate();
 
   return (
     <div className={styles.container}>
@@ -75,26 +75,35 @@ const TipRead = ({
         <h3 className={styles['reply-input-title']}>댓글</h3>
         <form className={styles.inputGroup} onSubmit={handleReplySubmit}>
           <input type="text" id="reply-content" className={styles['form-control']} placeholder="댓글을 입력하세요." value={newReply} onChange={handleNewReplyChange} />
-          <button className={styles['customSubmitButton']} type="submit">등록</button> {/* 커스텀 클래스 적용 */}
+          <button className={styles['customSubmitButton']} type="submit">등록</button>
         </form>
       </div>
       <div className={`${styles['reply-container']} ${styles['reply-list']}`}>
         {replyList.length > 0 && (
           <div id="reply-list">
-            {renderReplies(replyList)}
+            {renderReplies(replyList, {
+              replyContent,
+              setReplyContent,
+              replyParentNo,
+              setReplyParentNo,
+              handleReplyReplySubmit,
+              editingReply,
+              setEditingReply,
+              handleReplyEditSubmit,
+            })}
           </div>
         )}
       </div>
-      {replyParentNo !== null && (
+      {/* {replyParentNo !== null && (
         <div className={styles['reply-reply-container']}>
           <h3 className={styles['reply-reply-title']}>답글</h3>
           <form className={styles['reply-reply-input']} onSubmit={handleReplyReplySubmit}>
-            <textarea value={replyContent} onChange={(e) => setReplyContent(e.target.value)} />
-            <button type="submit">답글 등록</button>
-            <button type="button" onClick={() => setReplyParentNo(null)}>취소</button>
+            <textarea value={replyContent} onChange={(e) => setReplyContent(e.target.value)} className={styles.textareaNoResize} />
+            <button type="submit" className={styles.submitButton}>답글 등록</button>
+            <button type="button" className={styles.cancelButton} onClick={() => setReplyParentNo(null)}>취소</button>
           </form>
         </div>
-      )}
+      )} */}
     </div>
   );
 };

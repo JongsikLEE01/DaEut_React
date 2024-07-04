@@ -179,16 +179,6 @@
     border-radius: 8px;
   }
   
-  .reply-reply-input button,
-  .reply-edit-input button {
-    padding: 10px 20px;
-    background: #007bff;
-    border: none;
-    color: #fff;
-    border-radius: 8px;
-    cursor: pointer;
-  }
-  
   .reply-reply-input button:hover,
   .reply-edit-input button:hover {
     opacity: 0.8;
@@ -271,7 +261,7 @@
   .reply-reply-input,
   .reply-edit-input {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
   }
   
   .reply-reply-input textarea,
@@ -284,13 +274,8 @@
   
   .reply-reply-input button,
   .reply-edit-input button {
-    background-color: #8FA2CA;
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    padding: 10px 20px;
-    cursor: pointer;
     align-self: flex-end;
+    background-color: #8FA2CA;
   }
   
   .reply-reply-input button:hover,
@@ -373,3 +358,54 @@
     border: 1px solid #8FA2CA !important;
     color: #8FA2CA !important;
   }
+
+  .reply-reply-container {
+    background-color: #f9f9f9; /* 배경색 */
+    border: 1px solid #ddd; /* 테두리 */
+    padding: 15px; /* 여백 */
+    border-radius: 8px; /* 모서리 둥글게 */
+    margin-top: 10px; /* 상단 여백 */
+  }
+  
+  .reply-reply-title {
+    font-size: 16px;
+    margin-bottom: 10px; /* 하단 여백 */
+  }
+  
+  .reply-reply-input textarea {
+    width: 100%; /* 너비 */
+    border: 1px solid #ccc; /* 테두리 */
+    padding: 10px; /* 여백 */
+    border-radius: 5px; /* 모서리 둥글게 */
+  }
+  
+  .reply-reply-input .submitButton {
+    color: white;
+    background-color: #8FA2CA;
+    border: 1px solid #8FA2CA;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    text-align: center;
+  }
+  
+  .reply-reply-input .submitButton:hover {
+    opacity: 0.8;
+    background-color: #6f8bbd !important;
+  }
+  
+  .reply-reply-input .cancelButton {
+    color: #8FA2CA !important;
+    background-color: white;
+    border: 1px solid #8FA2CA;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    text-align: center;
+  }
+  
+  .reply-reply-input .cancelButton:hover {
+    opacity: 0.8;
+    background-color: transparent;
+  }
+  

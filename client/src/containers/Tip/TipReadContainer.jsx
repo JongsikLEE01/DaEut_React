@@ -109,7 +109,7 @@ const TipReadContainer = () => {
 
       setNewReply('');
       updateReplies();
-      updateReplyCount(); // 댓글 수 업데이트
+      updateReplyCount();
     } catch (error) {
       console.error('Error adding reply:', error);
     }
@@ -139,7 +139,7 @@ const TipReadContainer = () => {
       setReplyContent('');
       setReplyParentNo(null);
       updateReplies();
-      updateReplyCount(); // 댓글 수 업데이트
+      updateReplyCount();
     } catch (error) {
       console.error('Error adding reply reply:', error);
     }
@@ -158,7 +158,7 @@ const TipReadContainer = () => {
         replyNo: editingReply,
         replyContent: replyContent,
         userNo: userNo,
-        parentNo: replyList.find(reply => reply.replyNo === editingReply)?.parentNo || 0 // 부모 번호 포함
+        parentNo: replyList.find(reply => reply.replyNo === editingReply)?.parentNo || 0
       };
 
       const response = await axios.put(`/reply/${editingReply}`, formData, {
@@ -170,16 +170,15 @@ const TipReadContainer = () => {
 
       const updatedReply = response.data;
 
-      // setReplyList를 통해 즉시 상태 업데이트
-      setReplyList((prevReplies) => 
-        prevReplies.map((reply) => 
+      setReplyList((prevReplies) =>
+        prevReplies.map((reply) =>
           reply.replyNo === editingReply ? { ...reply, replyContent: replyContent, replyRegDate: new Date().toISOString() } : reply
         )
       );
 
       setReplyContent('');
       setEditingReply(null);
-      updateReplyCount(); // 댓글 수 업데이트
+      updateReplyCount();
     } catch (error) {
       console.error('Error editing reply:', error);
     }
@@ -200,21 +199,41 @@ const TipReadContainer = () => {
     });
   };
 
-  const handleReplyDelete = async (replyNo) => {
-    try {
-      const token = localStorage.getItem('token');
-      await axios.delete(`/reply/${replyNo}`, {
-        headers: {
-          'Authorization': token ? `Bearer ${token}` : ''
-        }
-      });
-
-      updateReplies();
-      updateReplyCount(); // 댓글 수 업데이트
-    } catch (error) {
-      console.error('Error deleting reply:', error);
+  const deleteAllChildReplies = async (replyNo, token) => {
+    const childReplies = replyList.filter(reply => reply.parentNo === replyNo);
+    for (const childReply of childReplies) {
+        await deleteAllChildReplies(childReply.replyNo, token); // 재귀 호출로 모든 자식 답글 삭제
+        await axios.delete(`/reply/${childReply.replyNo}`, {
+            headers: {
+                'Authorization': token ? `Bearer ${token}` : ''
+            }
+        });
     }
+};
+
+  const handleReplyDelete = async (replyNo) => {
+      try {
+          const token = localStorage.getItem('token');
+          
+          // 재귀적으로 모든 자식 답글 삭제
+          await deleteAllChildReplies(replyNo, token);
+
+          // 부모 답글 삭제
+          await axios.delete(`/reply/${replyNo}`, {
+              headers: {
+                  'Authorization': token ? `Bearer ${token}` : ''
+              }
+          });
+
+          // 업데이트된 댓글 목록 및 댓글 수를 다시 가져옵니다.
+          updateReplies();
+          updateReplyCount();
+
+      } catch (error) {
+          console.error('Error deleting reply:', error);
+      }
   };
+
 
   const handleLike = async (event) => {
     const boardNo = event.currentTarget.getAttribute('data-board-no');
@@ -280,6 +299,16 @@ const TipReadContainer = () => {
               <button type="button" onClick={() => { setEditingReply(reply.replyNo); setReplyContent(reply.replyContent); }}>수정</button>
               <button type="button" onClick={() => handleReplyDeleteConfirm(reply.replyNo)}>삭제</button>
             </div>
+            {replyParentNo === reply.replyNo && (
+              <div className={styles['reply-reply-container']}>
+                <h3 className={styles['reply-reply-title']}>답글</h3>
+                <form className={styles['reply-reply-input']} onSubmit={handleReplyReplySubmit}>
+                  <textarea value={replyContent} onChange={(e) => setReplyContent(e.target.value)} className={`form-control mb-2 ${styles.textareaNoResize}`} />
+                  <button type="submit" className={styles.submitButton}>답글 등록</button>
+                  <button type="button" className={styles.cancelButton} onClick={() => setReplyParentNo(null)}>취소</button>
+                </form>
+              </div>
+            )}
           </>
         )}
       </div>
