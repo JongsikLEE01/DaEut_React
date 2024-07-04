@@ -37,7 +37,7 @@ const FindIdForm = () => {
     return (
         <div className="container form-container">
             <form id="form" onSubmit={handleSubmit}>
-                <h2 className="text-center">아이디 찾기</h2>
+                <h2 className="text-center adminTitle">아이디 찾기</h2>
                 {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
                 <p className="text-center">아이디 찾기를 위한 정보를 입력해주세요.</p>
                 <hr />
@@ -45,7 +45,7 @@ const FindIdForm = () => {
                 <div className="mb-3">
                     <input
                         type="text"
-                        className="form-control"
+                        className="form-control inputAuth"
                         placeholder="이름"
                         value={userName}
                         onChange={(e) => setUserName(e.target.value)}
@@ -55,7 +55,7 @@ const FindIdForm = () => {
                 <div className="mb-3">
                     <input
                         type="email"
-                        className="form-control"
+                        className="form-control inputAuth"
                         placeholder="이메일"
                         value={userEmail}
                         onChange={(e) => setUserEmail(e.target.value)}
@@ -65,7 +65,7 @@ const FindIdForm = () => {
                 <div className="mb-3">
                     <input
                         type="text"
-                        className="form-control"
+                        className="form-control inputAuth"
                         placeholder="전화번호"
                         value={userPhone}
                         onChange={(e) => setUserPhone(e.target.value)}

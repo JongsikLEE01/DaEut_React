@@ -1,6 +1,6 @@
 import React from 'react'
-import UserMypageContainer from '../../containers/User/UserMypageContainer'
 import UserLayout from '../../layouts/UserLayout'
+import UserMypageContainer from '../../containers/User/UserMypageContainer'
 
 const UserMyPage = () => {
   return (
