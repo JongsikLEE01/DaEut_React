@@ -78,7 +78,7 @@ const TipRead = ({
           <button className={styles['customSubmitButton']} type="submit">등록</button> {/* 커스텀 클래스 적용 */}
         </form>
       </div>
-      <div className={styles['reply-container']}>
+      <div className={`${styles['reply-container']} ${styles['reply-list']}`}>
         {replyList.length > 0 && (
           <div id="reply-list">
             {renderReplies(replyList)}

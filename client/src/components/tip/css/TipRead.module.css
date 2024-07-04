@@ -295,6 +295,10 @@
   .reply-edit-input button:hover {
     background-color: #6f8bbd;
   }
+
+  .reply-list {
+    margin-bottom: 80px; /* 원하는 간격 크기로 수정 */
+  }
   
   
   

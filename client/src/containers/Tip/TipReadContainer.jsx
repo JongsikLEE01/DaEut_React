@@ -143,7 +143,8 @@ const TipReadContainer = () => {
       const formData = {
         replyNo: editingReply,
         replyContent: replyContent,
-        userNo: userNo // userNo를 포함하여 전송
+        userNo: userNo,
+        parentNo: replyList.find(reply => reply.replyNo === editingReply)?.parentNo || 0 // 부모 번호 포함
       };
 
       const response = await axios.put(`/reply/${editingReply}`, formData, {
@@ -155,9 +156,10 @@ const TipReadContainer = () => {
 
       const updatedReply = response.data;
 
+      // setReplyList를 통해 즉시 상태 업데이트
       setReplyList((prevReplies) => 
         prevReplies.map((reply) => 
-          reply.replyNo === editingReply ? updatedReply : reply
+          reply.replyNo === editingReply ? { ...reply, replyContent: replyContent, replyRegDate: new Date().toISOString() } : reply
         )
       );
 
@@ -237,8 +239,8 @@ const TipReadContainer = () => {
   };
 
   const renderReplies = (replies) => {
-    const renderReply = (reply) => (
-      <div key={reply.replyNo} className={reply.parentNo ? styles.answer : styles.reply}>
+    const renderReply = (reply, level = 0) => (
+      <div key={reply.replyNo} className={`${reply.parentNo ? styles.answer : styles.reply}`} style={{ marginLeft: `${level * 20}px` }}>
         <p><strong>{reply.userId}</strong></p>
         {editingReply === reply.replyNo ? (
           <form onSubmit={handleReplyEditSubmit}>
@@ -259,20 +261,24 @@ const TipReadContainer = () => {
         )}
       </div>
     );
-  
+
     const sortedReplies = replies.sort((a, b) => a.parentNo - b.parentNo);
     const replyElements = [];
     const parentReplies = sortedReplies.filter(reply => reply.parentNo === 0);
     const childReplies = sortedReplies.filter(reply => reply.parentNo !== 0);
-  
-    parentReplies.forEach(parentReply => {
-      replyElements.push(renderReply(parentReply));
+
+    const renderNestedReplies = (parentReply, level) => {
+      replyElements.push(renderReply(parentReply, level));
       const children = childReplies.filter(reply => reply.parentNo === parentReply.replyNo);
       children.forEach(childReply => {
-        replyElements.push(renderReply(childReply));
+        renderNestedReplies(childReply, level + 1);
       });
+    };
+
+    parentReplies.forEach(parentReply => {
+      renderNestedReplies(parentReply, 0);
     });
-  
+
     return replyElements;
   };
 
