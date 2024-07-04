@@ -4,9 +4,11 @@ import UserReservationContainer from '../../containers/User/UserReservationConta
 
 const UserReservation = () => {
   return (
-    <UserLayout>
-      <UserReservationContainer />
-    </UserLayout>
+    <>
+      <UserLayout>
+        <UserReservationContainer />
+      </UserLayout>
+    </>
   );
 };
 

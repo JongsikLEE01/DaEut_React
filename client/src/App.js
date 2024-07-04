@@ -44,7 +44,7 @@ import Chat from './pages/Service/Chat'
 import UserMypage from './pages/user/UserMypage'
 import UserMypageUpdate from './pages/user/UserMypageUpdate'
 import UserReservation from './pages/user/UserReservation'
-
+import UserReview from './pages/user/UserReview'
 
 
 const App = () => {
@@ -97,6 +97,7 @@ const App = () => {
           <Route path="/user/UserMypage" element={<UserMypage />} />
           <Route path="/user/UserMypageUpdate" element={<UserMypageUpdate />} />
           <Route path="/user/UserReservation" element={<UserReservation />} />
+          <Route path="/user/UserReview" element={<UserReview/>} />
 
 
         </Routes>
