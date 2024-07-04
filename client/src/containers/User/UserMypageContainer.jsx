@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { LoginContext } from '../../components/contexts/LoginContextProvider';
 import UserForm from '../../components/user/UserForm';
-import { getUserInfo } from '../../apis/Users/user';
+import { getUserInfo } from '../../apis/Users/User';
 import '../../components/user/User.css'
 
 const UserMypageContainer = () => {

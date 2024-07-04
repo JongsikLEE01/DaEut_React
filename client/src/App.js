@@ -21,6 +21,7 @@ import PartnerList from './pages/partner/PartnerList'
 import PartnerReview from './pages/partner/PartnerReview'
 import PartnerUpdate from './pages/partner/PartnerUpdate'
 import PartnerReservation from './pages/partner/PartnerReservation'
+import PartnerReservationRead from './pages/partner/PartnerReservationRead'
 import FindPasswordPage from './pages/auth/FindPasswordPage'
 import ResetPasswordPage from './pages/auth/ResetPasswordPage'
 import ResetPwCompletePage from './pages/auth/ResetPwCompletePage'
@@ -75,10 +76,11 @@ const App = () => {
           <Route path='/tip/tipInsert' element={<TipInsert/>}></Route>
           <Route path='/tip/tipUpdate' element={<TipUpdate/>}></Route>
           
-          {/* Partner */}
+          {/*  파트너 */}
           <Route path="/partnerList/:userNo" element={<PartnerList/>}/>
           <Route path="/partner/reservation/:partnerNo" element={<PartnerReservation/>}/>
           <Route path="/partner/reviews/:partnerNo" element={<PartnerReview/>}/>
+          <Route path="/partner/reservationRead/:ordersNo" element={<PartnerReservationRead/>}/>
           {/* <Route path="PartnerUpdate" element={<PartnerUpdate/>}/> */}
 
           {/* 소셜로그인 */}

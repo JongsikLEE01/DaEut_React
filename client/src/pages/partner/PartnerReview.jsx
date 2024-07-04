@@ -2,13 +2,14 @@ import React from 'react'
 import PartnerReviewContainer from '../../containers/partner/PartnerReviewContainer'
 import { useParams  } from 'react-router-dom'
 import MainLayout from '../../layouts/MainLayout'
+import PartnerLayout from '../../layouts/PartnerLayout'
 
 const PartnerReview = () => {
   const {partnerNo} = useParams()
   return (
-    <MainLayout>
+    <PartnerLayout>
     <PartnerReviewContainer partnerNo ={partnerNo}/>
-    </MainLayout>
+    </PartnerLayout>
   )
 }
 
