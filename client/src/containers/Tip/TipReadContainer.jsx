@@ -5,6 +5,7 @@ import TipRead from '../../components/tip/TipRead';
 import Swal from 'sweetalert2';
 import { LoginContext } from '../../components/contexts/LoginContextProvider';
 import * as board from '../../apis/tips/board'; // API 모듈 임포트
+import styles from '../../components/tip/css/TipRead.module.css';
 
 const TipReadContainer = () => {
   const { boardNo } = useParams();
@@ -223,8 +224,8 @@ const TipReadContainer = () => {
         ) : (
           <>
             <p>{reply.replyContent}</p>
-            <div className="comment-actions">
-              <span>{new Date(reply.replyRegDate).toLocaleDateString()}</span>
+            <div className={styles['comment-actions']}>
+              <span className={styles.date}>{new Date(reply.replyRegDate).toLocaleDateString()}</span>
               <button type="button" onClick={() => { setReplyParentNo(reply.replyNo); setReplyContent(''); }}>답글달기</button>
               <button type="button" onClick={() => { setEditingReply(reply.replyNo); setReplyContent(reply.replyContent); }}>수정</button>
               <button type="button" onClick={() => handleReplyDelete(reply.replyNo)}>삭제</button>
@@ -233,7 +234,7 @@ const TipReadContainer = () => {
         )}
       </div>
     ));
-  };
+  };  
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
