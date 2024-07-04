@@ -152,22 +152,23 @@ public class BoardController {
     }
 
     @PutMapping("/boards/{boardNo}")
-    public ResponseEntity<String> updateBoard(@PathVariable int boardNo, @RequestBody Board board) throws Exception {
-        // Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        // String currentUserId = authentication.getName();
-        // Board existingBoard = boardService.select(boardNo);
-        // if (!existingBoard.getUserId().equals(currentUserId) && !isAdmin(authentication)) {
-        //     throw new IllegalAccessException("수정 권한이 없습니다.");
-        // }
+    public ResponseEntity<String> updateBoard(
+        @PathVariable int boardNo,
+        @RequestParam("boardTitle") String boardTitle,
+        @RequestParam("boardContent") String boardContent) throws Exception {
+        
+        // 현재 보드 정보를 조회하고 업데이트
+        Board board = boardService.select(boardNo);
+        board.setBoardTitle(boardTitle);
+        board.setBoardContent(boardContent);
 
-        // 임시로 권한 검사를 무시하고 주석 처리된 코드를 대체할 코드
-        log.info("board?? : {}", board);
         int result = boardService.update(board);
         if (result > 0) {
             return ResponseEntity.ok("Board updated successfully");
         }
         return ResponseEntity.badRequest().body("Failed to update board");
     }
+
 
 
     @DeleteMapping("/boards/{boardNo}")

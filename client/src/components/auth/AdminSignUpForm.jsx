@@ -4,7 +4,8 @@ import { Link, useNavigate } from 'react-router-dom'
 import useForm from './hook/useForm'
 import useValidation from './hook/useValidation'
 import useDuplicateCheck from './hook/useDuplicateCheck'
-import './auth.css'
+import styles from './css/Auth.module.css'
+import './css/auth.css'
 
 const AdminSignUpForm = () => {
     const navigate = useNavigate()
@@ -60,12 +61,12 @@ const AdminSignUpForm = () => {
     
 
     return (
-        <div className="container form-container">
+        <div className={`container ${styles.formContainer}`}>
             <form id="signup-form" onSubmit={handleSubmit}>
                 <h2 className="text-center">관리자 계정 생성</h2>
                 <p className="text-center">관리자 계정에 사용될 정보를 입력해주세요</p>
                 
-                <div className="mb-3 input-group">
+                <div className={`mb-3 ${styles.inputGroup}`}>
                     <input
                         type="text"
                         className="form-control"
@@ -78,7 +79,7 @@ const AdminSignUpForm = () => {
                     />
                     <button
                         type="button"
-                        className="btn btn-primary custom-auth-btn"
+                        className={`btn btn-primary ${styles.customAuthBtn}`}
                         onClick={() => handleCheckDuplicateId(formData.userId)}
                     >
                         중복확인
@@ -163,7 +164,7 @@ const AdminSignUpForm = () => {
                     />
                 </div>
                 
-                <div className="mb-3 input-group">
+                <div className={`mb-3 ${styles.inputGroup}`}>
                     <input
                         type="email"
                         className="form-control"
@@ -176,7 +177,7 @@ const AdminSignUpForm = () => {
                     />
                     <button
                         type="button"
-                        className="btn btn-primary custom-auth-btn"
+                        className={`btn btn-primary ${styles.customAuthBtn}`}
                         onClick={() => handleCheckDuplicateEmail(formData.userEmail)}
                     >
                         중복확인
@@ -238,24 +239,24 @@ const AdminSignUpForm = () => {
                 </div>
                 
                 <div className="d-grid gap-3">
-                    <button type="submit" className="btn btn-dark darkBtn">회원 가입</button>
-                    <button type="button" className="btn btn-light border" onClick={() => window.history.back()}>돌아가기</button>
+                    <button type="submit" className={`btn btn-light border btnbtn`}>회원 가입</button>
+                    <button type="button" className={`btn btn-light border ${styles.border}`} onClick={() => window.history.back()}>돌아가기</button>
                 </div>
 
                 <div className="text-center my-3"><hr />소셜계정으로 회원 가입</div>
 
                 <div className="d-grid gap-2">
-                    <Link to="#" className="btn btn-light google border">
-                        <img src="/img/google.png" alt="Google" className="img-fluid" style={{ maxHeight: '20px' }} /> Google
+                    {/* <Link to="#" className={`btn btn-light google border ${styles.border}`}>
+                        <img src="/img/google.png" alt="Google" className="img-fluid" /> Google
+                    </Link> */}
+
+                    <Link to="#" className={`btn btn-light kakao border ${styles.border}`}>
+                        <img src="/img/kakao.png" alt="Kakao" className="img-fluid" /> Kakao
                     </Link>
 
-                    <Link to="#" className="btn btn-light kakao border">
-                        <img src="/img/kakao.png" alt="Kakao" className="img-fluid" style={{ maxHeight: '20px', width: '20px' }} /> Kakao
-                    </Link>
-
-                    <Link to="#" className="btn btn-light naver border">
-                        <img src="/img/naver.png" alt="Naver" className="img-fluid" style={{ maxHeight: '20px' }} /> Naver
-                    </Link>
+                    {/* <Link to="#" className={`btn btn-light naver border ${styles.border}`}>
+                        <img src="/img/naver.png" alt="Naver" className="img-fluid" /> Naver
+                    </Link> */}
                 </div>
 
                 <div>

@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
-import './auth.css'
+import './css/auth.css'
 import { useNavigate } from 'react-router-dom'
 import { findId } from '../../apis/auth/auth'
+import styles from './css/Auth.module.css'
 
 const FindIdForm = () => {
     const navigate = useNavigate()
@@ -73,12 +74,10 @@ const FindIdForm = () => {
                 </div>
 
                 <div className="d-grid gap-2">
-                    <button type="submit" className="btn btn-dark">
+                    <button type="submit" className={`btn btn-light border btnbtn`}>
                         아이디 찾기
                     </button>
-                    <button type="button" className="btn btn-light border" onClick={() => navigate(-1)}>
-                        돌아가기
-                    </button>
+                    <button type="button" className={`btn btn-light border ${styles.border}`} onClick={() => window.history.back()}>돌아가기</button>
                 </div>
                 <hr />
             </form>

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { findIdComplete } from '../../apis/auth/auth'
-import './auth.css'
+import styles from './css/Auth.module.css'
+import './css/auth.css'
 
 const DoneFindId = () => {
     const { userId } = useParams()
@@ -26,7 +27,7 @@ const DoneFindId = () => {
                 </p>
                 <hr className="completeHr" />
                 <p className="text-center mt-3"><strong>{userName}</strong></p>
-                <Link to="/login" className="btn btn-primary custom-auth-btn complete success">확인</Link>
+                <Link to="/login" className={`btn btn-primary ${styles.success}`}>확인</Link>
             </div>
         </div>
     )
