@@ -1,17 +1,7 @@
 import React, { useEffect } from 'react'
 
 const useNotification = (title, options, roomNo) => {
-  // useEffect(() => {
-  //   if (Notification.permission !== 'granted') {
-  //     Notification.requestPermission().then(permission => {
-  //       if (permission !== 'granted') {
-  //         console.warn('알림 권한 거부...')
-  //       }
-  //     }).catch(e => {
-  //       console.error(`알림 권한 요청 중 에러 발생... ${e}`)
-  //     })
-  //   }
-  // }, [])
+  // 에러1. 크롬에서 안뜸
   useEffect(() => {
     if (Notification.permission !== 'granted') {
       try {
