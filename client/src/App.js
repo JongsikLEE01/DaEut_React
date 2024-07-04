@@ -2,7 +2,7 @@ import React from 'react'
 import { BrowserRouter, Route, Routes, Switch  } from 'react-router-dom'
 // import LoginContextProvider from './contexts/LoginContextProvider'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import './App.css';
+import './App.css'
 import Index from './pages/index/Index'
 import Test from './pages/Test'
 import Member from './pages/auth/Member'
@@ -36,10 +36,11 @@ import OAuth2RedirectHandler from './components/auth/OAuth2RedirectHandler'
 
 
 import Payment from './pages/Order/Payment'
-import Done from './pages/Order/Done';
-import False from './pages/Order/False';
-import Chat from './pages/Service/Chat';
+import Done from './pages/Order/Done'
+import False from './pages/Order/False'
+import Chat from './pages/Service/Chat'
 import UserMypage from './pages/user/UserMypage'
+import UserManagementPage from './pages/admin/UserManagementPage'
 
 
 
@@ -89,11 +90,17 @@ const App = () => {
           <Route path="/resetPwComplete" element={<ResetPwCompletePage />} />
           <Route path="/join" element={<SingUpPage />} />
           <Route path="/admin/join" element={<AdminSignUpPage />} />
-           <Route path="/joinDone" element={<SignUpCompletePage />} />
+          <Route path="/joinDone" element={<SignUpCompletePage />} />
 
           {/* 사용자 */}
           <Route path="/user/UserMypage" element={<UserMypage />} />
 
+
+
+
+
+        {/* 관리자 */}
+        <Route path="/admin/adminUser" element={<UserManagementPage/>} />
 
         </Routes>
       </LoginContextProvider>

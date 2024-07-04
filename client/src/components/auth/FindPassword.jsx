@@ -71,14 +71,14 @@ const FindPassword = () => {
     return (
         <div className={`container ${styles.formContainer}`}>
             <form id="form" onSubmit={handleSubmit}>
-                <h2 className="text-center">비밀번호 찾기</h2>
+                <h2 className="text-center adminTitle">비밀번호 찾기</h2>
                 <p className="text-center">비밀번호 찾기를 위한 정보를 입력해주세요.</p>
                 <hr />
                 <div className="mb-3">
                     <input 
                         type="text" 
                         name="userName" 
-                        className="form-control" 
+                        className="form-control inputAuth" 
                         placeholder="이름" 
                         value={userName}
                         onChange={(e) => setUserName(e.target.value)}
@@ -89,7 +89,7 @@ const FindPassword = () => {
                     <input 
                         type="text" 
                         name="userId" 
-                        className="form-control" 
+                        className="form-control inputAuth" 
                         placeholder="아이디" 
                         value={userId}
                         onChange={(e) => setUserId(e.target.value)}
@@ -100,7 +100,7 @@ const FindPassword = () => {
                     <input 
                         type="text" 
                         name="userEmail" 
-                        className="form-control" 
+                        className="form-control inputAuth" 
                         placeholder="이메일" 
                         value={userEmail}
                         onChange={(e) => setUserEmail(e.target.value)}
@@ -112,7 +112,7 @@ const FindPassword = () => {
                     <input 
                         type="text" 
                         name="authCode" 
-                        className="form-control" 
+                        className="form-control inputAuth" 
                         placeholder="인증코드" 
                         value={inputAuthCode}
                         onChange={(e) => setInputAuthCode(e.target.value)}

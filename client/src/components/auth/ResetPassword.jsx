@@ -70,13 +70,13 @@ const ResetPassword = () => {
     return (
         <div className="container form-container">
             <form id="resetPwForm" onSubmit={handleSubmit}>
-                <h2 className="text-center">비밀번호 재설정</h2>
+                <h2 className="text-center adminTitle">비밀번호 재설정</h2>
                 <p className="text-center">비밀번호를 재설정 해주세요.</p>
                 <hr />
                 <div className="mb-3">
                     <input
                         type="password"
-                        className="form-control"
+                        className="form-control inputAuth"
                         id="userPassword"
                         name="userPassword"
                         placeholder="비밀번호"
@@ -88,7 +88,7 @@ const ResetPassword = () => {
                 <div className="mb-3">
                     <input
                         type="password"
-                        className="form-control"
+                        className="form-control inputAuth"
                         id="confirmPassword"
                         name="confirmPassword"
                         placeholder="비밀번호 확인"

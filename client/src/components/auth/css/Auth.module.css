@@ -1,3 +1,11 @@
+.containerMember {
+    height: 400px !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+
 .iconBox {
     display: flex;
     justify-content: center;
@@ -49,14 +57,14 @@
 button {
     border: none;
 }
-/* .custom-margin {
+/* .customMargin {
     margin: 100px; 
 } */
 .memberRow {
     display: flex;
     justify-content: center;
     flex-wrap: wrap; /* 반응형 지원을 위한 wrap 설정 */
-    gap: 100px; /* 요소 간의 간격 설정 */
+    gap: 200px !important;  /* 요소 간의 간격 설정 */
 }
 .formContainer {
     flex: 1;
@@ -109,6 +117,7 @@ button {
     font-size: 14px;
     line-height: 50%;
     width: 30%;
+    padding: 10px 10px;
 }
 
 .formContainer.complete {
@@ -137,6 +146,7 @@ button {
     margin-top: 100px;
     margin-bottom: 30px;
     font-size: 18px;
+    line-height: 10px;
 }
 
 .completeHr {
