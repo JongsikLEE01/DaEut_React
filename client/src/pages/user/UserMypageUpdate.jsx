@@ -1,12 +1,14 @@
 import React from 'react';
-import UserMypageUpdateContainer from '../../containers/User/UserMypageUpdateContainer';
 import UserLayout from '../../layouts/UserLayout';
+import UserMypageUpdateContainer from '../../containers/User/UserMypageUpdateContainer';
 
 const UserMypageUpdate = () => {
   return (
-    <UserLayout>
-      <UserMypageUpdateContainer />
-    </UserLayout>
+    <>
+      <UserLayout>
+        <UserMypageUpdateContainer />
+      </UserLayout>
+    </>
   );
 };
 

@@ -189,7 +189,7 @@ public class UserController {
     // 사용자 작성 리뷰 폼 조회
     @GetMapping("/userReview")
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN') or hasRole('ROLE_PARTNER')")
-    public ResponseEntity<Review> showReviewForm(@AuthenticationPrincipal CustomUser customUser) {
+    public ResponseEntity<Map<String, Object>> showReviewForm(@AuthenticationPrincipal CustomUser customUser) {
         log.info("/user/userReview");
 
         Users user = customUser.getUser();
@@ -201,6 +201,9 @@ public class UserController {
         List<Payments> payments = reviewService.getUserPayments(userNo);
         // model.addAttribute("payments", payments);
 
+        Map<String, Object> response = new HashMap<>();
+        response.put("payments", payments);
+
         // 결제 정보가 있다면 첫 번째 결제를 기본값으로 설정
         if (!payments.isEmpty()) {
             Payments firstPayment = payments.get(0);
@@ -208,10 +211,12 @@ public class UserController {
             review.setPaymentNo(firstPayment.getPaymentNo());
             review.setServiceNo(firstPayment.getServiceNo());
             review.setPartnerNo(firstPayment.getPartnerNo());
-            return ResponseEntity.ok(review);
+            review.setServiceName(firstPayment.getServiceName());
+            response.put("review", review);
         } else {
-            return ResponseEntity.ok(new Review());
+            response.put("review", new Review());
         }
+        return ResponseEntity.ok(response);
     }
 
     // 리뷰 저장 처리

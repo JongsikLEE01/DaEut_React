@@ -43,6 +43,7 @@ import Chat from './pages/Service/Chat'
 import UserMypage from './pages/user/UserMypage'
 import UserMypageUpdate from './pages/user/UserMypageUpdate'
 import UserReservation from './pages/user/UserReservation'
+import UserReview from './pages/user/UserReview'
 import UserManagementPage from './pages/admin/UserManagementPage'
 import UserCancel from './pages/user/UserCancel'
 import UserCancelDone from './pages/user/UserCancelDone'
@@ -106,6 +107,8 @@ const App = () => {
           <Route path="/user/UserMypage" element={<UserMypage />} />
           <Route path="/user/UserMypageUpdate" element={<UserMypageUpdate />} />
           <Route path="/user/UserReservation" element={<UserReservation />} />
+          <Route path="/user/UserReview" element={<UserReview/>} />
+            
           <Route path="/cancel/:ordersNo" element={<UserCancel />} />
           <Route path="/cancelDone/:ordersNo" element={<UserCancelDone />} />
 
