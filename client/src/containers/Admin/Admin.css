@@ -1,11 +1,6 @@
-body {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-}
-
-main {
-    flex: 1;
+/* 기본 스타일 */
+.userRead {
+    width: 1030px !important;
 }
 
 .form-section {
@@ -112,16 +107,16 @@ th {
     background-color: #8FA2CA !important;
     border: #8FA2CA !important;
     padding: 10px 20px;
+    height: 39.61px !important;
 }
 
 .custom1.delBtn:hover {
     padding: 10px 20px;
-    width: 107.85px;
     height: 44px;
-    text-align: center ;
-    background-color: white ;
-    border-color: #8FA2CA ;
-    color: #8FA2CA ;
+    text-align: center;
+    background-color: white;
+    border-color: #8FA2CA;
+    color: #8FA2CA;
 }
 
 .custom2 {
@@ -192,9 +187,32 @@ a {
     text-decoration: none !important;
 }
 
-/* 반응형 스타일 */
+/* 미디어 쿼리 */
+@media (max-width: 1400px) {
+    .table th,
+    .table td {
+        padding: 8px;
+    }
+    .container.mt-2.userRead {
+        width: 900px !important; /* 조정된 너비 */
+    }
+}
+
+@media (max-width: 1200px) {
+    .table th,
+    .table td {
+        padding: 6px;
+        font-size: 0.875rem;
+    }
+    .container.mt-2.userRead {
+        width: 750px !important; /* 조정된 너비 */
+    }
+}
 
 @media (max-width: 992px) {
+    .th, td {
+        font-size: 12px !important;
+    }
     .profile-img {
         max-width: 120px;
     }
@@ -211,9 +229,24 @@ a {
         width: 100%;
         text-align: center;
     }
+    .container.mt-2.userRead {
+        padding: 10px;
+        margin: 0 5px;
+        width: 100% !important;
+    }
+    .delBtn:hover  {
+        padding: 10px 20px ; 
+        text-align: center;
+        height: 39.61px !important;
+    }
 }
 
 @media (max-width: 768px) {
+    .table th,
+    .table td {
+        padding: 8px;
+        font-size: 16px !important; 
+    }
     .profile-img {
         max-width: 100px;
     }
@@ -223,6 +256,16 @@ a {
     .buttons .btn {
         font-size: 0.85rem;
         padding: 0.45rem 0.9rem;
+        width: 100%;
+        text-align: center;
+    }
+    .table td.userTd {
+        line-height: 44px !important;
+    }
+    .container.mt-2.userRead {
+        padding: 10px;
+        margin: 0 5px;
+        width: 100% !important;
     }
 }
 
@@ -236,45 +279,21 @@ a {
     .buttons .btn {
         font-size: 0.8rem;
         padding: 0.4rem 0.8rem;
+        width: 100%;
+        text-align: center;
     }
     .toggle-btn {
         font-size: 0.875rem;
     }
-
     .table th,
     .table td {
         padding: 8px;
-        font-size: 0.75rem; /* 테이블의 글꼴 크기 조정 */
+        font-size: 0.75rem; 
     }
-}
-
-@media (max-width: 450px) {
-    .profile-img {
-        max-width: 60px;
-    }
-    .gallery img {
-        max-width: 40px;
-    }
-    .buttons .btn {
-        font-size: 0.75rem;
-        padding: 0.35rem 0.7rem;
-    }
-}
-
-/* 테이블 반응형 스타일 */
-
-@media (max-width: 1400px) {
-    .table th,
-    .table td {
-        padding: 8px;
-    }
-}
-
-@media (max-width: 1200px) {
-    .table th,
-    .table td {
+    .container.mt-2.userRead {
         padding: 6px;
-        font-size: 0.875rem;
+        margin: 0 3px;
+        width: 100% !important;
     }
 }
 
