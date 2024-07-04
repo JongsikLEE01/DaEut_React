@@ -1,7 +1,8 @@
 import React from 'react'
 import { checkDuplicateId, checkDuplicateEmail, join } from '../../apis/auth/auth'
 import { Link, useNavigate } from 'react-router-dom'
-import './auth.css'
+import styles from './css/Auth.module.css'
+import './css/auth.css'
 import useForm from './hook/useForm'
 import useValidation from './hook/useValidation'
 import useDuplicateCheck from './hook/useDuplicateCheck'
@@ -47,15 +48,15 @@ const SignUpForm = () => {
     
 
     return (
-        <div className="container form-container">
+        <div className={`container ${styles.formContainer}`}>
             <form id="signup-form" onSubmit={handleSubmit}>
-                <h2 className="text-center">계정 생성</h2>
+                <h2 className="text-center adminTitle">계정 생성</h2>
                 <p className="text-center">계정에 사용될 정보를 입력해주세요</p>
 
-                <div className="mb-3 input-group">
+                <div className={`mb-3 ${styles.inputGroup}`}>
                     <input
                         type="text"
-                        className="form-control singId"
+                        className="form-control inputAuth singId"
                         id="signId"
                         name="userId"
                         value={formData.userId}
@@ -65,7 +66,7 @@ const SignUpForm = () => {
                     />
                     <button
                         type="button"
-                        className="btn btn-primary custom-auth-btn"
+                        className={`btn btn-primary ${styles.customAuthBtn}`}
                         onClick={() => handleCheckDuplicateId(formData.userId)}
                     >
                         중복확인
@@ -75,7 +76,7 @@ const SignUpForm = () => {
                 <div className="mb-3">
                     <input
                         type="password"
-                        className="form-control"
+                        className="form-control inputAuth"
                         id="userPassword"
                         name="userPassword"
                         value={formData.userPassword}
@@ -88,7 +89,7 @@ const SignUpForm = () => {
                 <div className="mb-3">
                     <input
                         type="password"
-                        className="form-control"
+                        className="form-control inputAuth"
                         id="confirmPassword"
                         name="confirmPassword"
                         value={formData.confirmPassword}
@@ -101,7 +102,7 @@ const SignUpForm = () => {
                 <div className="mb-3">
                     <input
                         type="text"
-                        className="form-control"
+                        className="form-control inputAuth"
                         id="userName"
                         name="userName"
                         onChange={handleChange}
@@ -113,7 +114,7 @@ const SignUpForm = () => {
                 <div className="mb-3">
                     <input
                         type="date"
-                        className="form-control"
+                        className="form-control inputAuth"
                         id="userBirth"
                         name="userBirth"
                         value={formData.userBirth}
@@ -126,7 +127,7 @@ const SignUpForm = () => {
                 <div className="mb-3">
                     <input
                         type="text"
-                        className="form-control"
+                        className="form-control inputAuth"
                         id="userPhone"
                         name="userPhone"
                         value={formData.userPhone}
@@ -136,10 +137,10 @@ const SignUpForm = () => {
                     />
                 </div>
 
-                <div className="mb-3 input-group">
+                <div className={`mb-3 ${styles.inputGroup}`}>
                     <input
                         type="email"
-                        className="form-control"
+                        className="form-control inputAuth"
                         id="signEmail"
                         name="userEmail"
                         value={formData.userEmail}
@@ -149,7 +150,7 @@ const SignUpForm = () => {
                     />
                     <button
                         type="button"
-                        className="btn btn-primary custom-auth-btn"
+                        className={`btn btn-primary ${styles.customAuthBtn}`}
                         onClick={() => handleCheckDuplicateEmail(formData.userEmail)}
                     >
                         중복확인
@@ -159,7 +160,7 @@ const SignUpForm = () => {
                 <div className="mb-3">
                     <input
                         type="text"
-                        className="form-control"
+                        className="form-control inputAuth"
                         id="userAddress"
                         name="userAddress"
                         value={formData.userAddress}
@@ -213,23 +214,23 @@ const SignUpForm = () => {
                 </div>
 
                 <div className="d-grid gap-3">
-                    <button type="submit" className="btn btn-dark darkBtn">회원 가입</button>
-                    <button type="button" className="btn btn-light border" onClick={() => window.history.back()}>돌아가기</button>
+                    <button type="submit" className={`btn btn-light border btnbtn`}>회원 가입</button>
+                    <button type="button" className={`btn btn-light border ${styles.border}`} onClick={() => window.history.back()}>돌아가기</button>
                 </div>
 
                 <div className="text-center my-3"><hr />소셜계정으로 회원 가입</div>
 
                 <div className="d-grid gap-2">
-                    {/* <Link to="#" className="btn btn-light google border">
-                        <img src="/img/google.png" alt="Google" className="img-fluid" style={{ maxHeight: '20px' }} /> Google
+                    {/* <Link to="#" className={`btn btn-light google border ${styles.border}`}>
+                        <img src="/img/google.png" alt="Google" className="img-fluid" /> Google
                     </Link> */}
 
-                    <Link to="#" className="btn btn-light kakao border">
-                        <img src="/img/kakao.png" alt="Kakao" className="img-fluid" style={{ maxHeight: '20px', width: '20px' }} /> Kakao
+                    <Link to="#" className={`btn btn-light kakao border ${styles.border}`}>
+                        <img src="/img/kakao.png" alt="Kakao" className="img-fluid" /> Kakao
                     </Link>
 
-                    {/* <Link to="#" className="btn btn-light naver border">
-                        <img src="/img/naver.png" alt="Naver" className="img-fluid" style={{ maxHeight: '20px' }} /> Naver
+                    {/* <Link to="#" className={`btn btn-light naver border ${styles.border}`}>
+                        <img src="/img/naver.png" alt="Naver" className="img-fluid" /> Naver
                     </Link> */}
                 </div>
 

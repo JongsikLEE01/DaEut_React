@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper
-  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.aloha.server.reservation.mapper.ReservationMapper">
 
@@ -55,19 +53,8 @@
     <!-- 글 내용 조회 -->
     <select id="serviceSelect" resultMap="serviceMap">
         SELECT 
-            s.service_no, 
-            s.service_category, 
-            s.service_name, 
-            s.service_price, 
-            s.service_content, 
-            s.upd_date, 
-            s.reg_date, 
-            p.partner_no,
-            p.partner_grade,
-            p.partner_reserve,
-            p.partner_career,
-            p.introduce,
-            p.user_no,
+            s.*,
+            p.*,
             u.user_name
         FROM 
             service s
@@ -79,7 +66,7 @@
             s.service_no = #{serviceNo}
     </select>
 
-    <select id="select">
+    <select id="select" resultMap="serviceMap">
         select *
         from service
         WHERE service_no = #{serviceNo}

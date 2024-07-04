@@ -1,10 +1,11 @@
 import React from 'react'
 import MemberComponent from '../../components/auth/MemberComponent'
 import { faLock, faLockOpen, faUser, faUsers } from '@fortawesome/free-solid-svg-icons'
+import '../../components/auth/css/auth.css'
 
 const MemberContainer = () => {
   return (
-    <div className="container">
+    <div className="containerMember">
       <div className="memberRow">
         <MemberComponent
           to="/login"

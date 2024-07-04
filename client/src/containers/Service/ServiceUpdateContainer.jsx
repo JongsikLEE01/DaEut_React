@@ -3,7 +3,6 @@ import * as Services from '../../apis/Services/Services'
 import * as files from '../../apis/file'
 import { useNavigate } from 'react-router-dom'
 import ServiceUpdateForm from '../../components/Service/ServiceUpdateForm'
-import * as alert from '../../apis/alert'
 
 const ServiceUpdateContainer = ({ serviceNo }) => {
   const navigate = useNavigate()
@@ -43,13 +42,8 @@ const ServiceUpdateContainer = ({ serviceNo }) => {
 
   // 서비스 삭제
   const onRemove = async (serviceNo) => {
-    alert.confirm('정말 삭제하시겠습니까?', '삭제된 게시글은 다시 되돌릴 수 없습니다.', 'warning', (result) => {
-      // isConfirmed : 확인 버튼 클릭 여부
-      if(result.isConfirmed){
-        navigate("/service")
-      }
-    })
     try {
+      
       const response = await Services.remove(serviceNo)
       const status = await response.status
       console.log(`서비스 삭제 요청 결과 ${status}`)

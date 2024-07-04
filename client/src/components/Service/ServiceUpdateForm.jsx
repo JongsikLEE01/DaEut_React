@@ -131,7 +131,12 @@ const ServiceUpdateForm = ({ onUpdate, service, fileList, onRemove }) => {
 
   // 삭제 처리
   const onSubmitRemove = () => {
-    onRemove(service.serviceNo) // 서비스 삭제 처리
+    alert.confirm('정말 삭제하시겠습니까?', '삭제된 게시글은 다시 되돌릴 수 없습니다.', 'warning', (result) => {
+      // isConfirmed : 확인 버튼 클릭 여부
+      if(result.isConfirmed){
+        onRemove(service.serviceNo) // 서비스 삭제 처리
+      }
+    })
   }
 
   useEffect(() => {
