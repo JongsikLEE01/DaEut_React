@@ -40,7 +40,10 @@ import Done from './pages/Order/Done'
 import False from './pages/Order/False'
 import Chat from './pages/Service/Chat'
 import UserMypage from './pages/user/UserMypage'
+import UserMypageUpdate from './pages/user/UserMypageUpdate'
+import UserReservation from './pages/user/UserReservation'
 import UserManagementPage from './pages/admin/UserManagementPage'
+
 
 
 
@@ -94,6 +97,8 @@ const App = () => {
 
           {/* 사용자 */}
           <Route path="/user/UserMypage" element={<UserMypage />} />
+          <Route path="/user/UserMypageUpdate" element={<UserMypageUpdate />} />
+          <Route path="/user/UserReservation" element={<UserReservation />} />
 
 
 
