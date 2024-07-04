@@ -6,16 +6,20 @@ import { useParams } from 'react-router-dom'
 const PartnerReservationContainer = () => {
   const {partnerNo} = useParams();
   // state
-  const [reservation, setReservation] = useState({})
+  const [orderList, setOrderList] = useState([])
 
   // 함수
   const getPartnerReservations = async () => {
     try {
       const response = await partners.getPartnerReservations(partnerNo);
       const data = await response.data;
-      setReservation(data);
+      const orderList = await data.orderList
+      console.log("orde1rList container"+data);
+      console.dir(data)
+      console.dir(orderList)
+      setOrderList(orderList);
     } catch (error) {
-      console.log('Error fetching review', error);
+      console.log('Error fetching reservation', error);
     }
     
   }
@@ -26,7 +30,7 @@ const PartnerReservationContainer = () => {
 
   return (
     <PartnerReservation
-    reservation ={reservation}/>
+    orderList ={orderList}/>
   )
 }
 
