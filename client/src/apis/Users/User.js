@@ -45,3 +45,8 @@ export const submitUserReview = (reviewData) => {
     },
   });
 };
+
+
+export const getUserChatRooms = () => api.get('/user/userChatRoom')
+
+export const UserPartner = () => api.get('/user/userPartner')
