@@ -2,9 +2,11 @@ import React, { useEffect } from 'react'
 import UserCancelForm from '../../components/user/UserCancelForm'
 import { useState } from 'react'
 import * as orders from '../../apis/Services/Orders'
+import { useNavigate } from 'react-router-dom'
 
 const UserCancelContainer = ({ ordersNo }) => {
   const [order, setOrder] = useState({})
+  const navigate = useNavigate()
 
   // 주문 정보 가져오기
   const getOrders = async (ordersNo) => {
@@ -29,6 +31,8 @@ const UserCancelContainer = ({ ordersNo }) => {
         const status = response.status
         console.log(data);
         console.log(`환불 처리 결과.... ${status}`);
+
+        navigate(`/cancelDone/${ordersNo}`)
     } catch (e) {
         console.error(`환불 처리 중 에러 발생... ${e}`);
     }

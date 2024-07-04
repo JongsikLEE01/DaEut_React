@@ -44,6 +44,7 @@ import UserMypageUpdate from './pages/user/UserMypageUpdate'
 import UserReservation from './pages/user/UserReservation'
 import UserManagementPage from './pages/admin/UserManagementPage'
 import UserCancel from './pages/user/UserCancel'
+import UserCancelDone from './pages/user/UserCancelDone'
 
 
 
@@ -101,6 +102,7 @@ const App = () => {
           <Route path="/user/UserMypageUpdate" element={<UserMypageUpdate />} />
           <Route path="/user/UserReservation" element={<UserReservation />} />
           <Route path="/cancel/:ordersNo" element={<UserCancel />} />
+          <Route path="/cancelDone/:ordersNo" element={<UserCancelDone />} />
 
           {/* 관리자 */}
           <Route path="/admin/adminUser" element={<UserManagementPage/>} />
