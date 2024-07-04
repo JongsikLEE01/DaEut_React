@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import * as alert from '../../apis/alert'
+import * as Swal from '../../apis/alert'
 
 const ServiceUpdateForm = ({ onUpdate, service, fileList, onRemove }) => {
   // state 등록
@@ -92,7 +92,7 @@ const ServiceUpdateForm = ({ onUpdate, service, fileList, onRemove }) => {
     e.preventDefault()
 
     if (serviceCategory.length === 0) {
-      alert.alert('카테고리를 선택해주세요','카테고리가 선택되지않았어요. 카테고리를 선택해주세요.', 'warning')
+      Swal.alert('카테고리를 선택해주세요','카테고리가 선택되지않았어요. 카테고리를 선택해주세요.', 'warning')
       return
     }
 
@@ -131,7 +131,7 @@ const ServiceUpdateForm = ({ onUpdate, service, fileList, onRemove }) => {
 
   // 삭제 처리
   const onSubmitRemove = () => {
-    alert.confirm('정말 삭제하시겠습니까?', '삭제된 게시글은 다시 되돌릴 수 없습니다.', 'warning', (result) => {
+    Swal.confirm('정말 삭제하시겠습니까?', '삭제된 게시글은 다시 되돌릴 수 없습니다.', 'warning', (result) => {
       // isConfirmed : 확인 버튼 클릭 여부
       if(result.isConfirmed){
         onRemove(service.serviceNo) // 서비스 삭제 처리
