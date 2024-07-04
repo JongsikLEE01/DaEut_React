@@ -8,7 +8,6 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -143,7 +142,8 @@ public class PartnerController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Exception occurred: " + e.getMessage());
         }
     }
-
+    
+        // 파트너 예약 조회
         @GetMapping("/reservations/{partnerNo}")
         public ResponseEntity<?> partnerReservation(@PathVariable("partnerNo") Integer partnerNo) {
             log.info("Fetching reservations for partnerNo: {}", partnerNo);
@@ -174,45 +174,51 @@ public class PartnerController {
         }
     
     // 파트너 예약 상세조회란 
-    @GetMapping("/reservationRead/{ordersNo}")
-    public ResponseEntity<?> partnerReservationRead(@PathVariable("ordersNo") String ordersNo) {
-        try {
-            // 주문에 대한 상세 정보를 조회
-            Orders order = orderService.listByOrderNo(ordersNo);
-            Payments payments = paymentService.selectByOrdersNo(ordersNo);
-            List<OrderItems> orderItemList = orderItemService.listByOrderNo(ordersNo);
-
-            // 서비스 정보를 담을 맵
-            Map<String, Object> response = new HashMap<>();
-            response.put("order", order);
-            response.put("payments", payments);
-
-            for (OrderItems orderItems : orderItemList) {
-                Services service = reservationService.select(orderItems.getServiceNo());
-                response.put("service_" + orderItems.getServiceNo(), service);
+        @GetMapping("/reservationRead/{ordersNo}")
+        public ResponseEntity<?> partnerReservationRead(@PathVariable("ordersNo") String ordersNo) {
+            try {
+                Orders order = orderService.listByOrderNo(ordersNo);
+                if (order == null) {
+                    return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Order not found for ordersNo: " + ordersNo);
+                }
+        
+                Payments payments = paymentService.selectByOrdersNo(ordersNo);
+                List<OrderItems> orderItemList = orderItemService.listByOrderNo(ordersNo);
+        
+                Map<String, Object> response = new HashMap<>();
+                response.put("order", order);
+                response.put("payments", payments);
+        
+                for (OrderItems orderItems : orderItemList) {
+                    Services service = reservationService.select(orderItems.getServiceNo());
+                    if (service != null) {
+                        response.put("service_" + orderItems.getServiceNo(), service);
+                    }
+                }
+        
+                log.info("예약 상세 페이지 {}", response);
+                return ResponseEntity.ok(response);
+            } catch (Exception e) {
+                log.error("Exception occurred while fetching partner reservation details for ordersNo: {}", ordersNo, e);
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Exception occurred: " + e.getMessage());
             }
-
-            return ResponseEntity.ok(response);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Exception occurred: " + e.getMessage());
         }
-    }
-
     
-    @GetMapping("/partnerChatRoom")
-    public String userChatRooms(Model model, HttpSession session) throws Exception {
-        int partnerNo = (int) session.getAttribute("partnerNo"); // 세션에서 partnerNo 가져오기
-        
-        log.info("pNo {}"+partnerNo);
+        // 파트너 채팅방
+        @GetMapping("/partnerChatRoom")
+        public String userChatRooms(Model model, HttpSession session) throws Exception {
+            int partnerNo = (int) session.getAttribute("partnerNo"); // 세션에서 partnerNo 가져오기
+            
+            log.info("pNo {}"+partnerNo);
 
-        // 파트너 번호로 채팅 내역 가져오기
-        List<ChatRooms> chatRoomList = chatRoomService.selectByPartnerNo(partnerNo);
-        // for (ChatRooms chatRooms : chatRoomList) {
-        //     String roomNo = chatRooms.getRoomNo();
-        //     model.addAttribute("roomNo", roomNo);
-        // }
-        
-        model.addAttribute("chatRoomList", chatRoomList);
-        return "partner/partnerChatRoom";
-    }
+            // 파트너 번호로 채팅 내역 가져오기
+            List<ChatRooms> chatRoomList = chatRoomService.selectByPartnerNo(partnerNo);
+            // for (ChatRooms chatRooms : chatRoomList) {
+            //     String roomNo = chatRooms.getRoomNo();
+            //     model.addAttribute("roomNo", roomNo);
+            // }
+            
+            model.addAttribute("chatRoomList", chatRoomList);
+            return "partner/partnerChatRoom";
+        }
 }

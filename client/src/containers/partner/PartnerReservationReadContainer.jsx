@@ -5,25 +5,38 @@ import PartnerReservationRead from '../../components/partner/PartnerReservationR
 
 const PartnerReservationReadContainer = () => {
   const { ordersNo } = useParams();
-  const [reservationRead, setReservationRead] = useState(null); // 초기값을 null로 설정
+  const [reservationRead, setReservationRead] = useState(null);
 
-  // 함수
   const getPartnerReservationRead = async () => {
     try {
       const response = await partners.getpartnerReservationRead(ordersNo);
-      const data = response.data; // await를 사용할 필요 없음
-      setReservationRead(data);
+      const data = response.data;
+      console.log("API 응답:", response);
+
+      // 모든 service_ 키를 찾아서 배열로 변환
+      const services = Object.keys(data)
+        .filter(key => key.startsWith('service_'))
+        .map(key => data[key]);
+
+      const reservationRead = {
+        order: data.order,
+        payments: data.payments,
+        services: services
+      };
+
+      setReservationRead(reservationRead);
+      console.log("설정된 reservationRead:", reservationRead);
     } catch (error) {
-      console.log('Error', error);
+      console.error('Error', error);
     }
   };
-  
+
   useEffect(() => {
-    getPartnerReservationRead(); // 함수 호출 시 () 추가
+    getPartnerReservationRead();
   }, [ordersNo]);
 
   return (
-    <PartnerReservationRead reservationRead={reservationRead} /> // props 전달 수정
+    <PartnerReservationRead reservationRead={reservationRead} />
   );
 };
 

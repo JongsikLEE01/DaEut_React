@@ -75,7 +75,7 @@ const App = () => {
           <Route path="/partnerList/:userNo" element={<PartnerList/>}/>
           <Route path="/partner/reservation/:partnerNo" element={<PartnerReservation/>}/>
           <Route path="/partner/reviews/:partnerNo" element={<PartnerReview/>}/>
-          <Route path="/partner/partnerReservation/:ordersNo" element={<PartnerReservationRead/>}/>
+          <Route path="/partner/reservationRead/:ordersNo" element={<PartnerReservationRead/>}/>
           {/* <Route path="PartnerUpdate" element={<PartnerUpdate/>}/> */}
 
           {/* 소셜로그인 */}
