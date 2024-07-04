@@ -145,6 +145,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public int adminDeleteReview(int reviewNo) throws Exception {
         int result = adminMapper.adminDeleteReview(reviewNo);
+        log.info("impl :" + result);
         return result;
     }
 

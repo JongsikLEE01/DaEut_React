@@ -4,12 +4,13 @@ import { useParams, useNavigate } from 'react-router-dom';
 import TipRead from '../../components/tip/TipRead';
 import Swal from 'sweetalert2';
 import { LoginContext } from '../../components/contexts/LoginContextProvider';
-import * as board from '../../apis/tips/board'; // API 모듈 임포트
+import * as board from '../../apis/tips/board';
+import styles from '../../components/tip/css/TipRead.module.css';
 
 const TipReadContainer = () => {
   const { boardNo } = useParams();
   const navigate = useNavigate();
-  const { userInfo } = useContext(LoginContext); // 컨텍스트에서 userInfo 가져오기
+  const { userInfo } = useContext(LoginContext);
   const [boardData, setBoardData] = useState(null);
   const [fileList, setFileList] = useState([]);
   const [replyList, setReplyList] = useState([]);
@@ -17,7 +18,7 @@ const TipReadContainer = () => {
   const [replyContent, setReplyContent] = useState('');
   const [editingReply, setEditingReply] = useState(null);
   const [replyParentNo, setReplyParentNo] = useState(null);
-  const [isLoading, setIsLoading] = useState(true); // 로딩 상태 추가
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     if (!boardNo) {
@@ -29,9 +30,8 @@ const TipReadContainer = () => {
 
   const fetchBoardDetails = async () => {
     try {
-      setIsLoading(true); // 로딩 시작
+      setIsLoading(true);
       const response = await axios.get(`/tip/boards/${boardNo}`);
-      console.log('Response data:', response.data); // 응답 데이터 확인
       const { board, fileList, replyList } = response.data;
       setBoardData(board);
       setFileList(fileList);
@@ -39,7 +39,19 @@ const TipReadContainer = () => {
     } catch (error) {
       console.error('Error fetching board details:', error);
     } finally {
-      setIsLoading(false); // 로딩 종료
+      setIsLoading(false);
+    }
+  };
+
+  const updateReplyCount = async () => {
+    try {
+      const response = await axios.get(`/tip/boards/${boardNo}`);
+      setBoardData(prevData => ({
+        ...prevData,
+        replyCount: response.data.board.replyCount
+      }));
+    } catch (error) {
+      console.error('Error updating reply count:', error);
     }
   };
 
@@ -97,6 +109,7 @@ const TipReadContainer = () => {
 
       setNewReply('');
       updateReplies();
+      updateReplyCount();
     } catch (error) {
       console.error('Error adding reply:', error);
     }
@@ -126,6 +139,7 @@ const TipReadContainer = () => {
       setReplyContent('');
       setReplyParentNo(null);
       updateReplies();
+      updateReplyCount();
     } catch (error) {
       console.error('Error adding reply reply:', error);
     }
@@ -135,38 +149,91 @@ const TipReadContainer = () => {
     e.preventDefault();
     try {
       const token = localStorage.getItem('token');
-      const formData = new URLSearchParams();
-      formData.append('replyContent', replyContent);
+      const userNo = userInfo?.userNo;
+      if (!userNo) {
+        console.error('User number not found');
+        return;
+      }
+      const formData = {
+        replyNo: editingReply,
+        replyContent: replyContent,
+        userNo: userNo,
+        parentNo: replyList.find(reply => reply.replyNo === editingReply)?.parentNo || 0
+      };
 
-      await axios.put(`/tip/replies/${editingReply}`, formData.toString(), {
+      const response = await axios.put(`/reply/${editingReply}`, formData, {
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
+          'Content-Type': 'application/json',
           'Authorization': token ? `Bearer ${token}` : ''
         }
       });
 
+      const updatedReply = response.data;
+
+      setReplyList((prevReplies) =>
+        prevReplies.map((reply) =>
+          reply.replyNo === editingReply ? { ...reply, replyContent: replyContent, replyRegDate: new Date().toISOString() } : reply
+        )
+      );
+
       setReplyContent('');
       setEditingReply(null);
-      updateReplies();
+      updateReplyCount();
     } catch (error) {
       console.error('Error editing reply:', error);
     }
   };
 
-  const handleReplyDelete = async (replyNo) => {
-    try {
-      const token = localStorage.getItem('token');
-      await axios.delete(`/tip/replies/${replyNo}`, {
-        headers: {
-          'Authorization': token ? `Bearer ${token}` : ''
-        }
-      });
-
-      updateReplies();
-    } catch (error) {
-      console.error('Error deleting reply:', error);
-    }
+  const handleReplyDeleteConfirm = (replyNo) => {
+    Swal.fire({
+      title: '댓글을 삭제하시겠습니까?',
+      text: '삭제하면 되돌릴 수 없습니다.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: '삭제',
+      cancelButtonText: '취소'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        handleReplyDelete(replyNo);
+      }
+    });
   };
+
+  const deleteAllChildReplies = async (replyNo, token) => {
+    const childReplies = replyList.filter(reply => reply.parentNo === replyNo);
+    for (const childReply of childReplies) {
+        await deleteAllChildReplies(childReply.replyNo, token); // 재귀 호출로 모든 자식 답글 삭제
+        await axios.delete(`/reply/${childReply.replyNo}`, {
+            headers: {
+                'Authorization': token ? `Bearer ${token}` : ''
+            }
+        });
+    }
+};
+
+  const handleReplyDelete = async (replyNo) => {
+      try {
+          const token = localStorage.getItem('token');
+          
+          // 재귀적으로 모든 자식 답글 삭제
+          await deleteAllChildReplies(replyNo, token);
+
+          // 부모 답글 삭제
+          await axios.delete(`/reply/${replyNo}`, {
+              headers: {
+                  'Authorization': token ? `Bearer ${token}` : ''
+              }
+          });
+
+          // 업데이트된 댓글 목록 및 댓글 수를 다시 가져옵니다.
+          updateReplies();
+          updateReplyCount();
+
+      } catch (error) {
+          console.error('Error deleting reply:', error);
+      }
+  };
+
 
   const handleLike = async (event) => {
     const boardNo = event.currentTarget.getAttribute('data-board-no');
@@ -185,15 +252,12 @@ const TipReadContainer = () => {
       }
 
       const responseData = response.data;
-      console.log('Like response:', responseData);
-
       if (responseData.success) {
         alert('추천이 완료되었습니다.');
-        fetchBoardDetails(); // 최신 데이터로 갱신
+        fetchBoardDetails();
       } else {
         alert(responseData.message);
       }
-
     } catch (error) {
       console.error('Error liking the board:', error);
       alert(`추천 중 오류가 발생했습니다: ${error.message}`);
@@ -210,29 +274,64 @@ const TipReadContainer = () => {
   };
 
   const renderReplies = (replies) => {
-    const sortedReplies = replies.sort((a, b) => a.parentNo - b.parentNo);
-    return sortedReplies.map((reply) => (
-      <div key={reply.replyNo} className={reply.parentNo ? 'reply answer' : 'reply'}>
+    const renderReply = (reply, level = 0) => (
+      <div key={reply.replyNo} className={`${reply.parentNo ? styles.answer : styles.reply}`} style={{ marginLeft: `${level * 20}px` }}>
         <p><strong>{reply.userId}</strong></p>
         {editingReply === reply.replyNo ? (
-          <form onSubmit={handleReplyEditSubmit}>
-            <textarea value={replyContent} onChange={(e) => setReplyContent(e.target.value)} />
-            <button type="submit">저장</button>
-            <button type="button" onClick={() => setEditingReply(null)}>취소</button>
-          </form>
+          <form onSubmit={handleReplyEditSubmit} className={styles.editForm}>
+          <textarea 
+            value={replyContent} 
+            onChange={(e) => setReplyContent(e.target.value)} 
+            className={`form-control mb-2 ${styles.textareaNoResize}`} 
+            rows="3" 
+          />
+          <div className={`${styles.buttonContainer} d-flex justify-content-end gap-2`}>
+            <button type="submit" className={`${styles.saveButton} btn btn-primary`}>저장</button>
+            <button type="button" className={`${styles.cancelButton} btn btn-secondary`} onClick={() => setEditingReply(null)}>취소</button>
+          </div>
+        </form>
         ) : (
           <>
             <p>{reply.replyContent}</p>
-            <div className="comment-actions">
-              <span>{new Date(reply.replyRegDate).toLocaleDateString()}</span>
+            <div className={styles['comment-actions']}>
+              <span className={styles.date}>{new Date(reply.replyRegDate).toLocaleDateString()}</span>
               <button type="button" onClick={() => { setReplyParentNo(reply.replyNo); setReplyContent(''); }}>답글달기</button>
               <button type="button" onClick={() => { setEditingReply(reply.replyNo); setReplyContent(reply.replyContent); }}>수정</button>
-              <button type="button" onClick={() => handleReplyDelete(reply.replyNo)}>삭제</button>
+              <button type="button" onClick={() => handleReplyDeleteConfirm(reply.replyNo)}>삭제</button>
             </div>
+            {replyParentNo === reply.replyNo && (
+              <div className={styles['reply-reply-container']}>
+                <h3 className={styles['reply-reply-title']}>답글</h3>
+                <form className={styles['reply-reply-input']} onSubmit={handleReplyReplySubmit}>
+                  <textarea value={replyContent} onChange={(e) => setReplyContent(e.target.value)} className={`form-control mb-2 ${styles.textareaNoResize}`} />
+                  <button type="submit" className={styles.submitButton}>답글 등록</button>
+                  <button type="button" className={styles.cancelButton} onClick={() => setReplyParentNo(null)}>취소</button>
+                </form>
+              </div>
+            )}
           </>
         )}
       </div>
-    ));
+    );
+  
+    const sortedReplies = replies.sort((a, b) => a.parentNo - b.parentNo);
+    const replyElements = [];
+    const parentReplies = sortedReplies.filter(reply => reply.parentNo === 0);
+    const childReplies = sortedReplies.filter(reply => reply.parentNo !== 0);
+  
+    const renderNestedReplies = (parentReply, level) => {
+      replyElements.push(renderReply(parentReply, level));
+      const children = childReplies.filter(reply => reply.parentNo === parentReply.replyNo);
+      children.forEach(childReply => {
+        renderNestedReplies(childReply, level + 1);
+      });
+    };
+  
+    parentReplies.forEach(parentReply => {
+      renderNestedReplies(parentReply, 0);
+    });
+  
+    return replyElements;
   };
 
   const formatDate = (dateString) => {
@@ -269,7 +368,7 @@ const TipReadContainer = () => {
       setReplyParentNo={setReplyParentNo}
       editingReply={editingReply}
       setEditingReply={setEditingReply}
-      userInfo={userInfo} // 추가: userInfo를 TipRead 컴포넌트로 전달
+      userInfo={userInfo}
     />
   );
 };
