@@ -214,7 +214,7 @@ public class AdminController {
             Users user = adminService.findUserById(userNo);
             log.info(user.toString());
             List<Review> reviews = adminService.selectReviewsByUser(userNo); // 리뷰 목록 조회 추가
-            log.info("reviews" + reviews);
+            log.info("reviews: " + reviews);
             HashMap<String, Object> response = new HashMap<>();
             response.put("user", user);
             response.put("reviews", reviews); // 모델에 리뷰 추가
@@ -264,8 +264,8 @@ public class AdminController {
     }
 
     // 관리자 - 회원 삭제 처리
-    @DeleteMapping("/adminUserDelete/{userNo}")
-    public ResponseEntity<?> adminUserDelete(@PathVariable("userNo") int userNo) throws Exception {
+    @DeleteMapping("/adminUserDelete")
+    public ResponseEntity<?> adminUserDelete(@RequestParam("userNo") int userNo) throws Exception {
         try {
             int result = adminService.adminDeleteUser(userNo);
             if (result > 0) {
@@ -282,13 +282,13 @@ public class AdminController {
     // 관리자 - 리뷰 삭제 처리
     @DeleteMapping("/adminReviewDelete/{reviewNo}")
     public ResponseEntity<?> adminReviewDelete(@PathVariable("reviewNo") int reviewNo) throws Exception {
+        log.info("reviewNo : " + reviewNo);
         try {
             int result = adminService.adminDeleteReview(reviewNo);
-            if (result > 0) {
+            log.info("review 삭제 : " + result);
+
                 return new ResponseEntity<>(result, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(result, HttpStatus.INTERNAL_SERVER_ERROR);
-            }
+            
         } catch (Exception e) {
             log.info("예외 발생 !!!", e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

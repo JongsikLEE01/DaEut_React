@@ -44,6 +44,7 @@ import UserMypage from './pages/user/UserMypage'
 import UserMypageUpdate from './pages/user/UserMypageUpdate'
 import UserReservation from './pages/user/UserReservation'
 import UserManagementPage from './pages/admin/UserManagementPage'
+import UserDetailPage from './pages/admin/UserDetailPage'
 
 
 
@@ -108,7 +109,9 @@ const App = () => {
 
         {/* 관리자 */}
         <Route path="/admin/adminUser" element={<UserManagementPage/>} />
+        <Route path="/admin/adminUserRead/:userNo" element={<UserDetailPage/>} />
 
+        
         </Routes>
       </LoginContextProvider>
     </BrowserRouter>
