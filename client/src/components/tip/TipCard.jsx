@@ -2,11 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from '../tip/css/TipIndex.module.css';
 
-const TipCard = ({ board, isLoggedIn }) => {
-  const [thumbnailUrl, setThumbnailUrl] = useState('/img/no-img.png'); // 기본 이미지 설정
+const TipCard = ({ board }) => {
+  const [thumbnailUrl, setThumbnailUrl] = useState('/img/no-img.png');
 
   useEffect(() => {
-    // fileList에서 fileCode가 1인 파일을 찾아서 썸네일 URL 설정
     if (board.fileList && board.fileList.length > 0) {
       const thumbnailFile = board.fileList.find(file => file.fileCode === 1);
       if (thumbnailFile) {
@@ -15,12 +14,8 @@ const TipCard = ({ board, isLoggedIn }) => {
     }
   }, [board.fileList]);
 
-  const handleClick = (e) => {
-    e.stopPropagation();
-  };
-
   return (
-    <div className={styles.card} onClick={handleClick}>
+    <div className={styles.card}>
       <div className={styles.cardContent}>
         <Link to={`/tip/boards/${board.boardNo}`}>
           <img src={thumbnailUrl} alt="썸네일" className={styles.thumbnail} />

@@ -5,6 +5,7 @@ import TipIndex from '../../components/tip/TipIndex';
 const IndexContainer = () => {
   const [boardList, setBoardList] = useState([]);
   const [filteredBoardList, setFilteredBoardList] = useState([]);
+  const [fileList, setFileList] = useState([]); // fileList 상태 추가
   const [isLoading, setIsLoading] = useState(true);
   const [page, setPage] = useState({
     first: 1,
@@ -31,10 +32,12 @@ const IndexContainer = () => {
           keyword: keyword,
         };
         const response = await list(params);
-        const { boardList, optionList, page: newPage, sort: newSort } = response.data;
-        console.log(response.data); // 데이터 확인용 로그
+        const { boardList, optionList, page: newPage, sort: newSort, fileList } = response.data;
+        console.log('Response Data:', response.data); // 데이터 확인용 로그
+  
         setBoardList(Array.isArray(boardList) ? boardList : []); // boardList가 배열인지 확인
         setFilteredBoardList(Array.isArray(boardList) ? boardList : []); // 초기 필터링 목록 설정
+        setFileList(Array.isArray(fileList) ? fileList : []); // fileList 설정
         setOptionList(optionList || []);
         setPage(newPage || page);
         setSort(newSort || sort);
@@ -42,13 +45,15 @@ const IndexContainer = () => {
         console.error('Error fetching data:', error);
         setBoardList([]);
         setFilteredBoardList([]);
+        setFileList([]);
       } finally {
         setIsLoading(false);
       }
     };
-
+  
     fetchData();
   }, [page.page, sort, selectedOption, keyword]);
+  
 
   const handlePageChange = (newPage) => {
     setPage(prevState => ({
@@ -79,6 +84,7 @@ const IndexContainer = () => {
       handlePageChange={handlePageChange}
       handleSearch={handleSearch}
       setSort={setSort}
+      fileList={fileList} // fileList 전달
     />
   );
 };

@@ -23,9 +23,9 @@
   justify-content: center;
 }
 
-.verticalLine { /* 클래스명 수정 */
+.verticalLine { 
   border-left: 1px solid #e1e1e1 !important;
-  height: 40px; /* 높이 조정 */
+  height: 40px; 
   margin-left: 10px;
   margin-right: 10px;
 }

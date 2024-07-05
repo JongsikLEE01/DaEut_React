@@ -5,9 +5,10 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import com.aloha.server.tip.dto.Option2;
+import com.aloha.server.main.dto.Files;
 import com.aloha.server.main.dto.Page;
 import com.aloha.server.tip.dto.Board;
+import com.aloha.server.tip.dto.Option2;
 
 @Mapper
 public interface BoardMapper {
@@ -44,4 +45,8 @@ public interface BoardMapper {
     // public List<Board> findTop5ByBoardViews();
 
     public void incrementBoardLike(int boardNo) throws Exception;
+
+    public Files SelectThumbnail(int boardNo) throws Exception;
+
+    public List<Files> SelectFiles(int boardNo) throws Exception;
 }

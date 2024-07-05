@@ -2,9 +2,10 @@ package com.aloha.server.tip.service;
 
 import java.util.List;
 
-import com.aloha.server.tip.dto.Option2;
+import com.aloha.server.main.dto.Files;
 import com.aloha.server.main.dto.Page;
 import com.aloha.server.tip.dto.Board;
+import com.aloha.server.tip.dto.Option2;
 
 public interface BoardService {
     
@@ -33,4 +34,8 @@ public interface BoardService {
 
     // 좋아요 수 증가
     public void incrementBoardLike(int boardNo, int userNo) throws Exception;
+
+    public Files SelectThumbnail(int boardNo) throws Exception;
+
+    public List<Files> SelectFiles(int boardNo) throws Exception;
 }

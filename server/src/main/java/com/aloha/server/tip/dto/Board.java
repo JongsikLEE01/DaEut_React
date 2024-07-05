@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.aloha.server.main.dto.Files;
+
 import lombok.Data;
 
 @Data
@@ -30,5 +32,8 @@ public class Board {
     private int fileNo;
 
     // private List<Integer> likedUsers;
+
+    // 파일 목록 추가
+    private List<Files> fileList;
     
 }
