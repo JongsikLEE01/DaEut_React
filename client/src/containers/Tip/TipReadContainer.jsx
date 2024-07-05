@@ -202,7 +202,7 @@ const TipReadContainer = () => {
   const deleteAllChildReplies = async (replyNo, token) => {
     const childReplies = replyList.filter(reply => reply.parentNo === replyNo);
     for (const childReply of childReplies) {
-        await deleteAllChildReplies(childReply.replyNo, token); // 재귀 호출로 모든 자식 답글 삭제
+        await deleteAllChildReplies(childReply.replyNo, token); 
         await axios.delete(`/reply/${childReply.replyNo}`, {
             headers: {
                 'Authorization': token ? `Bearer ${token}` : ''
@@ -215,17 +215,14 @@ const TipReadContainer = () => {
       try {
           const token = localStorage.getItem('token');
           
-          // 재귀적으로 모든 자식 답글 삭제
           await deleteAllChildReplies(replyNo, token);
 
-          // 부모 답글 삭제
           await axios.delete(`/reply/${replyNo}`, {
               headers: {
                   'Authorization': token ? `Bearer ${token}` : ''
               }
           });
 
-          // 업데이트된 댓글 목록 및 댓글 수를 다시 가져옵니다.
           updateReplies();
           updateReplyCount();
 
@@ -253,7 +250,6 @@ const TipReadContainer = () => {
       const responseData = response.data;
       if (responseData.success) {
         alert('추천이 완료되었습니다.');
-        // 게시글 전체 데이터를 다시 가져오는 대신, 추천 수만 업데이트합니다.
         setBoardData(prevData => ({
           ...prevData,
           boardLike: prevData.boardLike + 1
@@ -282,25 +278,29 @@ const TipReadContainer = () => {
         <p><strong>{reply.userId}</strong></p>
         {editingReply === reply.replyNo ? (
           <form onSubmit={handleReplyEditSubmit} className={styles.editForm}>
-          <textarea 
-            value={replyContent} 
-            onChange={(e) => setReplyContent(e.target.value)} 
-            className={`form-control mb-2 ${styles.textareaNoResize}`} 
-            rows="3" 
-          />
-          <div className={`${styles.buttonContainer} d-flex justify-content-end gap-2`}>
-            <button type="submit" className={`${styles.saveButton} btn btn-primary`}>저장</button>
-            <button type="button" className={`${styles.cancelButton} btn btn-secondary`} onClick={() => setEditingReply(null)}>취소</button>
-          </div>
-        </form>
+            <textarea 
+              value={replyContent} 
+              onChange={(e) => setReplyContent(e.target.value)} 
+              className={`form-control mb-2 ${styles.textareaNoResize}`} 
+              rows="3" 
+            />
+            <div className={`${styles.buttonContainer} d-flex justify-content-end gap-2`}>
+              <button type="submit" className={`${styles.saveButton} btn btn-primary`}>저장</button>
+              <button type="button" className={`${styles.cancelButton} btn btn-secondary`} onClick={() => setEditingReply(null)}>취소</button>
+            </div>
+          </form>
         ) : (
           <>
             <p>{reply.replyContent}</p>
             <div className={styles['comment-actions']}>
               <span className={styles.date}>{new Date(reply.replyRegDate).toLocaleDateString()}</span>
               <button type="button" onClick={() => { setReplyParentNo(reply.replyNo); setReplyContent(''); }}>답글달기</button>
-              <button type="button" onClick={() => { setEditingReply(reply.replyNo); setReplyContent(reply.replyContent); }}>수정</button>
-              <button type="button" onClick={() => handleReplyDeleteConfirm(reply.replyNo)}>삭제</button>
+              {reply.userId === userInfo.userId && (
+                <>
+                  <button type="button" onClick={() => { setEditingReply(reply.replyNo); setReplyContent(reply.replyContent); }}>수정</button>
+                  <button type="button" onClick={() => handleReplyDeleteConfirm(reply.replyNo)}>삭제</button>
+                </>
+              )}
             </div>
             {replyParentNo === reply.replyNo && (
               <div className={styles['reply-reply-container']}>
@@ -336,6 +336,7 @@ const TipReadContainer = () => {
   
     return replyElements;
   };
+  
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -349,7 +350,7 @@ const TipReadContainer = () => {
   };
 
   if (isLoading) {
-    return <p>Loading...</p>; // 로딩 중 메시지
+    return <p>Loading...</p>;
   }
 
   return (
