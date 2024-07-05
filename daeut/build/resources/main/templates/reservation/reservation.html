@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{/layout/reserv_layout}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Da E ut</title>
+</head>
+
+<body layout:fragment="content">
+   
+    <div class="container">
+        <section style="width: 1250px;">
+            <div class="reservationTitles">
+                <h3 class="reservation-title">생활 속 편리함</h3>
+                <div class="reservation-container">
+                    <h2 class="reservation-subtitle">깔끔한 생활 도우미 예약 서비스</h2>
+                    <th:block sec:authorize="hasRole('ROLE_PARTNER') and hasRole('ROLE_USER') and !hasRole('ROLE_ADMIN')">
+                        <a href="/reservation/reservationInsert" class="reservation-insert-link"><button
+                                class="sessuce">글쓰기</button></a>
+                    </th:block>
+                </div>
+            </div>
+            <!-- 카드영역 -->
+            <div class="reservation-card-grid">
+                <div class="col" th:each="service : ${serviceList}">
+                    <div class="card-reservation-thumbnail">
+                        <div class="thumbnail-reservation">
+
+                            <th:block th:if="${serviceList.isEmpty()}">
+                                <span>조회된 게시글 정보가 없습니다.</span>
+                            </th:block>
+                            
+                            <th:block th:if="${!serviceList.isEmpty()}">
+                                <!-- 카테고리 -->
+                                <div class="servie-tag">
+                                    <span class="reserve-sertvice-tag" th:text="${service.serviceCategory}"></span>
+                                </div>
+                                
+                                <!-- 이미지 -->
+                                <a id="img_link" th:href="|/reservation/reservationRead?serviceNo=${service.serviceNo}|">
+                                    <img th:src="|/file/img/${service.fileNo}|" alt="썸네일" width="365px" height="245px">
+                                </a>
+                            </th:block>
+                        </div>
+
+                        <div class="card-body">
+                            <!-- 서비스 이름 -->
+                            <label for="img_link" class="partner-title" th:text="${service.serviceName}"></label>
+                            <!-- 유저(파트너) 이름 -->
+                            <p class="partner-name" th:text="${service.userName}"></p>
+                        </div>
+                    </div>
+                </div>
+                <!-- 나머지 카드들도 동일하게 설정 -->
+            </div>
+        </section>
+
+
+        <!-- 제목만 검색  -->
+        <div class="search-container">
+            <form action="/reservation/reservation" method="git">
+                <input type="text" name="keyword" placeholder="검색어를 입력하세요" th:value="${param.keyword}">
+                <button type="submit">검색</button>
+            </form>
+        </div>
+
+        <!-- 페이징 -->
+        <div class="pagination d-flex align-items-center">
+            <!-- 처음 -->
+            <a th:href="|/reservation/reservation?page=${servicePage.first}&keyword=${option.keyword}|">&laquo;</a> 
+            <!-- 이전 -->
+            <a th:href="|/reservation/reservation?page=${servicePage.page > 1 ? servicePage.prev : servicePage.page}&keyword=${option.keyword}|">&lt;</a>  
+        
+            <th:block th:each="servicePageNo : ${servicePage.start} <= ${servicePage.end} ? ${#numbers.sequence(servicePage.start, servicePage.end)} : ${servicePage.start}">
+                <!-- 현재페이지 -->
+                <th:block th:if="${servicePage.page == servicePageNo}">
+                    <a th:classappend="'active'" th:href="|/reservation/reservation?page=${servicePageNo}&keyword=${option.keyword}|" th:text="${servicePageNo}"></a>
+                </th:block>
+                <!-- 다른 페이지 -->
+                <th:block th:if="${servicePage.page != servicePageNo}">
+                    <a th:href="|/reservation/reservation?page=${servicePageNo}&keyword=${option.keyword}|" th:text="${servicePageNo}"></a>
+                </th:block> 
+            </th:block>
+        
+            <!-- 다음 -->
+            <a th:href="|/reservation/reservation?page=${servicePage.page < servicePage.last ? servicePage.next : servicePage.page}&keyword=${option.keyword}|">&gt;</a>
+            <!-- 마지막 -->
+            <a th:href="|/reservation/reservation?page=${servicePage.last}&keyword=${option.keyword}|">&raquo;</a>
+        </div>
+    </div>
+
+</body>
+
+</html>

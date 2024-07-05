@@ -1,0 +1,139 @@
+<!-- 일반 헤더-->
+<th:block th:fragment="header">
+    <header>
+        <nav class="navbar navbar-expand-lg">
+            <a class="navbar-brand" href="/">
+                <img src="/img/logo_w.png" alt="DA E UT 로고">
+            </a>
+            <button class="navbar-toggler" id="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fa-solid fa-bars" id="menu-icon"></i>
+            </button>
+
+            <!-- 비 로그인 시 -->
+            <th:block sec:authorize="isAnonymous()">
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/reservation/reservation">예약</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/tip/index">팁</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/auth/member">로그인</a>
+                        </li>
+                    </ul>
+                </div>
+            </th:block>
+
+            <!-- 일반 사용자 로그인 시 -->
+            <th:block sec:authorize="hasRole('ROLE_USER') and !hasRole('ROLE_PARTNER') and !hasRole('ROLE_ADMIN')">
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/reservation/reservation">예약</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/tip/index">팁</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="Dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                마이페이지
+                            </a>
+                            <ul class="dropdown-menu custom-dropdown-width" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="/user/userMypage">내 정보 변경</a></li>
+                                <li><a class="dropdown-item" href="/user/userReservation">내 예약 보기</a></li>
+                                <li><a class="dropdown-item" href="/user/userReview">리뷰 작성</a></li>
+                                <li><a class="dropdown-item" href="/user/userChatRoom">채팅 내역</a></li>
+                                <li><a class="dropdown-item" href="/user/userPartner">파트너 신청</a></li>
+                                <li><a class="dropdown-item" href="/user/userCart">장바구니</a></li>
+                                <li>
+                                    <a class="dropdown-item" href="#">
+                                        <form action="/logout" method="post">
+                                            <!-- CSRF TOKEN -->
+                                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                                            <li class="nav-item">
+                                                <button type="submit" class="logout">로그아웃</button>
+                                            </li>
+                                        </form>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </th:block>
+
+            <!-- 파트너 권한 -->
+            <th:block sec:authorize="hasRole('ROLE_PARTNER') and !hasRole('ROLE_ADMIN')">
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/reservation/reservation">예약</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/tip/index">팁</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="Dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                마이페이지
+                            </a>
+                            <ul class="dropdown-menu custom-dropdown-width" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="/partner/partnerMypage">내 정보 변경</a></li>
+                                <li><a class="dropdown-item" href="/partner/partnerReservation">내 예약 보기</a></li>
+                                <li><a class="dropdown-item" href="/partner/partnerReview">내 리뷰 보기</a></li>
+                                <li><a class="dropdown-item" href="/partner/partnerChatRoom">채팅 내역</a></li>
+                                <li>
+                                    <a class="dropdown-item" href="#">
+                                        <form action="/logout" method="post">
+                                            <!-- CSRF TOKEN -->
+                                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                                            <li class="nav-item">
+                                                <button type="submit" class="logout">로그아웃</button>
+                                            </li>
+                                        </form>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </th:block>
+
+            <!-- 관리자 권한 -->
+            <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin/adminReservation">예약 관리</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/tip/index">팁 관리</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="Dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                관리
+                            </a>
+                            <ul class="dropdown-menu custom-dropdown-width admin-header" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="/admin/adminUser">유저 관리</a></li>
+                                <li><a class="dropdown-item" href="/admin/adminPartner">파트너 관리</a></li>
+                                <li><a class="dropdown-item" href="/admin/adminReservation">예약 관리</a></li>
+                                <li>
+                                    <a class="dropdown-item" href="#">
+                                        <form action="/logout" method="post">
+                                            <!-- CSRF TOKEN -->
+                                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                                            <li class="nav-item">
+                                                <button type="submit" class="logout">로그아웃</button>
+                                            </li>
+                                        </form>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </th:block>
+        </nav>
+    </header>
+</th:block>

@@ -22,6 +22,7 @@ public class Payments {
     private Date serviceDate;
     private String title;
     private String serviceAddress;
+    private String serviceName;
     private int serviceNo;
     private int partnerNo;
 }
