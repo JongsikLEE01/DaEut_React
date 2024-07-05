@@ -26,7 +26,7 @@ const ReservRead = ({ ordersNo }) => {
                 console.log("ordersNo :: ", ordersNo);
                 
                 setReservationData(data);
-                setRefundData(data.cancel); // Assuming 'cancel' contains the refund information
+                setRefundData(data.cancel); 
             } catch (error) {
                 console.error('Error fetching reservation data', error);
             }
