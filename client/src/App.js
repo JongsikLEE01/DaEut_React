@@ -45,10 +45,11 @@ import UserPartner from './pages/user/UserPartner'
 import UserCart from './pages/user/UserCart'
 import UserCancel from './pages/user/UserCancel'
 import UserCancelDone from './pages/user/UserCancelDone'
-import UserDetailPage from './pages/admin/UserDetailPage'
 import UserUpdatePage from './pages/admin/UserUpdatePage'
 import ReservationManagePage from './pages/admin/ReservationManagePage'
+import ReservationReadPage from './pages/admin/ReservationReadPage'
 import PartnerChatList from './components/partner/PartnerChatList'
+import UserDetailPage from './pages/admin/UserDetailPage'
 
 const App = () => {
   return (
@@ -121,7 +122,7 @@ const App = () => {
           <Route path="/admin/adminUserRead/:userNo" element={<UserDetailPage/>} />
           <Route path="/admin/adminUserUpdate/:userNo" element={<UserUpdatePage />} />
           <Route path="/admin/adminReservation" element={<ReservationManagePage />} />
-
+          <Route path="/admin/adminReservationRead/:ordersNo" element={<ReservationReadPage/>} />
         </Routes>
       </LoginContextProvider>
     </BrowserRouter>

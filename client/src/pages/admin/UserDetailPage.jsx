@@ -2,17 +2,17 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import MainLayout from '../../layouts/MainLayout';
-import UserDetail from '../../containers/admin/UserDetail';
+import UserReadContainer from '../../containers/Admin/UserReadContainer'
 
-const UserReadContainer = () => {
+const UserDetailPage = () => {
     const { userNo } = useParams()
 
     return (
         <MainLayout>
-            <UserDetail userNo={userNo} />;
+            <UserReadContainer userNo={userNo} />;
         </MainLayout>
     )
     
 };
 
-export default UserReadContainer;
+export default UserDetailPage;
