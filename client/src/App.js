@@ -39,7 +39,10 @@ import UserMypage from './pages/user/UserMypage'
 import UserMypageUpdate from './pages/user/UserMypageUpdate'
 import UserReservation from './pages/user/UserReservation'
 import UserReview from './pages/user/UserReview'
+import UserChatRoom from './pages/user/UserChatRoom'
 import UserManagementPage from './pages/admin/UserManagementPage'
+import UserPartner from './pages/user/UserPartner'
+import UserCart from './pages/user/UserCart'
 import UserCancel from './pages/user/UserCancel'
 import UserCancelDone from './pages/user/UserCancelDone'
 import UserDetailPage from './pages/admin/UserDetailPage'
@@ -102,6 +105,13 @@ const App = () => {
           <Route path="/user/UserMypageUpdate" element={<UserMypageUpdate />} />
           <Route path="/user/UserReservation" element={<UserReservation />} />
           <Route path="/user/UserReview" element={<UserReview/>} />
+          <Route path="/user/UserChatRoom" element={<UserChatRoom/> }/>
+          <Route path="/user/UserPartner" element={<UserPartner/> } />
+          <Route path="/user/UserCart" element={<UserCart/> } />
+          
+
+          {/* 관리자 */}
+          <Route path="/admin/adminUser" element={<UserManagementPage/>} />
             
           <Route path="/cancel/:ordersNo" element={<UserCancel />} />
           <Route path="/cancelDone/:ordersNo" element={<UserCancelDone />} />
