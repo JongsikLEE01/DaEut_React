@@ -15,7 +15,7 @@ import LoginContextProvider from './components/contexts/LoginContextProvider'
 import FindIdPage from './pages/auth/FindIdPage'
 import DoneFindIdPage from './pages/auth/DoneFindIdPage'
 import Order from './pages/Order/Payment'
-import PartnerList from './pages/partner/PartnerList'
+import PartnerMypage from './pages/partner/PartnerMypage'
 import PartnerReview from './pages/partner/PartnerReview'
 import PartnerUpdate from './pages/partner/PartnerUpdate'
 import PartnerReservation from './pages/partner/PartnerReservation'
@@ -79,12 +79,13 @@ const App = () => {
           <Route path='/tip/tipUpdate' element={<TipUpdate/>}></Route>
           
           {/*  파트너 */}
-          <Route path="/partnerList/:userNo" element={<PartnerList/>}/>
+          <Route path="/partnerMypage/:userNo" element={<PartnerMypage/>}/>
           <Route path="/partner/reservation/:partnerNo" element={<PartnerReservation/>}/>
           <Route path="/partner/reviews/:partnerNo" element={<PartnerReview/>}/>
           <Route path="/partner/reservationRead/:ordersNo" element={<PartnerReservationRead/>}/>
+          <Route path="/partner/partnerUpdate/:userNo" element={<PartnerUpdate/>}/>
           <Route path="/partner/partnerChatRoom" element={<PartnerChatList />} />
-          {/* <Route path="PartnerUpdate" element={<PartnerUpdate/>}/> */}
+
 
           {/* 소셜로그인 */}
           <Route path="/oauth2/redirect" element={<OAuth2RedirectHandler />} />

@@ -10,6 +10,7 @@ import ReadReview from '../../components/Service/ReadReview'
 import ReadContent from '../../components/Service/ReadContent'
 import { useNavigate } from 'react-router-dom'
 import * as Swal from '../../apis/alert'
+import ServiceCalendar from '../../components/Service/ServiceCalendar'
 
 const ServiceReadContainer = ({ serviceNo }) => {
   const navigate = useNavigate()
@@ -31,8 +32,6 @@ const ServiceReadContainer = ({ serviceNo }) => {
       const partner = data.pUsers          // 서버 응답에서 파트너를 가져옴
       const partnerInfo = data.partner     // 서버 응답에서 파트너 정보를 가져옴
       const pthumbnail = data.pthumbnail   // 서버 응답에서 파트너 정보를 가져옴
-
-      console.log(`serviceData ${serviceData}`);
 
       setService(serviceData)
       setFileList(files)
@@ -85,6 +84,7 @@ const ServiceReadContainer = ({ serviceNo }) => {
     }
   }
 
+
   useEffect(() => {
     getService()
   }, [])
@@ -115,6 +115,7 @@ const ServiceReadContainer = ({ serviceNo }) => {
               partnerInfo={partnerInfo}
               pthumbnail={pthumbnail}
             />
+            <ServiceCalendar serviceNo={serviceNo} />
             <ReadInfo/>
           </div>
           <ReadReview />
