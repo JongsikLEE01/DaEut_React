@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public interface ReviewService {
@@ -15,7 +16,7 @@ public interface ReviewService {
 
     public Payments getPaymentDetails(int paymentNo);
     
-    public void saveReview(Review review) throws Exception;
+    public void saveReview(Review review, MultipartFile[] files) throws Exception;
 
     public List<Review> getReviewByServiceNo(int serviceNo);
 
