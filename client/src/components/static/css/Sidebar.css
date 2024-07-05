@@ -8,6 +8,12 @@
 .sidebar.active {
   max-width: 250px; /* Width when the sidebar is open */
 }
+.sidebar a.active {
+  background-color: #e9ecef;
+  color: #8FA2CA !important;
+  border-radius: 8px;
+}
+
 
 .sidebar a {
   display: block;
@@ -20,7 +26,7 @@
 .sidebar a:hover {
   background-color: #e9ecef;
   border-radius: 8px;
-  color: #8FA2CA;
+  color: #8FA2CA !important;
 }
 
 .toggle-btn {
@@ -111,81 +117,87 @@
 /* 페이지 고정 */
 /* 관리자 */
 .partnerManage {
-  background-color: #e9ecef;
+  /* background-color: #e9ecef; */
   color: #8FA2CA !important;
   border-radius: 8px;
 }
 
 .reservationManage {
-  background-color: #e9ecef;
+  /* background-color: #e9ecef; */
   color: #8FA2CA !important;
   border-radius: 8px;
 }
 
 .userManage {
-  background-color: #e9ecef;
+  /* background-color: #e9ecef; */
   color: #8FA2CA !important;
   border-radius: 8px;
 }
 
 /* 사용자 */
 .userMypage {
-  background-color: #e9ecef;
+  /* background-color: #e9ecef; */
   color: #8FA2CA !important;
   border-radius: 8px;
 }
 
 .userReservation {
-  background-color: #e9ecef;
+  /* background-color: #e9ecef; */
   color: #8FA2CA !important;
   border-radius: 8px;
 }
 
 .userLikeTip {
-  background-color: #e9ecef;
+  /* background-color: #e9ecef; */
   color: #8FA2CA !important;
   border-radius: 8px;
 }
 
 .userReview {
-  background-color: #e9ecef;
+  /* background-color: #e9ecef; */
   color: #8FA2CA !important;
   border-radius: 8px;
 }
 
 .userChatRoom {
-  background-color: #e9ecef;
+  /* background-color: #e9ecef; */
   color: #8FA2CA !important;
   border-radius: 8px;
 }
 
 .userPartner {
-  background-color: #e9ecef;
+  /* background-color: #e9ecef; */
   color: #8FA2CA !important;
   border-radius: 8px;
 }
 
 .userCart {
-  background-color: #e9ecef;
+  /* background-color: #e9ecef; */
   color: #8FA2CA !important;
   border-radius: 8px;
 }
 
 /* 파트너 */
 .partnerMypage {
-  background-color: #e9ecef;
+  /* background-color: #e9ecef; */
   color: #8FA2CA !important;
   border-radius: 8px;
 }
 
-/* .partnerReservation {
-  background-color: #e9ecef;
+.partnerReservation {
+  /* background-color: #e9ecef; */
   color: #8FA2CA !important;
   border-radius: 8px;
-} */
+}
 
 .partnerReview {
-  background-color: #e9ecef;
+  /* background-color: #e9ecef; */
+  color: #8FA2CA !important;
+  border-radius: 8px;
+}
+
+.partnerReservation {
+  /* background-color: #e9ecef; */
   color: #8FA2CA !important;
   border-radius: 8px;
 }

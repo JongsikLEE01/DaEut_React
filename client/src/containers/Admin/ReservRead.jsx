@@ -73,6 +73,10 @@ const ReservRead = ({ ordersNo }) => {
                     <div className="mb-5">
                         <h3>예약 정보</h3>
                         <ReservationForm reservationData={reservationData}/>
+                        <div className="buttons mt-3">
+                            <Link className="btn btn-primary custom1 delBtn" to={`/admin/adminReservationUpdate/${reservationData.orders.ordersNo}`}>예약 수정</Link>
+                            <Link to="/admin/adminReservation" className="btn btn-primary custom2">목록</Link>
+                        </div>
                         {refundData && (
                             <>
                                 <h3 className="mt-5 mb-5">환불 정보</h3>
@@ -82,8 +86,7 @@ const ReservRead = ({ ordersNo }) => {
                             </>
                         )}
                         <div className="buttons mt-3">
-                            <Link className="btn btn-primary custom1 delBtn" to={`/admin/adminReservationUpdate/${reservationData.orders.ordersNo}`}>예약 수정</Link>
-                            <Link to="/admin/adminReservation" className="btn btn-primary custom2">목록</Link>
+                            
                             {refundData && (
                                 // <form className="d-inline">
                                     <button onClick={checkConfirm} className="btn btn-primary custom1 delBtn">환불 승인</button>

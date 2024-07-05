@@ -1323,3 +1323,12 @@
         width:130px !important; /* 세로 방향으로 변경 */
     }
 }
+
+.fc {
+    width: 700px;
+  }
+  
+  /* FullCalendar의 미디어 스크린 및 방향 클래스를 추가하려면 */
+  .fc.fc-media-screen.fc-direction-ltr.fc-theme-standard {
+    width: 700px;
+  }

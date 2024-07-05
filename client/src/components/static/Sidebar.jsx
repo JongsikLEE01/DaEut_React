@@ -6,13 +6,12 @@ const Sidebar = ({ isOpen, toggleSidebar, roles }) => {
     const location = useLocation();
 
     const getLinkProps = (path, baseClass) => {
-        return location.pathname === path ? { className: baseClass } : {};
+        return location.pathname === path ? { className: `${baseClass} active` } : { className: baseClass };
     };
 
     return (
         <>
-            {
-                isOpen ? 
+            {isOpen ? 
                 <button className="btn btn-danger d-block d-md-none close-btn" onClick={toggleSidebar}>닫기</button>
                 :
                 <button id="toggle-btn" className="btn btn-primary toggle-btn menu mt-2 myBtn d-md-none" onClick={toggleSidebar}>메뉴</button>
@@ -22,15 +21,15 @@ const Sidebar = ({ isOpen, toggleSidebar, roles }) => {
                     <>
                         <h5>관리</h5>
                         <br />
-                        <Link to="/admin/adminUser" {...getLinkProps('/admin/adminUser', 'adminUser')}>회원 관리</Link>
-                        <Link to="/admin/adminPartner" {...getLinkProps('/admin/adminPartner', 'adminPartner')}>파트너 관리</Link>
-                        <Link to="/admin/adminReservation" {...getLinkProps('/admin/adminReservation', 'adminReservation')}>예약 관리</Link>
+                        <Link to="/admin/adminUser" {...getLinkProps('/admin/adminUser', 'userManage')}>회원 관리</Link>
+                        <Link to="/admin/adminPartner" {...getLinkProps('/admin/adminPartner', 'partnerManage')}>파트너 관리</Link>
+                        <Link to="/admin/adminReservation" {...getLinkProps('/admin/adminReservation', 'reservationManage')}>예약 관리</Link>
                     </>
                 ) : roles.isPartner ? (
                     <>
                         <h5>마이페이지</h5>
                         <br />
-                        <Link to="/partner/partnerMypage" {...getLinkProps('/partner/partnerMypage', 'active partnerMypage')}>내 정보 변경</Link>
+                        <Link to="/partner/partnerMypage" {...getLinkProps('/partner/partnerMypage', 'partnerMypage')}>내 정보 변경</Link>
                         <Link to="/partner/partnerReservation" {...getLinkProps('/partner/partnerReservation', 'partnerReservation')}>내 예약 보기</Link>
                         <Link to="/partner/partnerReview" {...getLinkProps('/partner/partnerReview', 'partnerReview')}>내 리뷰 보기</Link>
                         <Link to="/partner/partnerChatRoom" {...getLinkProps('/partner/partnerChatRoom', 'partnerChatRoom')}>채팅 내역</Link>

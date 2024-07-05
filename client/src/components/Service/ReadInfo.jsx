@@ -4,17 +4,6 @@ const ReadInfo = () => {
   return (
     <>
       <div className="reservation-status section" id="reservation-status">
-        <h4 className="reservation-intro2">예약 현황</h4>
-        <hr className="section-underbar" />
-      <div className="calender-info">
-      {/* 캘린더 */}
-      <div id='calendar'></div>
-          <div className="calender-color-info">
-          <p><span className="color-box color-unavailable"></span>예약 불가</p>
-          <p><span className="color-box color-today"></span>오늘</p>
-          <p><span className="color-box color-selected"></span>예약일</p>
-          </div>
-        </div>
       </div>
       <div className="refund-policy section" id="refund-policy">
         <h4 className="reservation-intro3">환불 안내</h4>
