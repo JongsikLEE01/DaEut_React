@@ -43,6 +43,14 @@ const UserReservationForm = ({ order }) => {
           </div>
         )
       }
+      {
+        order.orderStatus !== '확정완료' && 
+        (
+          <div className="form-buttons">
+            <span className="btn btn-danger">{order.orderStatus}</span>
+          </div>
+        )
+      }
     </div>
   );
 };
