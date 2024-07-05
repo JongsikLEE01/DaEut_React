@@ -1,18 +1,18 @@
 // src/pages/UserDetailPage.js
 import React from 'react';
-import UserDetailContainer from '../../containers/Admin/UserDetailContainer';
 import { useParams } from 'react-router-dom';
 import MainLayout from '../../layouts/MainLayout';
+import UserDetail from '../../containers/admin/UserDetail';
 
-const UserDetailPage = () => {
+const UserReadContainer = () => {
     const { userNo } = useParams()
 
     return (
         <MainLayout>
-            <UserDetailContainer userNo={userNo} />;
+            <UserDetail userNo={userNo} />;
         </MainLayout>
     )
     
 };
 
-export default UserDetailPage;
+export default UserReadContainer;

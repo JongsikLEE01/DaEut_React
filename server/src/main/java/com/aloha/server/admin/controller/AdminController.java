@@ -231,13 +231,13 @@ public class AdminController {
     public ResponseEntity<?> adminUserUpdate(@PathVariable("userNo") int userNo) throws Exception {
         try {
             Users user = adminService.findUserById(userNo);
-            List<Review> reviews = adminService.selectReviewsByUser(userNo); // 리뷰 목록 조회 추가
+            // List<Review> reviews = adminService.selectReviewsByUser(userNo); 
             log.info("업데이트 화면이동...");
             log.info(user.toString());
 
             HashMap<String, Object> response = new HashMap<>();
             response.put("user", user);
-            response.put("reviews", reviews); // 모델에 리뷰 추가
+            // response.put("reviews", reviews); // 모델에 리뷰 추가
 
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
@@ -421,10 +421,16 @@ public class AdminController {
     public ResponseEntity<?> selectReservations(@RequestParam(value = "page", defaultValue = "1") int pageNumber) throws Exception {
         try {
             int total = adminService.countReservations();
+            log.info("-------------------total " + total);
             Page page = new Page(pageNumber, total);
             List<Orders> orderList = adminService.list(page);
+            Map<String, Object> response = new HashMap<>();
+            response.put("orderList", orderList);
             log.info("--------------------------orderList " + orderList);
-            return new ResponseEntity<>(orderList, HttpStatus.OK);
+            response.put("totalCount", total);
+            response.put("currentPage", pageNumber);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+
         } catch (Exception e) {
             log.info("예외 발생 !!!", e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
