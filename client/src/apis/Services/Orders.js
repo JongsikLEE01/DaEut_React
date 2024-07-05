@@ -2,6 +2,7 @@ import axios from "axios"
 
 // Order Axios
 export const addOrder = (userNo, serviceNo, quantity) => axios.post(`/orders`, {userNo, serviceNo, quantity})
+export const addOrders = (userNo, serviceNos, quantitys) => axios.post(`/orders/cartOrder`, {userNo, serviceNos, quantitys})
 export const getOrder = (ordersNo) => axios.get(`/orders/${ordersNo}`)
 export const payDone = (ordersNo, date, time, userAddress, userPost) => axios.get(`/orders/success`,{ params: { ordersNo, date, time, userAddress, userPost }})
 export const payFalse = (ordersNo, date, time, userAddress, userPost, errorMsg) => axios.get(`/orders/fail`, { params: { ordersNo, date, time, userAddress, userPost, errorMsg }})

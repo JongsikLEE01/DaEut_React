@@ -12,16 +12,17 @@
 2. ⭕ 주문 완료         - [GET]   "/orders/success"             - 구현
 3. ⭕ 주문 실패         - [GET]   "/orders/fail"                - 구현
 4. ⭕ 결제 하기         - [GET]   "/orders/{ordersNo}"          - 구현
-5. ⭕ 취소 하기         - [POST]  "/orders/cancel"
+5. ⭕ 취소 하기         - [POST]  "/orders/cancel"              - 구현
 
 # ChatController
 ## 채팅 경로
-1. ⭕ 채팅방 조회           - [GET]        "/chat"
-2. ⭕ 채팅 전송             - [Message]    "/chat/sendMessage"
+1. ⭕ 채팅방 조회           - [GET]        "/chat"              - 구현
+2. ⭕ 채팅 전송             - [Message]    "/chat/sendMessage"  - 구현
 
 # CartController
 ## 장바구니 경로
-1. ⭕ 장바구니 조회             - [GET]      "/cart/{userNo}"
-2. ⭕ 장바구니 추가             - [POST]     "/cart"           - 구현
+1. ⭕ 장바구니 조회             - [GET]      "/cart/{userNo}"   - 구현
+2. ⭕ 장바구니 추가             - [POST]     "/cart"            - 구현
+4. ⭕ 장바구니 선택 주문         - [POST]    "/order/cartorder"
 3. ⭕ 장바구니 선택 삭제         - [DELETE]   "/cart"
-4. ⭕ 장바구니 전체 삭제         - [DELETE]   "/cart/{userNo}"
+4. ⭕ 장바구니 전체 삭제         - [DELETE]   "/cart/{userNo}"  - 구현

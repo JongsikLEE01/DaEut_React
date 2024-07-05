@@ -91,39 +91,39 @@ public class OrderController {
         }
     }
 
-    // /**
-    //  * 장바구니 주문 등록
-    //  * @param orders
-    //  * @param session
-    //  * @param serviceNo
-    //  * @param quantity
-    //  * @return
-    //  */
-    // @PostMapping("/selected")
-    // public ResponseEntity<String> orderPost(
-    //                                     @RequestBody Orders orders,
-    //                                     @RequestParam List<String> serviceNo,
-    //                                     @RequestParam List<Integer> quantity) throws Exception {
+    /**
+     * 장바구니 주문 등록
+     * @param orders
+     * @param session
+     * @param serviceNo
+     * @param quantity
+     * @return
+     */
+    @PostMapping("/cartOrder")
+    public ResponseEntity<String> orderPost(
+                                        @RequestBody Orders orders,
+                                        @RequestParam List<String> serviceNo,
+                                        @RequestParam List<Integer> quantity) throws Exception {
 
-    //     log.info("::::::::: 주문 등록 - orderPost() ::::::::::");
-    //     log.info("serviceNo : " + serviceNo);
-    //     log.info("quantity : " + quantity);
+        log.info("::::::::: 주문 등록 - orderPost() ::::::::::");
+        log.info("serviceNo : " + serviceNo);
+        log.info("quantity : " + quantity);
 
-    //     // orders.setUserNo(user.getUserNo());
-    //     orders.setOrderStatus(OrderStatus.보류중);
+        // orders.setUserNo(user.getUserNo());
+        orders.setOrderStatus(OrderStatus.보류중);
 
-    //     // 주문 등록
-    //     int result = orderService.insert(orders);
+        // 주문 등록
+        int result = orderService.insert(orders);
 
-    //     log.info("신규 등록된 주문ID : " + orders.getOrdersNo());
-    //     if (result > 0) {
-    //         // 주문 등록 성공
-    //         return ResponseEntity.status(HttpStatus.CREATED).body("주문 성공...");
-    //     } else {
-    //         // 주문 실패
-    //         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("주문 중 오류 발생...");
-    //     }
-    // }
+        log.info("신규 등록된 주문ID : " + orders.getOrdersNo());
+        if (result > 0) {
+            // 주문 등록 성공
+            return ResponseEntity.status(HttpStatus.CREATED).body("주문 성공...");
+        } else {
+            // 주문 실패
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("주문 중 오류 발생...");
+        }
+    }
     
     /**
      * 주문 완료

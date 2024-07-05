@@ -1,8 +1,11 @@
 // UserCartForm.js
-import React from 'react'
+import React, { useContext } from 'react'
 import * as Swal from '../../apis/alert'
+import { LoginContext } from '../contexts/LoginContextProvider'
 
 const UserCartForm = ({ cartList, onDeleteSelected, onDeleteAll, onOrderSelected }) => {
+  const { userInfo } = useContext(LoginContext)
+
   const handleDeleteSelected = () => {
     const CartNos = Array.from(document.querySelectorAll('.checkbox:checked')).map(checkbox => checkbox.value)
     if (CartNos.length === 0) {
@@ -10,6 +13,17 @@ const UserCartForm = ({ cartList, onDeleteSelected, onDeleteAll, onOrderSelected
       return
     }
     onDeleteSelected(CartNos)
+  }
+
+  const handleDeleteAll = () => {
+    Swal.confirm('정말 삭제하시겠습니까?', '지금 장바구니를 비울 경우 장바구니에 저장된 모든 서비스가 사라집니다.', 'warning',(result) => {
+      // isConfirmed : 확인 버튼 클릭 여부
+      if(result.isConfirmed){
+        const userNo = userInfo.userNo
+        console.log(userNo);
+        onDeleteAll(userNo)
+      }
+    })
   }
 
   const handleOrderSelected = () => {
@@ -60,7 +74,7 @@ const UserCartForm = ({ cartList, onDeleteSelected, onDeleteAll, onOrderSelected
       </table>
       <div className="buttons">
         <button className="btn btn-danger" onClick={handleDeleteSelected}>선택 삭제</button>
-        <button className="btn btn-danger" onClick={onDeleteAll}>전체 삭제</button>
+        <button className="btn btn-danger" onClick={handleDeleteAll}>전체 삭제</button>
         <button className="btn btn-primary custom2" onClick={handleOrderSelected}>구매하기</button>
       </div>
     </div>
