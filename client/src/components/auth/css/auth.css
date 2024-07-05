@@ -299,7 +299,7 @@ input[type="password"] {
   height: 46px !important;
   background-color: #212529 !important;
   color: white !important;
-  line-height: 50%;
+  /* line-height: 50%; */
 }
 
 .inputAuth {
