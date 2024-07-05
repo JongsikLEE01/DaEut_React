@@ -27,3 +27,6 @@ export const getReservations = async (page = 1) => api.get('/admin/adminReservat
 
 // 특정 예약 조회
 export const getReservationDetails = async (ordersNo) => api.get(`/admin/adminReservationRead/${ordersNo}`)
+
+// 환불 승인
+export const checkCancel = ( ordersNo ) => axios.get(`/admin/adminReservationCancel`,  {params: {ordersNo}} )

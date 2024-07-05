@@ -1,12 +1,12 @@
-import React from 'react';
-import ReservLabel from './ReservLabel';
+import React from 'react'
+import ReservLabel from './ReservLabel'
 
 const RefundInfo = ({ refundData }) => {
     if (!refundData) {
-        return null; // refundData가 null인 경우 아무것도 렌더링하지 않습니다.
+        return null // refundData가 null인 경우 아무것도 렌더링하지 않습니다.
     }
 
-    const { cancelDate, cancelAmount, cancelAccount, cancelNumber, cancelName, reason } = refundData;
+    const { cancelDate, cancelAmount, cancelAccount, cancelNumber, cancelName, reason } = refundData
 
     return (
         <div className="card mt-5">
@@ -39,7 +39,7 @@ const RefundInfo = ({ refundData }) => {
                 </div>
             </div>
         </div>
-    );
-};
+    )
+}
 
-export default RefundInfo;
+export default RefundInfo
