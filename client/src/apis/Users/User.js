@@ -49,4 +49,6 @@ export const submitUserReview = (reviewData) => {
 
 export const getUserChatRooms = () => api.get('/user/userChatRoom')
 
-export const UserPartner = () => api.get('/user/userPartner')
+export const getUserPartnerDetails = () => api.get('/user/userPartner');
+
+export const submitPartnerRequest = (formData) => api.post('/user/request-partner', formData)

@@ -47,6 +47,7 @@ import UserReview from './pages/user/UserReview'
 import UserChatRoom from './pages/user/UserChatRoom'
 import UserManagementPage from './pages/admin/UserManagementPage'
 import UserPartner from './pages/user/UserPartner'
+import UserCart from './pages/user/UserCart'
 
 
 
@@ -107,6 +108,7 @@ const App = () => {
           <Route path="/user/UserReview" element={<UserReview/>} />
           <Route path="/user/UserChatRoom" element={<UserChatRoom/> }/>
           <Route path="/user/UserPartner" element={<UserPartner/> } />
+          <Route path="/user/UserCart" element={<UserCart/> } />
           
 
           {/* 관리자 */}
