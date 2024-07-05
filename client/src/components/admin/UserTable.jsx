@@ -1,13 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-const UserTable = ({ users }) => {
-    const toggleAllCheckboxes = (source) => {
-        const checkboxes = document.querySelectorAll('.checkbox')
-        checkboxes.forEach((checkbox) => {
-            checkbox.checked = source.checked
-        })
-    }
+const UserTable = ({ users, toggleAllCheckboxes }) => {
+    
 
     if (!Array.isArray(users)) {
         return <p>사용자 데이터가 올바르지 않습니다.</p>
@@ -24,7 +19,7 @@ const UserTable = ({ users }) => {
                         <th width="80">전화번호</th>
                         <th width="200">등록 일자</th>
                         <th width="30" name="allCheck">
-                            <input type="checkbox" className="checkbox" id="allCheck" onClick={(e) => toggleAllCheckboxes(e.target)} />
+                            <input type="checkbox" className="checkbox" id="allCheck" onClick={toggleAllCheckboxes} />
                         </th>
                     </tr>
                 </thead>
