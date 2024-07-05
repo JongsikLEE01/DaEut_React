@@ -12,10 +12,8 @@ import ServiceInsert from './pages/Service/ServiceInsert'
 import ServiceUpdate from './pages/Service/ServiceUpdate'
 import LoginPage from './pages/auth/LoginPage'
 import LoginContextProvider from './components/contexts/LoginContextProvider'
-import 'bootstrap/dist/css/bootstrap.min.css'
 import FindIdPage from './pages/auth/FindIdPage'
 import DoneFindIdPage from './pages/auth/DoneFindIdPage'
-// import LoginContextProvider from './contexts/LoginContextProvider'
 import Order from './pages/Order/Payment'
 import PartnerList from './pages/partner/PartnerList'
 import PartnerReview from './pages/partner/PartnerReview'
@@ -32,10 +30,7 @@ import TipUpdate from './pages/Tip/TipUpdate'
 import SingUpPage from './pages/auth/SingUpPage'
 import AdminSignUpPage from './pages/auth/AdminSignUpPage'
 import SignUpCompletePage from './pages/auth/SignUpCompletePage'
-
 import OAuth2RedirectHandler from './components/auth/OAuth2RedirectHandler'
-
-
 import Payment from './pages/Order/Payment'
 import Done from './pages/Order/Done'
 import False from './pages/Order/False'
@@ -51,9 +46,6 @@ import UserDetailPage from './pages/admin/UserDetailPage'
 import UserUpdatePage from './pages/admin/UserUpdatePage'
 import ReservationManagePage from './pages/admin/ReservationManagePage'
 import PartnerChatList from './components/partner/PartnerChatList'
-
-
-
 
 const App = () => {
   return (
@@ -87,7 +79,7 @@ const App = () => {
           <Route path="/partner/reservation/:partnerNo" element={<PartnerReservation/>}/>
           <Route path="/partner/reviews/:partnerNo" element={<PartnerReview/>}/>
           <Route path="/partner/reservationRead/:ordersNo" element={<PartnerReservationRead/>}/>
-          <Route path="/partner/partnerChatList" element={<PartnerChatList />} />
+          <Route path="/partner/partnerChatRoom" element={<PartnerChatList />} />
           {/* <Route path="PartnerUpdate" element={<PartnerUpdate/>}/> */}
 
           {/* 소셜로그인 */}
