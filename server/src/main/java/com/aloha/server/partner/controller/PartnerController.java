@@ -73,7 +73,7 @@ public class PartnerController {
     
     
     // 마이페이지 정보 조회
-    @GetMapping("/partnerList/{userNo}")
+    @GetMapping("/partnerMypage/{userNo}")
     public ResponseEntity<?> partnerMypage(@PathVariable("userNo") int userNo) throws Exception {
         try {
             Partner partner = partnerService.getPartners(userNo);
@@ -84,19 +84,29 @@ public class PartnerController {
     }
 
     // 수정 처리
-    @PreAuthorize("hasRole('ROLE_ADMIN') or #user.userId == authentication.name")
     @PutMapping("/update/{userNo}")
-    public ResponseEntity<?> partnerMypageUpdatePro(@RequestBody Users user, @RequestBody Partner partner) {
+    public ResponseEntity<String> updatePartnerInfo(@PathVariable String userNo,
+                                                    @RequestBody Partner partner) {
         try {
+            // 사용자 정보 조회
+            Users user = userService.getUserByUserNo(Long.parseLong(userNo));
+            if (user == null) {
+                return ResponseEntity.badRequest().body("해당 사용자가 존재하지 않습니다.");
+            }
+
+            // 파트너 정보 업데이트
             int result = partnerService.partnerUpdate(partner, user);
 
             if (result > 0) {
-                return ResponseEntity.ok().body("업데이트 성공");
+                return ResponseEntity.ok("파트너 정보와 사용자 정보가 성공적으로 업데이트되었습니다.");
             } else {
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("업데이트 실패");
+                return ResponseEntity.badRequest().body("업데이트에 실패하였습니다.");
             }
+        } catch (NumberFormatException e) {
+            return ResponseEntity.badRequest().body("유효하지 않은 사용자 번호입니다.");
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("오류 발생: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("서버 오류: " + e.getMessage());
         }
     }
 

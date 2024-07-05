@@ -1,10 +1,10 @@
 import axios from "axios"
 
 // 파트너 정보 조회
-export const partnerList = (userNo) => axios.get(`/partner/partnerList/${userNo}`)
+export const partnerMypage = (userNo) => axios.get(`/partner/partnerMypage/${userNo}`)
 
 // 파트너 정보 수정
-export const updatePartnerInfo = (data) => axios.put(`/partner/update`, data);
+export const updatePartnerInfo = (userNo, formData) => axios.put(`/partner/update/${userNo}`, formData);
 
 // 파트너 리뷰 조회
 export const PartnerReviews = (partnerNo) => axios.get(`/partner/reviews/${partnerNo}`);
