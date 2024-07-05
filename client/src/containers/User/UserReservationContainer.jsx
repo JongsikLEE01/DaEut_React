@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import '../../components/user/User.css'
-import { getUserReservations } from '../../apis/Users/user'
+import { getUserReservations } from '../../apis/Users/User'
 import UserReservationForm from '../../components/user/UserReservationForm';
 
 const UserReservationContainer = () => {
