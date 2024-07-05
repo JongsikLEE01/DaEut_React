@@ -4,16 +4,53 @@ import Swal from 'sweetalert2';
 
 const UserReviewForm = ({ payments, initialReview }) => {
   const [formState, setFormState] = useState(initialReview);
+  const [thumbnailPreview, setThumbnailPreview] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormState({ ...formState, [name]: value });
+
+    if (name === 'paymentNo') {
+      const selectedPayment = payments.find(payment => payment.paymentNo === value);
+      if (selectedPayment) {
+        setFormState({
+          ...formState,
+          paymentNo: value,
+          serviceNo: selectedPayment.serviceNo,
+          partnerNo: selectedPayment.partnerNo,
+        });
+      }
+    }
+  };
+
+  const handleFileChange = (e) => {
+    const files = e.target.files;
+    setFormState({ ...formState, files });
+
+    // 썸네일 미리보기 설정
+    if (files.length > 0) {
+      const reader = new FileReader();
+      reader.onload = (e) => setThumbnailPreview(e.target.result);
+      reader.readAsDataURL(files[0]);  // 첫 번째 파일을 썸네일로 사용
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const formData = new FormData();
+    formData.append(
+      'review', 
+      new Blob([JSON.stringify(formState)], { 
+        type: 'application/json' }));
+    
+    if (formState.files) {
+      for (let i = 0; i < formState.files.length; i++) {
+        formData.append('files', formState.files[i]);
+      }
+    }
+
     try {
-      await submitUserReview(formState);
+      await submitUserReview(formData);
       Swal.fire({
         icon: 'success',
         title: '리뷰가 성공적으로 제출되었습니다!',
@@ -97,8 +134,10 @@ const UserReviewForm = ({ payments, initialReview }) => {
       <hr className="completeHr" />
       <div className="item item-5 align-center mb-3">
         <label htmlFor="file-upload" className="col-form-label col-sm-3">첨부파일</label>
-        <input type="file" name="file" multiple onChange={(e) => setFormState({ ...formState, file: e.target.files })} />
-        <div className="file-upload" id="image-thumbnail-container"></div>
+        <input type="file" name="files" multiple onChange={handleFileChange} />
+        <div className="file-upload" id="image-thumbnail-container">
+          {thumbnailPreview && <img src={thumbnailPreview} alt="Thumbnail Preview" style={{ maxWidth: '100px', maxHeight: '100px' }} />}
+        </div>
         <small className="form-text text-muted">사진은 최대 20MB 이하의 JPG, PNG, GIF 파일 10장까지 첨부 가능합니다.</small>
       </div>
       <input type="hidden" id="serviceNo" name="serviceNo" value={formState.serviceNo || ''} />
