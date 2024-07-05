@@ -46,13 +46,13 @@ import UserCart from './pages/user/UserCart'
 import UserCancel from './pages/user/UserCancel'
 import UserCancelDone from './pages/user/UserCancelDone'
 import UserUpdatePage from './pages/admin/UserUpdatePage'
-import ReservationManagePage from './pages/admin/ReservationManagePage'
 import ReservationReadPage from './pages/admin/ReservationReadPage'
 import PartnerChatList from './pages/partner/PartnerChatList'
-import UserDetailPage from './pages/admin/UserDetailPage'
 import UpdReservPage from './pages/admin/UpdReservPage'
 import PartnerPage from './pages/admin/PartnerPage'
 import PartnerDetailPage from './pages/admin/PartnerDetailPage'
+import ReservationManagePage from './pages/admin/ReservationManagePage'
+import UserDetailPage from './pages/admin/UserDetailPage'
 
 const App = () => {
   return (
