@@ -7,6 +7,11 @@ body {
 main {
   flex: 1;
 }
+.userPage{
+  width: 1280px;
+  height: auto;
+  margin: 0 auto;
+}
 .sidebar {
   background-color: #f8f9fa;
   padding: 20px;

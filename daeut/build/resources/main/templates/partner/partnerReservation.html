@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/partner_layout}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Da E ut</title>
+</head>
+<body layout:fragment="content">
+    <button class="btn btn-primary toggle-btn menu mt-2 myBtn d-md-none transitionNone" id="toggle-btn" onclick="toggleSidebar()">메뉴</button>
+
+    <main class="container-fluid container">
+        <div class="row">
+            <nav class="col-md-3 col-lg-2 sidebar" id="sidebar">
+                <button class="btn btn-danger d-block d-md-none cancel" onclick="toggleSidebar()">닫기</button>
+                <h5>마이페이지</h5>
+                <br>
+                <a href="/partner/partnerMypage" class="active">내 정보 변경</a>
+                <a href="/partner/partnerReservation" class="partnerReservation">내 예약 보기</a>
+                <a href="/partner/partnerReview">내 리뷰 보기</a>
+                <a href="/partner/partnerChatRoom">채팅 내역</a>
+            </nav>
+            <dikv class="col-md-9 col-lg-10 form-section">
+                <h3>예약 관리</h3>
+                <table class="table table-sm table-hover">
+                    <thead class="table-light">
+                        <tr>
+                            <th width="30">No.</th>
+                            <th width="50">사용자 명</th>
+                            <th width="80">예약 상태</th>
+                            <th width="100">예약 시간</th>
+                            <th width="50"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                   
+                        <tr th:each="order, loopStatus : ${orderList}">
+                            <td data-label="No." th:text="${loopStatus.index + 1}"></td> <!-- 자동으로 증가하는 글번호 -->
+                            <td data-label="사용자 명" th:text="${order.user.userName}"></td> <!-- 사용자 명 -->
+                            <td data-label="예약 상태" th:text="${order.orderStatus}"></td> <!-- 예약 상태 -->
+                            <td data-label="예약 시간" name="serviceDate" th:text="${#dates.format(payments.serviceDate, 'yy년 MM월 dd일 HH시 mm분')}"></td>
+                            <td data-label="자세히보기">
+                                <a th:href="@{/partner/partnerReservationRead(ordersNo=${order.ordersNo})}" class="detail-button">자세히보기</a>
+                            </td>
+                        </tr>
+                   
+                    </tbody>
+                </table>
+               
+               
+            
+                
+
+            </div>
+        </div>
+    </main>
+</body>
+</html>

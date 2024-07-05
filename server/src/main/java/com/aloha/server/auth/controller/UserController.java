@@ -1,8 +1,6 @@
 package com.aloha.server.auth.controller;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,10 +23,12 @@ import com.aloha.server.auth.dto.Users;
 import com.aloha.server.auth.service.ReviewService;
 import com.aloha.server.auth.service.UserService;
 import com.aloha.server.partner.dto.Partner;
+import com.aloha.server.reservation.dto.Cancel;
 import com.aloha.server.reservation.dto.Cart;
 import com.aloha.server.reservation.dto.ChatRooms;
 import com.aloha.server.reservation.dto.Orders;
 import com.aloha.server.reservation.dto.Payments;
+import com.aloha.server.reservation.service.CancelService;
 import com.aloha.server.reservation.service.CartService;
 import com.aloha.server.reservation.service.ChatRoomService;
 import com.aloha.server.reservation.service.OrderService;
@@ -55,6 +55,9 @@ public class UserController {
 
     @Autowired
     private ReviewService reviewService;
+
+    @Autowired
+    private CancelService cancelService;
 
 //    // 사용자 마이페이지 조회
 //    @GetMapping("/userMypage/{userId}")
@@ -186,7 +189,7 @@ public class UserController {
     // 사용자 작성 리뷰 폼 조회
     @GetMapping("/userReview")
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN') or hasRole('ROLE_PARTNER')")
-    public ResponseEntity<Review> showReviewForm(@AuthenticationPrincipal CustomUser customUser) {
+    public ResponseEntity<Map<String, Object>> showReviewForm(@AuthenticationPrincipal CustomUser customUser) {
         log.info("/user/userReview");
 
         Users user = customUser.getUser();
@@ -198,6 +201,9 @@ public class UserController {
         List<Payments> payments = reviewService.getUserPayments(userNo);
         // model.addAttribute("payments", payments);
 
+        Map<String, Object> response = new HashMap<>();
+        response.put("payments", payments);
+
         // 결제 정보가 있다면 첫 번째 결제를 기본값으로 설정
         if (!payments.isEmpty()) {
             Payments firstPayment = payments.get(0);
@@ -205,10 +211,12 @@ public class UserController {
             review.setPaymentNo(firstPayment.getPaymentNo());
             review.setServiceNo(firstPayment.getServiceNo());
             review.setPartnerNo(firstPayment.getPartnerNo());
-            return ResponseEntity.ok(review);
+            review.setServiceName(firstPayment.getServiceName());
+            response.put("review", review);
         } else {
-            return ResponseEntity.ok(new Review());
+            response.put("review", new Review());
         }
+        return ResponseEntity.ok(response);
     }
 
     // 리뷰 저장 처리
@@ -362,12 +370,12 @@ public class UserController {
     }
 
     // 예약 취소 페이지 조회
-    @GetMapping("/userResevationCancel")
+    @PostMapping("/cancelDone")
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN') or hasRole('ROLE_PARTNER')")
-    public ResponseEntity<Orders> userResevationCancel(@RequestParam String ordersNo) throws Exception {
+    public ResponseEntity<?> userResevationCancel(@RequestParam String ordersNo) throws Exception {
         try {
-            Orders orders = orderService.select(ordersNo);
-            return ResponseEntity.ok(orders);
+            Cancel cancel = cancelService.selectByOrdersNo(ordersNo);
+            return ResponseEntity.ok().body(cancel);
         } catch (Exception e) {
             log.error("Error retrieving order for cancellation", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
