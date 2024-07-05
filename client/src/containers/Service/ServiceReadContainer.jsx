@@ -20,6 +20,7 @@ const ServiceReadContainer = ({ serviceNo }) => {
   const [partner, setPartner] = useState({})
   const [partnerInfo, setPartnerInfo] = useState({})
   const [pthumbnail, setPthumbnail] = useState({})
+  const [reviews, setReviews] = useState([]);
   
   // 서비스 조회
   const getService = async () => {
@@ -38,6 +39,14 @@ const ServiceReadContainer = ({ serviceNo }) => {
       setPartner(partner)
       setPartnerInfo(partnerInfo)
       setPthumbnail(pthumbnail)
+
+      // 리뷰 데이터 설정
+      if (data.reviews) {
+        setReviews(data.reviews);
+      } else {
+        console.warn('서버 응답 데이터에 리뷰 정보가 포함되어 있지 않습니다.');
+        setReviews([]);
+      }
     } catch (e) {
       console.error('서비스 조회 중 에러 발생... ', e)
     }
@@ -118,7 +127,7 @@ const ServiceReadContainer = ({ serviceNo }) => {
             <ServiceCalendar serviceNo={serviceNo} />
             <ReadInfo/>
           </div>
-          <ReadReview />
+          <ReadReview reviews={reviews} />
         </div>
       </div>
     </>
