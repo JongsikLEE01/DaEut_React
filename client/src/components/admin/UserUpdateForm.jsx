@@ -38,8 +38,8 @@ const UserUpdateForm = ({ user, onChange, onSubmit, onDelete }) => {
                 </div>
             </div>
             <div className="buttons">
-                <button type="submit" className="btn btn-primary custom1 size">수정</button>
-                <button type="button" className="btn btn-primary custom1 size" onClick={onDelete}>삭제</button>
+                <button type="submit" className="btn btn-primary custom1 delBtn">수정</button>
+                <button type="button" className="btn btn-primary custom1 delBtn" onClick={onDelete}>삭제</button>
                 <Link to="/admin/adminUser" className="btn btn-primary custom2 size">목록</Link>
             </div>
         </form>

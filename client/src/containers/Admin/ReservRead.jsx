@@ -44,6 +44,7 @@ const ReservRead = ({ ordersNo }) => {
 
     if (!reservationData) return <div>Loading...</div>
 
+    // 환불 승인 처리
     const onCancel = async (ordersNo) =>{
     try {
           console.log(`-----${ordersNo}----`);
@@ -55,6 +56,7 @@ const ReservRead = ({ ordersNo }) => {
         }
     }
 
+    // 환불 확인
     const checkConfirm = () =>{
         Swal.confirm('환불을 승인하시겠습니까?', '확인 버튼을 누르면 환불이 승인됩니다.', 'question', (result) => {
           // isConfirmed : 확인 버튼 클릭 여부

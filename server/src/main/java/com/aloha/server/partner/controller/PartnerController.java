@@ -34,7 +34,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -84,30 +86,61 @@ public class PartnerController {
     }
 
     // 수정 처리
-    // @PutMapping("/update/{userNo}")
-    // public ResponseEntity<String> updatePartnerInfo(@PathVariable String userNo,
-    //                                                 @RequestBody Partner partner) {
-    //     try {
-    //         // 사용자 정보 조회
-    //         Users user = userService.getUserByUserNo(Long.parseLong(userNo));
-    //         if (user == null) {
-    //             return ResponseEntity.badRequest().body("해당 사용자가 존재하지 않습니다.");
-    //         }
+    @PutMapping("/update/{userNo}")
+    public ResponseEntity<?> updatePartner(@PathVariable("userNo") Long userNo,
+                                           @RequestBody Partner partner) {
+        try {
+            log.info("Updating partner information for user with userNo: {}", userNo);
 
-    //         // 파트너 정보 업데이트
-    //         int result = partnerService.partnerUpdate(partner, user);
+            // Long을 int로 변환
+            int userNoInt = userNo.intValue();
 
-    //         if (result > 0) {
-    //             return ResponseEntity.ok("파트너 정보와 사용자 정보가 성공적으로 업데이트되었습니다.");
-    //         } else {
-    //             return ResponseEntity.badRequest().body("업데이트에 실패하였습니다.");
-    //         }
-    //     } catch (NumberFormatException e) {
-    //         return ResponseEntity.badRequest().body("유효하지 않은 사용자 번호입니다.");
-    //     } catch (Exception e) {
-    //         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-    //                 .body("서버 오류: " + e.getMessage());
+            // UserService에서 유저 정보 업데이트
+            Users user = userService.selectByUserNo(userNoInt);
+            userService.update(user);
+
+            // Partner 정보 업데이트
+            int result = partnerService.partnerUpdate(partner);
+
+            if (result > 0) {
+                log.info("Partner information updated successfully");
+                return ResponseEntity.ok().build();
+            } else {
+                log.error("Failed to update partner information");
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            }
+        } catch (Exception e) {
+            log.error("Exception occurred while updating partner information", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+
+
+    // @PostMapping("/partnerMypageUpdatePro")
+    // public String partnerMypageUpdatePro(Model model, HttpSession session, @ModelAttribute("user") Users user, @ModelAttribute("partner") Partner partner) throws Exception {
+    //     int result = partnerService.partnerUpdate(partner, user);
+    
+    //     if (result > 0) {
+    //         return "redirect:/partner/partnerMypage";
+    //     } else {
+    //         return "redirect:/index";
     //     }
+    // }
+
+    // @PutMapping("")
+    // public ResponseEntity<?> update(@RequestBody Users user) throws Exception {
+    //     log.info("[PUT] - /users");
+    //     int result = userService.update(user);
+
+    //     if( result > 0 ) {
+    //         log.info("회원수정 성공! - SUCCESS");
+    //         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
+    //     }
+    //     else {
+    //         log.info("회원수정 실패! - FAIL");
+    //         return new ResponseEntity<>("FAIL", HttpStatus.BAD_REQUEST);
+    //     } 
     // }
 
 

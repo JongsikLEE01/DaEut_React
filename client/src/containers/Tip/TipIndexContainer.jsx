@@ -5,7 +5,7 @@ import TipIndex from '../../components/tip/TipIndex';
 const IndexContainer = () => {
   const [boardList, setBoardList] = useState([]);
   const [filteredBoardList, setFilteredBoardList] = useState([]);
-  const [fileList, setFileList] = useState([]); // fileList 상태 추가
+  const [fileList, setFileList] = useState([]); 
   const [isLoading, setIsLoading] = useState(true);
   const [page, setPage] = useState({
     first: 1,
@@ -33,11 +33,11 @@ const IndexContainer = () => {
         };
         const response = await list(params);
         const { boardList, optionList, page: newPage, sort: newSort, fileList } = response.data;
-        console.log('Response Data:', response.data); // 데이터 확인용 로그
+        console.log('Response Data:', response.data); 
   
-        setBoardList(Array.isArray(boardList) ? boardList : []); // boardList가 배열인지 확인
-        setFilteredBoardList(Array.isArray(boardList) ? boardList : []); // 초기 필터링 목록 설정
-        setFileList(Array.isArray(fileList) ? fileList : []); // fileList 설정
+        setBoardList(Array.isArray(boardList) ? boardList : []); 
+        setFilteredBoardList(Array.isArray(boardList) ? boardList : []); 
+        setFileList(Array.isArray(fileList) ? fileList : []); 
         setOptionList(optionList || []);
         setPage(newPage || page);
         setSort(newSort || sort);
@@ -67,8 +67,8 @@ const IndexContainer = () => {
     const formData = new FormData(e.target);
     const keyword = formData.get('keyword').toLowerCase();
     const selectedOption = formData.get('code');
-    setKeyword(keyword); // 검색어 상태 업데이트
-    setSelectedOption(selectedOption); // 검색 옵션 상태 업데이트
+    setKeyword(keyword); 
+    setSelectedOption(selectedOption); 
   };
 
   return (
@@ -84,7 +84,7 @@ const IndexContainer = () => {
       handlePageChange={handlePageChange}
       handleSearch={handleSearch}
       setSort={setSort}
-      fileList={fileList} // fileList 전달
+      fileList={fileList} 
     />
   );
 };

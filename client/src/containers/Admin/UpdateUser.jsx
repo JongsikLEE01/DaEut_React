@@ -6,7 +6,7 @@ import { updateUser, updateUserDetails, deleteUser } from '../../apis/admin/admi
 import Swal from 'sweetalert2';
 import './Admin.css';
 
-const UpdateUserContainer = ({ userNo }) => {
+const UpdateUser = ({ userNo }) => {
     const navigate = useNavigate();
     const [user, setUser] = useState(null);
     const [isOpen, setIsOpen] = useState(true);
@@ -135,4 +135,4 @@ const UpdateUserContainer = ({ userNo }) => {
     );
 };
 
-export default UpdateUserContainer;
+export default UpdateUser;

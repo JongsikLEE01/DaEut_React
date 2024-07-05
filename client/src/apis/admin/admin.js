@@ -22,6 +22,19 @@ export const updateUserDetails = async (userNo, user) => api.put(`/admin/adminUs
 // 사용자 삭제
 export const deleteUser = async (userNo) => api.delete('/admin/adminUserDelete', { params: { userNo } })
 
+// 파트너 목록
+export const getAllPartners = async (page = 1) => api.get('/admin/adminPartner', { params: { page } })
+
+// 파트너 조회
+export const getPartner = async (userNo) => api.get(`/admin/adminPartnerRead/${userNo}`);
+
+// 파트너 승인
+export const approvePartner  = async (userId) => api.post(`/admin/approvePartner/${userId}`)
+
+// 파트너 승인 취소
+export const cancelPartnerApproval = async (userId) => api.post(`/admin/cancelPartner/${userId}`)
+
+
 // 예약 목록 조회
 export const getReservations = async (page = 1) => api.get('/admin/adminReservation', { params: { page } })
 

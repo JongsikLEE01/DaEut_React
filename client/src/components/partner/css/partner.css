@@ -364,3 +364,7 @@ a {
     color: #8FA2CA !important;
     border-radius: 8px;
 }
+
+.card.mt-3.reservation-card {
+    width: 700px;
+}

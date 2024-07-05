@@ -38,13 +38,13 @@ const TipUpdateContainer = () => {
 
   const handleMainImageChange = (e) => {
     const files = Array.from(e.target.files);
-    setMainImageFiles(files); // 파일 객체 설정
+    setMainImageFiles(files); 
     setMainImagePreview(files.map(file => URL.createObjectURL(file)));
   };
 
   const handleAdditionalImageChange = (e) => {
     const files = Array.from(e.target.files);
-    setAdditionalImageFiles(files); // 파일 객체 설정
+    setAdditionalImageFiles(files); 
     setAdditionalImagePreview(files.map(file => URL.createObjectURL(file)));
   };
 
@@ -55,7 +55,6 @@ const TipUpdateContainer = () => {
     formData.append('boardTitle', board.boardTitle);
     formData.append('boardContent', board.boardContent);
 
-    // 추가: 썸네일과 파일들 추가
     if (mainImageFiles.length > 0) {
       formData.append('thumbnail', mainImageFiles[0]);
     }

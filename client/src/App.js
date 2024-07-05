@@ -46,11 +46,13 @@ import UserCart from './pages/user/UserCart'
 import UserCancel from './pages/user/UserCancel'
 import UserCancelDone from './pages/user/UserCancelDone'
 import UserUpdatePage from './pages/admin/UserUpdatePage'
-import ReservationManagePage from './pages/admin/ReservationManagePage'
 import ReservationReadPage from './pages/admin/ReservationReadPage'
 import PartnerChatList from './pages/partner/PartnerChatList'
-import UserDetailPage from './pages/admin/UserDetailPage'
 import UpdReservPage from './pages/admin/UpdReservPage'
+import PartnerPage from './pages/admin/PartnerPage'
+import PartnerDetailPage from './pages/admin/PartnerDetailPage'
+import ReservationManagePage from './pages/admin/ReservationManagePage'
+import UserDetailPage from './pages/admin/UserDetailPage'
 
 const App = () => {
   return (
@@ -118,6 +120,8 @@ const App = () => {
           <Route path="/admin/adminUser" element={<UserManagementPage/>} />
           <Route path="/admin/adminUserRead/:userNo" element={<UserDetailPage/>} />
           <Route path="/admin/adminUserUpdate/:userNo" element={<UserUpdatePage />} />
+          <Route path="/admin/adminPartner" element={<PartnerPage/>} />
+          <Route path="/admin/adminPartnerRead/:userNo" element={<PartnerDetailPage/>} />
           <Route path="/admin/adminReservation" element={<ReservationManagePage />} />
           <Route path="/admin/adminReservationRead/:ordersNo" element={<ReservationReadPage/>} />
           <Route path="/admin/adminReservationUpdate/:ordersNo" element={<UpdReservPage/>} />

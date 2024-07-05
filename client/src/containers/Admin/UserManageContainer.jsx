@@ -75,6 +75,13 @@ const UserManageContainer = () => {
         }
     };
 
+    const toggleAllCheckboxes = (e) => {
+        const checkboxes = document.querySelectorAll('.checkbox');
+        checkboxes.forEach((checkbox) => {
+            checkbox.checked = e.target.checked;
+        });
+    };
+
     useEffect(() => {
         fetchUsers(currentPage);
     }, [currentPage]);
@@ -94,7 +101,7 @@ const UserManageContainer = () => {
                 <div className="col-md-9 col-lg-10 form-section">
                     <h3>회원 관리</h3>
                     <p>사용자 이름 클릭 시 조회 화면으로 이동합니다.</p>
-                    <UserTable users={users} />
+                    <UserTable users={users} toggleAllCheckboxes={toggleAllCheckboxes} />
                     <div className="buttons">
                         <button className="btn btn-primary custom1 delBtn" onClick={handleDeleteUsers}>선택 삭제</button>
                     </div>

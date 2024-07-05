@@ -15,7 +15,8 @@ public interface PartnerService {
    public Partner getPartners(int userNo) throws Exception;
 
    // 파트너 수정
-   public int partnerUpdate(Partner partner, Users user) throws Exception;
+   // public int partnerUpdate(Partner partner, Users user) throws Exception;
+   public int partnerUpdate(Partner partner) throws Exception;
 
    // 사용자가 작성한 리뷰 모아보기
    public List<Review> getReviews(int partnerNo) throws Exception;

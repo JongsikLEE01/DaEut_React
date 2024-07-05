@@ -1,13 +1,16 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react'
+import Sidebar from '../../components/static/Sidebar'
 
 const PartnerReservation = ({ orderList }) => {
+ 
+  const [isOpen, setIsOpen] = useState(true)
+
   const toggleSidebar = () => {
-    const sidebar = document.getElementById('sidebar');
-    sidebar.classList.toggle('d-none');
-  };
+      setIsOpen(!isOpen)
+  }
 
   const handleDetailClick = (ordersNo) => {
-    window.location.href = `/partner/partnerReservation/${ordersNo}`;
+    window.location.href = `/partner/reservationRead/${ordersNo}`;
   };
 
   console.log("component- oderList  : " + orderList.ordersNo);
@@ -18,15 +21,7 @@ const PartnerReservation = ({ orderList }) => {
 
       <main className="container-fluid container">
         <div className="row">
-          <nav className="col-md-3 col-lg-2 sidebar" id="sidebar">
-            <button className="btn btn-danger d-block d-md-none cancel" onClick={toggleSidebar}>닫기</button>
-            <h5>마이페이지</h5>
-            <br />
-            <a href="/partner/partnerMypage" className="active">내 정보 변경</a>
-            <a href="/partner/partnerReservation" className="partnerReservation">내 예약 보기</a>
-            <a href="/partner/partnerReview">내 리뷰 보기</a>
-            <a href="/partner/partnerChatRoom">채팅 내역</a>
-          </nav>
+        <Sidebar isOpen={isOpen} toggleSidebar={toggleSidebar} roles={{ isPartner: true }} />
           <div className="col-md-9 col-lg-10 form-section">
             <h3>예약 관리</h3>
             {orderList && orderList.length > 0 ? (

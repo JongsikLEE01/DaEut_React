@@ -3,30 +3,30 @@ import { Link } from 'react-router-dom';
 
 const UpdateForm = ({ partnerData, updatePartnerInfo, deletePartner }) => {
   const [formData, setFormData] = useState({
-    userId: '',
     userName: '',
     userPhone: '',
     userEmail: '',
     userAddress: '',
     userBirth: '',
-    introduce: '',
-    userNo: ''
+    introduce: ''
   });
 
   useEffect(() => {
     if (partnerData) {
       setFormData({
-        userId: partnerData.userId || '',
         userName: partnerData.userName || '',
         userPhone: partnerData.userPhone || '',
         userEmail: partnerData.userEmail || '',
         userAddress: partnerData.userAddress || '',
         userBirth: partnerData.userBirth || '',
-        introduce: partnerData.introduce || '',
-        userNo: partnerData.userNo || ''
+        introduce: partnerData.introduce || ''
       });
     }
   }, [partnerData]);
+
+  useEffect(() => {
+    console.log('formData:', formData);
+  }, [formData]);
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -38,15 +38,7 @@ const UpdateForm = ({ partnerData, updatePartnerInfo, deletePartner }) => {
     return `${year}-${month}-${day}`;
   };
 
-  const handleUserChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value
-    });
-  };
-
-  const handlePartnerChange = (e) => {
+  const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
@@ -96,27 +88,27 @@ const UpdateForm = ({ partnerData, updatePartnerInfo, deletePartner }) => {
             <form id="form" onSubmit={handleSubmit}>
               <div className="form-group mb-3">
                 <label htmlFor="userName">이름</label>
-                <input type="text" className="form-control" id="userName" name="userName" value={formData.userName} onChange={handleUserChange} />
+                <input type="text" className="form-control" id="userName" name="userName" value={formData.userName} onChange={handleInputChange} />
               </div>
               <div className="form-group mb-3">
                 <label htmlFor="userPhone">전화번호</label>
-                <input type="text" className="form-control" id="userPhone" name="userPhone" value={formData.userPhone} onChange={handleUserChange} />
+                <input type="text" className="form-control" id="userPhone" name="userPhone" value={formData.userPhone} onChange={handleInputChange} />
               </div>
               <div className="form-group mb-3">
                 <label htmlFor="userEmail">이메일</label>
-                <input type="text" className="form-control" id="userEmail" name="userEmail" value={formData.userEmail} onChange={handleUserChange} />
+                <input type="text" className="form-control" id="userEmail" name="userEmail" value={formData.userEmail} onChange={handleInputChange} />
               </div>
               <div className="form-group mb-3">
                 <label htmlFor="userAddress">주소</label>
-                <input type="text" className="form-control" id="userAddress" name="userAddress" value={formData.userAddress} onChange={handleUserChange} />
+                <input type="text" className="form-control" id="userAddress" name="userAddress" value={formData.userAddress} onChange={handleInputChange} />
               </div>
               <div className="form-group mb-3">
                 <label htmlFor="userBirth">생년월일</label>
-                <input type="date" className="form-control" id="userBirth" name="userBirth" value={formData.userBirth ? formatDate(formData.userBirth) : ''} onChange={handleUserChange} />
+                <input type="date" className="form-control" id="userBirth" name="userBirth" value={formData.userBirth ? formatDate(formData.userBirth) : ''} onChange={handleInputChange} />
               </div>
               <div className="form-group form-section p-1 f-warp text-start">
-                <label htmlFor="description">소개 글</label>
-                <textarea className="form-control w-75" name="introduce" id="description" rows="3" value={formData.introduce} onChange={handlePartnerChange}></textarea>
+                <label htmlFor="introduce">소개 글</label>
+                <textarea className="form-control w-75" id="introduce" name="introduce" rows="3" value={formData.introduce} onChange={handleInputChange}></textarea>
               </div>
               <div className="form-buttons">
                 <Link to="/partnerMypage" className="btn btn-secondary cancel">뒤로가기</Link>

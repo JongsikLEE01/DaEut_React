@@ -196,11 +196,20 @@ public class AdminController {
     // 관리자 - 파트너 목록
     @GetMapping("/adminPartner")
     public ResponseEntity<?> adminPartner(@RequestParam(value = "page", defaultValue = "1") int pageNumber) throws Exception {
+        
         try {
             int total = adminService.countPartners();
             Page page = new Page(pageNumber, total);
             List<Partner> partnerList = adminService.selectAllPartners(page);
-            return new ResponseEntity<>(partnerList, HttpStatus.OK);
+
+            log.info("ParnerList :: " + partnerList);
+            Map<String, Object> response = new HashMap<>();
+
+            response.put("partnerList", partnerList);
+            response.put("totalCount", total);
+            response.put("currentPage", pageNumber);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             log.info("예외 발생 !!!", e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -315,7 +324,10 @@ public class AdminController {
             log.info("파트너 아이디: " + userId);
             adminService.approvePartner(userId);
             adminService.insertPartnerAuth(userId);
-            return new ResponseEntity<>("파트너 승인이 완료되었습니다.", HttpStatus.OK);
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", "파트너 승인이 완료되었습니다.");
+            response.put("status", 2); // 승인 완료 상태
+            return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             log.info("예외 발생 !!!", e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -326,15 +338,22 @@ public class AdminController {
     @PostMapping("/cancelPartner/{userId}")
     public ResponseEntity<?> cancelPartner(@PathVariable("userId") String userId) {
         try {
-            log.info("파트너 아이디: " + userId);
-            adminService.cancelPartner(userId);
-            adminService.deletePartnerAuth(userId);
-            return new ResponseEntity<>("파트너 승인이 취소되었습니다.", HttpStatus.OK);
+            log.info("유저 아이디: " + userId);
+            int result1 = adminService.cancelPartner(userId);
+            int result2 =adminService.deletePartnerAuth(userId);
+
+            log.info("result1 : " + result1);
+            log.info("result2 : " + result2);
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", "파트너 승인이 취소되었습니다.");
+            response.put("status", 0); // 승인 취소 상태
+            return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             log.info("예외 발생 !!!", e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 
     // 관리자 - 파트너 수정 화면 
     @GetMapping("/adminPartnerUpdate/{userNo}")

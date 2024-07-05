@@ -7,9 +7,9 @@ import PartnerLayout from '../../layouts/PartnerLayout'
 const PartnerReview = () => {
   const {partnerNo} = useParams()
   return (
-    <PartnerLayout>
+    <MainLayout>
     <PartnerReviewContainer partnerNo ={partnerNo}/>
-    </PartnerLayout>
+    </MainLayout>
   )
 }
 

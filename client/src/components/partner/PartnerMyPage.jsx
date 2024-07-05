@@ -1,7 +1,15 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
+import Sidebar from '../../components/static/Sidebar'
 
 const PartnerMypage = ({ partnerData }) => {
+
+  const [isOpen, setIsOpen] = useState(true)
+
+  const toggleSidebar = () => {
+      setIsOpen(!isOpen)
+  }
+
   if (!partnerData) {
     return <div>Loading...</div>; // partnerData가 없을 때 로딩 상태 표시
   }
@@ -18,16 +26,11 @@ const PartnerMypage = ({ partnerData }) => {
     return `${year}-${month}-${day}`;
   };
 
-  const toggleSidebar = () => {
-    const sidebar = document.getElementById('sidebar');
-    sidebar.classList.toggle('d-none');
-  };
-
   return (
-    <div className="container-fluid container">
-      <button className="btn btn-primary toggle-btn menu mt-2 ml-2 myBtn" id="toggle-btn" onClick={toggleSidebar}>메뉴</button>
+    
       <main className="container-fluid container">
         <div className="row">
+        <Sidebar isOpen={isOpen} toggleSidebar={toggleSidebar} roles={{ isPartner: true }} />
           <div className="col-md-9 col-lg-10 form-section">
             <h3>내 정보 변경</h3>
             <form>
@@ -65,8 +68,7 @@ const PartnerMypage = ({ partnerData }) => {
             </form>
           </div>
         </div>
-      </main>
-    </div>
+  </main>
   );
 };
 

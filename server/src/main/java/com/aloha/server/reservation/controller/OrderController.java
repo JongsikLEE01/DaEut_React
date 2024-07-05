@@ -335,7 +335,7 @@ public class OrderController {
             if (orders == null) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("주문을 찾을 수 없습니다.");
             }
-            orders.setOrderStatus(OrderStatus.보류중);
+            orders.setOrderStatus(OrderStatus.환불);
             orderService.update(orders);
 
             // 데이터 넣기
