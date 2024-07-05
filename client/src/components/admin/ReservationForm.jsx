@@ -1,5 +1,5 @@
-import React from 'react';
-import ReservLabel from './ReservLabel';
+import React from 'react'
+import ReservLabel from './ReservLabel'
 
 const ReservationForm = ({ reservationData }) => (
     
@@ -51,6 +51,6 @@ const ReservationForm = ({ reservationData }) => (
             </form>
         </div>
     </div>
-);
+)
 
-export default ReservationForm;
+export default ReservationForm

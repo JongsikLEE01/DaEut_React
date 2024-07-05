@@ -1,5 +1,5 @@
 // 사용자 조회
-import React from 'react';
+import React from 'react'
 
 const UserForm = ({ user }) => {
     return (
@@ -35,7 +35,7 @@ const UserForm = ({ user }) => {
                 </div>
             </div>
         </form>
-    );
-};
+    )
+}
 
-export default UserForm;
+export default UserForm
