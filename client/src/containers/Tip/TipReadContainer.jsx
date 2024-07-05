@@ -282,25 +282,29 @@ const TipReadContainer = () => {
         <p><strong>{reply.userId}</strong></p>
         {editingReply === reply.replyNo ? (
           <form onSubmit={handleReplyEditSubmit} className={styles.editForm}>
-          <textarea 
-            value={replyContent} 
-            onChange={(e) => setReplyContent(e.target.value)} 
-            className={`form-control mb-2 ${styles.textareaNoResize}`} 
-            rows="3" 
-          />
-          <div className={`${styles.buttonContainer} d-flex justify-content-end gap-2`}>
-            <button type="submit" className={`${styles.saveButton} btn btn-primary`}>저장</button>
-            <button type="button" className={`${styles.cancelButton} btn btn-secondary`} onClick={() => setEditingReply(null)}>취소</button>
-          </div>
-        </form>
+            <textarea 
+              value={replyContent} 
+              onChange={(e) => setReplyContent(e.target.value)} 
+              className={`form-control mb-2 ${styles.textareaNoResize}`} 
+              rows="3" 
+            />
+            <div className={`${styles.buttonContainer} d-flex justify-content-end gap-2`}>
+              <button type="submit" className={`${styles.saveButton} btn btn-primary`}>저장</button>
+              <button type="button" className={`${styles.cancelButton} btn btn-secondary`} onClick={() => setEditingReply(null)}>취소</button>
+            </div>
+          </form>
         ) : (
           <>
             <p>{reply.replyContent}</p>
             <div className={styles['comment-actions']}>
               <span className={styles.date}>{new Date(reply.replyRegDate).toLocaleDateString()}</span>
               <button type="button" onClick={() => { setReplyParentNo(reply.replyNo); setReplyContent(''); }}>답글달기</button>
-              <button type="button" onClick={() => { setEditingReply(reply.replyNo); setReplyContent(reply.replyContent); }}>수정</button>
-              <button type="button" onClick={() => handleReplyDeleteConfirm(reply.replyNo)}>삭제</button>
+              {reply.userId === userInfo.userId && (
+                <>
+                  <button type="button" onClick={() => { setEditingReply(reply.replyNo); setReplyContent(reply.replyContent); }}>수정</button>
+                  <button type="button" onClick={() => handleReplyDeleteConfirm(reply.replyNo)}>삭제</button>
+                </>
+              )}
             </div>
             {replyParentNo === reply.replyNo && (
               <div className={styles['reply-reply-container']}>
@@ -336,6 +340,7 @@ const TipReadContainer = () => {
   
     return replyElements;
   };
+  
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
