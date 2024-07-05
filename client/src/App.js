@@ -47,7 +47,7 @@ import UserManagementPage from './pages/admin/UserManagementPage'
 import UserCancel from './pages/user/UserCancel'
 import UserCancelDone from './pages/user/UserCancelDone'
 import UserDetailPage from './pages/admin/UserDetailPage'
-import PartnerChatList from './components/partner/PartnerChatList'
+import PartnerChatList from './pages/partner/PartnerChatList'
 
 
 
@@ -84,7 +84,7 @@ const App = () => {
           <Route path="/partner/reservation/:partnerNo" element={<PartnerReservation/>}/>
           <Route path="/partner/reviews/:partnerNo" element={<PartnerReview/>}/>
           <Route path="/partner/reservationRead/:ordersNo" element={<PartnerReservationRead/>}/>
-          <Route path="/partner/partnerChatList" element={<PartnerChatList />} />
+          <Route path="/partner/partnerChatRoom" element={<PartnerChatList />} />
           {/* <Route path="PartnerUpdate" element={<PartnerUpdate/>}/> */}
 
           {/* 소셜로그인 */}
