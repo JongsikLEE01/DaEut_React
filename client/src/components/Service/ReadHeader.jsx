@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { LoginContext } from '../contexts/LoginContextProvider'
 import * as Swal from '../../apis/alert'
@@ -7,14 +7,19 @@ const ReadHeader = ({ service, onChatRoom }) => {
   const { isLogin, userInfo } = useContext(LoginContext)
 
   const addChatRoom=()=>{
-
     const partnerNo = service.partnerNo
     if(partnerNo == userInfo.partnerNo){
-      Swal.alert('채팅방 생성을 실패했어요', '채팅방 생성을 실패했어요, 자기 자긴에게는 채팅 할 수 없어요', 'warning', )
+      Swal.alert('채팅방 생성을 실패했어요', '채팅방 생성을 실패했어요, 자기 자신에게는 채팅 할 수 없어요', 'warning', )
     }else{
       onChatRoom(partnerNo, userInfo)
     }
   }
+
+  // useEffect(()=>{
+  //   if(service){
+  //     addChatRoom()
+  //   }
+  // },[])
 
   return (
     <>

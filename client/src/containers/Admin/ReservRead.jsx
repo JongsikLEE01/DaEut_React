@@ -1,45 +1,69 @@
-import React, { useEffect, useState } from 'react';
-import ReservationForm from '../../components/admin/ReservationForm';
-import ReservBtn from '../../components/admin/ReservBtn';
-import RefundInfo from '../../components/admin/RefundInfo';
-import { getReservationDetails } from '../../apis/admin/admin';
-import Sidebar from '../../components/static/Sidebar';
-import { Link } from 'react-router-dom';
-import './Admin.css';
+import React, { useEffect, useState } from 'react'
+import ReservationForm from '../../components/admin/ReservationForm'
+import ReservBtn from '../../components/admin/ReservBtn'
+import RefundInfo from '../../components/admin/RefundInfo'
+import * as admin from '../../apis/admin/admin'
+import Sidebar from '../../components/static/Sidebar'
+import { Link } from 'react-router-dom'
+import './Admin.css'
+import * as Swal from '../../apis/alert'
 
 const ReservRead = ({ ordersNo }) => {
-    const [isOpen, setIsOpen] = useState(true);
-    const [reservationData, setReservationData] = useState(null);
-    const [refundData, setRefundData] = useState(null);
+    const [isOpen, setIsOpen] = useState(true)
+    const [reservationData, setReservationData] = useState(null)
+    const [refundData, setRefundData] = useState(null)
 
-    console.log("ordersNo", ordersNo);
+    console.log("ordersNo", ordersNo)
 
-    console.log("reservationData::::::::: ", reservationData);
-    console.log("refundData::::::::: ", refundData);
+    console.log("reservationData::::::::: ", reservationData)
+    console.log("refundData::::::::: ", refundData)
 
     useEffect(() => {
         const fetchReservationData = async () => {
             try {
-                const response = await getReservationDetails(ordersNo);
-                const data = response.data;
-                console.log("data : ", data);
-                console.log("ordersNo :: ", ordersNo);
-                
-                setReservationData(data);
-                setRefundData(data.cancel); 
-            } catch (error) {
-                console.error('Error fetching reservation data', error);
-            }
-        };
+                const response = await admin.getReservationDetails(ordersNo)
+                const data = response.data
+                const cancel = data.cancel
 
-        fetchReservationData();
-    }, [ordersNo]);
+                console.log("data : ", data)
+                console.log("ordersNo :: ", ordersNo)
+                
+                setReservationData(data)
+                setRefundData(cancel)
+            } catch (error) {
+                console.error('Error fetching reservation data', error)
+            }
+        }
+
+        fetchReservationData()
+    }, [ordersNo])
 
     const toggleSidebar = () => {
-        setIsOpen(!isOpen);
-    };
+        setIsOpen(!isOpen)
+    }
 
-    if (!reservationData) return null
+    if (!reservationData) return <div>Loading...</div>
+
+    const onCancel = async (ordersNo) =>{
+    try {
+          console.log(`-----${ordersNo}----`);
+          const response = await admin.checkCancel(ordersNo)
+          const status = response.status
+          console.log(`환불 승인 결과.... ${status}`)
+        } catch (e) {
+          console.log(`환불 승인 중 오류 발생... ${e}`)
+        }
+    }
+
+    const checkConfirm = () =>{
+        Swal.confirm('환불을 승인하시겠습니까?', '확인 버튼을 누르면 환불이 승인됩니다.', 'question', (result) => {
+          // isConfirmed : 확인 버튼 클릭 여부
+          if (result.isConfirmed) {
+              onCancel(ordersNo)
+              Swal.alert('환불 승인 성공', '', 'success')
+          }
+        })
+    }
 
     return (
         <div className='container-fluid container'>
@@ -55,21 +79,25 @@ const ReservRead = ({ ordersNo }) => {
                         </div>
                         {refundData && (
                             <>
-                                <h3 className="mt-5">환불 정보</h3>
-                                <RefundInfo refundData={refundData} />
+                                <h3 className="mt-5 mb-5">환불 정보</h3>
+                                <RefundInfo 
+                                    refundData={refundData}
+                                />
                             </>
                         )}
                         <div className="buttons mt-3">
                             
                             {refundData && (
-                                <ReservBtn type="submit" className="btn btn-primary custom1 delBtn">환불 승인</ReservBtn>
+                                // <form className="d-inline">
+                                    <button onClick={checkConfirm} className="btn btn-primary custom1 delBtn">환불 승인</button>
+                                // </form>
                             )}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    );
-};
+    )
+}
 
-export default ReservRead;
+export default ReservRead

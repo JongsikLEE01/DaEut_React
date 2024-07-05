@@ -469,10 +469,10 @@ public class AdminController {
      * @param ordersNo
      * @return
      */
-    @PostMapping("/adminReservationCancel")
-    public ResponseEntity<?> adminReadReservationCancel(@RequestParam("ordersNo") String ordersNo) {
+    @GetMapping("/adminReservationCancel")
+    public ResponseEntity<?> adminReadReservationCancel(@RequestParam String ordersNo) {
+        log.info("Cancel ordersNo: " + ordersNo);
         try {
-            log.info("ordersNo: " + ordersNo);
 
             // 결제 내역 환불로 수정
             Payments payments = paymentService.selectByOrdersNo(ordersNo);

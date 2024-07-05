@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const UserChatRoomForm = ({ chatRooms }) => {
   return (
@@ -26,12 +27,12 @@ const UserChatRoomForm = ({ chatRooms }) => {
                   <tr key={chatRoom.roomNo}>
                     <td>{index + 1}</td>
                     <td>
-                      <a
+                      <Link
                         className="text-decoration-none color_main"
-                        href={`/reservation/chat?roomNo=${chatRoom.roomNo}`}
+                        to={`/chat/${chatRoom.roomNo}`}
                       >
                         {chatRoom.title}
-                      </a>
+                      </Link>
                     </td>
                     <td>{new Date(chatRoom.regDate).toLocaleDateString()}</td>
                   </tr>

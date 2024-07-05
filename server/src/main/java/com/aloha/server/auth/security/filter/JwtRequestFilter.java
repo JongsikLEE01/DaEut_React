@@ -36,13 +36,13 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
         // HTTP 헤더에서 토큰을 가져옴
         String header = request.getHeader(SecurityConstants.TOKEN_HEADER);
-        log.info("authorization : " + header);
+        // log.info("authorization : " + header);
 
         
         //✅ Bearer + {jwt} 체크
         // 헤더가 없거나 형식이 올바르지 않으면 다음 필터로 진행
         if (header == null || header.length() == 0 || !header.startsWith(SecurityConstants.TOKEN_PREFIX)) {
-            log.info("헤더가 없대잖아 다운아!!!!!!!!!!!");
+            // log.info("헤더가 없대잖아 다운아!!!!!!!!!!!");
             filterChain.doFilter(request, response);
             return;
         }

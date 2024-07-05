@@ -121,8 +121,8 @@ public class CartController {
      * @return
      * @throws Exception
      */
-    @DeleteMapping("")
-    public ResponseEntity<Object> deleteCart(@RequestBody List<Integer> cartNos) {
+    @DeleteMapping("/{cartNos}")
+    public ResponseEntity<Object> deleteCart(@PathVariable List<Integer> cartNos) {
         try {
             int result = cartService.cartDeleteSelected(cartNos);
             return ResponseEntity.ok().body("Deleted " + result + " cart items");
@@ -161,7 +161,7 @@ public class CartController {
      * @param userNo
      * @return
      */
-    @DeleteMapping("/{userNo}")
+    @DeleteMapping("/all/{userNo}")
     public ResponseEntity<String> removeAllCarts(@PathVariable("userNo") int userNo) {
         int result;
         

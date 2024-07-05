@@ -82,6 +82,7 @@ const ServiceReadContainer = ({ serviceNo }) => {
   // 채팅방 생성
   const onChatRoom = async (partnerNo, userInfo) =>{
     try {
+      console.log('---'+partnerNo);
       const response = await Services.addChatRoom(partnerNo, userInfo)
       const data = response.data
       const chatRoom = data.chatRoom
