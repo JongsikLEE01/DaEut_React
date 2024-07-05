@@ -300,3 +300,14 @@ a {
 .table td.userTd {
     line-height: 0;
 }
+.status-보류 {
+    color: green;
+}
+
+.status-결제완료 {
+    color: blue;
+}
+
+.status-환불 {
+    color: red;
+}
