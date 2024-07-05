@@ -234,7 +234,6 @@ const TipReadContainer = () => {
       }
   };
 
-
   const handleLike = async (event) => {
     const boardNo = event.currentTarget.getAttribute('data-board-no');
     const token = localStorage.getItem('token');
@@ -254,7 +253,11 @@ const TipReadContainer = () => {
       const responseData = response.data;
       if (responseData.success) {
         alert('추천이 완료되었습니다.');
-        fetchBoardDetails();
+        // 게시글 전체 데이터를 다시 가져오는 대신, 추천 수만 업데이트합니다.
+        setBoardData(prevData => ({
+          ...prevData,
+          boardLike: prevData.boardLike + 1
+        }));
       } else {
         alert(responseData.message);
       }
