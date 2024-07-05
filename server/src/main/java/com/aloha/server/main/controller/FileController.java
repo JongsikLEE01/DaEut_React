@@ -121,19 +121,19 @@ public class FileController {
      * @param no
      * @return
      */
-    @DeleteMapping("/{no}")
-    public ResponseEntity<?> delete(@PathVariable("no") Integer no) {
-        try {
-            if(no == null)
-                return new ResponseEntity<>("잘못된 요청입니다...",HttpStatus.BAD_REQUEST);
+    // @DeleteMapping("/{no}")
+    // public ResponseEntity<?> delete(@PathVariable("no") Integer no) {
+    //     try {
+    //         if(no == null)
+    //             return new ResponseEntity<>("잘못된 요청입니다...",HttpStatus.BAD_REQUEST);
 
-            int result = fileService.delete(no);
-            if(result > 0)
-                return new ResponseEntity<>("파일 삭제 성공...", HttpStatus.OK);
-            else
-                return new ResponseEntity<>("파일 삭제 실패...",HttpStatus.INTERNAL_SERVER_ERROR);
-        } catch (Exception e) {
-            return new ResponseEntity<>("파일 삭제 실패...", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
+    //         int result = fileService.delete(no);
+    //         if(result > 0)
+    //             return new ResponseEntity<>("파일 삭제 성공...", HttpStatus.OK);
+    //         else
+    //             return new ResponseEntity<>("파일 삭제 실패...",HttpStatus.INTERNAL_SERVER_ERROR);
+    //     } catch (Exception e) {
+    //         return new ResponseEntity<>("파일 삭제 실패...", HttpStatus.INTERNAL_SERVER_ERROR);
+    //     }
+    // }
 }

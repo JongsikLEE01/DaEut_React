@@ -47,7 +47,9 @@ const TipRead = ({
           <hr className="my-2" />
           <div className="text-center my-5">
             {fileList.map((file) => (
-              <img key={file.fileNo} src={`/file/img/${file.fileNo}`} alt="파일 이미지" className="img-fluid" />
+              <div key={file.fileNo} className={styles['img-container']}>
+                <img src={`/file/img/${file.fileNo}`} alt="파일 이미지" className={styles['img-fluid']} />
+              </div>
             ))}
           </div>
           <div className={styles['col-15']}>
@@ -94,16 +96,6 @@ const TipRead = ({
           </div>
         )}
       </div>
-      {/* {replyParentNo !== null && (
-        <div className={styles['reply-reply-container']}>
-          <h3 className={styles['reply-reply-title']}>답글</h3>
-          <form className={styles['reply-reply-input']} onSubmit={handleReplyReplySubmit}>
-            <textarea value={replyContent} onChange={(e) => setReplyContent(e.target.value)} className={styles.textareaNoResize} />
-            <button type="submit" className={styles.submitButton}>답글 등록</button>
-            <button type="button" className={styles.cancelButton} onClick={() => setReplyParentNo(null)}>취소</button>
-          </form>
-        </div>
-      )} */}
     </div>
   );
 };

@@ -4,14 +4,16 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
-import java.util.HashMap;
-import java.util.List;
 
 import javax.servlet.http.HttpSession;
+
+import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.aloha.server.auth.dto.CustomUser;
+import com.aloha.server.auth.dto.Users;
 import com.aloha.server.reservation.dto.Cancel;
 import com.aloha.server.reservation.dto.OrderItems;
 import com.aloha.server.reservation.dto.OrderStatus;
@@ -73,7 +77,7 @@ public class OrderController {
             orders.setOrderStatus(OrderStatus.보류중);
             
             // 주문 등록
-            int result = orderService.insert(orders);
+            orderService.insert(orders);
             
             log.info("신규 등록된 주문ID : " + orders.getOrdersNo());
             String ordersNo = orders.getOrdersNo();
@@ -82,6 +86,47 @@ public class OrderController {
             response.put("orders", orders);
             response.put("ordersNo", ordersNo);
             
+            return ResponseEntity.ok().body(response);
+        } catch (Exception e) {
+            log.error("주문 등록 중 오류 발생: {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("서버 오류 발생");
+        }
+    }
+
+    /**
+     * 장바구니 주문 등록
+     * @param orders
+     * @param session
+     * @param serviceNo
+     * @param quantity
+     * @return
+     */
+    @PostMapping("/cartOrder")
+    public ResponseEntity<?> orderPosts(@RequestBody Orders orders){
+                                    //    @RequestParam List<String> serviceNo,
+                                    //    @RequestParam List<Integer> quantity,
+                                    //    @AuthenticationPrincipal CustomUser customUser) {
+        try {
+            log.info("::::::::: 주문 등록 - orderPost() ::::::::::");
+            log.info("orders {}", orders);
+
+            // if (user == null) {
+            //     return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            // }
+
+            // orders.setUserNo(user.getUserNo());
+            orders.setOrderStatus(OrderStatus.보류중);
+
+            // 주문 등록
+            orderService.insert(orders);
+
+            log.info("신규 등록된 주문ID : " + orders.getOrdersNo());
+            String ordersNo = orders.getOrdersNo();
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("orders", orders);
+            response.put("ordersNo", ordersNo);
+
             return ResponseEntity.ok().body(response);
         } catch (Exception e) {
             log.error("주문 등록 중 오류 발생: {}", e.getMessage());

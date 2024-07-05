@@ -438,17 +438,18 @@ public class AdminController {
     }
 
     // 관리자 - 예약 조회 화면
-    @GetMapping("/adminReservationRead")
-    public ResponseEntity<?> adminReadReservation(@RequestParam("ordersNo") String ordersNo) {
+    @GetMapping("/adminReservationRead/{ordersNo}")
+    public ResponseEntity<?> adminReadReservation(@PathVariable("ordersNo") String ordersNo) {
         try {
             log.info("ordersNo : " + ordersNo);
             Payments payments = paymentService.selectByOrdersNo(ordersNo);
-            log.info("payments?? : " + payments);
+            log.info("payments : " + payments);
             Orders orders = orderService.listByOrderNo(ordersNo);
             log.info("orders : " + orders);
             Users user = userService.selectByUserNo(orders.getUserNo());
             log.info("user : " + user);
             Cancel cancel = cancelService.selectByOrdersNo(ordersNo);
+            log.info("cancel : " + cancel);
 
             HashMap<String, Object> response = new HashMap<>();
             response.put("cancel", cancel);
@@ -468,10 +469,10 @@ public class AdminController {
      * @param ordersNo
      * @return
      */
-    @PostMapping("/adminReservationCancel")
-    public ResponseEntity<?> adminReadReservationCancel(@RequestParam("ordersNo") String ordersNo) {
+    @GetMapping("/adminReservationCancel")
+    public ResponseEntity<?> adminReadReservationCancel(@RequestParam String ordersNo) {
+        log.info("Cancel ordersNo: " + ordersNo);
         try {
-            log.info("ordersNo: " + ordersNo);
 
             // 결제 내역 환불로 수정
             Payments payments = paymentService.selectByOrdersNo(ordersNo);
@@ -505,8 +506,9 @@ public class AdminController {
     }
 
     // 관리자 - 예약 수정 화면
-    @GetMapping("/adminReservationUpdate")
-    public ResponseEntity<?> adminReservationUpdate(@RequestParam("ordersNo") String ordersNo) throws Exception {
+    @GetMapping("/adminReservationUpdate/{ordersNo}")
+    public ResponseEntity<?> adminReservationUpdate(@PathVariable("ordersNo") String ordersNo) throws Exception {
+        log.info(ordersNo + "orders!!!");
         try {
             Payments payments = paymentService.selectByOrdersNo(ordersNo);
             Orders orders = orderService.listByOrderNo(ordersNo);

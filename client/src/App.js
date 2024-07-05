@@ -15,7 +15,7 @@ import LoginContextProvider from './components/contexts/LoginContextProvider'
 import FindIdPage from './pages/auth/FindIdPage'
 import DoneFindIdPage from './pages/auth/DoneFindIdPage'
 import Order from './pages/Order/Payment'
-import PartnerList from './pages/partner/PartnerList'
+import PartnerMypage from './pages/partner/PartnerMypage'
 import PartnerReview from './pages/partner/PartnerReview'
 import PartnerUpdate from './pages/partner/PartnerUpdate'
 import PartnerReservation from './pages/partner/PartnerReservation'
@@ -45,10 +45,12 @@ import UserPartner from './pages/user/UserPartner'
 import UserCart from './pages/user/UserCart'
 import UserCancel from './pages/user/UserCancel'
 import UserCancelDone from './pages/user/UserCancelDone'
-import UserDetailPage from './pages/admin/UserDetailPage'
 import UserUpdatePage from './pages/admin/UserUpdatePage'
 import ReservationManagePage from './pages/admin/ReservationManagePage'
-import PartnerChatList from './components/partner/PartnerChatList'
+import ReservationReadPage from './pages/admin/ReservationReadPage'
+import PartnerChatList from './pages/partner/PartnerChatList'
+import UserDetailPage from './pages/admin/UserDetailPage'
+import UpdReservPage from './pages/admin/UpdReservPage'
 
 const App = () => {
   return (
@@ -78,12 +80,13 @@ const App = () => {
           <Route path='/tip/tipUpdate' element={<TipUpdate/>}></Route>
           
           {/*  파트너 */}
-          <Route path="/partnerList/:userNo" element={<PartnerList/>}/>
+          <Route path="/partnerMypage/:userNo" element={<PartnerMypage/>}/>
           <Route path="/partner/reservation/:partnerNo" element={<PartnerReservation/>}/>
           <Route path="/partner/reviews/:partnerNo" element={<PartnerReview/>}/>
           <Route path="/partner/reservationRead/:ordersNo" element={<PartnerReservationRead/>}/>
+          <Route path="/partner/partnerUpdate/:userNo" element={<PartnerUpdate/>}/>
           <Route path="/partner/partnerChatRoom" element={<PartnerChatList />} />
-          {/* <Route path="PartnerUpdate" element={<PartnerUpdate/>}/> */}
+
 
           {/* 소셜로그인 */}
           <Route path="/oauth2/redirect" element={<OAuth2RedirectHandler />} />
@@ -108,20 +111,16 @@ const App = () => {
           <Route path="/user/UserChatRoom" element={<UserChatRoom/> }/>
           <Route path="/user/UserPartner" element={<UserPartner/> } />
           <Route path="/user/UserCart" element={<UserCart/> } />
-          
-
-          {/* 관리자 */}
-          <Route path="/admin/adminUser" element={<UserManagementPage/>} />
-            
           <Route path="/cancel/:ordersNo" element={<UserCancel />} />
           <Route path="/cancelDone/:ordersNo" element={<UserCancelDone />} />
-
+          
           {/* 관리자 */}
           <Route path="/admin/adminUser" element={<UserManagementPage/>} />
           <Route path="/admin/adminUserRead/:userNo" element={<UserDetailPage/>} />
           <Route path="/admin/adminUserUpdate/:userNo" element={<UserUpdatePage />} />
           <Route path="/admin/adminReservation" element={<ReservationManagePage />} />
-
+          <Route path="/admin/adminReservationRead/:ordersNo" element={<ReservationReadPage/>} />
+          <Route path="/admin/adminReservationUpdate/:ordersNo" element={<UpdReservPage/>} />
         </Routes>
       </LoginContextProvider>
     </BrowserRouter>

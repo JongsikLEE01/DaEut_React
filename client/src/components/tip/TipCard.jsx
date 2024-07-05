@@ -1,45 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { tumbnail } from '../../apis/file';
 import styles from '../tip/css/TipIndex.module.css';
 
-const TipCard = ({ board, isLoggedIn }) => {
-  const [thumbnailUrl, setThumbnailUrl] = useState('/img/no-img.png'); // 기본 이미지 설정
-  const [isLoading, setIsLoading] = useState(true);
+const TipCard = ({ board }) => {
+  const [thumbnailUrl, setThumbnailUrl] = useState('/img/no-img.png');
 
   useEffect(() => {
-    const fetchThumbnail = async () => {
-      try {
-        const response = await tumbnail(board.fileNo);
-        console.log('Thumbnail response:', response.data);
-        setThumbnailUrl(response.data.url);
-        setIsLoading(false);
-      } catch (error) {
-        console.error('Error fetching thumbnail:', error);
-        setIsLoading(false);
+    if (board.fileList && board.fileList.length > 0) {
+      const thumbnailFile = board.fileList.find(file => file.fileCode === 1);
+      if (thumbnailFile) {
+        setThumbnailUrl(`/file/img/${thumbnailFile.fileNo}`);
       }
-    };
-
-    if (board.fileNo) {
-      fetchThumbnail();
-    } else {
-      setIsLoading(false);
     }
-  }, [board.fileNo]);
-
-  const handleClick = (e) => {
-    e.stopPropagation();
-  };
+  }, [board.fileList]);
 
   return (
-    <div className={styles.card} onClick={handleClick}>
-      <div className={styles.cardContent}>
+    <div className={styles.card}>
+      <div className={styles['card-content']}>
         <Link to={`/tip/boards/${board.boardNo}`}>
-          {isLoading ? (
-            <p>Loading...</p>
-          ) : (
+          <div className={styles['thumbnail-wrapper']}>
             <img src={thumbnailUrl} alt="썸네일" className={styles.thumbnail} />
-          )}
+          </div>
         </Link>
         <p className={styles['highlight-text']}>{board.boardTitle}</p>
       </div>

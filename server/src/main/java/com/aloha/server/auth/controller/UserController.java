@@ -12,6 +12,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -253,9 +254,9 @@ public class UserController {
     }
 
     // 유저 채팅방 생성 처리
-    @PostMapping("/userChatRoom")
+    @PostMapping("/userChatRoom/{partnerNo}")
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN') or hasRole('ROLE_PARTNER')")
-    public ResponseEntity<Void> createChatRoom(@RequestParam("partnerNo") int partnerNo, @AuthenticationPrincipal CustomUser customUser) throws Exception {
+    public ResponseEntity<Void> createChatRoom(@PathVariable int partnerNo, @AuthenticationPrincipal CustomUser customUser) throws Exception {
         ChatRooms chatRoom = new ChatRooms();
         chatRoom.setPartnerNo(partnerNo);
 

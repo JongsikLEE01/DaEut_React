@@ -29,7 +29,7 @@ const ReservationTable = ({ reservations=[] }) => {
                         <tr key={reservation.ordersNo}>
                             <td>{index + 1}</td>
                             <td>
-                                <Link to={`/admin/adminReservationRead?ordersNo=${reservation.ordersNo}`} className="text-decoration-line">
+                                <Link to={`/admin/adminReservationRead/${reservation.ordersNo}`} className="text-decoration-line">
                                     {reservation.userName}
                                 </Link>
                             </td>
