@@ -164,7 +164,7 @@
             service s ON oi.service_no = s.service_no
         WHERE 
             s.partner_no = #{partnerNo}
-            AND o.order_status = 'CONFIRMED';
+            AND o.order_status = '결제완료';
     </select>
 
     <!--파트너 넘버를 통해 partner이미지 가져오기-->
