@@ -159,22 +159,33 @@ public class BoardController {
     }
 
     @PutMapping("/boards/{boardNo}")
-    public ResponseEntity<String> updateBoard(
-        @PathVariable int boardNo,
-        @RequestParam("boardTitle") String boardTitle,
-        @RequestParam("boardContent") String boardContent) throws Exception {
-        
-        // 현재 보드 정보를 조회하고 업데이트
-        Board board = boardService.select(boardNo);
-        board.setBoardTitle(boardTitle);
-        board.setBoardContent(boardContent);
+public ResponseEntity<String> updateBoard(
+    @PathVariable int boardNo,
+    @RequestParam("boardTitle") String boardTitle,
+    @RequestParam("boardContent") String boardContent,
+    @RequestParam(value = "thumbnail", required = false) MultipartFile thumbnail,
+    @RequestParam(value = "files", required = false) List<MultipartFile> files) throws Exception {
+    
+    // 현재 보드 정보를 조회하고 업데이트
+    Board board = boardService.select(boardNo);
+    board.setBoardTitle(boardTitle);
+    board.setBoardContent(boardContent);
 
-        int result = boardService.update(board);
-        if (result > 0) {
-            return ResponseEntity.ok("Board updated successfully");
-        }
-        return ResponseEntity.badRequest().body("Failed to update board");
+    if (thumbnail != null && !thumbnail.isEmpty()) {
+        board.setThumbnail(thumbnail);
     }
+
+    if (files != null && !files.isEmpty()) {
+        board.setFile(files);
+    }
+
+    int result = boardService.update(board);
+    if (result > 0) {
+        return ResponseEntity.ok("Board updated successfully");
+    }
+    return ResponseEntity.badRequest().body("Failed to update board");
+}
+
 
 
 

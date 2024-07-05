@@ -84,15 +84,15 @@ const TipUpdate = ({
         <div className="mb-3">
           <ul>
             {fileList.map(file => (
-              <li key={file.fileNo}>
+              <li key={file.fileNo} className={styles.fileItem}>
                 <a href={`/file/img/${file.fileNo}`} download>{file.originFileName}</a>
-                <button type="button" onClick={() => handleFileDelete(file.fileNo)} className={`btn ${styles['btn-primary-custom']} me-2`}>삭제</button>
+                <button type="button" onClick={() => handleFileDelete(file.fileNo)} className={`btn ${styles['btn-delete-file']} me-2`}>삭제</button>
               </li>
             ))}
           </ul>
         </div>
         <div className="d-flex justify-content-end">
-        <button type="submit" className={`btn ${styles['btn-submit']} me-2`}>수정하기</button>
+          <button type="submit" className={`btn ${styles['btn-submit']} me-2`}>수정하기</button>
           <button type="button" onClick={handleDeleteConfirm} className={`btn ${styles['btn-delete']} me-2`}>삭제하기</button>
           <a href={`/tip/boards/${boardNo}`} className={`btn ${styles['btn-back']}`}>목록</a>
         </div>

@@ -283,6 +283,7 @@
 
   .reply-list {
     margin-bottom: 80px !important;
+    margin-right: 80px !important;
   }
 
   .editForm {
@@ -405,5 +406,24 @@
   .reply-reply-input .cancelButton:hover {
     opacity: 0.8;
     background-color: transparent;
+  }
+  
+  .img-container {
+    width: 400px; /* 원하는 고정 가로 크기 */
+    height: 300px; /* 원하는 고정 세로 크기 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    border-radius: 8px;
+    margin: 0 auto; /* 중앙 정렬을 위한 자동 마진 */
+  }
+  
+  .img-fluid {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain; /* 이미지의 비율을 유지하며 컨테이너에 맞춤 */
+    object-position: center;
+    border-radius: 8px;
   }
   
