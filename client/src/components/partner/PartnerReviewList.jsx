@@ -1,21 +1,24 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react'
+import Sidebar from '../../components/static/Sidebar'
 import './css/partner.css';
 
 const PartnerReviewList = ({ reviews, parnterNo }) => {
+  const [isOpen, setIsOpen] = useState(true)
 
   const toggleSidebar = () => {
-    const sidebar = document.getElementById('sidebar');
-    sidebar.classList.toggle('d-none');
-  };
+      setIsOpen(!isOpen)
+  }
+
 
   return (
-    <div className="container-fluid container">
+    <main className="container-fluid container">
+      <div className="row">
+      <Sidebar isOpen={isOpen} toggleSidebar={toggleSidebar} roles={{ isPartner: true }} />
         <div className="col-md-9 col-lg-10 form-section">
           <div>
             <h3>작성 리뷰</h3>
             <div className="container mt-2">
-              <div class="card">
+              {/* <div class="card"> */}
               {reviews && reviews.length > 0 ? (
                 reviews.map((review) => (
                   <div key={review.reviewId} className="card mt-3 reservation-card">
@@ -48,7 +51,8 @@ const PartnerReviewList = ({ reviews, parnterNo }) => {
             </div>
           </div>
         </div>
-      </div>
+        {/* </div> */}
+      </main>
   );
 };
 

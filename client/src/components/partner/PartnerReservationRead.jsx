@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react'
+import Sidebar from '../../components/static/Sidebar'
 
 const PartnerReservationRead = ({ reservationRead }) => {
   console.log('Received reservationRead:', reservationRead);
 
+  const [isOpen, setIsOpen] = useState(true)
+
   const toggleSidebar = () => {
-    const sidebar = document.getElementById('sidebar');
-    sidebar.classList.toggle('d-none');
-  };
+      setIsOpen(!isOpen)
+  }
 
   const formatDate = (dateString) => {
     const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
@@ -20,13 +22,9 @@ const PartnerReservationRead = ({ reservationRead }) => {
   const { order, payments, services } = reservationRead;
 
   return (
-    <div>
-      <button className="btn btn-primary toggle-btn menu mt-2 ml-2 myBtn" id="toggle-btn" onClick={toggleSidebar}>
-        메뉴
-      </button>
-
       <main className="container-fluid container">
         <div className="row">
+        <Sidebar isOpen={isOpen} toggleSidebar={toggleSidebar} roles={{ isPartner: true }} />
           <div className="col-md-9 col-lg-10 form-section">
             <h3>요청자 예약 보기</h3>
             <form>
@@ -97,7 +95,6 @@ const PartnerReservationRead = ({ reservationRead }) => {
           </div>
         </div>
       </main>
-    </div>
   );
 };
 

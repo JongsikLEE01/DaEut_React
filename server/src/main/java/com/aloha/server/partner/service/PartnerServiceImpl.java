@@ -44,17 +44,24 @@ public class PartnerServiceImpl implements PartnerService {
 
     // 파트너 정보 수정
     @Override
-    @Transactional
-    public int partnerUpdate(Partner partner, Users user) throws Exception {
-        int userUpdateResult = userService.update(user);
-        int partnerUpdateResult = partnerMapper.partnerUpdate(partner);
-     
-    
-        // 둘 중 하나라도 실패하면 실패로 처리하기
-        int result = userUpdateResult + partnerUpdateResult;
-    
+    public int partnerUpdate(Partner partner) throws Exception {
+        int result = partnerMapper.partnerUpdate(partner);
+
         return result;
     }
+
+    // @Override
+    // @Transactional
+    // public int partnerUpdate(Partner partner, Users user) throws Exception {
+    //     int userUpdateResult = userService.update(user);
+    //     int partnerUpdateResult = partnerMapper.partnerUpdate(partner);
+     
+    
+    //     // 둘 중 하나라도 실패하면 실패로 처리하기
+    //     int result = userUpdateResult + partnerUpdateResult;
+    
+    //     return result;
+    // }
 
     // 리뷰 모아보기
     @Override
