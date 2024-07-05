@@ -18,3 +18,37 @@ export const updateUserInfo = (data) => {
 };
 
 export const getUserReservations = () => api.get('/user/userReservation');
+
+export const getUserPaymentsAndReview = () => {
+  const token = Cookies.get('accessToken');
+  if (!token) {
+    return Promise.reject(new Error('No access token found'));
+  }
+
+  return api.get('/user/userReview', {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const submitUserReview = (reviewData) => {
+  const token = Cookies.get('accessToken');
+  if (!token) {
+    console.error('No access token found');
+    return Promise.reject(new Error('No access token found'));
+  }
+
+  return api.post('/user/userReviewDone', reviewData, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+
+export const getUserChatRooms = () => api.get('/user/userChatRoom')
+
+export const getUserPartnerDetails = () => api.get('/user/userPartner');
+
+export const submitPartnerRequest = (formData) => api.post('/user/request-partner', formData)

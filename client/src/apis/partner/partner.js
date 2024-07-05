@@ -17,3 +17,6 @@ export const getpartnerReservationRead = (ordersNo) => axios.get(`/partner/reser
 
 // 파트너 탈퇴
 export const deletePartner = (userNo) => axios.delete(`/partner/delete/${userNo}`);
+
+// 채팅 조회
+export const selectChatList = (partnerNo) => axios.get(`/partner/partnerChatRoom`, {params: {partnerNo}})

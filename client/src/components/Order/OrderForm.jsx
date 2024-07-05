@@ -19,9 +19,9 @@ const OrderForm = ({ orders, orderItem }) => {
   const [isOpen, setIsOpen] = useState(false)
   const { userInfo } = useContext(LoginContext)
 
-  console.log(name);
-  console.log(email);
-  console.log(phone);
+  console.log(name)
+  console.log(email)
+  console.log(phone)
 
   const onCancel = () =>{
     Swal.confirm('정말 취소하시겠습니까?', '지금 결제를 취소 할 경우 현재 저장된 입력한 값이 모두 사라집니다.', 'warning',(result) => {
@@ -64,7 +64,7 @@ const OrderForm = ({ orders, orderItem }) => {
   
   // 결제
   const onClickPayment = () => {
-    if(!name || !email || !phone || !serviceDate || !serviceTime || !userPost || !userAddress || !userAddressDetail ){
+    if (!name || !email || !phone || !serviceDate || !serviceTime || !userPost || !userAddress || !userAddressDetail) {
       Swal.alert('모든 입력 값을 입력해주세요', '선택되지 않은 입력 값이 있어요. 선택해주세요.', 'warning')
       return
     }

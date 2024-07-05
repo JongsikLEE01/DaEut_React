@@ -2,7 +2,7 @@ import React from 'react'
 import UserLayout from '../../layouts/UserLayout'
 import UserMypageContainer from '../../containers/User/UserMypageContainer'
 
-const UserMyPage = () => {
+const UserMypage = () => {
   return (
     <>
       <UserLayout>
@@ -12,4 +12,4 @@ const UserMyPage = () => {
   )
 }
 
-export default UserMyPage
+export default UserMypage
