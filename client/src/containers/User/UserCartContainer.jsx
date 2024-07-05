@@ -13,7 +13,7 @@ const UserCartContainer = () => {
     try {
       const response = await service.selectCart(userNo)
       const data = response.data
-      console.log(data)
+      // console.log(data)
 
       setCartList(data)
     } catch (e) {
@@ -60,7 +60,7 @@ const UserCartContainer = () => {
       const userNo = userInfo.userNo
       getCartList(userNo)
     }
-  }, [])
+  }, [cartList])
 
   return (
     <UserCartForm 

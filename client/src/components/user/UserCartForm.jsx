@@ -12,6 +12,7 @@ const UserCartForm = ({ cartList, onDeleteSelected, onDeleteAll, onOrderSelected
       Swal.alert('장바구니 삭제 실패', '삭제할 서비스를 선택하고 삭제해주세요!', 'error')
       return
     }
+    console.log(CartNos);
     onDeleteSelected(CartNos)
   }
 

@@ -10,8 +10,8 @@ export const remove =  (serviceNo) => axios.delete(`/reservation/${serviceNo}`)
 // Cart Axios
 export const selectCart = (userNo) => axios.get(`/cart/${userNo}`)
 export const addCart = (userNo, serviceNo) => axios.post(`/cart`, {userNo, serviceNo})
-export const removeCart = (cartNos) => axios.delete(`/cart`, { cartNos })
-export const removeCartAll = (userNo) => axios.delete(`/cart/${userNo}`)
+export const removeCart = (cartNos) => axios.delete(`/cart/${cartNos}`)
+export const removeCartAll = (userNo) => axios.delete(`/all/cart/${userNo}`)
 
 // Chat Axios
 export const addChatRoom = (partnerNo, userInfo) => axios.post(`/user/userChatRoom/${partnerNo}`, userInfo)
