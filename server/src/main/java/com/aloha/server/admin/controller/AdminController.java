@@ -506,8 +506,9 @@ public class AdminController {
     }
 
     // 관리자 - 예약 수정 화면
-    @GetMapping("/adminReservationUpdate")
-    public ResponseEntity<?> adminReservationUpdate(@RequestParam("ordersNo") String ordersNo) throws Exception {
+    @GetMapping("/adminReservationUpdate/{ordersNo}")
+    public ResponseEntity<?> adminReservationUpdate(@PathVariable("ordersNo") String ordersNo) throws Exception {
+        log.info(ordersNo + "orders!!!");
         try {
             Payments payments = paymentService.selectByOrdersNo(ordersNo);
             Orders orders = orderService.listByOrderNo(ordersNo);
