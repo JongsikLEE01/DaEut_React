@@ -1,5 +1,5 @@
 import React from 'react';
-import ReservationManageContainer from '../../containers/admin/ReservationManageContainer';
+import ReservationManageContainer from '../../containers/Admin/ReservationManageContainer';
 import MainLayout from '../../layouts/MainLayout';
 
 const ReservationManagePage = () => {

@@ -2,7 +2,7 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import MainLayout from '../../layouts/MainLayout';
-import UserDetail from '../../containers/admin/UserDetail';
+import UserDetail from '../../containers/Admin/UserDetail';
 
 const UserReadContainer = () => {
     const { userNo } = useParams()
