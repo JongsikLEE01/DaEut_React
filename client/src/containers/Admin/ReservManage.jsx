@@ -6,7 +6,7 @@ import Swal from 'sweetalert2';
 import './Admin.css';
 import CustomPagination from '../../components/admin/Pagenation';
 
-const ReservationManageContainer = () => {
+const ReservManage = () => {
     const [isOpen, setIsOpen] = useState(true);
     const [reservations, setReservations] = useState([]);
     const [error, setError] = useState(null);
@@ -14,13 +14,15 @@ const ReservationManageContainer = () => {
     const [totalCount, setTotalCount] = useState(0);
     const itemsPerPage = 10;
 
+    console.log("reservations :::::::::: ", reservations);
+
     const fetchReservations = async (page) => {
         try {
             const response = await getReservations(page);
             const data = response.data;
             console.log("Fetched reservations: ", data.orderList); // 데이터 확인
-            setReservations(data.orderList || []);
-            setTotalCount(data.totalCount || 0);
+            setReservations(data.orderList);
+            setTotalCount(data.totalCount);
         } catch (error) {
             console.error('Failed to fetch reservations:', error);
             setError(error);
@@ -54,4 +56,4 @@ const ReservationManageContainer = () => {
     );
 };
 
-export default ReservationManageContainer;
+export default ReservManage;

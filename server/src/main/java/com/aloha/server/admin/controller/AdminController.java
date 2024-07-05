@@ -438,17 +438,18 @@ public class AdminController {
     }
 
     // 관리자 - 예약 조회 화면
-    @GetMapping("/adminReservationRead")
-    public ResponseEntity<?> adminReadReservation(@RequestParam("ordersNo") String ordersNo) {
+    @GetMapping("/adminReservationRead/{ordersNo}")
+    public ResponseEntity<?> adminReadReservation(@PathVariable("ordersNo") String ordersNo) {
         try {
             log.info("ordersNo : " + ordersNo);
             Payments payments = paymentService.selectByOrdersNo(ordersNo);
-            log.info("payments?? : " + payments);
+            log.info("payments : " + payments);
             Orders orders = orderService.listByOrderNo(ordersNo);
             log.info("orders : " + orders);
             Users user = userService.selectByUserNo(orders.getUserNo());
             log.info("user : " + user);
             Cancel cancel = cancelService.selectByOrdersNo(ordersNo);
+            log.info("cancel : " + cancel);
 
             HashMap<String, Object> response = new HashMap<>();
             response.put("cancel", cancel);
