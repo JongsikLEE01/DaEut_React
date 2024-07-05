@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import PartnerMypage from '../../components/partner/PartnerMyPage';
 import { useParams } from 'react-router-dom';
 import * as partnersApi from '../../apis/partner/partner';
+import PartnerMypage from '../../components/partner/PartnerMyPage';
 
 const PartnerContainer = () => {
   const { userNo } = useParams();
