@@ -1,8 +1,6 @@
 package com.aloha.server.auth.controller;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,10 +23,12 @@ import com.aloha.server.auth.dto.Users;
 import com.aloha.server.auth.service.ReviewService;
 import com.aloha.server.auth.service.UserService;
 import com.aloha.server.partner.dto.Partner;
+import com.aloha.server.reservation.dto.Cancel;
 import com.aloha.server.reservation.dto.Cart;
 import com.aloha.server.reservation.dto.ChatRooms;
 import com.aloha.server.reservation.dto.Orders;
 import com.aloha.server.reservation.dto.Payments;
+import com.aloha.server.reservation.service.CancelService;
 import com.aloha.server.reservation.service.CartService;
 import com.aloha.server.reservation.service.ChatRoomService;
 import com.aloha.server.reservation.service.OrderService;
@@ -55,6 +55,9 @@ public class UserController {
 
     @Autowired
     private ReviewService reviewService;
+
+    @Autowired
+    private CancelService cancelService;
 
 //    // 사용자 마이페이지 조회
 //    @GetMapping("/userMypage/{userId}")
@@ -367,12 +370,12 @@ public class UserController {
     }
 
     // 예약 취소 페이지 조회
-    @GetMapping("/userResevationCancel")
+    @PostMapping("/cancelDone")
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN') or hasRole('ROLE_PARTNER')")
-    public ResponseEntity<Orders> userResevationCancel(@RequestParam String ordersNo) throws Exception {
+    public ResponseEntity<?> userResevationCancel(@RequestParam String ordersNo) throws Exception {
         try {
-            Orders orders = orderService.select(ordersNo);
-            return ResponseEntity.ok(orders);
+            Cancel cancel = cancelService.selectByOrdersNo(ordersNo);
+            return ResponseEntity.ok().body(cancel);
         } catch (Exception e) {
             log.error("Error retrieving order for cancellation", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

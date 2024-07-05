@@ -206,19 +206,16 @@ public class PartnerController {
     
         // 파트너 채팅방
         @GetMapping("/partnerChatRoom")
-        public String userChatRooms(Model model, HttpSession session) throws Exception {
-            int partnerNo = (int) session.getAttribute("partnerNo"); // 세션에서 partnerNo 가져오기
-            
+        public ResponseEntity<?> userChatRooms(@RequestParam int partnerNo){
             log.info("pNo {}"+partnerNo);
-
-            // 파트너 번호로 채팅 내역 가져오기
-            List<ChatRooms> chatRoomList = chatRoomService.selectByPartnerNo(partnerNo);
-            // for (ChatRooms chatRooms : chatRoomList) {
-            //     String roomNo = chatRooms.getRoomNo();
-            //     model.addAttribute("roomNo", roomNo);
-            // }
-            
-            model.addAttribute("chatRoomList", chatRoomList);
-            return "partner/partnerChatRoom";
+            try {
+                List<ChatRooms> chatRoomList = chatRoomService.selectByPartnerNo(partnerNo);
+        
+                log.info("파트너 채팅 내역 {}", chatRoomList);
+                return ResponseEntity.ok(chatRoomList);
+            } catch (Exception e) {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("파트너 채팅 내역 조회 중 에러 발생... " + e.getMessage());
+            }
         }
+        
 }
