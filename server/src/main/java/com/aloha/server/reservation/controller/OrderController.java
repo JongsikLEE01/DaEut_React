@@ -4,10 +4,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
-import java.util.HashMap;
-import java.util.List;
 
 import javax.servlet.http.HttpSession;
+
+import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.aloha.server.auth.dto.Users;
 import com.aloha.server.reservation.dto.Cancel;
 import com.aloha.server.reservation.dto.OrderItems;
 import com.aloha.server.reservation.dto.OrderStatus;
@@ -88,6 +90,40 @@ public class OrderController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("서버 오류 발생");
         }
     }
+
+    // /**
+    //  * 장바구니 주문 등록
+    //  * @param orders
+    //  * @param session
+    //  * @param serviceNo
+    //  * @param quantity
+    //  * @return
+    //  */
+    // @PostMapping("/selected")
+    // public ResponseEntity<String> orderPost(
+    //                                     @RequestBody Orders orders,
+    //                                     @RequestParam List<String> serviceNo,
+    //                                     @RequestParam List<Integer> quantity) throws Exception {
+
+    //     log.info("::::::::: 주문 등록 - orderPost() ::::::::::");
+    //     log.info("serviceNo : " + serviceNo);
+    //     log.info("quantity : " + quantity);
+
+    //     // orders.setUserNo(user.getUserNo());
+    //     orders.setOrderStatus(OrderStatus.보류중);
+
+    //     // 주문 등록
+    //     int result = orderService.insert(orders);
+
+    //     log.info("신규 등록된 주문ID : " + orders.getOrdersNo());
+    //     if (result > 0) {
+    //         // 주문 등록 성공
+    //         return ResponseEntity.status(HttpStatus.CREATED).body("주문 성공...");
+    //     } else {
+    //         // 주문 실패
+    //         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("주문 중 오류 발생...");
+    //     }
+    // }
     
     /**
      * 주문 완료

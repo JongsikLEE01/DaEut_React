@@ -1,24 +1,26 @@
 // UserCartForm.js
-import React from 'react';
+import React from 'react'
+import * as Swal from '../../apis/alert'
 
 const UserCartForm = ({ cartList, onDeleteSelected, onDeleteAll, onOrderSelected }) => {
   const handleDeleteSelected = () => {
-    const selectedCartNos = Array.from(document.querySelectorAll('.checkbox:checked')).map(checkbox => checkbox.value);
-    if (selectedCartNos.length === 0) {
-      alert("선택된 제품이 없어요");
-      return;
+    const CartNos = Array.from(document.querySelectorAll('.checkbox:checked')).map(checkbox => checkbox.value)
+    if (CartNos.length === 0) {
+      Swal.alert('장바구니 삭제 실패', '삭제할 서비스를 선택하고 삭제해주세요!', 'error')
+      return
     }
-    onDeleteSelected(selectedCartNos);
-  };
+    onDeleteSelected(CartNos)
+  }
 
   const handleOrderSelected = () => {
-    const selectedCartNos = Array.from(document.querySelectorAll('.checkbox:checked')).map(checkbox => checkbox.value);
-    if (selectedCartNos.length === 0) {
-      alert("선택된 제품이 없어요");
-      return;
+    const CartNos = Array.from(document.querySelectorAll('.checkbox:checked')).map(checkbox => checkbox.value)
+    if (CartNos.length === 0) {
+      Swal.alert('선택 주문 실패', '주문할 서비스를 선택하고 주문해주세요!', 'error')
+      return
     }
-    onOrderSelected(selectedCartNos);
-  };
+    onOrderSelected(CartNos)
+  }
+
 
   return (
     <div className="col-md-9 col-lg-10 form-section" id="cartSection">
@@ -30,9 +32,9 @@ const UserCartForm = ({ cartList, onDeleteSelected, onDeleteAll, onOrderSelected
         <thead className="table-light">
           <tr>
             <th></th>
-            <th>No.</th>
-            <th>서비스</th>
-            <th>파트너</th>
+            <th>번호</th>
+            <th>서비스명</th>
+            <th>파트너명</th>
             <th>내가 담은 날짜</th>
           </tr>
         </thead>
@@ -62,7 +64,7 @@ const UserCartForm = ({ cartList, onDeleteSelected, onDeleteAll, onOrderSelected
         <button className="btn btn-primary custom2" onClick={handleOrderSelected}>구매하기</button>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default UserCartForm;
+export default UserCartForm

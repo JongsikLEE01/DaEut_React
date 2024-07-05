@@ -60,7 +60,7 @@ const ReservRead = ({ ordersNo }) => {
           // isConfirmed : 확인 버튼 클릭 여부
           if (result.isConfirmed) {
               onCancel(ordersNo)
-              Swal.alert('환불 승인 성공', '', 'success');
+              Swal.alert('환불 승인 성공', '', 'success')
           }
         })
     }

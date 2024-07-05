@@ -1,58 +1,75 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import UserCartForm from '../../components/user/UserCartForm';
+import React, { useState, useEffect, useContext } from 'react'
+import axios from 'axios'
+import UserCartForm from '../../components/user/UserCartForm'
+import * as service from '../../apis/Services/Services'
+import { LoginContext } from '../../components/contexts/LoginContextProvider'
 
 const UserCartContainer = () => {
-  const [cartList, setCartList] = useState([]);
+  const [cartList, setCartList] = useState([])
+  const { userInfo } = useContext(LoginContext)
+
+  // 장바구니 가져오기
+  const getCartList = async (userNo) => {
+    try {
+      const response = await service.selectCart(userNo)
+      const data = response.data
+      console.log(data)
+
+      setCartList(data)
+    } catch (e) {
+      console.error('장바구니 조회중 에러 발생... ', e)
+    }
+  }
+
+  // 선택 삭제
+  const onDeleteSelected = async (cartNos) => {
+    try {
+      const response = await service.removeCart(cartNos)
+      const status = response.status
+      // setCartList(cartList.filter(cart => !selectedCartNos.includes(cart.cartNo)))
+      console.log(`선택 삭제 결과... ${status}`)
+    } catch (e) {
+      console.error('선택 삭제 중 에러 발생...', e)
+    }
+  }
+
+  // 전체 삭제
+  const onDeleteAll = async (userNo) => {
+    try {
+      const response = await service.removeCartAll(userNo)
+      const status = response.status
+      console.log(`장바구니 전체 삭제 결과... ${status}`)
+      setCartList([])
+    } catch (e) {
+      console.error('장바구니 전체 삭제 중 에러 발생...', e)
+    }
+  }
+
+  // 선택 주문
+  const onOrderSelected = async (CartNos) => {
+    try {
+      await axios.post('/orders', { cartNos: CartNos })
+      // setCartList(cartList.filter(cart => !CartNos.includes(cart.cartNo)))
+    } catch (error) {
+      console.error('선택 주문중 오류 발생...', error)
+    }
+  }
 
   useEffect(() => {
-    // 장바구니 데이터를 API에서 가져옴
-    const fetchCartList = async () => {
-      try {
-        const response = await axios.get('/cart');
-        setCartList(response.data);
-      } catch (error) {
-        console.error('Error fetching cart list:', error);
-      }
-    };
-    fetchCartList();
-  }, []);
-
-  const handleDeleteSelected = async (selectedCartNos) => {
-    try {
-      await axios.delete('/cart/delete', { data: { cartNos: selectedCartNos } });
-      setCartList(cartList.filter(cart => !selectedCartNos.includes(cart.cartNo)));
-    } catch (error) {
-      console.error('Error deleting selected carts:', error);
+    if(userInfo){
+      const userNo = userInfo.userNo
+      getCartList(userNo)
     }
-  };
-
-  const handleDeleteAll = async () => {
-    try {
-      await axios.delete('/cart/delete/all');
-      setCartList([]);
-    } catch (error) {
-      console.error('Error deleting all carts:', error);
-    }
-  };
-
-  const handleOrderSelected = async (selectedCartNos) => {
-    try {
-      await axios.post('/orders', { cartNos: selectedCartNos });
-      setCartList(cartList.filter(cart => !selectedCartNos.includes(cart.cartNo)));
-    } catch (error) {
-      console.error('Error ordering selected carts:', error);
-    }
-  };
+  }, [])
 
   return (
     <UserCartForm 
       cartList={cartList} 
-      onDeleteSelected={handleDeleteSelected} 
-      onDeleteAll={handleDeleteAll} 
-      onOrderSelected={handleOrderSelected} 
+      onDeleteSelected={onDeleteSelected} 
+      onDeleteAll={onDeleteAll} 
+      onOrderSelected={onOrderSelected} 
     />
-  );
-};
+  )
+}
 
-export default UserCartContainer;
+export default UserCartContainer
