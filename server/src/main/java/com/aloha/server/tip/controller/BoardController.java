@@ -124,7 +124,6 @@ public class BoardController {
             @RequestParam(value = "thumbnail", required = false) MultipartFile thumbnail,
             @RequestParam(value = "file", required = false) List<MultipartFile> files) {
         try {
-            // 로그로 데이터 확인
             log.info("boardTitle: {}, boardContent: {}, userNo: {}", boardTitle, boardContent, userNo);
             if (thumbnail != null) {
                 log.info("Thumbnail file name: {}", thumbnail.getOriginalFilename());
@@ -138,7 +137,7 @@ public class BoardController {
             Board board = new Board();
             board.setBoardTitle(boardTitle);
             board.setBoardContent(boardContent);
-            board.setUserNo(userNo); // userNo 설정
+            board.setUserNo(userNo);
 
             if (thumbnail != null) {
                 board.setThumbnail(thumbnail);
@@ -159,32 +158,31 @@ public class BoardController {
     }
 
     @PutMapping("/boards/{boardNo}")
-public ResponseEntity<String> updateBoard(
-    @PathVariable int boardNo,
-    @RequestParam("boardTitle") String boardTitle,
-    @RequestParam("boardContent") String boardContent,
-    @RequestParam(value = "thumbnail", required = false) MultipartFile thumbnail,
-    @RequestParam(value = "files", required = false) List<MultipartFile> files) throws Exception {
-    
-    // 현재 보드 정보를 조회하고 업데이트
-    Board board = boardService.select(boardNo);
-    board.setBoardTitle(boardTitle);
-    board.setBoardContent(boardContent);
+    public ResponseEntity<String> updateBoard(
+        @PathVariable int boardNo,
+        @RequestParam("boardTitle") String boardTitle,
+        @RequestParam("boardContent") String boardContent,
+        @RequestParam(value = "thumbnail", required = false) MultipartFile thumbnail,
+        @RequestParam(value = "files", required = false) List<MultipartFile> files) throws Exception {
+        
+        Board board = boardService.select(boardNo);
+        board.setBoardTitle(boardTitle);
+        board.setBoardContent(boardContent);
 
-    if (thumbnail != null && !thumbnail.isEmpty()) {
-        board.setThumbnail(thumbnail);
-    }
+        if (thumbnail != null && !thumbnail.isEmpty()) {
+            board.setThumbnail(thumbnail);
+        }
 
-    if (files != null && !files.isEmpty()) {
-        board.setFile(files);
-    }
+        if (files != null && !files.isEmpty()) {
+            board.setFile(files);
+        }
 
-    int result = boardService.update(board);
-    if (result > 0) {
-        return ResponseEntity.ok("Board updated successfully");
+        int result = boardService.update(board);
+        if (result > 0) {
+            return ResponseEntity.ok("Board updated successfully");
+        }
+        return ResponseEntity.badRequest().body("Failed to update board");
     }
-    return ResponseEntity.badRequest().body("Failed to update board");
-}
 
 
 

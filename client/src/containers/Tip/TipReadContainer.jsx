@@ -202,7 +202,7 @@ const TipReadContainer = () => {
   const deleteAllChildReplies = async (replyNo, token) => {
     const childReplies = replyList.filter(reply => reply.parentNo === replyNo);
     for (const childReply of childReplies) {
-        await deleteAllChildReplies(childReply.replyNo, token); // 재귀 호출로 모든 자식 답글 삭제
+        await deleteAllChildReplies(childReply.replyNo, token); 
         await axios.delete(`/reply/${childReply.replyNo}`, {
             headers: {
                 'Authorization': token ? `Bearer ${token}` : ''
@@ -215,17 +215,14 @@ const TipReadContainer = () => {
       try {
           const token = localStorage.getItem('token');
           
-          // 재귀적으로 모든 자식 답글 삭제
           await deleteAllChildReplies(replyNo, token);
 
-          // 부모 답글 삭제
           await axios.delete(`/reply/${replyNo}`, {
               headers: {
                   'Authorization': token ? `Bearer ${token}` : ''
               }
           });
 
-          // 업데이트된 댓글 목록 및 댓글 수를 다시 가져옵니다.
           updateReplies();
           updateReplyCount();
 
@@ -253,7 +250,6 @@ const TipReadContainer = () => {
       const responseData = response.data;
       if (responseData.success) {
         alert('추천이 완료되었습니다.');
-        // 게시글 전체 데이터를 다시 가져오는 대신, 추천 수만 업데이트합니다.
         setBoardData(prevData => ({
           ...prevData,
           boardLike: prevData.boardLike + 1
@@ -354,7 +350,7 @@ const TipReadContainer = () => {
   };
 
   if (isLoading) {
-    return <p>Loading...</p>; // 로딩 중 메시지
+    return <p>Loading...</p>;
   }
 
   return (
