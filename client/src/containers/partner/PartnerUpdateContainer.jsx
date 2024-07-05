@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import UpdateForm from '../../components/partner/UpdateForm';
-import * as partners from '../../apis/partner/partner';
+import * as partnerAPI from '../../apis/partner/partner';
 import { useNavigate, useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { LoginContext } from '../../components/contexts/LoginContextProvider';
@@ -17,21 +17,23 @@ const PartnerUpdateContainer = () => {
       return;
     }
 
-    const fetchData = async () => {
+    const fetchPartnerData = async () => {
       try {
-        const response = await partners.partnerMypage(userNo);
+        const response = await partnerAPI.partnerMypage(userNo);
+        console.log('Fetched partner data:', response.data);
         setPartnerData(response.data);
       } catch (error) {
         console.error('Error fetching partner data:', error);
       }
     };
 
-    fetchData();
+    fetchPartnerData();
   }, [isLogin, userNo, navigate]);
 
   const updatePartnerInfo = async (formData) => {
     try {
-      const response = await partners.updatePartnerInfo(userNo, formData); // userNo를 함께 전달
+      console.log('Updating partner info with formData:', formData);
+      const response = await partnerAPI.updatePartner(userNo, formData);
       const status = response.status;
       if (status === 200) {
         Swal.fire('회원정보 수정 성공', '로그아웃 후, 다시 로그인해주세요.', 'success').then(() => {
@@ -47,7 +49,8 @@ const PartnerUpdateContainer = () => {
 
   const deletePartner = async () => {
     try {
-      const response = await partners.deletePartner(userNo);
+      console.log('Deleting partner with userNo:', userNo);
+      const response = await partnerAPI.deletePartner(userNo);
       const status = response.status;
       if (status === 200) {
         navigate('/partnerMypage');
