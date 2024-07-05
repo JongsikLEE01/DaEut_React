@@ -84,31 +84,31 @@ public class PartnerController {
     }
 
     // 수정 처리
-    @PutMapping("/update/{userNo}")
-    public ResponseEntity<String> updatePartnerInfo(@PathVariable String userNo,
-                                                    @RequestBody Partner partner) {
-        try {
-            // 사용자 정보 조회
-            Users user = userService.getUserByUserNo(Long.parseLong(userNo));
-            if (user == null) {
-                return ResponseEntity.badRequest().body("해당 사용자가 존재하지 않습니다.");
-            }
+    // @PutMapping("/update/{userNo}")
+    // public ResponseEntity<String> updatePartnerInfo(@PathVariable String userNo,
+    //                                                 @RequestBody Partner partner) {
+    //     try {
+    //         // 사용자 정보 조회
+    //         Users user = userService.getUserByUserNo(Long.parseLong(userNo));
+    //         if (user == null) {
+    //             return ResponseEntity.badRequest().body("해당 사용자가 존재하지 않습니다.");
+    //         }
 
-            // 파트너 정보 업데이트
-            int result = partnerService.partnerUpdate(partner, user);
+    //         // 파트너 정보 업데이트
+    //         int result = partnerService.partnerUpdate(partner, user);
 
-            if (result > 0) {
-                return ResponseEntity.ok("파트너 정보와 사용자 정보가 성공적으로 업데이트되었습니다.");
-            } else {
-                return ResponseEntity.badRequest().body("업데이트에 실패하였습니다.");
-            }
-        } catch (NumberFormatException e) {
-            return ResponseEntity.badRequest().body("유효하지 않은 사용자 번호입니다.");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("서버 오류: " + e.getMessage());
-        }
-    }
+    //         if (result > 0) {
+    //             return ResponseEntity.ok("파트너 정보와 사용자 정보가 성공적으로 업데이트되었습니다.");
+    //         } else {
+    //             return ResponseEntity.badRequest().body("업데이트에 실패하였습니다.");
+    //         }
+    //     } catch (NumberFormatException e) {
+    //         return ResponseEntity.badRequest().body("유효하지 않은 사용자 번호입니다.");
+    //     } catch (Exception e) {
+    //         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+    //                 .body("서버 오류: " + e.getMessage());
+    //     }
+    // }
 
 
     // 탈퇴 처리
