@@ -17,7 +17,7 @@ const UserLayout = ({ children }) => {
     <div className="container-fluid">
       <Header />
       <button className="btn btn-primary toggle-btn menu mt-2 ml-2 myBtn" id="toggle-btn" onClick={toggleSidebar}>메뉴</button>
-      <div className="row">
+      <div className="row userPage">
         <Sidebar toggleSidebar={toggleSidebar} />
         <div className="col-md-9 col-lg-10 form-section">
           {userInfo ? children : <p>Loading...</p>}

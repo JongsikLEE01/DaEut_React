@@ -40,7 +40,7 @@ const UserCancelForm = ({ order, ordersNo, onCancel }) => {
     
   
     return (
-      <div className="col-md-9 col-lg-10 form-section">
+      <div className="col-md-9 col-lg-10 form-sectiona mb-5">
         <h3>예약 취소</h3>
         <br />
           <div className="mb-5">
