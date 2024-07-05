@@ -50,6 +50,7 @@ import ReservationManagePage from './pages/admin/ReservationManagePage'
 import ReservationReadPage from './pages/admin/ReservationReadPage'
 import PartnerChatList from './pages/partner/PartnerChatList'
 import UserDetailPage from './pages/admin/UserDetailPage'
+import UpdReservPage from './pages/admin/UpdReservPage'
 
 const App = () => {
   return (
@@ -110,20 +111,16 @@ const App = () => {
           <Route path="/user/UserChatRoom" element={<UserChatRoom/> }/>
           <Route path="/user/UserPartner" element={<UserPartner/> } />
           <Route path="/user/UserCart" element={<UserCart/> } />
-          
-
-          {/* 관리자 */}
-          <Route path="/admin/adminUser" element={<UserManagementPage/>} />
-            
           <Route path="/cancel/:ordersNo" element={<UserCancel />} />
           <Route path="/cancelDone/:ordersNo" element={<UserCancelDone />} />
-
+          
           {/* 관리자 */}
           <Route path="/admin/adminUser" element={<UserManagementPage/>} />
           <Route path="/admin/adminUserRead/:userNo" element={<UserDetailPage/>} />
           <Route path="/admin/adminUserUpdate/:userNo" element={<UserUpdatePage />} />
           <Route path="/admin/adminReservation" element={<ReservationManagePage />} />
           <Route path="/admin/adminReservationRead/:ordersNo" element={<ReservationReadPage/>} />
+          <Route path="/admin/adminReservationUpdate/:ordersNo" element={<UpdReservPage/>} />
         </Routes>
       </LoginContextProvider>
     </BrowserRouter>
