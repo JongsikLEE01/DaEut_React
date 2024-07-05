@@ -1,8 +1,9 @@
-import React from 'react';
+import React from 'react'
+import { Link } from 'react-router-dom'
 
 const PartnerRead = ({ partner, pthumbnail, handleApprovePartner, handleCancelPartner }) => {
   if (!partner) {
-    return <p>Loading...</p>;
+    return <p>Loading...</p>
   }
 
 
@@ -47,17 +48,17 @@ const PartnerRead = ({ partner, pthumbnail, handleApprovePartner, handleCancelPa
               <button type="button" className="btn btn-secondary cancel" onClick={handleCancelPartner}>
                 승인 취소
               </button>
-              <a href={`/admin/adminPartnerUpdate/${partner.userNo}`} className="btn btn-secondary myBtn">
+              <Link to={`/admin/adminPartnerUpdate/${partner.userNo}`} className="btn btn-secondary myBtn">
                 수정하기
-              </a>
-              <a href="/admin/adminPartner" className="btn btn-light myBtn">
+              </Link>
+              <Link to="/admin/adminPartner" className="btn btn-light myBtn">
                 목록
-              </a>
+              </Link>
             </div>
           </form>
         </div>
       </div>
-  );
-};
+  )
+}
 
-export default PartnerRead;
+export default PartnerRead

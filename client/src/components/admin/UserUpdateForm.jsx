@@ -1,8 +1,8 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react'
+import { Link } from 'react-router-dom'
 
 const UserUpdateForm = ({ user, onChange, onSubmit, onDelete }) => {
-    if (!user) return null; // user가 없는 경우 렌더링하지 않음
+    if (!user) return null // user가 없는 경우 렌더링하지 않음
 
     return (
         <form onSubmit={onSubmit}>
@@ -43,7 +43,7 @@ const UserUpdateForm = ({ user, onChange, onSubmit, onDelete }) => {
                 <Link to="/admin/adminUser" className="btn btn-primary custom2 size">목록</Link>
             </div>
         </form>
-    );
-};
+    )
+}
 
-export default UserUpdateForm;
+export default UserUpdateForm

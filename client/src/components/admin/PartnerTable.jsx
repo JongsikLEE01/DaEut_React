@@ -52,7 +52,7 @@ const PartnerTable = ({ partners, toggleAllCheckboxes }) => {
             </tbody>
           </table>
         </form>
-    );
-  };
+    )
+  }
 
 export default PartnerTable

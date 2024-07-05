@@ -19,7 +19,7 @@
   display: block;
   padding: 10px;
   margin-left: 15px;
-  color: #333;
+  color: #333 !important;
   text-decoration: none;
 }
 

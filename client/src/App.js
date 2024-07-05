@@ -53,6 +53,7 @@ import PartnerPage from './pages/admin/PartnerPage'
 import PartnerDetailPage from './pages/admin/PartnerDetailPage'
 import ReservationManagePage from './pages/admin/ReservationManagePage'
 import UserDetailPage from './pages/admin/UserDetailPage'
+import PartnerUpdatePage from './pages/admin/PartnerUpdatePage'
 
 const App = () => {
   return (
@@ -122,6 +123,7 @@ const App = () => {
           <Route path="/admin/adminUserUpdate/:userNo" element={<UserUpdatePage />} />
           <Route path="/admin/adminPartner" element={<PartnerPage/>} />
           <Route path="/admin/adminPartnerRead/:userNo" element={<PartnerDetailPage/>} />
+          <Route path="/admin/adminPartnerUpdate/:userNo" element={<PartnerUpdatePage />} />
           <Route path="/admin/adminReservation" element={<ReservationManagePage />} />
           <Route path="/admin/adminReservationRead/:ordersNo" element={<ReservationReadPage/>} />
           <Route path="/admin/adminReservationUpdate/:ordersNo" element={<UpdReservPage/>} />

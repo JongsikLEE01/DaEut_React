@@ -13,10 +13,10 @@ const ReservRead = ({ ordersNo }) => {
     const [reservationData, setReservationData] = useState(null)
     const [refundData, setRefundData] = useState(null)
 
-    console.log("ordersNo", ordersNo)
+    console.log("ordersNo", ordersNo);
 
-    console.log("reservationData::::::::: ", reservationData)
-    console.log("refundData::::::::: ", refundData)
+    console.log("reservationData::::::::: ", reservationData);
+    console.log("refundData::::::::: ", refundData);
 
     useEffect(() => {
         const fetchReservationData = async () => {
@@ -25,13 +25,13 @@ const ReservRead = ({ ordersNo }) => {
                 const data = response.data
                 const cancel = data.cancel
 
-                console.log("data : ", data)
-                console.log("ordersNo :: ", ordersNo)
+                console.log("data : ", data);
+                console.log("ordersNo :: ", ordersNo);
                 
                 setReservationData(data)
                 setRefundData(cancel)
             } catch (error) {
-                console.error('Error fetching reservation data', error)
+                console.error('Error fetching reservation data', error);
             }
         }
 
@@ -50,9 +50,9 @@ const ReservRead = ({ ordersNo }) => {
           console.log(`-----${ordersNo}----`);
           const response = await admin.checkCancel(ordersNo)
           const status = response.status
-          console.log(`환불 승인 결과.... ${status}`)
+          console.log(`환불 승인 결과.... ${status}`);
         } catch (e) {
-          console.log(`환불 승인 중 오류 발생... ${e}`)
+          console.log(`환불 승인 중 오류 발생... ${e}`);
         }
     }
 

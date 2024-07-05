@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react'
+import { Link } from 'react-router-dom'
 
 const UpdReserv = ({ reservationData, handleChange, handleSubmit }) => {
   return (
@@ -46,7 +46,7 @@ const UpdReserv = ({ reservationData, handleChange, handleSubmit }) => {
         <Link to="/admin/adminReservation" className="btn btn-primary custom2 size">목록</Link>
       </div>
     </form>
-  );
-};
+  )
+}
 
-export default UpdReserv;
+export default UpdReserv

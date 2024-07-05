@@ -1,45 +1,45 @@
-import React, { useEffect, useState } from 'react';
-import UserTable from '../../components/admin/UserTable';
-import './Admin.css';
-import '../../components/static/css/Pagenation.css';
-import { deleteSelectedUsers, getAllUsers } from '../../apis/admin/admin';
-import Swal from 'sweetalert2';
-import CustomPagination from '../../components/admin/Pagenation';
-import Sidebar from '../../components/static/Sidebar';
+import React, { useEffect, useState } from 'react'
+import UserTable from '../../components/admin/UserTable'
+import './Admin.css'
+import '../../components/static/css/Pagenation.css'
+import { deleteSelectedUsers, getAllUsers } from '../../apis/admin/admin'
+import Swal from 'sweetalert2'
+import CustomPagination from '../../components/admin/Pagenation'
+import Sidebar from '../../components/static/Sidebar'
 
 const UserManageContainer = () => {
-    const [isOpen, setIsOpen] = useState(true);
-    const [users, setUsers] = useState([]);
-    const [error, setError] = useState(null);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [totalCount, setTotalCount] = useState(0);
-    const itemsPerPage = 10;
+    const [isOpen, setIsOpen] = useState(true)
+    const [users, setUsers] = useState([])
+    const [error, setError] = useState(null)
+    const [currentPage, setCurrentPage] = useState(1)
+    const [totalCount, setTotalCount] = useState(0)
+    const itemsPerPage = 10
 
     const fetchUsers = async (page) => {
         try {
-            const response = await getAllUsers(page);
-            const data = response.data;
-            setUsers(data.userList);
-            setTotalCount(data.totalCount);
+            const response = await getAllUsers(page)
+            const data = response.data
+            setUsers(data.userList)
+            setTotalCount(data.totalCount)
         } catch (error) {
             console.error('Failed to fetch users:', error);
-            setError(error);
+            setError(error)
         }
-    };
+    }
 
     const handleDeleteUsers = async () => {
-        const checkboxes = document.querySelectorAll('.checkbox:checked');
+        const checkboxes = document.querySelectorAll('.checkbox:checked')
         const deleteNoList = Array.from(checkboxes)
             .map(checkbox => checkbox.value)
-            .filter(value => value !== 'on'); // 'on' 값 필터링
+            .filter(value => value !== 'on') // 'on' 값 필터링
         
         if (deleteNoList.length === 0) {
             Swal.fire({
                 icon: 'warning',
                 title: '선택된 항목이 없습니다.',
                 text: '삭제할 사용자를 선택해주세요.',
-            });
-            return;
+            })
+            return
         }
 
         const result = await Swal.fire({
@@ -51,47 +51,47 @@ const UserManageContainer = () => {
             cancelButtonColor: '#d33',
             confirmButtonText: '확인',
             cancelButtonText: '취소'
-        });
+        })
 
         if (result.isConfirmed) {
             try {
-                await deleteSelectedUsers(deleteNoList);
-                const updatedPage = currentPage > 1 && users.length === deleteNoList.length ? currentPage - 1 : currentPage;
-                setCurrentPage(updatedPage);
-                await fetchUsers(updatedPage);
+                await deleteSelectedUsers(deleteNoList)
+                const updatedPage = currentPage > 1 && users.length === deleteNoList.length ? currentPage - 1 : currentPage
+                setCurrentPage(updatedPage)
+                await fetchUsers(updatedPage)
                 Swal.fire({
                     icon: 'success',
                     title: '삭제 완료',
                     text: '선택한 사용자가 성공적으로 삭제되었습니다.',
-                });
+                })
             } catch (error) {
                 console.error('Failed to delete users:', error);
                 Swal.fire({
                     icon: 'error',
                     title: '삭제 실패',
                     text: '사용자 삭제에 실패했습니다.',
-                });
+                })
             }
         }
-    };
+    }
 
     const toggleAllCheckboxes = (e) => {
-        const checkboxes = document.querySelectorAll('.checkbox');
+        const checkboxes = document.querySelectorAll('.checkbox')
         checkboxes.forEach((checkbox) => {
-            checkbox.checked = e.target.checked;
-        });
-    };
+            checkbox.checked = e.target.checked
+        })
+    }
 
     useEffect(() => {
-        fetchUsers(currentPage);
-    }, [currentPage]);
+        fetchUsers(currentPage)
+    }, [currentPage])
 
     const toggleSidebar = () => {
-        setIsOpen(!isOpen);
-    };
+        setIsOpen(!isOpen)
+    }
 
     if (error) {
-        return <p>Error fetching user information</p>;
+        return <p>Error fetching user information</p>
     }
 
     return (
@@ -109,7 +109,7 @@ const UserManageContainer = () => {
                 </div>
             </div>
         </div>
-    );
+    )
 }
 
-export default UserManageContainer;
+export default UserManageContainer

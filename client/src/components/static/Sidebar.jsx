@@ -9,7 +9,7 @@ const Sidebar = ({ isOpen, toggleSidebar, roles }) => {
     const { userInfo } = useContext(LoginContext);
 
     const getLinkProps = (path, baseClass) => {
-        return location.pathname === path ? { className: `${baseClass} active` } : { className: baseClass };
+        return location.pathname.startsWith(path) ? { className: `${baseClass} active` } : { className: baseClass };
     };
 
     return (

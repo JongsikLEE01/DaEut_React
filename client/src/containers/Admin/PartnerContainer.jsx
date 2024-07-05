@@ -1,38 +1,38 @@
-import React, { useEffect, useState } from 'react';
-import { deleteSelectedUsers, getAllPartners } from '../../apis/admin/admin';
-import PartnerTable from '../../components/admin/PartnerTable';
-import Swal from 'sweetalert2';
-import Sidebar from '../../components/static/Sidebar';
-import './Admin.css';
-import '../../components/static/css/Pagenation.css';
-import CustomPagination from '../../components/admin/Pagenation';
+import React, { useEffect, useState } from 'react'
+import { deleteSelectedUsers, getAllPartners } from '../../apis/admin/admin'
+import PartnerTable from '../../components/admin/PartnerTable'
+import Swal from 'sweetalert2'
+import Sidebar from '../../components/static/Sidebar'
+import './Admin.css'
+import '../../components/static/css/Pagenation.css'
+import CustomPagination from '../../components/admin/Pagenation'
 
 const PartnerContainer = () => {
-  const [isOpen, setIsOpen] = useState(true);
-  const [partners, setPartners] = useState([]);
-  const [error, setError] = useState(null);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalCount, setTotalCount] = useState(0); 
-  const itemsPerPage = 10;
+  const [isOpen, setIsOpen] = useState(true)
+  const [partners, setPartners] = useState([])
+  const [error, setError] = useState(null)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [totalCount, setTotalCount] = useState(0) 
+  const itemsPerPage = 10
 
   const fetchPartners = async (page) => {
     try {
-      const response = await getAllPartners(page);
-      const data = response.data;
+      const response = await getAllPartners(page)
+      const data = response.data
       console.log('Fetched Partners:', data);
-      setPartners(data.partnerList);
-      setTotalCount(data.totalCount); 
+      setPartners(data.partnerList)
+      setTotalCount(data.totalCount) 
     } catch (error) {
       console.error('Failed to fetch Partners:', error);
-      setError(error);
+      setError(error)
     }
-  };
+  }
 
   const handleDeleteUsers = async () => {
-    const checkboxes = document.querySelectorAll('.checkbox:checked');
+    const checkboxes = document.querySelectorAll('.checkbox:checked')
     const deleteNoList = Array.from(checkboxes)
       .map(checkbox => checkbox.value)
-      .filter(value => value !== 'on'); // 'on' 값 필터링
+      .filter(value => value !== 'on') // 'on' 값 필터링
     
     const result = await Swal.fire({
       title: '정말로 삭제하시겠습니까?',
@@ -43,47 +43,47 @@ const PartnerContainer = () => {
       cancelButtonColor: '#d33',
       confirmButtonText: '확인',
       cancelButtonText: '취소'
-    });
+    })
 
     if (result.isConfirmed) {
       try {
-        await deleteSelectedUsers(deleteNoList);
-        const updatedPage = currentPage > 1 && partners.length === deleteNoList.length ? currentPage - 1 : currentPage;
-        setCurrentPage(updatedPage);
-        await fetchPartners(updatedPage);
+        await deleteSelectedUsers(deleteNoList)
+        const updatedPage = currentPage > 1 && partners.length === deleteNoList.length ? currentPage - 1 : currentPage
+        setCurrentPage(updatedPage)
+        await fetchPartners(updatedPage)
         Swal.fire({
           icon: 'success',
           title: '삭제 완료',
           text: '선택한 사용자가 성공적으로 삭제되었습니다.',
-        });
+        })
       } catch (error) {
         console.error('Failed to delete users:', error);
         Swal.fire({
           icon: 'error',
           title: '삭제 실패',
           text: '사용자 삭제에 실패했습니다.',
-        });
+        })
       }
     }
-  };
+  }
 
   const toggleAllCheckboxes = (e) => {
-    const checkboxes = document.querySelectorAll('.checkbox');
+    const checkboxes = document.querySelectorAll('.checkbox')
     checkboxes.forEach((checkbox) => {
-      checkbox.checked = e.target.checked;
-    });
-  };
+      checkbox.checked = e.target.checked
+    })
+  }
 
   useEffect(() => {
-    fetchPartners(currentPage);
-  }, [currentPage]);
+    fetchPartners(currentPage)
+  }, [currentPage])
 
   const toggleSidebar = () => {
-    setIsOpen(!isOpen);
-  };
+    setIsOpen(!isOpen)
+  }
 
   if (error) {
-    return <p>Error fetching user information</p>;
+    return <p>Error fetching user information</p>
   }
 
   return (
@@ -101,7 +101,7 @@ const PartnerContainer = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default PartnerContainer;
+export default PartnerContainer

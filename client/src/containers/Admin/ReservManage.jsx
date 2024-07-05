@@ -1,44 +1,44 @@
-import React, { useEffect, useState } from 'react';
-import ReservationTable from '../../components/admin/ReservationTable';
-import Sidebar from '../../components/static/Sidebar';
-import { getReservations } from '../../apis/admin/admin';
-import Swal from 'sweetalert2';
-import './Admin.css';
-import CustomPagination from '../../components/admin/Pagenation';
+import React, { useEffect, useState } from 'react'
+import ReservationTable from '../../components/admin/ReservationTable'
+import Sidebar from '../../components/static/Sidebar'
+import { getReservations } from '../../apis/admin/admin'
+import Swal from 'sweetalert2'
+import './Admin.css'
+import CustomPagination from '../../components/admin/Pagenation'
 
 const ReservManage = () => {
-    const [isOpen, setIsOpen] = useState(true);
-    const [reservations, setReservations] = useState([]);
-    const [error, setError] = useState(null);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [totalCount, setTotalCount] = useState(0);
-    const itemsPerPage = 10;
+    const [isOpen, setIsOpen] = useState(true)
+    const [reservations, setReservations] = useState([])
+    const [error, setError] = useState(null)
+    const [currentPage, setCurrentPage] = useState(1)
+    const [totalCount, setTotalCount] = useState(0)
+    const itemsPerPage = 10
 
     console.log("reservations :::::::::: ", reservations);
 
     const fetchReservations = async (page) => {
         try {
-            const response = await getReservations(page);
-            const data = response.data;
+            const response = await getReservations(page)
+            const data = response.data
             console.log("Fetched reservations: ", data.orderList); // 데이터 확인
-            setReservations(data.orderList);
-            setTotalCount(data.totalCount);
+            setReservations(data.orderList)
+            setTotalCount(data.totalCount)
         } catch (error) {
             console.error('Failed to fetch reservations:', error);
-            setError(error);
+            setError(error)
         }
-    };
+    }
 
     useEffect(() => {
-        fetchReservations(currentPage);
-    }, [currentPage]);
+        fetchReservations(currentPage)
+    }, [currentPage])
 
     const toggleSidebar = () => {
-        setIsOpen(!isOpen);
-    };
+        setIsOpen(!isOpen)
+    }
 
     if (error) {
-        return <p>Error fetching reservation information</p>;
+        return <p>Error fetching reservation information</p>
     }
 
     return (
@@ -53,7 +53,7 @@ const ReservManage = () => {
                 </div>
             </div>
         </div>
-    );
-};
+    )
+}
 
-export default ReservManage;
+export default ReservManage
