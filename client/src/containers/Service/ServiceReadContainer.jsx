@@ -83,6 +83,7 @@ const ServiceReadContainer = ({ serviceNo }) => {
   const onChatRoom = async (partnerNo, userInfo) =>{
     try {
       console.log('---'+partnerNo);
+      console.log(userInfo);
       const response = await Services.addChatRoom(partnerNo, userInfo)
       const data = response.data
       const chatRoom = data.chatRoom

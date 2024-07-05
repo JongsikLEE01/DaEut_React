@@ -15,11 +15,9 @@ const ReadHeader = ({ service, onChatRoom }) => {
     }
   }
 
-  // useEffect(()=>{
-  //   if(service){
-  //     addChatRoom()
-  //   }
-  // },[])
+  useEffect(()=>{
+    
+  },[userInfo])
 
   return (
     <>
