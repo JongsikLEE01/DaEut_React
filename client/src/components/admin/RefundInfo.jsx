@@ -9,7 +9,7 @@ const RefundInfo = ({ refundData }) => {
     const { cancelDate, cancelAmount, cancelAccount, cancelNumber, cancelName, reason } = refundData;
 
     return (
-        <div className="card mt-5">
+        <div className="card">
             <div className="card-body">
                 <div className="row info-row">
                     <ReservLabel htmlFor="cancelDate" className="col-3 label">환불 일자</ReservLabel>
