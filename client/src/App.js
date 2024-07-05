@@ -48,7 +48,7 @@ import UserCancelDone from './pages/user/UserCancelDone'
 import UserUpdatePage from './pages/admin/UserUpdatePage'
 import ReservationManagePage from './pages/admin/ReservationManagePage'
 import ReservationReadPage from './pages/admin/ReservationReadPage'
-import PartnerChatList from './components/partner/PartnerChatList'
+import PartnerChatList from './pages/partner/PartnerChatList'
 import UserDetailPage from './pages/admin/UserDetailPage'
 
 const App = () => {
