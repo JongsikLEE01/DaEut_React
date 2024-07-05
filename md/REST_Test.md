@@ -24,5 +24,5 @@
 1. ⭕ 장바구니 조회             - [GET]      "/cart/{userNo}"   - 구현
 2. ⭕ 장바구니 추가             - [POST]     "/cart"            - 구현
 4. ⭕ 장바구니 선택 주문         - [POST]    "/order/cartorder"
-3. ⭕ 장바구니 선택 삭제         - [DELETE]   "/cart"
+3. ⭕ 장바구니 선택 삭제         - [DELETE]   "/cart"           - 구현
 4. ⭕ 장바구니 전체 삭제         - [DELETE]   "/cart/{userNo}"  - 구현

@@ -13,6 +13,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.aloha.server.auth.dto.CustomUser;
 import com.aloha.server.auth.dto.Users;
 import com.aloha.server.reservation.dto.Cancel;
 import com.aloha.server.reservation.dto.OrderItems;
@@ -75,7 +77,7 @@ public class OrderController {
             orders.setOrderStatus(OrderStatus.보류중);
             
             // 주문 등록
-            int result = orderService.insert(orders);
+            orderService.insert(orders);
             
             log.info("신규 등록된 주문ID : " + orders.getOrdersNo());
             String ordersNo = orders.getOrdersNo();
@@ -100,28 +102,35 @@ public class OrderController {
      * @return
      */
     @PostMapping("/cartOrder")
-    public ResponseEntity<String> orderPost(
-                                        @RequestBody Orders orders,
-                                        @RequestParam List<String> serviceNo,
-                                        @RequestParam List<Integer> quantity) throws Exception {
+    public ResponseEntity<?> orderPosts(@RequestBody Orders orders){
+                                    //    @RequestParam List<String> serviceNo,
+                                    //    @RequestParam List<Integer> quantity,
+                                    //    @AuthenticationPrincipal CustomUser customUser) {
+        try {
+            log.info("::::::::: 주문 등록 - orderPost() ::::::::::");
+            log.info("orders {}", orders);
 
-        log.info("::::::::: 주문 등록 - orderPost() ::::::::::");
-        log.info("serviceNo : " + serviceNo);
-        log.info("quantity : " + quantity);
+            // if (user == null) {
+            //     return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            // }
 
-        // orders.setUserNo(user.getUserNo());
-        orders.setOrderStatus(OrderStatus.보류중);
+            // orders.setUserNo(user.getUserNo());
+            orders.setOrderStatus(OrderStatus.보류중);
 
-        // 주문 등록
-        int result = orderService.insert(orders);
+            // 주문 등록
+            orderService.insert(orders);
 
-        log.info("신규 등록된 주문ID : " + orders.getOrdersNo());
-        if (result > 0) {
-            // 주문 등록 성공
-            return ResponseEntity.status(HttpStatus.CREATED).body("주문 성공...");
-        } else {
-            // 주문 실패
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("주문 중 오류 발생...");
+            log.info("신규 등록된 주문ID : " + orders.getOrdersNo());
+            String ordersNo = orders.getOrdersNo();
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("orders", orders);
+            response.put("ordersNo", ordersNo);
+
+            return ResponseEntity.ok().body(response);
+        } catch (Exception e) {
+            log.error("주문 등록 중 오류 발생: {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("서버 오류 발생");
         }
     }
     

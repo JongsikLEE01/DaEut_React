@@ -1,41 +1,52 @@
-// UserCartForm.js
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import * as Swal from '../../apis/alert'
 import { LoginContext } from '../contexts/LoginContextProvider'
 
 const UserCartForm = ({ cartList, onDeleteSelected, onDeleteAll, onOrderSelected }) => {
   const { userInfo } = useContext(LoginContext)
+  const [selectedCartNos, setSelectedCartNos] = useState([])
 
+  // checkbox 변경 처리
+  const handleCheckboxChange = (event, cartNo) => {
+    if (event.target.checked) {
+      // 체크된 경우
+      setSelectedCartNos(prevSelected => [...prevSelected, cartNo])
+    } else {
+      // 체크 해제된 경우
+      setSelectedCartNos(prevSelected => prevSelected.filter(cn => cn !== cartNo))
+    }
+  }
+
+  // 선택 삭제 핸들러
   const handleDeleteSelected = () => {
-    const CartNos = Array.from(document.querySelectorAll('.checkbox:checked')).map(checkbox => checkbox.value)
-    if (CartNos.length === 0) {
+    if (selectedCartNos.length === 0) {
       Swal.alert('장바구니 삭제 실패', '삭제할 서비스를 선택하고 삭제해주세요!', 'error')
       return
     }
-    console.log(CartNos);
-    onDeleteSelected(CartNos)
+    onDeleteSelected(selectedCartNos)
   }
 
+  // 전체 삭제 핸들러
   const handleDeleteAll = () => {
-    Swal.confirm('정말 삭제하시겠습니까?', '지금 장바구니를 비울 경우 장바구니에 저장된 모든 서비스가 사라집니다.', 'warning',(result) => {
-      // isConfirmed : 확인 버튼 클릭 여부
-      if(result.isConfirmed){
-        const userNo = userInfo.userNo
-        console.log(userNo);
-        onDeleteAll(userNo)
+    Swal.confirm('정말 삭제하시겠습니까?', '지금 장바구니를 비울 경우 장바구니에 저장된 모든 서비스가 사라집니다.', 'warning', (result) => {
+      if (result.isConfirmed) {
+        onDeleteAll(userInfo.userNo)
       }
     })
   }
 
+  // 선택 주문 핸들러
   const handleOrderSelected = () => {
-    const CartNos = Array.from(document.querySelectorAll('.checkbox:checked')).map(checkbox => checkbox.value)
-    if (CartNos.length === 0) {
-      Swal.alert('선택 주문 실패', '주문할 서비스를 선택하고 주문해주세요!', 'error')
+    const selectedCarts = cartList.filter(cart => selectedCartNos.includes(cart.cartNo)).map(cart => ({
+      serviceNo: cart.serviceNo,
+      quantity: cart.cartAmount
+    }))
+    if (selectedCarts.length === 0) {
+      Swal.alert('주문 실패', '주문할 서비스를 선택하고 주문해주세요!', 'error')
       return
     }
-    onOrderSelected(CartNos)
+    onOrderSelected(selectedCarts)
   }
-
 
   return (
     <div className="col-md-9 col-lg-10 form-section" id="cartSection">
@@ -62,7 +73,12 @@ const UserCartForm = ({ cartList, onDeleteSelected, onDeleteAll, onOrderSelected
             cartList.map((cart, index) => (
               <tr key={cart.cartNo}>
                 <td className="checked">
-                  <input type="checkbox" className="checkbox" value={cart.cartNo} />
+                  <input
+                    type="checkbox"
+                    className="checkbox"
+                    value={cart.cartNo}
+                    onChange={(e) => handleCheckboxChange(e, cart.cartNo)}
+                  />
                 </td>
                 <td>{index + 1}</td>
                 <td>{cart.serviceName}</td>
