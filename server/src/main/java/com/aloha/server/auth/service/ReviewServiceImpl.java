@@ -1,5 +1,6 @@
 package com.aloha.server.auth.service;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,9 @@ import com.aloha.server.main.dto.Files;
 import com.aloha.server.main.service.FileService;
 import com.aloha.server.reservation.dto.Payments;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class ReviewServiceImpl implements ReviewService {
 
@@ -31,27 +35,31 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public void saveReview(Review review) throws Exception {
+    public void saveReview(Review review, MultipartFile[] files) throws Exception {
         String parentTable = "review";
         int parentNo = reviewMapper.maxPk() + 1;
-           
-        // 파일 업로드
-        List<MultipartFile> fileList = review.getFile();
-        if( !fileList.isEmpty() ){
-            for (MultipartFile file : fileList) {
-                if (file.isEmpty()) continue;
 
-                // 파일 정보 등록
-                Files  uploadFile = new Files();
-                uploadFile.setParentTable(parentTable);
-                uploadFile.setParentNo(parentNo);
-                uploadFile.setFile(file);
-                uploadFile.setFileCode(0);
-                fileService.upload(uploadFile);
-            }
-        }
-
+        // 리뷰 데이터 삽입
+        review.setReviewNo(parentNo);
         reviewMapper.insertReview(review);
+            
+        // 파일 업로드
+        if (files != null && files.length > 0) {
+            Files fileInfo = new Files();
+            fileInfo.setParentTable(parentTable);
+            fileInfo.setParentNo(parentNo);
+            List<MultipartFile> fileList = Arrays.asList(files);
+
+            List<Files> uploadedFileList = fileService.uploadFiles(fileInfo, fileList);
+            if (uploadedFileList == null || uploadedFileList.isEmpty()) {
+                log.info("파일 업로드 실패...");
+            } else {
+                log.info("파일 업로드 성공...");
+                log.info(uploadedFileList.toString());
+            }
+        } else {
+            log.info("첨부 파일 없음...");
+        }
     }
 
     @Override

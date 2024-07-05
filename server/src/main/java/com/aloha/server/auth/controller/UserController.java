@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.aloha.server.auth.dto.CustomUser;
 import com.aloha.server.auth.dto.Review;
@@ -87,15 +89,10 @@ public class UserController {
     log.info("/user/userMypage");
 
     String userId = customUser.getUsername();
-    log.info("user넘어와주라 : " + userId);
-    
-
+    // log.info("user넘어와주라 : " + userId);
     Users fullUserDetails = userService.select(userId);
-    log.info("Fetched full user details: " + fullUserDetails);
+    // log.info("Fetched full user details: " + fullUserDetails);
 
-    // Map<String, Object> response = new HashMap<>();
-    // response.put("user", userId);
-    // response.put("additionalInfo", "Some additional info");
     if (fullUserDetails == null) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
@@ -224,7 +221,10 @@ public class UserController {
     // 리뷰 저장 처리
     @PostMapping("/userReviewDone")
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN') or hasRole('ROLE_PARTNER')")
-    public ResponseEntity<Void> submitReview(@AuthenticationPrincipal CustomUser customUser,@RequestBody Review review) {
+    public ResponseEntity<Void> submitReview(@AuthenticationPrincipal CustomUser customUser, 
+                                            @RequestPart("review") Review review, 
+                                            @RequestPart("files") MultipartFile[] files
+                                            ) {
         log.info("/user/userReviewDone");
 
         Users user = customUser.getUser();
@@ -244,7 +244,7 @@ public class UserController {
         review.setPartnerNo(payment.getPartnerNo());
 
         try {
-            reviewService.saveReview(review);
+            reviewService.saveReview(review, files);
             return ResponseEntity.status(HttpStatus.CREATED).build();
         } catch (Exception e) {
             log.error("Error saving review", e);
