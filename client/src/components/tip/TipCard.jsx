@@ -16,9 +16,11 @@ const TipCard = ({ board }) => {
 
   return (
     <div className={styles.card}>
-      <div className={styles.cardContent}>
+      <div className={styles['card-content']}>
         <Link to={`/tip/boards/${board.boardNo}`}>
-          <img src={thumbnailUrl} alt="썸네일" className={styles.thumbnail} />
+          <div className={styles['thumbnail-wrapper']}>
+            <img src={thumbnailUrl} alt="썸네일" className={styles.thumbnail} />
+          </div>
         </Link>
         <p className={styles['highlight-text']}>{board.boardTitle}</p>
       </div>
