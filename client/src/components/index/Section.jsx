@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import './css/SectionStyles.css';
+import { Link } from 'react-router-dom';
 
 const Section = () => {
   const countersRef = useRef([]);
@@ -101,9 +102,9 @@ const Section = () => {
               <br />
               원하잖아요
             </h2>
-            <a className="btn btn-outline-light py-3 px-4 w-auto color_white" href="/reservation/reservation">
+            <Link className="btn btn-outline-light py-3 px-4 w-auto color_white" to="/service">
               지금 예약하기
-            </a>
+            </Link>
           </div>
         </div>
       </section>

@@ -27,3 +27,25 @@ export const getReservations = async (page = 1) => api.get('/admin/adminReservat
 
 // 특정 예약 조회
 export const getReservationDetails = async (ordersNo) => api.get(`/admin/adminReservationRead/${ordersNo}`)
+
+// 환불 승인
+export const checkCancel = ( ordersNo ) => axios.get(`/admin/adminReservationCancel`,  {params: {ordersNo}} )
+
+// 예약 수정
+export const updateReservation = (ordersNo) => api.get(`/admin/adminReservationUpdate/${ordersNo}`);
+
+// 예약 수정 처리
+export const updateReservationDetails = async (ordersNo, userNo, userName, title, totalPrice, serviceAddress, serviceDay, serviceTime) => {
+    return axios.put(`/admin/adminReservationUpdate`, null, {
+      params: {
+        ordersNo,
+        userNo,
+        userName,
+        title,
+        totalPrice,
+        serviceAddress,
+        serviceDay,
+        serviceTime
+      }
+    });
+  }

@@ -469,10 +469,10 @@ public class AdminController {
      * @param ordersNo
      * @return
      */
-    @PostMapping("/adminReservationCancel")
-    public ResponseEntity<?> adminReadReservationCancel(@RequestParam("ordersNo") String ordersNo) {
+    @GetMapping("/adminReservationCancel")
+    public ResponseEntity<?> adminReadReservationCancel(@RequestParam String ordersNo) {
+        log.info("Cancel ordersNo: " + ordersNo);
         try {
-            log.info("ordersNo: " + ordersNo);
 
             // 결제 내역 환불로 수정
             Payments payments = paymentService.selectByOrdersNo(ordersNo);
@@ -506,8 +506,9 @@ public class AdminController {
     }
 
     // 관리자 - 예약 수정 화면
-    @GetMapping("/adminReservationUpdate")
-    public ResponseEntity<?> adminReservationUpdate(@RequestParam("ordersNo") String ordersNo) throws Exception {
+    @GetMapping("/adminReservationUpdate/{ordersNo}")
+    public ResponseEntity<?> adminReservationUpdate(@PathVariable("ordersNo") String ordersNo) throws Exception {
+        log.info(ordersNo + "orders!!!");
         try {
             Payments payments = paymentService.selectByOrdersNo(ordersNo);
             Orders orders = orderService.listByOrderNo(ordersNo);
