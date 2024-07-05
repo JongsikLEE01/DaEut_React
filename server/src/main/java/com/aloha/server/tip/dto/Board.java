@@ -30,4 +30,5 @@ public class Board {
     private int fileNo;
 
     // private List<Integer> likedUsers;
+    
 }

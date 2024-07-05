@@ -2,7 +2,7 @@ import React from 'react';
 import Pagination from './Pagination';
 import SearchBar from './SearchBar';
 import TipCard from './TipCard';
-import styles from '../tip/css/TipIndex.module.css';  // CSS 파일 임포트
+import styles from '../tip/css/TipIndex.module.css';
 
 const TipIndex = ({
   boardList,
@@ -36,7 +36,7 @@ const TipIndex = ({
           {isLoading ? (
             <p>로딩 중...</p>
           ) : (
-            filteredBoardList.map((board, index) => (
+            boardList.map((board, index) => (
               <TipCard key={index} board={board} isLoggedIn={false} />
             ))
           )}

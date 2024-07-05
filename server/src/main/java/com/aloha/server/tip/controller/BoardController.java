@@ -118,11 +118,11 @@ public class BoardController {
 
     @PostMapping("/boards")
     public ResponseEntity<String> createBoard(
-        @RequestParam("boardTitle") String boardTitle,
-        @RequestParam("boardContent") String boardContent,
-        @RequestParam("userNo") int userNo,
-        @RequestParam(value = "thumbnail", required = false) MultipartFile thumbnail,
-        @RequestParam(value = "file", required = false) List<MultipartFile> files) {
+            @RequestParam("boardTitle") String boardTitle,
+            @RequestParam("boardContent") String boardContent,
+            @RequestParam("userNo") int userNo,
+            @RequestParam(value = "thumbnail", required = false) MultipartFile thumbnail,
+            @RequestParam(value = "file", required = false) List<MultipartFile> files) {
         try {
             // 로그로 데이터 확인
             log.info("boardTitle: {}, boardContent: {}, userNo: {}", boardTitle, boardContent, userNo);
@@ -139,6 +139,13 @@ public class BoardController {
             board.setBoardTitle(boardTitle);
             board.setBoardContent(boardContent);
             board.setUserNo(userNo); // userNo 설정
+
+            if (thumbnail != null) {
+                board.setThumbnail(thumbnail);
+            }
+            if (files != null) {
+                board.setFile(files);
+            }
 
             int result = boardService.insert(board);
             if (result > 0) {

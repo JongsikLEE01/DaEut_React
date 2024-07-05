@@ -1,31 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { tumbnail } from '../../apis/file';
 import styles from '../tip/css/TipIndex.module.css';
 
 const TipCard = ({ board, isLoggedIn }) => {
   const [thumbnailUrl, setThumbnailUrl] = useState('/img/no-img.png'); // 기본 이미지 설정
-  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const fetchThumbnail = async () => {
-      try {
-        const response = await tumbnail(board.fileNo);
-        console.log('Thumbnail response:', response.data);
-        setThumbnailUrl(response.data.url);
-        setIsLoading(false);
-      } catch (error) {
-        console.error('Error fetching thumbnail:', error);
-        setIsLoading(false);
+    // fileList에서 fileCode가 1인 파일을 찾아서 썸네일 URL 설정
+    if (board.fileList && board.fileList.length > 0) {
+      const thumbnailFile = board.fileList.find(file => file.fileCode === 1);
+      if (thumbnailFile) {
+        setThumbnailUrl(`/file/img/${thumbnailFile.fileNo}`);
       }
-    };
-
-    if (board.fileNo) {
-      fetchThumbnail();
-    } else {
-      setIsLoading(false);
     }
-  }, [board.fileNo]);
+  }, [board.fileList]);
 
   const handleClick = (e) => {
     e.stopPropagation();
@@ -35,11 +23,7 @@ const TipCard = ({ board, isLoggedIn }) => {
     <div className={styles.card} onClick={handleClick}>
       <div className={styles.cardContent}>
         <Link to={`/tip/boards/${board.boardNo}`}>
-          {isLoading ? (
-            <p>Loading...</p>
-          ) : (
-            <img src={thumbnailUrl} alt="썸네일" className={styles.thumbnail} />
-          )}
+          <img src={thumbnailUrl} alt="썸네일" className={styles.thumbnail} />
         </Link>
         <p className={styles['highlight-text']}>{board.boardTitle}</p>
       </div>
