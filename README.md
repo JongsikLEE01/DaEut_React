@@ -38,13 +38,20 @@
 **6. 핵심기능 코드 리뷰**
 <br>
 - 기능 목표
-- 실시간 채팅 구현 과정
+- 채팅 / 알림 기능
+- 주문 / 결제 기능
 - 개선할 점
      
 **7. 자체 평가 의견**
 <br>
 - 개별 평가
 - 종합 평가
+
+**8. 리액트 전환**
+<br>
+- 목표
+- MVC 패턴에서 REST API로 전환
+  
 <br><br>
 # 1. 프로젝트 개요
 ## 1-1. 프로젝트 주제<br>
@@ -539,11 +546,34 @@
 
 <br><br>
 
+# 8. 리액트 전환
+## 목표<br>
+1. 동기식으로 데이터를 응답하던 MVC 패턴으로 작성한 모든 컨트롤러를 비동기식으로 데이터를 응답하는 REST API로 전환
+2. Thymeleaf를 이용해 작성한 HTML을 React를 이용해 컴포넌트 기반의 효율적인 웹 애플리케이션을 구축
+3. SpringBoot 프로젝트의 한계점이 있었던 채팅 기능의 실시간 알림 기능을 개발
+## MVC 패턴에서 REST API로 전환<br>
+<details>
+    <summary>🧊 백엔드의 스프링 부트 코드 수정</summary>
+
+</details>
+<br><br>
+
+
+<details>
+    <summary>🧊 JWT를 활용한 Spring Security 수정</summary>
+
+</details>
+<br><br>
+
+
+<details>
+    <summary>🧊 Thymeleaf를 활용한 프론트에서 React로 전환</summary>
+
+</details>
+<br><br>
+
 ## 버전
 - MySQL
 - Java 17
 - SpringBoot 3.x.x
-
-
-
 
