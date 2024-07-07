@@ -447,75 +447,48 @@
 
 # 6. 핵심기능 코드 리뷰
 ## 6-1. 기능 목표
-유저와 파트너가 서비스에 대해서 실시간으로 문의를 할 수 있도록 1:1 채팅을 구현하는 기능
+1. 유저와 파트너가 서비스에 대해서 실시간으로 문의를 할 수 있도록 1:1 채팅을 구현하는 기능
+      - 실시간 문의로 유저의 만족도 증대
+      - 서비스 게시글에서 알 수 없는 정보도 문의를 통해 알 수 있음
 
-- 실시간 문의로 유저의 만족도 증대
-- 서비스 게시글에서 알 수 없는 정보도 문의를 통해 알 수 있음
+2. 유저가 실제로 결제로 이어져 결제와 환불을 할 수 있고, 어드민은 이를 승인 또는 미승인해 처리하는 기능
+      - 실제 사용 가능한 수준의 기능을 구현하는 것을 목표로 구현
     
 <br><br>
 
 ## 6-2. 채팅 생성 및 처리 과정
-### 채팅방 생성
-<details>
-    <summary>채팅방 생성</summary>
 
-- 문의하기 클릭시 채팅방 생성 후 채팅 목록으로 이동
-    
-    ```java
-    // 유저 채팅방 생성 처리
-    @PostMapping("/userChatRoom")
-    public String createChatRoom(@RequestParam("partnerNo") int partnerNo, Model model, HttpSession session) throws Exception {
-       ChatRooms chatRoom = new ChatRooms();
-       chatRoom.setPartnerNo(partnerNo);
-    
-       Users user = (Users) session.getAttribute("user");
-       int userNo = user.getUserNo();
-       chatRoom.setUserNo(userNo);
-    
-       chatRoomService.merge(chatRoom);
-    
-       return "redirect:/user/userChatRoom";
-    }
-    ```
+### 채팅 / 알림 기능
+<details>
+    <summary>채팅 기능 구현</summary>
+
+![60c6de48-f109-4884-a55a-94b29b977e81](https://github.com/JongsikLEE01/DaEut_React/assets/137877490/d7d4f447-8be1-43ea-a306-3f94f07a97ec)
+
 </details>
-    
+<br><br>
 
-### 채팅 처리
 <details>
-    <summary>채팅 처리</summary>
+    <summary>알림 기능 구현</summary>
 
-- 메세지 전송시 @MessageMapping 어노테이션을 이용해 실시간 채팅 구현
-    
-    ```java
-    @MessageMapping("/chat/sendMessage")
-    public void sendMessage(@Payload Chats chat) throws Exception {
-        chatService.insert(chat);
-    
-        log.info("chat? {}", chat);
-    
-        template.convertAndSend("/sub/chat/" + chat.getRoomNo(), chat);        
-    }
-    ```
-    
-    - 방을 나갔다가 다시 들어와도 채팅 내역을 볼 수 있도록 DB에 저장 후 출력
-    
-    ```java
-    @GetMapping("/reservation/chat")
-    public String goToChatRoom(@RequestParam("roomNo") String roomNo, Model model, HttpSession session) throws Exception {
-        Users user = (Users) session.getAttribute("user");
-        ChatRooms chatRooms = chatRoomService.select(roomNo);
-        int partnerNo = chatRooms.getPartnerNo();
-    
-        List<Chats> chatList = chatService.selectByRoomNo(roomNo);
-    
-        model.addAttribute("chatRooms", chatRooms);
-        model.addAttribute("partnerNo", partnerNo);
-        model.addAttribute("user", user);
-        model.addAttribute("roomNo", roomNo);
-        model.addAttribute("chatList", chatList);
-        return "reservation/chat";
-    }
-    ```
+![60c6de48-f109-4884-a55a-94b29b977e81](https://github.com/JongsikLEE01/DaEut_React/assets/137877490/d7d4f447-8be1-43ea-a306-3f94f07a97ec)
+
+</details>
+<br><br>
+
+### 결제 / 환불 기능
+<details>
+    <summary>결제 기능 구현</summary>
+
+![60c6de48-f109-4884-a55a-94b29b977e81](https://github.com/JongsikLEE01/DaEut_React/assets/137877490/d7d4f447-8be1-43ea-a306-3f94f07a97ec)
+
+</details>
+<br><br>
+
+<details>
+    <summary>환불 기능 구현</summary>
+
+![60c6de48-f109-4884-a55a-94b29b977e81](https://github.com/JongsikLEE01/DaEut_React/assets/137877490/d7d4f447-8be1-43ea-a306-3f94f07a97ec)
+
 </details>
 <br><br>
 
@@ -547,11 +520,14 @@
 <br><br>
 
 # 8. 리액트 전환
-## 목표<br>
+## 8-1. 목표<br>
 1. 동기식으로 데이터를 응답하던 MVC 패턴으로 작성한 모든 컨트롤러를 비동기식으로 데이터를 응답하는 REST API로 전환
 2. Thymeleaf를 이용해 작성한 HTML을 React를 이용해 컴포넌트 기반의 효율적인 웹 애플리케이션을 구축
 3. SpringBoot 프로젝트의 한계점이 있었던 채팅 기능의 실시간 알림 기능을 개발
-## MVC 패턴에서 REST API로 전환<br>
+
+<br><br>
+ 
+## 8-2. MVC 패턴에서 REST API로 전환<br>
 <details>
     <summary>🧊 백엔드의 스프링 부트 코드 수정</summary>
 
