@@ -555,6 +555,8 @@
 <details>
     <summary>🧊 백엔드의 스프링 부트 코드 수정</summary>
 
+![Untitled](https://github.com/JongsikLEE01/DaEut_React/assets/137877490/1492f31c-bf8d-4a6b-9ea1-b52f620c0f6b)
+
 </details>
 <br><br>
 
@@ -562,12 +564,16 @@
 <details>
     <summary>🧊 JWT를 활용한 Spring Security 수정</summary>
 
+![60c6de48-f109-4884-a55a-94b29b977e81](https://github.com/JongsikLEE01/DaEut_React/assets/137877490/d7d4f447-8be1-43ea-a306-3f94f07a97ec)
+
 </details>
 <br><br>
 
 
 <details>
     <summary>🧊 Thymeleaf를 활용한 프론트에서 React로 전환</summary>
+
+![Untitled (1)](https://github.com/JongsikLEE01/DaEut_React/assets/137877490/b53eeec0-6408-4548-8bd9-882e43da1e49)
 
 </details>
 <br><br>
