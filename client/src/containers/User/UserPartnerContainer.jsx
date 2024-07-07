@@ -1,24 +1,30 @@
-// UserPartnerContainer.js
-import React from 'react';
-import axios from 'axios';
+import React, { useState } from 'react';
+import { submitPartnerRequest } from '../../apis/Users/User';
 import UserPartnerForm from '../../components/user/UserPartnerForm';
+import Swal from 'sweetalert2';
 
 const UserPartnerContainer = () => {
+  const [thumbnailPreview, setThumbnailPreview] = useState('/img/partner.png');
 
   const handleSubmit = (formData) => {
-    axios.post('/user/request-partner', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-        'Authorization': `Bearer ${localStorage.getItem('token')}`  // 인증 토큰을 추가합니다.
-      }
-    })
-    .then(response => {
-      alert('파트너 신청이 완료되었습니다.');
-    })
-    .catch(error => {
-      console.error('파트너 신청 중 오류가 발생했습니다:', error);
-      alert('파트너 신청 중 오류가 발생했습니다.');
-    });
+    submitPartnerRequest(formData)
+      .then(response => {
+        Swal.fire({
+          icon: 'success',
+          title: '파트너 신청이 완료되었습니다!',
+          showConfirmButton: false,
+          timer: 1500
+        });
+      })
+      .catch(error => {
+        console.error('파트너 신청 중 오류가 발생했습니다:', error);
+        Swal.fire({
+          icon: 'error',
+          title: '파트너 신청 중 오류가 발생했습니다.',
+          text: error.message,
+          confirmButtonText: '확인'
+        });
+      });
   };
 
   return (
@@ -32,10 +38,10 @@ const UserPartnerContainer = () => {
       </ul>
       <div className="d-flex justify-content-center">
         <div className="col-md-3 mt-5" id="image-thumbnail-container">
-          <img src="/img/partner.png" alt="파트너 이미지" className="profile-img img-thumbnail" />
+          <img src={thumbnailPreview} alt="파트너 이미지" className="profile-img img-thumbnail" />
         </div>
         <div className="col-md-8">
-          <UserPartnerForm onSubmit={handleSubmit} />
+          <UserPartnerForm onSubmit={handleSubmit} setThumbnailPreview={setThumbnailPreview} />
         </div>
       </div>
     </div>

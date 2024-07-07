@@ -26,4 +26,11 @@ export const getUserChatRooms = () => api.get('/user/userChatRoom')
 
 export const getUserPartnerDetails = () => api.get('/user/userPartner')
 
-export const submitPartnerRequest = (formData) => api.post('/user/request-partner', formData)
+export const submitPartnerRequest = (formData) => {
+  return api.post('/user/request-partner', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+};
+

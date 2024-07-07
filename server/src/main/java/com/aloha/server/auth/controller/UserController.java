@@ -329,26 +329,24 @@ public class UserController {
     // 파트너 신청 처리
     @PostMapping("/request-partner")
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN') or hasRole('ROLE_PARTNER')")
-    public ResponseEntity<Void> insertPartner(@RequestBody Partner partner, @AuthenticationPrincipal CustomUser customUser) throws Exception {
+    public ResponseEntity<Void> insertPartner(@RequestPart("partner") Partner partner, 
+                                              @RequestPart("profilePicture") MultipartFile[] profilePicture,
+                                              @AuthenticationPrincipal CustomUser customUser) throws Exception {
         Users user = customUser.getUser();
         if (user == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-        Partner partnerDetails = userService.selectUserAndPartnerDetails(user.getUserNo()); // 사용자 정보를 가져옴
-        if (partnerDetails != null) {
-            partner.setUserNo(partnerDetails.getUserNo());
-            try {
-                userService.insertPartner(partner);
-                userService.updateUserStatus(partnerDetails.getUserNo());
-                return ResponseEntity.status(HttpStatus.CREATED).build();
-            } catch (Exception e) {
-                log.error("Error inserting partner", e);
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-            }
+        partner.setUserNo(user.getUserNo());
+
+        try {
+            userService.insertPartner(partner, profilePicture);
+            userService.updateUserStatus(user.getUserNo());
+            return ResponseEntity.status(HttpStatus.CREATED).build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
     // 파트너 신청 승인 처리
