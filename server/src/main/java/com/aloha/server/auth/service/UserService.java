@@ -2,6 +2,8 @@ package com.aloha.server.auth.service;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.aloha.server.auth.dto.UserAuth;
 import com.aloha.server.auth.dto.UserSocial;
 import com.aloha.server.auth.dto.Users;
@@ -35,7 +37,7 @@ public interface UserService {
     public int insertAuth(UserAuth userAuth) throws Exception;
 
     // 파트너 신청
-    public int insertPartner(Partner partner) throws Exception;
+    public int insertPartner(Partner partner, MultipartFile[] profilePicture) throws Exception;
 
     // 파트너 신청 대기
     public int updateUserStatus(int userNo) throws Exception;

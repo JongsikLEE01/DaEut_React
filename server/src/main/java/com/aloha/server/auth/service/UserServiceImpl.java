@@ -11,6 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.aloha.server.auth.dto.UserAuth;
@@ -23,6 +24,7 @@ import com.aloha.server.partner.dto.Partner;
 import com.aloha.server.partner.mapper.PartnerMapper;
 import com.aloha.server.reservation.dto.Orders;
 
+import io.jsonwebtoken.lang.Arrays;
 import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
@@ -127,43 +129,38 @@ public class UserServiceImpl implements UserService {
 
     // 파트너 신청
     @Override
-    public int insertPartner(Partner partner) throws Exception {
-
+    public int insertPartner(Partner partner, MultipartFile[] profilePicture) throws Exception {
         String parentTable = "partner";
         int parentNo = partnerMapper.maxPk() + 1;
 
-        // 썸네일 업로드
-        // - 부모 테이블, 부모 번호, 멀티파트파일, 파일 코드(1)-> 썸네일
-        MultipartFile thumbnailFile = partner.getThumbnail();
+        // 파트너 데이터 삽입
+        partner.setPartnerNo(parentNo);
+        int result = userMapper.insertPartner(partner);
 
-        // 썸네일 파일 업로드한 경우만 추가
-        if(thumbnailFile != null && !thumbnailFile.isEmpty()){
-            Files thumbnail = new Files();
-            thumbnail.setParentTable(parentTable);
-            thumbnail.setParentNo(parentNo);
-            thumbnail.setFile(thumbnailFile);
-            thumbnail.setFileCode(THUMBNAIL_FILE_CODE);   // 썸네일 파일 코드(1)
-            fileService.upload(thumbnail);                // 썸네일 파일 업로드
-        }
-        
         // 파일 업로드
-        // List<MultipartFile> fileList = partner.getFile();
-        // if( !fileList.isEmpty() ){
-        //     for (MultipartFile file : fileList) {
-        //         if (file.isEmpty()) continue;
+        if (profilePicture != null && profilePicture.length > 0) {
+            Files fileInfo = new Files();
+            fileInfo.setParentTable(parentTable);
+            fileInfo.setParentNo(parentNo);
+            // fileInfo.setFile(profilePicture);
+            // fileInfo.setFileCode(THUMBNAIL_FILE_CODE); // 썸네일 파일 코드(1)
 
-        //         // 파일 정보 등록
-        //         Files  uploadFile = new Files();
-        //         uploadFile.setParentTable(parentTable);
-        //         uploadFile.setParentNo(parentNo);
-        //         uploadFile.setFile(file);
-        //         uploadFile.setFileCode(0);
-        //         fileService.upload(uploadFile);
-        //     }
-        // }
+            List<MultipartFile> fileList = Arrays.asList(profilePicture);
+            List<Files> uploadedFileList = fileService.uploadFiles(fileInfo, fileList);
 
-        return userMapper.insertPartner(partner);
+            if (uploadedFileList == null || uploadedFileList.isEmpty()) {
+                log.info("파일 업로드 실패...");
+            } else {
+                log.info("파일 업로드 성공...");
+                log.info(uploadedFileList.toString());
+            }
+        } else {
+            log.info("첨부 파일 없음...");
+        }
+
+        return result;
     }
+
 
     // 파트너 신청 대기
     @Override
