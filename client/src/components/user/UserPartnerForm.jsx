@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const UserPartnerForm = ({ onSubmit }) => {
+const UserPartnerForm = ({ onSubmit, setThumbnailPreview }) => {
   const [formData, setFormData] = useState({
     partnerCareer: '',
     introduce: '',
@@ -16,10 +16,18 @@ const UserPartnerForm = ({ onSubmit }) => {
   };
 
   const handleFileChange = (e) => {
+    const file = e.target.files[0];
     setFormData({
       ...formData,
-      profilePicture: e.target.files
+      profilePicture: file
     });
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setThumbnailPreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   const handleSubmit = (e) => {
@@ -32,9 +40,7 @@ const UserPartnerForm = ({ onSubmit }) => {
     })], { type: "application/json" }));
     
     if (formData.profilePicture) {
-      Array.from(formData.profilePicture).forEach(file => {
-        formDataObj.append('profilePicture', file);
-      });
+      formDataObj.append('profilePicture', formData.profilePicture);
     }
     
     onSubmit(formDataObj);
