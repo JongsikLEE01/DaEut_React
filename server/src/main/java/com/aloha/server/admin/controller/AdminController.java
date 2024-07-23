@@ -83,32 +83,6 @@ public class AdminController {
         }
     }
 
-    // 아이디 중복 확인
-    @GetMapping("/check-duplicate")
-    public ResponseEntity<?> checkDuplicateId(@RequestParam String userId) throws Exception {
-        try {
-            Users user = userService.select(userId);
-            boolean exists = user != null;
-            return new ResponseEntity<>(exists, HttpStatus.OK);
-        } catch (Exception e) {
-            log.info("예외 발생 !!!", e);
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    // 이메일 중복 확인
-    @GetMapping("/check-duplicate-email")
-    public ResponseEntity<?> checkDuplicateEmail(@RequestParam String userEmail) throws Exception {
-        try {
-            Users user = userService.findUserByEmail(userEmail);
-            boolean exists = user != null;
-            return new ResponseEntity<>(exists, HttpStatus.OK);
-        } catch (Exception e) {
-            log.info("예외 발생 !!!", e);
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
     // 회원가입 처리
     @PostMapping("/join")
     public ResponseEntity<Map<String, String>> adminJoin(@RequestBody Users user, @RequestParam String systemPw) {
@@ -120,15 +94,7 @@ public class AdminController {
                 response.put("message", "시스템 비밀번호가 일치하지 않습니다.");
                 return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
             }
-
-            // Users existingUser = userService.select(user.getUserId());
-            // if (existingUser != null) {
-            //     log.info("아이디 중복");
-            //     response.put("status", "USER_ID_DUPLICATE");
-            //     response.put("message", "아이디가 중복되었습니다.");
-            //     return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-            // }
-
+            
             adminService.adminJoin(user, systemPw); // adminService에서 회원 가입 로직을 처리하는 메서드 호출
 
             response.put("status", "SUCCESS");
@@ -141,19 +107,6 @@ public class AdminController {
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
-
-
-
-
-
-    // 회원가입 완료
-    @GetMapping("/joinDone")
-    public ResponseEntity<?> joinDone() {
-        Map<String, String> response = new HashMap<>();
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-    
     
     // 관리자 - 회원 목록
     @GetMapping("/adminUser")
@@ -192,7 +145,6 @@ public class AdminController {
         }
     }
     
-
     // 관리자 - 파트너 목록
     @GetMapping("/adminPartner")
     public ResponseEntity<?> adminPartner(@RequestParam(value = "page", defaultValue = "1") int pageNumber) throws Exception {

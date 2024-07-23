@@ -26,6 +26,7 @@ const PartnerReadContainer = ({ userNo }) => {
         setPartner(response.data)
         setPthumbnail(response.data.pthumbnail)
         setUserId(response.data.userId) // userId 설정
+        console.log('썸네일~ : ', pthumbnail);
       } catch (error) {
         console.error('Failed to fetch partner:', error);
         setError(error)
