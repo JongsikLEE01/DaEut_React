@@ -32,7 +32,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
-@RequestMapping("")
+@RequestMapping("/api")
 @CrossOrigin(origins = "*")
 public class AuthController {
 
@@ -130,21 +130,21 @@ public class AuthController {
     //     return new ResponseEntity<>(response, HttpStatus.OK);
     // }
 
-    // 로그인 처리
-    // @PostMapping("/login")
-    // public ResponseEntity<String> loginUser(@RequestParam String userId, @RequestParam String userPassword, HttpSession session) {
-    //     try {
-    //         Users user = userService.select(userId);
-    //         if (user == null || !new BCryptPasswordEncoder().matches(userPassword, user.getUserPassword())) {
-    //             return new ResponseEntity<>("아이디 또는 비밀번호가 올바르지 않습니다.", HttpStatus.BAD_REQUEST);
-    //         }
-    //         // 로그인 성공 처리 (예: 세션에 사용자 정보 저장)
-    //         return new ResponseEntity<>("로그인 성공", HttpStatus.OK);
-    //     } catch (Exception e) {
-    //         log.error("로그인 중 오류가 발생했습니다.", e);
-    //         return new ResponseEntity<>("로그인 중 오류가 발생했습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
-    //     }
-    // }
+    //로그인 처리
+    @PostMapping("/login")
+    public ResponseEntity<String> loginUser(@RequestParam String userId, @RequestParam String userPassword, HttpSession session) {
+        try {
+            Users user = userService.select(userId);
+            if (user == null || !new BCryptPasswordEncoder().matches(userPassword, user.getUserPassword())) {
+                return new ResponseEntity<>("아이디 또는 비밀번호가 올바르지 않습니다.", HttpStatus.BAD_REQUEST);
+            }
+            // 로그인 성공 처리 (예: 세션에 사용자 정보 저장)
+            return new ResponseEntity<>("로그인 성공", HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("로그인 중 오류가 발생했습니다.", e);
+            return new ResponseEntity<>("로그인 중 오류가 발생했습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
     // 아이디 찾기 화면
     @GetMapping("/findId")
@@ -306,32 +306,26 @@ public class AuthController {
     }
     
     /**
-     * 사용자 정보 조회
-     * @param customUser
-     * @return
+     * 유저 정보 가져오기
      */
-    @GetMapping("/info")
-    public ResponseEntity<?> userInfo(@AuthenticationPrincipal CustomUser customUser) throws Exception{
-        
+    @GetMapping("/users/info")
+    public ResponseEntity<?> userInfo(@AuthenticationPrincipal CustomUser customUser) throws Exception {
         log.info("::::: customUser :::::");
-        log.info("customUser : "+ customUser);
+        log.info("customUser : " + customUser);
 
-        Users user = customUser.getUser();
-        log.info("user : " + user);
-
-        Partner partner = partnerService.findByUserNo(user.getUserNo());
-        log.info("partner {}", partner);
-
-        if(partner != null){
-            int partnerNo = partner.getPartnerNo();
-            user.setPartnerNo(partnerNo);
+        if (customUser == null) {
+            log.info("인증된 사용자 없음");
+            return new ResponseEntity<>("UNAUTHORIZED", HttpStatus.UNAUTHORIZED);
         }
 
-        // 인증된 사용자 정보 
-        if( user != null )
-            return new ResponseEntity<>(user, HttpStatus.OK);
+        Users user = customUser.getUser();
+        log.info("::::: User :::::");
+        log.info("user : " + user);
 
-        // 인증 되지 않음
+        if (user != null) {
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        }
+
         return new ResponseEntity<>("UNAUTHORIZED", HttpStatus.UNAUTHORIZED);
     }
 
