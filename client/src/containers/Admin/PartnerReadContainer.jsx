@@ -24,7 +24,9 @@ const PartnerReadContainer = ({ userNo }) => {
         const response = await getPartner(userNo)
         console.log('Fetched Partner:', response.data);
         setPartner(response.data)
-        setPthumbnail(response.data.pthumbnail)
+        const pNo = response.data.fileNo
+        console.log(`????? ${pNo}`);
+        setPthumbnail(pNo)
         setUserId(response.data.userId) // userId 설정
         console.log('썸네일~ : ', pthumbnail);
       } catch (error) {

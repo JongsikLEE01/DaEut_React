@@ -6,15 +6,18 @@ const PartnerRead = ({ partner, pthumbnail, handleApprovePartner, handleCancelPa
     return <p>Loading...</p>
   }
 
+  const tUrl = pthumbnail ? `/file/img/${pthumbnail}` : '/img/no-img.png'
+
+  console.log(tUrl);
 
   return (
    
       <div className="d-flex justify-content-center">
         <div className="col-md-3 mt-5">
-          {pthumbnail && pthumbnail.fileNo ? (
-            <img src={`/file/img/${pthumbnail.fileNo}`} alt="파트너 사진" className="profile-img img-thumbnail" />
+          {pthumbnail && pthumbnail ? (
+            <img src={tUrl} alt="파트너 사진" className="profile-img img-thumbnail" />
           ) : (
-            <img src="/file/img/0" alt="기본 이미지" className="profile-img img-thumbnail" />
+            <img src="/img/no-img.png" alt="기본 이미지" className="profile-img img-thumbnail" />
           )}
         </div>
         <div className="col-md-8">
