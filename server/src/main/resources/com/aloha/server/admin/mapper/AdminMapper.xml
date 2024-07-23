@@ -195,11 +195,19 @@
             p.partner_reserve AS partnerReserve, 
             p.partner_career AS partnerCareer, 
             p.introduce,
-            p.partner_no
+            p.partner_no,
+            f.*
         FROM 
             users u
         LEFT JOIN 
             partner p ON u.user_no = p.user_no
+        LEFT JOIN (  
+            SELECT * 
+            FROM files
+            WHERE parent_table = 'file' 
+            AND file_code = 1
+            ) f
+        ON u.user_no = f.parent_no
         WHERE 
             u.status IN (1, 2)
             AND EXISTS (
