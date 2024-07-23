@@ -72,14 +72,14 @@ public class SecurityConfig  {
         // 인가 설정
         http.authorizeHttpRequests()
             .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-            // .antMatchers("/", "/**").permitAll()
-            // .antMatchers("/login").permitAll()
-            // .antMatchers("/user/**").hasAnyRole("USER","PARTNER", "ADMIN")
-            // .antMatchers("/admin/join").permitAll()
-            // .antMatchers("/admin/**").hasRole("ADMIN")
-            // .antMatchers("/partner/**").hasAnyRole("PARTNER", "ADMIN")
-            // .antMatchers("/auth/**", "/css/**", "/js/**", "/img/**").permitAll()
-            .anyRequest().permitAll();
+            .antMatchers("/", "/**").permitAll()
+            .antMatchers("/login").permitAll()
+            .antMatchers("/user/**").hasAnyRole("USER","PARTNER", "ADMIN")
+            .antMatchers("/admin/join").permitAll()
+            .antMatchers("/admin/**").hasRole("ADMIN")
+            .antMatchers("/partner/**").hasAnyRole("PARTNER", "ADMIN")
+            .antMatchers("/auth/**", "/css/**", "/js/**", "/img/**").permitAll()
+            .anyRequest().authenticated();
 						
         // 사용자 정보를 불러오는 서비스 설정
         http.userDetailsService(customUserDetailService);
