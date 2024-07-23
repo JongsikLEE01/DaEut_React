@@ -79,7 +79,7 @@ const ChatForm = ({ chatRooms, roomNo, chatList, setChatList }) => {
         console.log('소켓 연결 해제...')
       })
     }
-  }, [])
+  }, [userInfo])
 
   // 채팅 메시지가 추가될 때마다 스크롤을 자동으로 아래로 이동
   useEffect(() => {
