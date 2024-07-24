@@ -1,7 +1,17 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Sidebar from '../../components/static/Sidebar';
+import { Link, useLocation } from 'react-router-dom';
+import { LoginContext } from '../contexts/LoginContextProvider';
 
 const PartnerReservationRead = ({ reservationRead }) => {
+  
+  const location = useLocation();
+  const { userInfo } = useContext(LoginContext);
+
+  const getLinkProps = (path, baseClass) => {
+      return location.pathname.startsWith(path) ? { className: `${baseClass} active` } : { className: baseClass };
+  };
+
   console.log('Received reservationRead:', reservationRead);
 
   const [isOpen, setIsOpen] = React.useState(true);
@@ -74,8 +84,14 @@ const PartnerReservationRead = ({ reservationRead }) => {
             </div>
 
             <div className="form-buttons">
-              <a href="/reservation/chat" className="btn btn-primary">문의 하기</a>
-              <a href="/partner/partnerReservation" className="btn btn-primary mx-3">돌아가기</a>
+            <Link to="/partner/partnerChatRoom" {...getLinkProps('/partner/partnerChatRoom', 'partnerChatRoom')}  className="btn btn-primary">채팅 내역</Link>
+                <Link 
+                to={`/partner/reservation/${userInfo?.partnerNo}`} 
+                {...getLinkProps('/partner/reservation', 'partnerReservation')} 
+                className="btn btn-primary"
+              >
+                돌아가기
+              </Link>
             </div>
           </form>
         </div>
