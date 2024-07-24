@@ -322,9 +322,11 @@ public class AuthController {
 
         int uNo = user.getUserNo();
         Partner partner  = partnerService.findByUserNo(uNo);
-        int pNo = partner.getPartnerNo();
+        if (partner != null){
+            int pNo = partner.getPartnerNo();
+            user.setPartnerNo(pNo);
+        }
         
-        user.setPartnerNo(pNo);
         log.info("::::: User :::::");
         log.info("user : " + user);
 
