@@ -31,7 +31,7 @@ const Sidebar = ({ isOpen, toggleSidebar, roles }) => {
                     <>
                         <h5>마이페이지</h5>
                         <br />
-                        <Link to={`/partnerMypage/${userInfo?.userNo}`} {...getLinkProps('/partner/partnerMypage', 'partnerMypage mymy')}>내 정보 변경</Link>
+                        <Link to={`/partner/partnerMypage/${userInfo?.userNo}`} {...getLinkProps('/partner/partnerMypage', 'partnerMypage mymy')}>내 정보 변경</Link>
                         <Link to={`/partner/reservation/${userInfo?.partnerNo}`} {...getLinkProps('/partner/reservation', 'partnerReservation')}>내 예약 보기</Link>
                         <Link to={`/partner/reviews/${userInfo?.partnerNo}`} {...getLinkProps('/partner/review', 'partnerReview')}>내 리뷰 보기</Link>
                         <Link to="/partner/partnerChatRoom" {...getLinkProps('/partner/partnerChatRoom', 'partnerChatRoom')}>채팅 내역</Link>
