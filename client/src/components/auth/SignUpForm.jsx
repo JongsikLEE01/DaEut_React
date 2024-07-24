@@ -226,7 +226,7 @@ const SignUpForm = () => {
                     </Link> */}
 
                     <Link to="#" className={`btn btn-light kakao border ${styles.border}`}>
-                        <img src="/img/kakao.png" alt="Kakao" className="img-fluid" /> Kakao
+                    <img src={`${process.env.PUBLIC_URL}/img/kakao.png`} alt="Kakao" className="img-fluid" /> Kakao
                     </Link>
 
                     {/* <Link to="#" className={`btn btn-light naver border ${styles.border}`}>

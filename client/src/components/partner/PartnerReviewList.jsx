@@ -45,7 +45,7 @@ const PartnerReviewList = ({ reviews, parnterNo }) => {
                   </div>
                 ))
               ) : (
-                <div>리뷰가 없습니다.</div>
+                <div style={{ marginTop: '70px' }} >리뷰가 없습니다.</div>
               )}
               </div>
             </div>
