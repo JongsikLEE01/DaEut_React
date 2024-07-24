@@ -54,6 +54,9 @@ const ChatForm = ({ chatRooms, roomNo, chatList, setChatList }) => {
     const socket = new SockJS('http://localhost:8080/chat')
     const client = Stomp.over(socket)
 
+    // const socketFactory = () => new WebSocket('ws://localhost:8080/chat');
+    // const client = Stomp.over(socketFactory());
+
     client.connect({}, frame => {
       console.log('웹 소켓 연결... ' + frame)
       client.subscribe(`/sub/chat/${roomNo}`, message => {
@@ -64,7 +67,8 @@ const ChatForm = ({ chatRooms, roomNo, chatList, setChatList }) => {
           console.log(newChat);
           // 푸쉬알림 전송
           pushNotification('새로운 메시지가 도착했어요!', {
-            body: `${userInfo.userName} : ${newChat.chatContent}`
+            // body: `${userInfo.userName} : ${newChat.chatContent}`
+            body: `${newChat.chatContent}`
           }, roomNo)
         }
         

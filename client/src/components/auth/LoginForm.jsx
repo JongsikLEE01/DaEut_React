@@ -87,7 +87,7 @@ const LoginForm = () => {
             <img src="/img/google.png" alt="Google" className="img-fluid" style={{ maxHeight: '20px' }} /> Google
           </Link> */}
           <Link to="#" className={`btn btn-light kakao border ${styles.border}`}>
-                        <img src="/img/kakao.png" alt="Kakao" className="img-fluid" /> Kakao
+                        <img src={`${process.env.PUBLIC_URL}/img/kakao.png`} alt="Kakao" className="img-fluid" /> Kakao
                     </Link>
           {/* <Link to="#" className="btn btn-light naver border">
             <img src="/img/naver.png" alt="Naver" className="img-fluid" style={{ maxHeight: '20px' }} /> Naver

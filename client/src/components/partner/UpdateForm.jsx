@@ -1,8 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import Sidebar from '../../components/static/Sidebar'
 import './css/partner.css';
 
 const UpdateForm = ({ partnerData, updatePartnerInfo, deletePartner }) => {
+
+  const [isOpen, setIsOpen] = useState(true)
+
+  const toggleSidebar = () => {
+      setIsOpen(!isOpen)
+  } 
+
   const [formData, setFormData] = useState({
     userName: '',
     userPhone: '',
@@ -76,14 +84,7 @@ const UpdateForm = ({ partnerData, updatePartnerInfo, deletePartner }) => {
     <div>
       <main className="container-fluid container">
         <div className="row">
-          <nav className="col-md-3 col-lg-2 sidebar" id="sidebar">
-            <h5>마이페이지</h5>
-            <br />
-            <Link to="/partner/partnerMypage" className="active partnerMypage">내 정보 변경</Link>
-            <Link to="/partner/partnerReservation">내 예약 보기</Link>
-            <Link to="/partner/partnerReview">내 리뷰 보기</Link>
-            <Link to="/partner/partnerChatRoom">채팅 내역</Link>
-          </nav>
+        <Sidebar isOpen={isOpen} toggleSidebar={toggleSidebar} roles={{ isPartner: true }} />
           <div className="col-md-9 col-lg-10 form-section">
             <h3>내 정보 변경</h3>
             <form id="form" onSubmit={handleSubmit}>

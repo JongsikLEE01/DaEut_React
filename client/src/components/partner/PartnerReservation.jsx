@@ -50,7 +50,7 @@ const PartnerReservation = ({ orderList }) => {
                 </tbody>
               </table>
             ) : (
-              <p>예약이 없습니다.</p>
+              <p style={{ marginTop: '70px' }}>예약이 없습니다.</p>
             )}
           </div>
         </div>
