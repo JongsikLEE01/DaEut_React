@@ -131,20 +131,20 @@ public class AuthController {
     // }
 
     //로그인 처리
-    @PostMapping("/login")
-    public ResponseEntity<String> loginUser(@RequestParam String userId, @RequestParam String userPassword, HttpSession session) {
-        try {
-            Users user = userService.select(userId);
-            if (user == null || !new BCryptPasswordEncoder().matches(userPassword, user.getUserPassword())) {
-                return new ResponseEntity<>("아이디 또는 비밀번호가 올바르지 않습니다.", HttpStatus.BAD_REQUEST);
-            }
-            // 로그인 성공 처리 (예: 세션에 사용자 정보 저장)
-            return new ResponseEntity<>("로그인 성공", HttpStatus.OK);
-        } catch (Exception e) {
-            log.error("로그인 중 오류가 발생했습니다.", e);
-            return new ResponseEntity<>("로그인 중 오류가 발생했습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
+    // @PostMapping("/login")
+    // public ResponseEntity<String> loginUser(@RequestParam String userId, @RequestParam String userPassword, HttpSession session) {
+    //     try {
+    //         Users user = userService.select(userId);
+    //         if (user == null || !new BCryptPasswordEncoder().matches(userPassword, user.getUserPassword())) {
+    //             return new ResponseEntity<>("아이디 또는 비밀번호가 올바르지 않습니다.", HttpStatus.BAD_REQUEST);
+    //         }
+    //         // 로그인 성공 처리 (예: 세션에 사용자 정보 저장)
+    //         return new ResponseEntity<>("로그인 성공", HttpStatus.OK);
+    //     } catch (Exception e) {
+    //         log.error("로그인 중 오류가 발생했습니다.", e);
+    //         return new ResponseEntity<>("로그인 중 오류가 발생했습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
+    //     }
+    // }
 
     // 아이디 찾기 화면
     @GetMapping("/findId")
@@ -319,6 +319,12 @@ public class AuthController {
         }
 
         Users user = customUser.getUser();
+
+        int uNo = user.getUserNo();
+        Partner partner  = partnerService.findByUserNo(uNo);
+        int pNo = partner.getPartnerNo();
+        
+        user.setPartnerNo(pNo);
         log.info("::::: User :::::");
         log.info("user : " + user);
 
