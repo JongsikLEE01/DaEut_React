@@ -47,7 +47,7 @@ const UserPartnerForm = ({ onSubmit, setThumbnailPreview }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} encType="multipart/form-data">
+    <form onSubmit={handleSubmit} encType="multipart/form-data" className='paddingGive'>
       <div className="form-group form-section p-1 mt-5 text-start">
         <label htmlFor="partnerName">이름</label>
         <input type="text" className="form-control" id="partnerName" value="김유저" readOnly />

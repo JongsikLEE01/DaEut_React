@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Sidebar from '../../components/static/Sidebar'
+import './css/partner.css';
 
 const UpdateForm = ({ partnerData, updatePartnerInfo, deletePartner }) => {
 

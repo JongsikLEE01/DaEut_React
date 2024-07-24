@@ -195,11 +195,17 @@
             p.partner_reserve AS partnerReserve, 
             p.partner_career AS partnerCareer, 
             p.introduce,
-            p.partner_no
+            p.partner_no,
+            f.*
         FROM 
             users u
         LEFT JOIN 
             partner p ON u.user_no = p.user_no
+        LEFT JOIN (  
+            SELECT * 
+            FROM files
+            WHERE parent_table = 'partner'
+        ) f ON p.partner_no = f.parent_no
         WHERE 
             u.status IN (1, 2)
             AND EXISTS (
@@ -208,7 +214,7 @@
                 WHERE b.user_no = u.user_no 
                 AND b.auth IN ('ROLE_PARTNER', 'ROLE_USER')
             )
-        AND u.user_no = #{userNo}
+            AND u.user_no = #{userNo};
     </select>
 
     <!-- 관리자 파트너 수정 -->
