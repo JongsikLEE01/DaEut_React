@@ -29,7 +29,7 @@ public class CustomUserDetailService implements UserDetailsService {
             log.info("사용자 없음...");
             throw new UsernameNotFoundException("사용자를 찾을 수 없습니다: " + username);
         }
-        log.info("user :::::");
+        log.info("user? :::::");
         log.info(user.toString());
         // 🟢🟡🔴 CustomUser (➡User) 사용
         CustomUser customUser = new CustomUser(user);
