@@ -44,7 +44,7 @@ const Header = () => {
                 )}
                 {roles.isPartner && !roles.isAdmin && (
                   <NavDropdown title="마이페이지" id="partner-dropdown">
-                    <NavDropdown.Item as={Link} to={`/partnerMypage/${userInfo.userNo}`}>내 정보 변경</NavDropdown.Item>
+                    <NavDropdown.Item as={Link} to={`/partner/partnerMypage/${userInfo.userNo}`}>내 정보 변경</NavDropdown.Item>
                     <NavDropdown.Item as={Link} to={`/partner/reservation/${userInfo.partnerNo}`}>내 예약 보기</NavDropdown.Item>
                     <NavDropdown.Item as={Link} to={`/partner/reviews/${userInfo.partnerNo}`}>내 리뷰 보기</NavDropdown.Item>
                     <NavDropdown.Item as={Link} to="/partner/partnerChatRoom">채팅 내역</NavDropdown.Item>

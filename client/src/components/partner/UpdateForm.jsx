@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import './css/partner.css';
 
 const UpdateForm = ({ partnerData, updatePartnerInfo, deletePartner }) => {
   const [formData, setFormData] = useState({

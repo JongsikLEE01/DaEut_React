@@ -249,17 +249,17 @@ const TipReadContainer = () => {
 
       const responseData = response.data;
       if (responseData.success) {
-        alert('추천이 완료되었습니다.');
+        Swal.fire('추천이 완료되었습니다.', '', 'success');
         setBoardData(prevData => ({
           ...prevData,
           boardLike: prevData.boardLike + 1
         }));
       } else {
-        alert(responseData.message);
+        Swal.fire(responseData.message, '', 'error');
       }
     } catch (error) {
       console.error('Error liking the board:', error);
-      alert(`추천 중 오류가 발생했습니다: ${error.message}`);
+      Swal.fire(`추천 중 오류가 발생했습니다: ${error.message}`, '', 'error');
     }
   };
 

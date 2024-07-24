@@ -83,7 +83,7 @@ const App = () => {
           <Route path='/tip/tipUpdate' element={<TipUpdate/>}></Route>
           
           {/*  파트너 */}
-          <Route path="/partnerMypage/:userNo" element={<PartnerMypage/>}/>
+          <Route path="/partner/partnerMypage/:userNo" element={<PartnerMypage/>}/>
           <Route path="/partner/reservation/:partnerNo" element={<PartnerReservation/>}/>
           <Route path="/partner/reviews/:partnerNo" element={<PartnerReview/>}/>
           <Route path="/partner/reservationRead/:ordersNo" element={<PartnerReservationRead/>}/>
