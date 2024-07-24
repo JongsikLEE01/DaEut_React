@@ -137,7 +137,7 @@
 
 
     <!-- orderNo로 Oder 정보와 유저 정보 출력하기 -->
-    <select id="listByOrderNo" resultMap="OrderWithUserResultMap">
+    <!-- <select id="listByOrderNo" resultMap="OrderWithUserResultMap">
     SELECT 
      o.*
     ,u.*
@@ -147,9 +147,9 @@
     users u ON o.user_no = u.user_no
     WHERE 
     o.orders_no = #{ordersNo}
-    </select>
+    </select> -->
 
- <!-- <select id="listByOrderNo" resultMap="OrderWithUserResultMap">
+ <select id="listByOrderNo" resultMap="OrderWithUserResultMap">
     SELECT o.orders_no, o.user_no, u.user_name, u.user_phone, u.user_birth, 
         u.user_address, u.user_email, u.user_gender, u.user_id, 
         u.user_password, u.user_reg_date, u.user_coupon, u.user_upd_date, 
@@ -165,6 +165,6 @@
         JOIN service s ON oi.service_no = s.service_no
         JOIN payment p ON o.orders_no = p.orders_no
     WHERE o.orders_no = #{ordersNo};
-</select> -->
+</select>
 
 </mapper>

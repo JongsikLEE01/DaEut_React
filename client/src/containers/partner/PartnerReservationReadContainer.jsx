@@ -11,12 +11,14 @@ const PartnerReservationReadContainer = () => {
     try {
       const response = await partners.getpartnerReservationRead(ordersNo);
       const data = response.data;
-      console.log("API 응답:", response);
+      console.log("API 응답:", data);
 
-      // 모든 service_ 키를 찾아서 배열로 변환
+      // service_ 키를 찾아서 배열로 변환
       const services = Object.keys(data)
         .filter(key => key.startsWith('service_'))
         .map(key => data[key]);
+
+      console.log("추출된 services 배열:", services);
 
       const reservationRead = {
         order: data.order,
