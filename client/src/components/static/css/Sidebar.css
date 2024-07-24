@@ -21,7 +21,7 @@
   display: block;
   padding: 10px;
   margin-left: 15px;
-  color: #333 !important;
+  /* color: #333 !important; */
   text-decoration: none;
 }
 
@@ -133,41 +133,7 @@
   border-radius: 8px;
 } */
 
-/* 사용자 */
-/* .userMypage {
-  color: #8FA2CA !important;
-  border-radius: 8px;
-}
 
-.userReservation {
-  color: #8FA2CA !important;
-  border-radius: 8px;
-}
-
-.userLikeTip {
-  color: #8FA2CA !important;
-  border-radius: 8px;
-}
-
-.userReview {
-  color: #8FA2CA !important;
-  border-radius: 8px;
-}
-
-.userChatRoom {
-  color: #8FA2CA !important;
-  border-radius: 8px;
-}
-
-.userPartner {
-  color: #8FA2CA !important;
-  border-radius: 8px;
-}
-
-.userCart {
-  color: #8FA2CA !important;
-  border-radius: 8px;
-} */
 
 /* 파트너 */
 /* .partnerMypage.mymy.active {
