@@ -72,7 +72,7 @@ const UserReviewForm = ({ payments, initialReview }) => {
       <div className="item item-1 align-items-center mb-3">
         <label htmlFor="paymentNo" className="col-form-label col-sm-3">주문 선택</label>
         <select
-          className="form-control col-lg-2"
+          className="form-control col-lg-2 formSize"
           id="paymentNo"
           name="paymentNo"
           value={formState.paymentNo || ''}
@@ -95,7 +95,7 @@ const UserReviewForm = ({ payments, initialReview }) => {
         <label htmlFor="reviewTitle" className="col-form-label col-sm-3">리뷰 제목</label>
         <input
           type="text"
-          className="form-control col-lg-2"
+          className="form-control col-lg-2 formSize"
           id="reviewTitle"
           name="reviewTitle"
           placeholder="리뷰 제목을 입력하세요"
@@ -106,7 +106,7 @@ const UserReviewForm = ({ payments, initialReview }) => {
       <div className="item item-3 align-center mb-4">
         <label htmlFor="reviewRating" className="col-form-label col-sm-3">별점 평가</label>
         <select
-          className="form-control col-lg-2"
+          className="form-control col-lg-2 formSize"
           id="reviewRating"
           name="reviewRating"
           value={formState.reviewRating || ''}
@@ -122,7 +122,7 @@ const UserReviewForm = ({ payments, initialReview }) => {
       <div className="item item-4 align-center mb-4">
         <label htmlFor="reviewContent" className="col-form-label col-sm-3">상세 리뷰</label>
         <textarea
-          className="form-control col-lg-2"
+          className="form-control col-lg-2 formSize"
           id="reviewContent"
           name="reviewContent"
           rows="4"
