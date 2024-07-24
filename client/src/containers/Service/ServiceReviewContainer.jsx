@@ -15,8 +15,11 @@ const ReadReviewContainer = ({ serviceNo }) => {
 
         if (response.status === 200) {
           const responseData = response.data;
-          if (responseData.reviews) {
-            setReviews(responseData.reviews); // 리뷰가 응답 데이터에 포함되어 있다고 가정합니다
+          // 서버 응답 데이터에서 reviews를 추출하는 방식이 다를 수 있으므로 확인 필요
+          const reviewsData = responseData.reviews || responseData; // reviews가 없는 경우 responseData를 사용
+          
+          if (Array.isArray(reviewsData)) {
+            setReviews(reviewsData); // 리뷰가 응답 데이터에 포함되어 있다고 가정합니다
           } else {
             console.warn('서버 응답 데이터에 리뷰 정보가 포함되어 있지 않습니다.');
             setReviews([]); // 리뷰 데이터가 없는 경우 빈 배열로 설정
@@ -38,6 +41,9 @@ const ReadReviewContainer = ({ serviceNo }) => {
 
   useEffect(() => {
     console.log('Current reviews state:', reviews); // 현재 리뷰 상태 로그
+    reviews.forEach((review, index) => {
+      console.log(`Review ${index}의 rfiles:`, review.rfiles); // 리뷰의 rfiles 속성 로그
+    });
   }, [reviews]);
 
   return (

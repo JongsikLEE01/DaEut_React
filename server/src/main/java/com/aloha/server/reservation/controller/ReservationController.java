@@ -94,43 +94,62 @@ public class ReservationController {
      */
     @GetMapping("/{serviceNo}")
     public ResponseEntity<?> reservationRead(@PathVariable("serviceNo") int serviceNo) {
-        log.info("serviceNo"+serviceNo);
+        log.info("Fetching details for serviceNo: " + serviceNo);
         try {
+            // 서비스 정보 가져오기
             Services service = reservationService.serviceSelect(serviceNo);
             List<Files> files = reservationService.SelectFiles(serviceNo);
-            // Users user = (Users) session.getAttribute("user");
             List<Review> reviews = reviewService.getReviewByServiceNo(serviceNo);
-
-            // partner_no를 service 객체에서 가져옵니다.
+    
+            // 파트너 정보 가져오기
             int partnerNo = service.getPartnerNo();
             Partner partner = partnerService.selectByPartnerNo(partnerNo);
             Users pUsers = userService.findUserById(partner.getUserNo());
             Files pthumbnail = reservationService.partnerThumbnail(partnerNo);
-            Files rFiles = reservationService.getFileByServiceNum(serviceNo);
-
-            Files file = new Files();
-            file.setParentTable("service");
-            file.setParentNo(serviceNo);
-            List<Files> fileList = fileService.listByParent(file);
-            
+    
+            // 리뷰 데이터에 파일 정보 추가
+            for (Review review : reviews) {
+                Files reviewFilesQuery = new Files();
+                reviewFilesQuery.setParentTable("review");
+                reviewFilesQuery.setParentNo(review.getReviewNo());
+    
+                log.info("Fetching files for review with query: {}", reviewFilesQuery);
+    
+                List<Files> reviewFiles = fileService.listByParent(reviewFilesQuery);
+    
+                // 로깅 추가
+                if (reviewFiles != null && !reviewFiles.isEmpty()) {
+                    log.info("Found files for review {}: {}", review.getReviewNo(), reviewFiles);
+                } else {
+                    log.info("No files found for review {}", review.getReviewNo());
+                }
+    
+                review.setRFiles(reviewFiles);
+    
+                log.info("Review {} files after setting: {}", review.getReviewNo(), review.getRFiles());
+            }
+    
+            // 서비스 관련 파일 목록 가져오기
+            Files serviceFilesQuery = new Files();
+            serviceFilesQuery.setParentTable("service");
+            serviceFilesQuery.setParentNo(serviceNo);
+            List<Files> fileList = fileService.listByParent(serviceFilesQuery);
+    
+            // 평균 평점 가져오기
             int averageRating = reviewService.getAverageRatingByServiceNo(serviceNo);
-
-            log.info(files.toString());
-
+    
             // Response 맵 구성
             Map<String, Object> response = new HashMap<>();
             response.put("serviceNo", serviceNo);
             response.put("service", service);
             response.put("fileList", fileList);
             response.put("files", files);
-            // response.put("user", user);
             response.put("reviews", reviews);
             response.put("partner", partner);
             response.put("pUsers", pUsers);
             response.put("averageRating", averageRating);
             response.put("pthumbnail", pthumbnail);
-            response.put("rFiles", rFiles);
-
+    
             return ResponseEntity.ok().body(response);
         } catch (Exception e) {
             log.error("Error occurred while fetching reservation details", e);
@@ -139,6 +158,8 @@ public class ReservationController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
         }
     }
+    
+    
 
     /**
      * 서비스 등록

@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.aloha.server.main.dto.Files;
+
 import lombok.Data;
 
 @Data
@@ -33,5 +35,6 @@ public class Review {
     MultipartFile thumbnail;
     // 파일 번호
     private int fileNo;
+    private List<Files> rFiles;
 
 }
