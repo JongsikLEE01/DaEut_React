@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 const ReservationTable = ({ reservations=[] }) => {
     console.log("ReservationTable reservations: ", reservations) // 데이터 확인
-    
+
     if (!Array.isArray(reservations)) {
         return <p>예약 데이터가 올바르지 않습니다.</p>
     }
