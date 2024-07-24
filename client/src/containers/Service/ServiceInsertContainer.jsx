@@ -10,6 +10,7 @@ const ServiceInsertContainer = () => {
   const onInsert = async (formData, headers) => {
     try {
       console.log(formData);
+      console.log("header :::::: " , headers);
       const response = await Services.insert(formData, headers)
       const status = await response.status
       console.log(`게시글 등록 요청 결과? ${status}`)

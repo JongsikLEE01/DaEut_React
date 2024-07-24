@@ -9,23 +9,7 @@ main {
 .chatListTable{
     min-height: 600px;
 }
-.sidebar {
-    background-color: #f8f9fa;
-    padding: 20px;
-    border-right: 1px solid #dee2e6;
-}
-.sidebar a {
-    display: block;
-    padding: 10px;
-    margin-left: 15px;
-    color: #333;
-    text-decoration: none;
-}
-.sidebar a:hover {
-    background-color: #e9ecef;
-    color: #8FA2CA;
-    border-radius: 8px;
-}
+
 .form-section {
     padding: 20px;
     border-top: 40px;
@@ -60,24 +44,9 @@ main {
     z-index: 1001;
 }
 @media (max-width: 767px) {
-    .sidebar {
-        position: fixed;
-        left: -250px;
-        top: 50px;
-        width: 250px !important;
-        height: calc(100% - 50px);
-        transition: left 0.3s;
-        z-index: 900;
-    }
-    .sidebar.active {
-        left: 0;
-    }
     .form-section {
         padding-top: 60px;
         transition: margin-left 0.3s;
-    }
-    .sidebar.active ~ .form-section {
-        margin-left: 250px;
     }
     .toggle-btn {
         position: fixed;
@@ -86,9 +55,6 @@ main {
         top: 70px;
         z-index: 1001;
     }
-    .sidebar.active + .toggle-btn {
-        left: 250px;
-    }
     .close-btn {
         display: none;
         position: fixed;
@@ -96,22 +62,12 @@ main {
         top: 70px;
         z-index: 1001;
     }
-    .sidebar.active + .close-btn {
-        display: block;
-    }
-    .sidebar .close-btn {
-        display: block;
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        z-index: 1002;
-    }
 }
 @media (min-width: 768px) {
     .toggle-btn {
         display: none !important;
     }
-    .sidebar .close-btn {
+    .close-btn {
         display: none;
     }
 }
@@ -346,24 +302,6 @@ a {
     width: 100%; /* 너비를 동일하게 설정 */
 }
 
-
-.partnerMypage {
-    background-color: #e9ecef;
-    color: #8FA2CA !important;
-    border-radius: 8px;
-}
-
-/* .partnerReservation {
-    background-color: #e9ecef;
-    color: #8FA2CA !important;
-    border-radius: 8px;
-} */
-
-.partnerReview {
-    background-color: #e9ecef;
-    color: #8FA2CA !important;
-    border-radius: 8px;
-}
 
 .card.mt-3.reservation-card {
     width: 700px;

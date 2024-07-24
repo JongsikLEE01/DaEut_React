@@ -370,3 +370,39 @@ th {
 .paddingGive {
   padding-left: 30px !important;
 }
+
+/* 사용자 */
+.userMypage.active {
+  color: #8FA2CA !important;
+  border-radius: 8px;
+}
+
+.userReservation.active {
+  color: #8FA2CA !important;
+  border-radius: 8px;
+}
+
+.userLikeTip.active {
+  color: #8FA2CA !important;
+  border-radius: 8px;
+}
+
+.userReview.active {
+  color: #8FA2CA !important;
+  border-radius: 8px;
+}
+
+.userChatRoom.active {
+  color: #8FA2CA !important;
+  border-radius: 8px;
+}
+
+.userPartner {
+  color: #8FA2CA !important;
+  border-radius: 8px;
+}
+
+.userCart {
+  color: #8FA2CA !important;
+  border-radius: 8px;
+}
