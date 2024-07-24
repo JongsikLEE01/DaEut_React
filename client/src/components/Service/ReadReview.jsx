@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { LoginContext } from '../contexts/LoginContextProvider';
 
 const ReadReview = ({ reviews }) => {
@@ -6,6 +6,9 @@ const ReadReview = ({ reviews }) => {
 
   useEffect(() => {
     console.log('리뷰 받은 데이터:', reviews); // 받은 리뷰 데이터 로그
+    reviews.forEach((review, index) => {
+      console.log(`Review ${index}의 rfiles:`, review.rfiles); // 리뷰의 rfiles 속성 로그
+    });
   }, [reviews]);
 
   return (
@@ -28,9 +31,13 @@ const ReadReview = ({ reviews }) => {
 
           {/* 리뷰 이미지 */}
           <div className="review-image-box">
-            {review.rFiles?.map(file => (
+            {review.rfiles && review.rfiles.map(file => (
               <div key={file.fileNo} className="review-image-container">
-                <img src={`/file/img/${file.fileNo}`} alt="리뷰 이미지" className="review-image" />
+                <img
+                  src={`/file/${file.fileNo}`} // 파일 경로를 서버에서 제공하는 절대 경로로 설정
+                  alt={file.originFileName}
+                  className="review-image"
+                />
               </div>
             ))}
           </div>

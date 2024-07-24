@@ -83,7 +83,7 @@
     </select>
 
     <!--service_no로 리뷰의 파일 정보를 가져와야 하는데.-->
-    <!-- <select id="getFileByServiceNum">
+    <select id="getFileByServiceNum">
             SELECT
             r.*,
             f.*
@@ -97,7 +97,7 @@
             WHERE parent_table = 'review'
         ) f ON r.review_no = f.parent_no
         WHERE r.service_no = #{serviceNo};
-    </select> -->
+    </select>
 
     <select id="maxPk" resultType="int">
         SELECT COALESCE(MAX(review_no), 0)
