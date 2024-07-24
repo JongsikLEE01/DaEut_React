@@ -1,11 +1,10 @@
 import React, { useContext, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import './css/Sidebar.css';
 import { LoginContext } from '../contexts/LoginContextProvider';
+import './css/Sidebar.css';
 
 const Sidebar = ({ isOpen, toggleSidebar, roles }) => {
     const location = useLocation();
-
     const { userInfo } = useContext(LoginContext);
 
     const getLinkProps = (path, baseClass) => {
@@ -32,9 +31,9 @@ const Sidebar = ({ isOpen, toggleSidebar, roles }) => {
                     <>
                         <h5>마이페이지</h5>
                         <br />
-                        <Link to={`/partnerMypage/${userInfo.userNo}`} {...getLinkProps('/partner/partnerMypage', 'partnerMypage')}>내 정보 변경</Link>
-                        <Link to={`/partner/reservation/${userInfo.partnerNo}`} {...getLinkProps('/partner/reservation', 'partnerReservation')}>내 예약 보기</Link>
-                        <Link to={`/partner/reviews/${userInfo.partnerNo}`} {...getLinkProps('/partner/review', 'partnerReview')}>내 리뷰 보기</Link>
+                        <Link to={`/partnerMypage/${userInfo?.userNo}`} {...getLinkProps('/partner/partnerMypage', 'partnerMypage mymy')}>내 정보 변경</Link>
+                        <Link to={`/partner/reservation/${userInfo?.partnerNo}`} {...getLinkProps('/partner/reservation', 'partnerReservation')}>내 예약 보기</Link>
+                        <Link to={`/partner/reviews/${userInfo?.partnerNo}`} {...getLinkProps('/partner/review', 'partnerReview')}>내 리뷰 보기</Link>
                         <Link to="/partner/partnerChatRoom" {...getLinkProps('/partner/partnerChatRoom', 'partnerChatRoom')}>채팅 내역</Link>
                     </>
                 ) : (

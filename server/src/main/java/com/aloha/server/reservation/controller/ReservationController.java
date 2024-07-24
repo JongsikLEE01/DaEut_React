@@ -152,6 +152,7 @@ public class ReservationController {
         try {
             Services newService = reservationService.serviceInsert(service);
 
+            log.info(service + " : service");
             if (newService == null) {
                 log.info("게시글 등록 실패...");
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("게시글 등록 실패");
