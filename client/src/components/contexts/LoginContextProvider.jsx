@@ -102,7 +102,7 @@ const login = async (username, password, rememberMe, rememberId) => {
     // 로그인 성공 ✅
     if (status === 200) {
       Cookies.set('accessToken', accessToken, { expires: 1 });  // accessToken 저장 (1일 뒤 만료)
-      Cookies.set('accessToken', accessToken, { expires: 1 });
+      // Cookies.set('accessToken', accessToken, { expires: 1 });
 
       if (rememberId) {
         localStorage.setItem("savedUsername", username);  // 아이디 저장
