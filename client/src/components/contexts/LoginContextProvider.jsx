@@ -81,55 +81,59 @@ const LoginContextProvider = ({ children }) => {
   }
 
   // 🔐 로그인
-  const login = async (username, password, rememberMe, rememberId) => {
-    console.log(`username : ${username}`);
-    console.log(`password : ${password}`);
+const login = async (username, password, rememberMe, rememberId) => {
+  console.log(`username : ${username}`);
+  console.log(`password : ${password}`);
 
-    try {
-      const response = await auth.login(username, password);
-      const data = response.data;
-      const status = response.status;
-      const headers = response.headers;
-      const authorization = headers.authorization;
-      // 💍 JWT(토큰)
-      const accessToken = authorization.replace('Bearer ', '');
+  try {
+    const response = await auth.login(username, password);
+    const data = response.data;
+    const status = response.status;
+    const headers = response.headers;
+    const authorization = headers.authorization;
+    // 💍 JWT(토큰)
+    const accessToken = authorization.replace('Bearer ', '');
 
-      console.log(`data : ${data}`);
-      console.log(`status : ${status}`);
-      console.log(`headers : ${headers}`);
-      console.log(`jwt : ${accessToken}`);
+    console.log(`data : ${data}`);
+    console.log(`status : ${status}`);
+    console.log(`headers : ${headers}`);
+    console.log(`jwt : ${accessToken}`);
 
-      // 로그인 성공 ✅
-      if (status === 200) {
-        Cookies.set('accessToken', accessToken);
+    // 로그인 성공 ✅
+    if (status === 200) {
+      Cookies.set('accessToken', accessToken, { expires: 1 });  // accessToken 저장 (1일 뒤 만료)
+      Cookies.set('accessToken', accessToken, { expires: 1 });
 
-        if (rememberId) {
-            localStorage.setItem("savedUsername", username);
-            setSavedUsername(username); // 상태 업데이트
-        } else {
-            localStorage.removeItem("savedUsername");
-            setSavedUsername(''); // 상태 초기화
-        }
-        if (rememberMe) {
-            localStorage.setItem("rememberMe", "true");
-        } else {
-            localStorage.removeItem("rememberMe");
-        }
-        // 로그인 체크
-        loginCheck();
-
-        Swal.alert('로그인 성공', '메인 화면으로 이동합니다.', 'success', () => {
-          navigate('/');
-        });
-
-        // 메인 페이지로 이동
-        navigate('/');
+      if (rememberId) {
+        localStorage.setItem("savedUsername", username);  // 아이디 저장
+        setTimeout(() => {
+          localStorage.removeItem("savedUsername");  // 1주일 뒤 삭제
+        }, 7 * 24 * 60 * 60 * 1000); // 1주일 뒤 삭제
+      } else {
+        localStorage.removeItem("savedUsername");  // 아이디 미저장
       }
-    } catch (error) {
-      Swal.alert('로그인 실패', '아이디 또는 비밀번호가 일치하지 않습니다', 'error')
-      console.log('로그인 실패')
+
+      if (rememberMe) {
+        localStorage.setItem("rememberMe", "true");
+      } else {
+        localStorage.removeItem("rememberMe");
+      }
+      // 로그인 체크
+      loginCheck();
+
+      Swal.alert('로그인 성공', '메인 화면으로 이동합니다.', 'success', () => {
+        navigate('/');
+      });
+
+      // 메인 페이지로 이동
+      navigate('/');
     }
+  } catch (error) {
+    Swal.alert('로그인 실패', '아이디 또는 비밀번호가 일치하지 않습니다', 'error')
+    console.log('로그인 실패')
   }
+}
+
 
   // 🔐 로그인 세팅
   const loginSetting = (userData, accessToken) => {

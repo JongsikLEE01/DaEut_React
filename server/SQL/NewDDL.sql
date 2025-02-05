@@ -1,5 +1,4 @@
--- Active: 1715129092400@@127.0.0.1@3306@daeut
-
+-- Active: 1717658424847@@127.0.0.1@3306@daeut
 
 DROP TABLE IF EXISTS reply;
 DROP TABLE IF EXISTS board;
@@ -232,6 +231,7 @@ CREATE TABLE users
   user_upd_date TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '사용자 수정일자',
   enabled       INT          NULL     DEFAULT 1 COMMENT '계정 활성화',
   status        INT          NOT NULL DEFAULT 0 COMMENT '상태',
+  authCode      VARCHAR(100) NULL COMMENT '인증코드',
   PRIMARY KEY (user_no)
 ) COMMENT '사용자';
 
